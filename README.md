@@ -1,10 +1,10 @@
-PyIC
+BinPy
 ====
-This package will serve as a base to develop circuit based applications or logical games on top of it. This package does not depend on any libraries other that pure Python
+This package will serve as a base to develop circuit based applications or logical games on top of it. This package does not depend on any external libraries other that pure Python
 How to use
 ---------
 ```python
-from PyIC import *
+from binpy import *
 gates = Gates()
 print gates.XOR(1, 1, 1)
 
@@ -29,3 +29,7 @@ Available Resources
 	* MUX (2:1, 4:1, 8:1, 16:1)
 	* DMUX
 	* Decoder
+
+Future Works
+-------------
+* Adding all ICs
