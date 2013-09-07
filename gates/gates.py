@@ -5,9 +5,15 @@ class Gates:
 	This class gives access to all the basic logic gates
 	'''
 	def NOT(self, a):
+		'''
+		This method takes one input and returns its inverted value
+		'''
 		return not a
 	
 	def OR(self, *inputs):
+		'''
+		This method takes n>1 inputs and returns its OR
+		'''
 		if len(inputs)<2:
 			sys.exit("ERROR: Number of inputs must be more than 1")
 		for i in inputs:
@@ -16,6 +22,9 @@ class Gates:
 		return False
 
 	def NOR(self, *inputs):
+		'''
+		This method takes n>1 inputs and returns its NOR
+		'''
 		if len(inputs)<2:
 			sys.exit("ERROR: Number of inputs must be more than 1")
 		for i in inputs:
@@ -24,6 +33,9 @@ class Gates:
 		return True
 		
 	def AND(self, *inputs):
+		'''
+		This method takes n>1 inputs and returns its AND
+		'''
 		if len(inputs)<2:
 			sys.exit("ERROR: Number of inputs must be more than 1")
 		for i in inputs:
@@ -32,6 +44,9 @@ class Gates:
 		return True
 		
 	def NAND(self, *inputs):
+		'''
+		This method takes n>1 inputs and returns its NAND
+		'''
 		if len(inputs)<2:
 			sys.exit("ERROR: Number of inputs must be more than 1")
 		for i in inputs:
@@ -40,6 +55,9 @@ class Gates:
 		return False
 	
 	def XOR(self, *inputs):
+		'''
+		This method takes n>1 inputs and returns its XOR
+		'''
 		if len(inputs)<2:
 			sys.exit("ERROR: Number of inputs must be more than 1")
 		false_count = 0
@@ -52,6 +70,9 @@ class Gates:
 			return True	
 			
 	def XNOR(self, *inputs):
+		'''
+		This method takes n>1 inputs and returns its XNOR
+		'''
 		if len(inputs)<2:
 			sys.exit("ERROR: Number of inputs must be more than 1")
 		false_count = 0
