@@ -1,5 +1,5 @@
 import sys
-from PyIC import Gates
+from BinPy import Gates
 
 class MUX:
 	'''
