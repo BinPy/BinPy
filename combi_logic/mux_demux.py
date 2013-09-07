@@ -2,14 +2,25 @@ import sys
 from PyIC import Gates
 
 class MUX:
+	'''
+	This class can be used to create MUX in your circuit. It has a method for each kind of
+	MUX, namely, mux_2_1, mux_4_1, mux_8_1 and mux_16_1
+	All the methods take 3 parameters(inputs, select lines and strobe). Strobe is high by default
+	inputs and select_inputs are lists. First index of input is 'A', second index is 'B' and so on...
+	Similarly first index of select_inputs is 'S0', second index is 'S1' and so on...
+	'''
 	def __init__(self):
 		self.gates = Gates()
 
 	def run(self,inputs,select_inputs,strobe=1):
-		allowed = [2,4,8,16,32]
+		'''
+			This method takes 3 parameters [inputs(list),select_inputs(list), optional strobe(int)]
+			This method automatically classifies the type of MUX and returns the computed result(int)
+		'''
+		allowed = [2,4,8,16]
 		mux_type = len(inputs)
 		if mux_type not in allowed:
-			sys.exit("ERROR: only 5 types of MUX are supported, namely, 2:1, 4:1, 8:1, 16:1 and 32:1")
+			sys.exit("ERROR: only 4 types of MUX are supported, namely, 2:1, 4:1, 8:1 and 16:1")
 		if 2**len(select_inputs)!=mux_type:
 			sys.exit("ERROR: no of select inputs do not comply with no of inputs")
 		if mux_type == 2:
@@ -20,6 +31,10 @@ class MUX:
 			return self.mux_8_1(inputs,select_inputs,strobe)
 
 	def mux_2_1(self,inputs,select_inputs,strobe=1):
+		'''
+		This method implements 2:1 MUX using logic gates
+		Input and output is same as run() method
+		'''
 		s = select_inputs[0]
 		a = inputs[0]
 		b = inputs[1]
@@ -30,6 +45,10 @@ class MUX:
 			return self.gates.NOT(result)
 
 	def mux_4_1(self,inputs,select_inputs,strobe=1):
+		'''
+		This method implements 4:1 MUX using logic gates
+		Input and output is same as run() method
+		'''
 		s0 = select_inputs[0]
 		s1 = select_inputs[1]
 		a,b,c,d = inputs[0],inputs[1],inputs[2],inputs[3]
@@ -44,6 +63,10 @@ class MUX:
 			return self.gates.NOT(result)
 
 	def mux_8_1(self,inputs,select_inputs,strobe=1):
+		'''
+		This method implements 8:1 MUX using logic gates
+		Input and output is same as run() method
+		'''
 		s0 = select_inputs[0]
 		s1 = select_inputs[1]
 		s2 = select_inputs[2]

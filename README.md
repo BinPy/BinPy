@@ -19,3 +19,21 @@ operator.subtract([1,0,1,1],[1,1])
 {'carry': 0, 'sum': [1, 1, 1, 0]}
 {'carry': 1, 'difference': [1, 0, 0, 0]}
 ```
+Available Resources
+-------------------
+* All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
+* Combinational logics
+	* Adder
+	* Subtractor
+	* Multiplyer
+	* MUX
+		* 2:1
+		* 4:1
+		* 8:1
+		* 16:1
+	* DMUX
+		* 1:2
+		* 1:4
+		* 1:8
+		* 1:16
+	* Decoder
