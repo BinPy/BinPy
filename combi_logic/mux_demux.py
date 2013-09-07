@@ -48,7 +48,7 @@ class MUX:
 		s1 = select_inputs[1]
 		s2 = select_inputs[2]
 		a,b,c,d,e,f,g,h = inputs[0],inputs[1],inputs[2],inputs[3],inputs[4],inputs[5],inputs[6],inputs[7]
-		term1 = self.gates.AND(a,self.gates.NOT(s2),self.gates.NOT(s1),self.gates.NOT(s0)
+		term1 = self.gates.AND(a,self.gates.NOT(s2),self.gates.NOT(s1),self.gates.NOT(s0))
 		term2 = self.gates.AND(b,self.gates.NOT(s2),self.gates.NOT(s1),s0)
 		term3 = self.gates.AND(c,self.gates.NOT(s2),s1,self.gates.NOT(s0))
 		term4 = self.gates.AND(d,self.gates.NOT(s2),s1,s0)
