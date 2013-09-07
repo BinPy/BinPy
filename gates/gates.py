@@ -60,26 +60,25 @@ class Gates:
 		'''
 		if len(inputs)<2:
 			sys.exit("ERROR: Number of inputs must be more than 1")
-		false_count = 0
-		for i in inputs:
-			if i==False:
-				false_count += 1
-		if false_count%2!=0:
-			return False
+		elif len(inputs)==2:
+			return inputs[0]^inputs[1]
 		else:
-			return True	
-			
+			last_out = inputs[0]
+			for i in range(1,len(inputs)):
+				 last_out =  self.XOR(last_out,inputs[i])
+			return last_out
+					
 	def XNOR(self, *inputs):
 		'''
 		This method takes n>1 inputs and returns its XNOR
 		'''
 		if len(inputs)<2:
 			sys.exit("ERROR: Number of inputs must be more than 1")
-		false_count = 0
-		for i in inputs:
-			if i==False:
-				false_count += 1
-		if false_count%2!=0:
-			return True
+		elif len(inputs)==2:
+			return inputs[0]^inputs[1]
 		else:
-			return False	
+			last_out = inputs[0]
+			for i in range(1,len(inputs)):
+				 last_out =  self.XOR(last_out,inputs[i])
+			return not last_out
+
