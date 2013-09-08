@@ -1,5 +1,5 @@
 import sys
-from PyIC import Gates
+from BinPy import Gates
 
 class Operation:
 	'''
@@ -54,7 +54,7 @@ class Operation:
 		'''
 		a = a[::-1]
 		b = b[::-1]
-		hold = []
+		
 		if len(a)!=len(b):
 			diff = abs(len(a)-len(b))
 			if len(a)>len(b):
@@ -71,3 +71,32 @@ class Operation:
 		return {'difference':temp['sum'],'carry':temp['carry']}
 				
 	
+	def multiply(self,a,b):
+		'''
+		This method takes 2 lists of binary numbers 
+		and multiplies those numbers using and add function			
+		This method returns a binary number
+		'''
+		a = a[::-1]
+		b = b[::-1]
+		hold = [[] for i in range(len(b))]
+		for i in range(len(b)):
+			for j in range(len(a)+len(b)):
+				hold[i].append(0) 
+		for i in range(len(b)):
+			k=0
+			for j in range(i,len(a)+i):
+				hold[i][j]=self.gates.AND(a[k],b[i])
+				k+=1
+		for i in range(len(hold)):
+			hold[i]=hold[i][::-1]
+		last_out = self.add(hold[0],hold[1])['sum']
+		last_out.insert(self.add(hold[0],hold[1])['carry'],0)
+		for i in range(1,len(hold)-1):
+			temp = self.add(hold[i],last_out)
+			last_out = temp['sum'].insert(0,temp['carry'])
+		return last_out
+	
+
+
+
