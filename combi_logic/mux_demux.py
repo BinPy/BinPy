@@ -1,5 +1,5 @@
 import sys
-from PyIC import Gates
+from BinPy import Gates
 
 class MUX:
 	'''
@@ -7,7 +7,7 @@ class MUX:
 	MUX, namely, mux_2_1, mux_4_1, mux_8_1 and mux_16_1
 	All the methods take 3 parameters(inputs, select lines and strobe). Strobe is high by default
 	inputs and select_inputs are lists. First index of input is 'A', second index is 'B' and so on...
-	Similarly first index of select_inputs is 'S0', second index is 'S1' and so on...
+	But last index of select_inputs is 'S0', second last index is 'S1' and so on...
 	'''
 	def __init__(self):
 		self.gates = Gates()
@@ -29,6 +29,8 @@ class MUX:
 			return self.mux_4_1(inputs,select_inputs,strobe)
 		elif mux_type == 8:
 			return self.mux_8_1(inputs,select_inputs,strobe)
+		elif mux_type == 16:
+			return self.mux_16_1(inputs,select_inputs,strobe)
 
 	def mux_2_1(self,inputs,select_inputs,strobe=1):
 		'''
@@ -49,6 +51,7 @@ class MUX:
 		This method implements 4:1 MUX using logic gates
 		Input and output is same as run() method
 		'''
+		select_inputs = select_inputs[::-1]
 		s0 = select_inputs[0]
 		s1 = select_inputs[1]
 		a,b,c,d = inputs[0],inputs[1],inputs[2],inputs[3]
@@ -67,6 +70,7 @@ class MUX:
 		This method implements 8:1 MUX using logic gates
 		Input and output is same as run() method
 		'''
+		select_inputs = select_inputs[::-1]
 		s0 = select_inputs[0]
 		s1 = select_inputs[1]
 		s2 = select_inputs[2]
@@ -84,3 +88,22 @@ class MUX:
 			return result
 		else:
 			return self.gates.NOT(result)
+
+	def mux_16_1(self,inputs,select_inputs,strobe=1):
+		'''
+		This method implements 16:1 MUX using two 8:1 MUX and one 2:1 MUX
+		Input and output is same as run() method
+		'''
+		select_inputs = select_inputs[::-1]
+		s0 = select_inputs[0]
+		s1 = select_inputs[1]
+		s2 = select_inputs[2]
+		s3 = select_inputs[3]
+		first_mux_8_1 = self.mux_8_1(inputs[0:8],[s2,s1,s0])
+		second_mux_8_1 = self.mux_8_1(inputs[8:],[s2,s1,s0])
+		result = self.mux_2_1([first_mux_8_1,second_mux_8_1],[s3])
+		if strobe==1:
+			return result
+		else:
+			return self.gates.NOT(result)
+			
