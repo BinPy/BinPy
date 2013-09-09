@@ -1,9 +1,9 @@
 What is BinPy?
---------------
-This package will serve as a base to develop circuit based applications or logical games on top of it. This package does not depend on any external library other that pure Python
+---------------
+This package will serve as a base to develop circuit based applications or logical games on top of it. This package does not depend on any external library other that pure Python.
 
 How to use
------------
+----------
 
 ```python
 from binpy import *
@@ -57,5 +57,5 @@ Available Resources
 	* 7403
 
 Future Works
--------------
+------------
 * Adding all ICs
