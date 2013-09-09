@@ -29,7 +29,13 @@ Available Resources
 	* MUX (2:1, 4:1, 8:1, 16:1)
 	* DMUX
 	* Decoder
-
+* IC
+	* 7400
+	* 741G00
+	* 7401
+	* 7402
+	* 7403
+		
 Future Works
 -------------
 * Adding all ICs
