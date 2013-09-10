@@ -6,7 +6,7 @@ How to use
 ----------
 
 ```python
-from binpy import *
+from BinPy import *
 gates = Gates()
 print gates.XOR(1, 1, 1)
 

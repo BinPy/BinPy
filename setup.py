@@ -2,7 +2,7 @@
 from setuptools import setup
 setup(
     name='BinPy',
-    version='0.1.6',
+    version='0.1.7',
     author='Sudhanshu Mishra and Sarwar Chahal',
     author_email='binpylib@gmail.com',
     url='http://pypi.python.org/pypi/BinPy/',
