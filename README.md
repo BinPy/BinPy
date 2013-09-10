@@ -19,6 +19,12 @@ print operator.subtract([1,0,1,1],[1,1])
 myMUX = MUX()
 print "MUX Out: ", myMUX.run([1,0,0,0,1,1,1,1],[0,0,1])
 
+#Algorithms 
+#Includes the Quine-McCluskey algorithm for solving K-Maps
+FinalEquation = QM(['A','B'])
+print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1,2],[])[1])
+
+
 #IC
 myIC = IC_7400()
 p = {1:1,2:0,4:0,5:0,7:0,10:1,9:1,13:0,12:0,14:1}
@@ -38,6 +44,7 @@ print "IC_7401 Out: ", myIC1.run()
 MUX Out:  0
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
+Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 Available Resources
 -------------------
@@ -55,6 +62,8 @@ Available Resources
 	* 7401
 	* 7402
 	* 7403
+* Algorithms
+	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
 
 Future Works
 ------------
