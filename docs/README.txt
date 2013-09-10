@@ -1,1 +1,2 @@
-This is under development state. Fork it https://github.com/BinPy/BinPy
+This package is under development. Fork it from here https://github.com/BinPy/BinPy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
