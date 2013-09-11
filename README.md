@@ -68,4 +68,8 @@ Available Resources
 
 Future Works
 ------------
-* Adding all ICs
+* Introduction of all ICs
+* Introduction of problem solving algorithms
+* Addition of Microprocessors and Analog Devices
+* Graphical representation of the circuit
+* ...
