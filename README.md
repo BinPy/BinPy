@@ -55,8 +55,7 @@ Available Resources
 	* Subtractor
 	* Multiplyer
 	* MUX (2:1, 4:1, 8:1, 16:1)
-	* DMUX
-	* Decoder
+	
 * IC
 	* 7400
 	* 741G00
