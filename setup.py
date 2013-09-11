@@ -1,5 +1,5 @@
-#from distutils.core import setup
-from setuptools import setup
+from distutils.core import setup
+#from setuptools import setup
 setup(
     name='BinPy',
     version='0.1.7',
