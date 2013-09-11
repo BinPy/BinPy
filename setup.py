@@ -1,9 +1,8 @@
 from distutils.core import setup
-#from setuptools import setup
 setup(
     name='BinPy',
     version='0.1.7',
-    author='Sudhanshu Mishra and Sarwar Chahal',
+    author='BinPy Developers',
     author_email='binpylib@gmail.com',
     url='http://pypi.python.org/pypi/BinPy/',
     license=open('docs/LICENSE.txt').read(),
