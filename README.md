@@ -64,6 +64,7 @@ Available Resources
 	* 7403
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
+	* Moore Machine Optimizer
 
 Future Works
 ------------
