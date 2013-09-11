@@ -1,5 +1,0 @@
-BinPy/gates
-BinPy/ic
-BinPy/combi_logic
-BinPy/binary
-BinPy
