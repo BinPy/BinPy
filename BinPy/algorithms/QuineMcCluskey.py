@@ -10,29 +10,30 @@ reasons.
 
 >>> qm = QM(['A','B'])
 
->>> qm.get_function(qm.solve([],[])[1])
+>>> qm.get_function(qm.solve([])[1])
 '0'
 >>> qm.get_function(qm.solve([1,3],[0,2])[1])
 '1'
->>> qm.get_function(qm.solve([0,1,2,3],[])[1])
+>>> qm.get_function(qm.solve([0,1,2,3])[1])
 '1'
->>> qm.get_function(qm.solve([3],[])[1])
+>>> qm.get_function(qm.solve([3])[1])
 '(A AND B)'
->>> qm.get_function(qm.solve([0],[])[1])
+>>> qm.get_function(qm.solve([0])[1])
 '((NOT A) AND (NOT B))'
->>> qm.get_function(qm.solve([1,3],[])[1])
-'A'
+>>> qm.get_function(qm.solve([1,3])[1])
+'A'ls
+
 >>> qm.get_function(qm.solve([1],[3])[1])
 'A'
->>> qm.get_function(qm.solve([2,3],[])[1])
+>>> qm.get_function(qm.solve([2,3])[1])
 'B'
->>> qm.get_function(qm.solve([0,2],[])[1])
+>>> qm.get_function(qm.solve([0,2])[1])
 '(NOT A)'
->>> qm.get_function(qm.solve([0,1],[])[1])
+>>> qm.get_function(qm.solve([0,1])[1])
 '(NOT B)'
->>> qm.get_function(qm.solve([1,2,3],[])[1])
+>>> qm.get_function(qm.solve([1,2,3])[1])
 '(A OR B)'
->>> qm.get_function(qm.solve([0,1,2],[])[1])
+>>> qm.get_function(qm.solve([0,1,2])[1])
 '((NOT B) OR (NOT A))'
 """
 
@@ -48,7 +49,7 @@ the boolean functions
     self.variables = variables
     self.numvars = len(variables)
 
-  def solve(self, ones, dont_care):
+  def solve(self, ones, dont_care = []):
     """
 Executes the Quine-McCluskey algorithm and returns its results.
 
