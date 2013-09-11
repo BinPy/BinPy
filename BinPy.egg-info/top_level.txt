@@ -1,5 +1,6 @@
 BinPy/gates
+BinPy/algorithms
 BinPy/ic
-BinPy/combi_logic
 BinPy/binary
+BinPy/combi_logic
 BinPy

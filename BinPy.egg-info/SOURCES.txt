@@ -6,6 +6,8 @@ BinPy.egg-info/PKG-INFO
 BinPy.egg-info/SOURCES.txt
 BinPy.egg-info/dependency_links.txt
 BinPy.egg-info/top_level.txt
+BinPy/algorithms/QuineMcCluskey.py
+BinPy/algorithms/__init__.py
 BinPy/binary/__init__.py
 BinPy/binary/operations.py
 BinPy/combi_logic/__init__.py
