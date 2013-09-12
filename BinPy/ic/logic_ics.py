@@ -125,6 +125,35 @@ class IC_7402:
 			print "Ground and VCC pins have not been configured correctly."
 
 
+class IC_741G02:
+	'''
+	This is a single 2 input NOR gate IC
+	'''
+	def __init__(self):
+		self.pins = [None,0,0,0,None,0]
+		self.gates = Gates()
+
+	def setIC(self,pin_conf):
+		'''
+		This method takes a dictionary with key:pin_no and value:pin_value
+		'''
+		for i in pin_conf:
+			self.pins[i] = pin_conf[i]
+
+	def setPin(self, pin_no, pin_value):
+		if pin_no<1 or pin_no>5:
+			sys.exit("ERROR: there are only 14 pins in this IC")
+		self.pins[pin_no] = pin_value
+
+	def run(self):
+		output = {}
+		output[4] = self.gates.NOR(self.pins[1],self.pins[2])
+		if self.pins[3] == 0 and self.pins[5] == 1:
+			return output
+		else:
+			print "Ground and VCC pins have not been configured correctly."
+
+
 class IC_7403:
 	'''
 	This is a Quad 2 input NAND gate IC
