@@ -61,6 +61,7 @@ Available Resources
 	* 741G00
 	* 7401
 	* 7402
+	* 741G02
 	* 7403
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
