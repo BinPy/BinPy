@@ -1,10 +1,14 @@
+
+"""
+	This file has all the classes of ICs belong to 7400 series
+"""
 from BinPy import Gates
 import sys
 
 class IC_7400:
-	'''
+	"""
 	This is a Quad 2 input NAND gate IC
-	'''
+	"""
 	def __init__(self):
 		self.pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
 		self.gates = Gates()
