@@ -65,13 +65,16 @@ class LC :
 		self.name = name
 	def evaluate (self) : return
 
-class Not (LC) : 																					#NOT gate - Simple LC object
+class Not (LC) : 
+	'''
+	Not gate using the LC class
+	''' 																							
 	def __init__ (self, name) :
 		LC.__init__ (self, name)
 		self.A = Connector(self,'A', activates=1)
 		self.B = Connector(self,'B',monitor=1)
 
-	def evaluate (self) : self.B.set(not self.A.value)			#NOT gate evaluate function
+	def evaluate (self) : self.B.set(not self.A.value)			
 
 
 class Gate2 (LC) :
@@ -85,16 +88,27 @@ class Gate2 (LC) :
 		self.C = Connector(self,'C', monitor=1)
 
 class And (Gate2) :   
+	'''
+	And gate using the Gate2 class
+	''' 
 	def __init__ (self, name) :
 		Gate2.__init__ (self, name)
 	def evaluate (self) : self.C.set(self.A.value and self.B.value)
 
 class Or (Gate2) : 
+	'''
+	Or gate using the Gate2 class
+	''' 
 	def __init__ (self, name) :
 		Gate2.__init__ (self, name)
 	def evaluate (self) : self.C.set(self.A.value or self.B.value)
 
 class Xor (Gate2) :
+	'''
+	Xor gate using the Gate2 class.
+	This class uses the previous And and Not classes from above and connects them via a
+	connector object. This forms the basis of combinational logic with these objects
+	''' 
 	def __init__ (self, name) :
 		Gate2.__init__ (self, name)
 		self.A1 = And("A1") 
@@ -110,8 +124,48 @@ class Xor (Gate2) :
 		self.A2.C.connect ([ self.O1.B ])
 		self.O1.C.connect ([ self.C ])
 
+class Nand (Gate2) :
+	'''
+	Nand gate using the Gate2 class
+	'''       
+	def __init__ (self, name) :
+		Gate2.__init__ (self, name)
+	def evaluate (self) :
+		self.C.set(not(self.A.value and self.B.value))
+
+class Nor (Gate2) :       
+	'''
+	Nor gate using the Gate2 class
+	'''
+	def __init__ (self, name) :
+		Gate2.__init__ (self, name)
+	def evaluate (self) :
+		self.C.set(not(self.A.value or self.B.value))
+
+class Xnor (Gate2) :
+	'''
+	Xnor gate using the Gate2 class
+	'''
+	def __init__ (self,name):
+		Gate2.__init__(self,name)
+		self.A1 = And("A1") 
+		self.A2 = And("A2")
+		self.I1 = Not("I1")
+		self.I2 = Not("I2")
+		self.N1 = Nor ("O1")
+		self.A.connect    ([ self.A1.A, self.I2.A])
+		self.B.connect    ([ self.I1.A, self.A2.A])
+		self.I1.B.connect ([ self.A1.B ])
+		self.I2.B.connect ([ self.A2.B ])
+		self.A1.C.connect ([ self.N1.A ])
+		self.A2.C.connect ([ self.N1.B ])
+		self.N1.C.connect ([ self.C ])
+
 
 class HalfAdder (LC) : 
+	'''
+	Half Adder class using Xor and And objects
+	''' 
 	def __init__ (self, name) :
 		LC.__init__ (self, name)
 		self.A = Connector(self,'A',1)
@@ -126,6 +180,9 @@ class HalfAdder (LC) :
 		self.A1.C.connect ([ self.Cout])
 
 class FullAdder (LC) : 
+	'''
+	Full Adder class using the Half Adder object
+	''' 
 	def __init__ (self, name) :
 		LC.__init__ (self, name)
 		self.A= Connector(self,'A',1)
