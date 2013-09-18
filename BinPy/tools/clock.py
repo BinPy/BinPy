@@ -31,11 +31,13 @@ class Clock(threading.Thread):
 	"""
 	def __init__(self, init_state=1, frequency=None, time_period=None, name=None):
 		threading.Thread.__init__(self)
-		if time_period == None:
+		if frequency != None:
 			self.time_period = 1.0/frequency
+		if time_period != None:
+			self.time_period = time_period
 		if time_period==None and frequency==None:
 			self.time_period = 1
-		self.time_period = time_period
+
 		self.init_state = init_state
 		self.name = name
 		self.curr_state = init_state
