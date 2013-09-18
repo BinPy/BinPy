@@ -29,7 +29,7 @@ class Clock(threading.Thread):
 	Methods :	start(), getState(), setState(value), getName(), getTimePeriod(), kill()
 
 	"""
-	def __init__(self, frequency=None, init_state=1, time_period=None, name=None):
+	def __init__(self, init_state=1, frequency=None, time_period=None, name=None):
 		threading.Thread.__init__(self)
 		if time_period == None:
 			self.time_period = 1.0/frequency
