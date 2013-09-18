@@ -18,7 +18,7 @@ class Connector :
 	monitor : This parameter toggles monitoring the logic level of connection. Useful for 
 						understanding a function, or debugging purposes
 
-	activate: This parameter activates the Logic Object of the owner object. Every Logic
+	activates: This parameter activates the Logic Object of the owner object. Every Logic
 						object has an evaluate function which is triggered by this object.
 
 	The connector class has two methods, connect() and set() method.
