@@ -18,7 +18,7 @@ class Connector :
 	monitor : This parameter toggles monitoring the logic level of connection. Useful for 
 						understanding a function, or debugging purposes
 
-	activate: This parameter activates the Logic Object of the owner object. Every Logic
+	activates: This parameter activates the Logic Object of the owner object. Every Logic
 						object has an evaluate function which is triggered by this object.
 
 	The connector class has two methods, connect() and set() method.
@@ -59,7 +59,7 @@ class LC :
 
 	'''
 	Basic Logic Class object. Every Object class has an evaluate function which is 
-	inherited in all the classes derieved from it. 
+	inherited in all the classes derived from it. 
 	'''
 	def __init__ (self, name) :
 		self.name = name

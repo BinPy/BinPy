@@ -68,6 +68,10 @@ Available Resources
 	* 741G04
 	* 7405
 	* 741G05
+	* 7408
+	* 741G08
+	* 7410
+	* 7411
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
 	* Moore Machine Optimizer
