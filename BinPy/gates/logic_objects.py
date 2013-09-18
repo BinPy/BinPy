@@ -59,7 +59,7 @@ class LC :
 
 	'''
 	Basic Logic Class object. Every Object class has an evaluate function which is 
-	inherited in all the classes derieved from it. 
+	inherited in all the classes derived from it. 
 	'''
 	def __init__ (self, name) :
 		self.name = name
