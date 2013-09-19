@@ -1,0 +1,84 @@
+import sys
+from BinPy import Gates
+
+class decoder:
+	'''
+	This class can be used to create decoder in your circuit. It has a method for each kind of
+	decoder, namely, decoder_2_4
+	All the methods take 3 parameters(inputs, select lines and strobe). Strobe is high by default
+	inputs and select_inputs are lists. First index of input is 'A', second index is 'B' and so on...
+	But last index of select_inputs is 'S0', second last index is 'S1' and so on...
+	'''
+	def __init__(self):
+		self.gates = Gates()
+
+	def run(self,inputs,strobe=1):
+		'''
+			This method takes 2 parameters [inputs(list),optional strobe(int)]
+			This method automatically classifies the type of decoder and returns the computed result(int)
+		'''
+		allowed = [1,2,3]
+		decoder_type = len(inputs)
+		if mux_type not in allowed:
+			sys.exit("ERROR: only 3 types of MUX are supported, namely, 1:2, 2:4,3:8")
+	
+		if decoder_type == 2:
+			return self.decoder_2_4(inputs,strobe)
+		elif mux_type == 4:
+			return self.mux_4_1(inputs,strobe)
+		
+	def decoder_1_2(self,inputs,strobe=1):
+		'''
+		This method implements 1:2 decoder using logic gates
+		Input and output is same as run() method
+		'''
+		s =[0 for i in range(2)]
+		a = inputs[0]
+		s[0] = self.gates.AND(self.gates.NOT(a),1)
+		s[1] = self.gates.AND(a,1)
+		
+		if strobe==1:
+			return s
+		else:
+			return false
+	
+	def decoder_2_4(self,inputs,strobe=1):
+		'''
+		This method implements 2:4 decoder using logic gates
+		Input and output is same as run() method
+		'''
+		s =[0 for i in range(4)]
+		a,b = inputs[0],inputs[1]
+		s[0] = self.gates.AND(self.gates.NOT(a),self.gates.NOT(b))
+		s[1] = self.gates.AND(a,self.gates.NOT(b))
+		s[2] = self.gates.AND(self.gates.NOT(a),b)
+		s[3] = self.gates.AND(a,b)
+		
+		if strobe==1:
+			return s
+		else:
+			return false
+
+	def decoder_3_8(self,inputs,strobe=1):
+		'''
+		This method implements 3:8 decoder using logic gates
+		Input and output is same as run() method
+		'''
+		s =[0 for i in range(4)]
+		a,b,c = inputs[0],inputs[1],inputs[2]
+		s[0] = self.gates.AND(self.gates.NOT(b),self.gates.NOT(a),self.gates.NOT(c))
+		s[1] = self.gates.AND(self.gates.NOT(b),self.gates.NOT(c),a)
+		s[2] = self.gates.AND(self.gates.NOT(c),b,self.gates.NOT(a))
+		s[3] = self.gates.AND(self.gates.NOT(s2),s1,s0)
+		s[4] = self.gates.AND(s2,self.gates.NOT(s1),self.gates.NOT(s0))
+		s[5] = self.gates.AND(s2,self.gates.NOT(s1),s0)
+		s[6] = self.gates.AND(s2,s1,self.gates.NOT(s0))
+		s[7] = self.gates.AND(s2,s1,s0)
+		
+		if strobe==1:
+			return s
+		else:
+			return false
+
+
+	
