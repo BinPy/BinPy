@@ -5,9 +5,9 @@ class decoder:
 	'''
 	This class can be used to create decoder in your circuit. It has a method for each kind of
 	decoder, namely, decoder_2_4
-	All the methods take 3 parameters(inputs, select lines and strobe). Strobe is high by default
-	inputs and select_inputs are lists. First index of input is 'A', second index is 'B' and so on...
-	But last index of select_inputs is 'S0', second last index is 'S1' and so on...
+	All the methods take 2 parameters(inputs and strobe) and give . Strobe is high by default
+	inputs are lists. It give a list a output.
+	Last index of inputs is 'a', second last index is 'b' and so on...
 	'''
 	def __init__(self):
 		self.gates = Gates()
@@ -65,15 +65,16 @@ class decoder:
 		Input and output is same as run() method
 		'''
 		s =[0 for i in range(4)]
+		inputs =inputs[::-1]
 		a,b,c = inputs[0],inputs[1],inputs[2]
-		s[0] = self.gates.AND(self.gates.NOT(b),self.gates.NOT(a),self.gates.NOT(c))
-		s[1] = self.gates.AND(self.gates.NOT(b),self.gates.NOT(c),a)
+		s[0] = self.gates.AND(self.gates.NOT(c),self.gates.NOT(b),self.gates.NOT(a))
+		s[1] = self.gates.AND(self.gates.NOT(c),self.gates.NOT(b),a)
 		s[2] = self.gates.AND(self.gates.NOT(c),b,self.gates.NOT(a))
-		s[3] = self.gates.AND(self.gates.NOT(s2),s1,s0)
-		s[4] = self.gates.AND(s2,self.gates.NOT(s1),self.gates.NOT(s0))
-		s[5] = self.gates.AND(s2,self.gates.NOT(s1),s0)
-		s[6] = self.gates.AND(s2,s1,self.gates.NOT(s0))
-		s[7] = self.gates.AND(s2,s1,s0)
+		s[3] = self.gates.AND(self.gates.NOT(c),b,a)
+		s[4] = self.gates.AND(c,self.gates.NOT(b),self.gates.NOT(a))
+		s[5] = self.gates.AND(c,self.gates.NOT(b),a)
+		s[6] = self.gates.AND(c,b,self.gates.NOT(a))
+		s[7] = self.gates.AND(c,b,a)
 		
 		if strobe==1:
 			return s
