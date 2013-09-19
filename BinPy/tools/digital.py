@@ -1,7 +1,7 @@
 import sys
 import time
 import threading
-from BinPy import Gates
+
 class Clock(threading.Thread):
 	"""
 	This class uses threading technique to create a clock with a certain time period.
