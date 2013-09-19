@@ -66,7 +66,7 @@ class Decoder:
 		This method implements 3:8 decoder using logic gates
 		Input and output is same as run() method
 		'''
-		s =[0 for i in range(4)]
+		s =[0 for i in range(8)]
 		inputs =inputs[::-1]
 		a,b,c = inputs[0],inputs[1],inputs[2]
 		s[0] = self.gates.AND(self.gates.NOT(c),self.gates.NOT(b),self.gates.NOT(a))
@@ -82,9 +82,3 @@ class Decoder:
 			return s
 		else:
 			return false
-
-
-	
-
-
-	
