@@ -1,5 +1,5 @@
 import sys
-from BinPy import Gates
+from BinPy import *
 
 class Decoder:
 	'''
