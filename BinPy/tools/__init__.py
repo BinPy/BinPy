@@ -1,1 +1,1 @@
-from clock import *
+from digital import *
