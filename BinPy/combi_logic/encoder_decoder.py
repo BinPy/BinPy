@@ -1,7 +1,7 @@
 import sys
 from BinPy import Gates
 
-class decoder:
+class Decoder:
 	'''
 	This class can be used to create decoder in your circuit. It has a method for each kind of
 	decoder, namely, decoder_2_4
@@ -15,17 +15,19 @@ class decoder:
 	def run(self,inputs,strobe=1):
 		'''
 			This method takes 2 parameters [inputs(list),optional strobe(int)]
-			This method automatically classifies the type of decoder and returns the computed result(int)
+			This method automatically classifies the type of decoder and returns the computed s(list)
 		'''
 		allowed = [1,2,3]
 		decoder_type = len(inputs)
-		if mux_type not in allowed:
-			sys.exit("ERROR: only 3 types of MUX are supported, namely, 1:2, 2:4,3:8")
+		if decoder_type not in allowed:
+			sys.exit("ERROR: only 3 types of decoders are supported, namely, 1:2,2:4,3:8")
 	
-		if decoder_type == 2:
+		if decoder_type==1:
+			return self.decoder_1_2(inputs,strobe)
+		elif decoder_type == 2:
 			return self.decoder_2_4(inputs,strobe)
-		elif mux_type == 4:
-			return self.mux_4_1(inputs,strobe)
+		elif decoder_type == 3:
+			return self.decoder_3_8(inputs,strobe)
 		
 	def decoder_1_2(self,inputs,strobe=1):
 		'''
@@ -80,6 +82,9 @@ class decoder:
 			return s
 		else:
 			return false
+
+
+	
 
 
 	

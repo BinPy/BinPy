@@ -8,7 +8,7 @@ setup(
     license=open('docs/LICENSE.txt').read(),
     description='Virtualizing Electronics',
     long_description=open('docs/README.txt').read(),
-	packages=['BinPy','BinPy/binary','BinPy/combi_logic','BinPy/ic','BinPy/gates', 'BinPy/algorithms'],
+	packages=['BinPy','BinPy/binary','BinPy/combi_logic','BinPy/ic','BinPy/gates', 'BinPy/algorithms','BinPy/tools'],
 	package_data={'data': ['docs/LICENSE.txt','docs/README.txt']},
 	include_package_data=True,
 )
