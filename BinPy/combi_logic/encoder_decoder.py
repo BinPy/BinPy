@@ -20,7 +20,7 @@ class Decoder:
 		allowed = [1,2,3]
 		decoder_type = len(inputs)
 		if decoder_type not in allowed:
-			sys.exit("ERROR: only 3 types of decoders are supported, namely, 1:2,2:4,3:8")
+			raise Exception("ERROR: only 3 types of decoders are supported, namely, 1:2,2:4,3:8")
 	
 		if decoder_type==1:
 			return self.decoder_1_2(inputs,strobe)
