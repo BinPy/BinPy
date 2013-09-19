@@ -1,4 +1,3 @@
-import sys
 
 class Gates:
 	'''
@@ -18,7 +17,7 @@ class Gates:
 		This method takes n>1 inputs and returns its OR
 		'''
 		if len(inputs)<2:
-			sys.exit("ERROR: Number of inputs must be more than 1")
+			raise Exception("ERROR: Number of inputs must be more than 1")
 		for i in inputs:
 			if i==True:
 				return 1
@@ -29,7 +28,7 @@ class Gates:
 		This method takes n>1 inputs and returns its NOR
 		'''
 		if len(inputs)<2:
-			sys.exit("ERROR: Number of inputs must be more than 1")
+			raise Exception("ERROR: Number of inputs must be more than 1")
 		for i in inputs:
 			if i==True:
 				return 0
@@ -40,7 +39,7 @@ class Gates:
 		This method takes n>1 inputs and returns its AND
 		'''
 		if len(inputs)<2:
-			sys.exit("ERROR: Number of inputs must be more than 1")
+			raise Exception("ERROR: Number of inputs must be more than 1")
 		for i in inputs:
 			if i==False:
 				return 0
@@ -51,7 +50,7 @@ class Gates:
 		This method takes n>1 inputs and returns its NAND
 		'''
 		if len(inputs)<2:
-			sys.exit("ERROR: Number of inputs must be more than 1")
+			raise Exception("ERROR: Number of inputs must be more than 1")
 		for i in inputs:
 			if i==False:
 				return 1
@@ -62,7 +61,7 @@ class Gates:
 		This method takes n>1 inputs and returns its XOR
 		'''
 		if len(inputs)<2:
-			sys.exit("ERROR: Number of inputs must be more than 1")
+			raise Exception("ERROR: Number of inputs must be more than 1")
 		elif len(inputs)==2:
 			return inputs[0]^inputs[1]
 		else:
@@ -79,7 +78,7 @@ class Gates:
 		This method takes n>1 inputs and returns its XNOR
 		'''
 		if len(inputs)<2:
-			sys.exit("ERROR: Number of inputs must be more than 1")
+			raise Exception("ERROR: Number of inputs must be more than 1")
 		elif len(inputs)==2:
 			return inputs[0]^inputs[1]
 		else:

@@ -1,4 +1,3 @@
-import sys
 from BinPy import Gates
 
 class MUX:
@@ -20,9 +19,9 @@ class MUX:
 		allowed = [2,4,8,16]
 		mux_type = len(inputs)
 		if mux_type not in allowed:
-			sys.exit("ERROR: only 4 types of MUX are supported, namely, 2:1, 4:1, 8:1 and 16:1")
+			raise Exception("ERROR: only 4 types of MUX are supported, namely, 2:1, 4:1, 8:1 and 16:1")
 		if 2**len(select_inputs)!=mux_type:
-			sys.exit("ERROR: no of select inputs do not comply with no of inputs")
+			raise Exception("ERROR: no of select inputs do not comply with no of inputs")
 		if mux_type == 2:
 			return self.mux_2_1(inputs,select_inputs,strobe)
 		elif mux_type == 4:

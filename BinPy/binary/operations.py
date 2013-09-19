@@ -97,6 +97,3 @@ class Operation:
 			last_out = temp['sum'].insert(0,temp['carry'])
 		return last_out
 	
-
-
-
