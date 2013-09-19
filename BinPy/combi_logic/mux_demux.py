@@ -1,4 +1,4 @@
-from BinPy import Gates
+from BinPy import *
 
 class MUX:
 	'''
