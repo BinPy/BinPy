@@ -4,27 +4,26 @@ import threading
 from BinPy import Gates
 class Clock(threading.Thread):
 	"""
-	This class uses threading technique to create a clock with a certain time interval.
+	This class uses threading technique to create a clock with a certain time period.
 	This is how you can create a clock with this class:
-
-	>>> myClock = Clock(0,time_period=2,name="My First Clock")
-	>>> myClock.start()		#Do not call run method
-	>>> myClock.getState()
-	0
+		>>> myClock = Clock(0,time_period=2,name="My First Clock")
+		>>> myClock.start()		#Do not call run method
+		>>> myClock.getState()
+		0
 	
 	Note: Once you are done with the clock, use myClock.kill() to kill the clock.
 		  Running too many clocks will unnecessarily overload the CPU. 
 	
 	Following are the parameters of the class
 
-	frequency:		It will decide time interval of the clock, use SI unit i.e. Heartz
-	time_period:	It will also decide time interval of the clock, use SI unit i.e. second
+		frequency:		It will decide time interval of the clock, use SI unit i.e. Heartz
+		time_period:	It will also decide time interval of the clock, use SI unit i.e. second
 
-	If time_period and frequency both have been provided, then time_period will override frequency
-	If nothing is provided, then it will set time_period = 1s by default
+		If time_period and frequency both have been provided, then time_period will override frequency
+		If nothing is provided, then it will set time_period = 1s by default
 
-	init_state:		It is the initial state of the clock(1 by default)
-	name:			It is the name of the clock.(optional)
+		init_state:		It is the initial state of the clock(1 by default)
+		name:			It is the name of the clock.(optional)
 	
 	Methods :	start(), getState(), setState(value), getName(), getTimePeriod(), kill()
 
@@ -99,16 +98,38 @@ class Clock(threading.Thread):
 
 
 class DigitDisplay:
+	'''
+	This class emulates a 7 segmented display(Common Cathode)
+
+	Parameters:
+		name:	A name given to an object(Optional)
+
+	Methods:
+		evaluate()
+		getName()
+
+	How to use:
+		>>> myDisplay = DigitDisplay("Display1")
+		>>> print myDisplay.evaluate([1,1,1,1,1,1,1])
+		8
+	Note:
+		You can either pass complete list of 10 pins [pin1, pin2, pin3, pin4, pin5, pin6, pin7, pin8, pin9, pin10]
+		in standard order (see http://tronixstuff.files.wordpress.com/2010/05/7segpinout.jpg) or you can directly
+		pass the list of values corresponding to a, b, c, d, e, f and g in lexicographical order.
+	'''
 	def __init__(self,name=None):
 		self.name = name
-		self.gates = Gates()
 
-	def set(self,pin_conf):
+	def evaluate(self,pin_conf):
+		'''
+		This method evaluates the values passed according to the display and returns
+		an integer varying from 0 to 9
+		'''
 		if len(pin_conf)!=10:
 			if len(pin_conf)!=7:
 				raise Exception("There must be 10 or 7 values")
 		if len(pin_conf)==10:
-			vcc = self.gates.OR(pin_conf[2],pin_conf[7])
+			vcc = pin_conf[2] or pin_conf[7]
 			a = pin_conf[6]
 			b = pin_conf[5]
 			c = pin_conf[3]
@@ -136,3 +157,6 @@ class DigitDisplay:
 			return None
 		else:
 			return None
+
+		def getName(self):
+			return self.name
