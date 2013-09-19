@@ -16,7 +16,7 @@ class Clock(threading.Thread):
 	
 	Following are the parameters of the class
 
-		frequency:		It will decide time interval of the clock, use SI unit i.e. Heartz
+		frequency:		It will decide time interval of the clock, use SI unit i.e. Hertz
 		time_period:	It will also decide time interval of the clock, use SI unit i.e. second
 
 		If time_period and frequency both have been provided, then time_period will override frequency
