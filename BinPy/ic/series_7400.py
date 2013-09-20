@@ -22,7 +22,7 @@ class IC_7400:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -53,7 +53,7 @@ class IC_741G00:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>5:
-			sys.exit("ERROR: there are only 5 pins in this IC")
+			raise Exception("ERROR: there are only 5 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -82,7 +82,7 @@ class IC_7401:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -114,7 +114,7 @@ class IC_7402:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -146,7 +146,7 @@ class IC_741G02:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>5:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -175,7 +175,7 @@ class IC_7403:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -207,7 +207,7 @@ class IC_741G03:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>5:
-			sys.exit("ERROR: there are only 5 pins in this IC")
+			raise Exception("ERROR: there are only 5 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -236,7 +236,7 @@ class IC_7404:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -270,7 +270,7 @@ class IC_741G04:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>5:
-			sys.exit("ERROR: there are only 5 pins in this IC")
+			raise Exception("ERROR: there are only 5 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -299,7 +299,7 @@ class IC_7405:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -332,7 +332,7 @@ class IC_741G05:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>5:
-			sys.exit("ERROR: there are only 5 pins in this IC")
+			raise Exception("ERROR: there are only 5 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -361,7 +361,7 @@ class IC_7408:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -393,7 +393,7 @@ class IC_741G08:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>5:
-			sys.exit("ERROR: there are only 5 pins in this IC")
+			raise Exception("ERROR: there are only 5 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -423,7 +423,7 @@ class IC_7410:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -454,7 +454,7 @@ class IC_7411:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -485,7 +485,7 @@ class IC_7412:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -520,7 +520,7 @@ class IC_7415:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -552,7 +552,7 @@ class IC_7420:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -583,7 +583,7 @@ class IC_7421:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
@@ -613,7 +613,7 @@ class IC_7422:
 
 	def setPin(self, pin_no, pin_value):
 		if pin_no<1 or pin_no>14:
-			sys.exit("ERROR: there are only 14 pins in this IC")
+			raise Exception("ERROR: there are only 14 pins in this IC")
 		self.pins[pin_no] = pin_value
 
 	def run(self):
