@@ -626,11 +626,156 @@ class IC_7422:
 		else:
 			print "Ground and VCC pins have not been configured correctly."
 
+#IC 7422 to IC 7441 TBA
+
+class IC_7442:
+	'''
+	This is a BCD to Decimal decoder
+	BCD Digits are in order of A B C D where pin 15 = A, pin 12 = D
+	'''
+
+	#Datasheet here, http://pdf1.alldatasheet.com/datasheet-pdf/view/126658/TI/SN7443.html
+
+	def __init__(self):
+		self.pins = [None,None,None,None,None,None,None,0,None,None,None,0,0,0,0,0,0]
+		self.gates = Gates()
+
+	def setIC(self,pin_conf):
+		'''
+		This method takes a dictionary with key:pin_no and value:pin_value
+		'''
+		for i in pin_conf:
+			self.pins[i] = pin_conf[i]
+	
+	def setPin(self, pin_no, pin_value):
+		if pin_no<1 or pin_no>16:
+			raise Exception("ERROR: There are only 16 pins in this IC")
+		self.pins[pin_no] = pin_value
+
+	def run(self):
+
+		output = {}
+
+		inputlist = []
+		for i in xrange(12, 16, 1):
+			inputlist.append(self.pins[i])
+		
+		invalidlist = [[1,0,1,0], [1,0,1,1], [1,1,0,0], [1,1,0,1], [1,1,1,0], [1,1,1,1]]
+
+		if inputlist in invalidlist:
+			raise Exception("ERROR: Invalid BCD number")
+
+		output[1] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.gates.NOT(self.pins[14]),
+						self.gates.NOT(self.pins[13]), self.gates.NOT(self.pins[12]))
+
+		output[2] = self.gates.NAND(self.pins[15], self.gates.NOT(self.pins[14]),
+						self.gates.NOT(self.pins[13]), self.gates.NOT(self.pins[12]))
+
+		output[3] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.pins[14],
+						self.gates.NOT(self.pins[13]), self.gates.NOT(self.pins[12]))
+
+		
+		output[4] = self.gates.NAND(self.pins[15], self.pins[14],
+						self.gates.NOT(self.pins[13]), self.gates.NOT(self.pins[12]))
+
+		output[5] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.gates.NOT(self.pins[14]),
+						self.pins[13], self.gates.NOT(self.pins[12]))
+
+		output[6] = self.gates.NAND(self.pins[15], self.gates.NOT(self.pins[14]),
+						self.pins[13], self.gates.NOT(self.pins[12]))
+
+		output[7] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.pins[14],
+						self.pins[13], self.gates.NOT(self.pins[12]))
+
+		output[9] = self.gates.NAND(self.pins[15], self.pins[14],
+						self.pins[13], self.gates.NOT(self.pins[12]))
+
+		output[10] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.gates.NOT(self.pins[14]),
+						self.gates.NOT(self.pins[13]), self.pins[12])
+
+		output[11] = self.gates.NAND(self.pins[15], self.gates.NOT(self.pins[14]),
+						self.gates.NOT(self.pins[13]), self.pins[12])
+
+
+		if self.pins[8] == 0 and self.pins[16] == 1:
+			return output
+		else:
+			print "Ground and VCC pins have not been configured correctly. "
 
 
 
+class IC_7443:
+	'''
+	This is an excess-3 to Decimal decoder
+	Excess-3 binary digits are in order of A B C D, where pin 15 = A and pin 12 = D
+	'''
+
+	#Datasheet here, http://pdf1.alldatasheet.com/datasheet-pdf/view/126658/TI/SN7443.html
+
+	def __init__(self):
+		self.pins = [None,None,None,None,None,None,None,0,None,None,None,0,0,0,0,0,0]
+		self.gates = Gates()
+
+	def setIC(self,pin_conf):
+		'''
+		This method takes a dictionary with key:pin_no and value:pin_value
+		'''
+		for i in pin_conf:
+			self.pins[i] = pin_conf[i]
+	
+	def setPin(self, pin_no, pin_value):
+		if pin_no<1 or pin_no>16:
+			raise Exception("ERROR: There are only 16 pins in this IC")
+		self.pins[pin_no] = pin_value
+
+	def run(self):
+
+		output = {}
+
+		inputlist = []
+		for i in xrange(12, 16, 1):
+			inputlist.append(self.pins[i])
+		
+		invalidlist = [[0,0,0,0], [0,0,0,1], [0,0,1,0], [1,1,0,1], [1,1,1,0], [1,1,1,1]]
+
+		if inputlist in invalidlist:
+			raise Exception("ERROR: Invalid Pin configuration")
+
+		output[1] = self.gates.NAND(self.pins[15], self.pins[14],
+						self.gates.NOT(self.pins[13]), self.gates.NOT(self.pins[12]))
+
+		output[2] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.gates.NOT(self.pins[14]),
+						self.pins[13], self.gates.NOT(self.pins[12]))
+
+		output[3] = self.gates.NAND((self.pins[15]), self.gates.NOT(self.pins[14]),
+						self.pins[13], self.gates.NOT(self.pins[12]))
+
+		
+		output[4] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.pins[14],
+						self.pins[13], self.gates.NOT(self.pins[12]))
+
+		output[5] = self.gates.NAND(self.pins[15], self.pins[14],
+						self.pins[13], self.gates.NOT(self.pins[12]))
+
+		output[6] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.gates.NOT(self.pins[14]),
+						self.gates.NOT(self.pins[13]), self.pins[12])
+
+		output[7] = self.gates.NAND(self.pins[15], self.gates.NOT(self.pins[14]),
+						self.gates.NOT(self.pins[13]), self.pins[12])
+
+		output[9] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.pins[14],
+						self.gates.NOT(self.pins[13]), self.pins[12])
+
+		output[10] = self.gates.NAND(self.pins[15], self.pins[14],
+						self.gates.NOT(self.pins[13]), self.pins[12])
+
+		output[11] = self.gates.NAND(self.gates.NOT(self.pins[15]), self.gates.NOT(self.pins[14]),
+						self.pins[13], self.pins[12])
 
 
-
+		if self.pins[8] == 0 and self.pins[16] == 1:
+			return output
+		else:
+			print "Ground and VCC pins have not been configured correctly. "
 
 
