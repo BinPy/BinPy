@@ -105,4 +105,150 @@ class MUX:
 			return result
 		else:
 			return self.gates.NOT(result)
+		
+
+class DEMUX:
+	'''
+	This class can be used to create DEMUX in your circuit. It has a method for each kind of
+	DEMUX, namely, demux_1_2, demux_1_4, demux_1_8 and demux_1_16
+	All the methods take 3 parameters(inputs, select lines and strobe). Strobe is high by default
+	inputs and select_inputs are lists. First index of input is 'A', second index is 'B' and so on...
+	But last index of select_inputs is 'S0', second last index is 'S1' and so on...
+	'''
+	def __init__(self):
+		self.gates = Gates()
+
+	def run(self,inputs,select_inputs,strobe=1):
+		'''
+			This method takes 3 parameters [inputs(list),select_inputs(list), optional strobe(int)]
+			This method automatically classifies the type of DEMUX and returns the computed result(int)
+		'''
+		allowed = [1,2,3,4]
+		mux_type = len(select_inputs)
+		if mux_type not in allowed:
+			raise Exception("ERROR: only 4 types of DEMUX are supported, namely, 1:2, 1:4, 1:8 and 1:16")
+		if len(inputs)!=1:
+			raise Exception("ERROR: DEMUX can have only 1 input line")
+		if mux_type == 1:
+			return self.demux_1_2(inputs,select_inputs,strobe)
+		elif mux_type == 2:
+			return self.demux_1_4(inputs,select_inputs,strobe)
+		elif mux_type == 3:
+			return self.demux_1_8(inputs,select_inputs,strobe)
+		elif mux_type == 4:
+			return self.demux_1_16(inputs,select_inputs,strobe)
+
+	def demux_1_2(self,inputs,select_inputs,strobe=1):
+		'''
+		This method implements 1:2 DEMUX using logic gates
+		Input and output is same as run() method
+		'''
+		output = {}
+		
+		s = select_inputs[0]
+		a = inputs[0]
+		
+		output[0] = self.gates.AND(a, self.gates.NOT(s))
+		output[1] = self.gates.AND(a, s)
+
+		if strobe == 0:
+			for w in output:
+				if output[w] == 1:
+					output[w] = self.gates.NOT(output[w])
+			 
+		return output
+
+	def demux_1_4(self,inputs,select_inputs,strobe=1):
+		'''
+		This method implements 1:4 DEMUX using logic gates
+		Input and output is same as run() method
+		'''
+		output = {}
+
+		select_inputs = select_inputs[::-1]
+		s0 = select_inputs[0]
+		s1 = select_inputs[1]
+		a = inputs[0]
+
+		output[0] = self.gates.AND(self.gates.NOT(s0), self.gates.NOT(s1), a)
+		output[1] = self.gates.AND(s0, self.gates.NOT(s1), a)
+		output[2] = self.gates.AND(self.gates.NOT(s0), s1, a)
+		output[3] = self.gates.AND(s0, s1, a)
+		
+		if strobe == 0:
+			for w in output:
+				if output[w] == 1:
+					output[w] = self.gates.NOT(output[w])
+
+		return output
+
+	def demux_1_8(self,inputs,select_inputs,strobe=1):
+		'''
+		This method implements 1:8 DEMUX using logic gates
+		Input and output is same as run() method
+		'''
+		output = {}
+
+		select_inputs = select_inputs[::-1]
+		s0 = select_inputs[0]
+		s1 = select_inputs[1]
+		s2 = select_inputs[2]
+		a = inputs[0]		
+		
+		output[0] = self.gates.AND(a,self.gates.NOT(s2),self.gates.NOT(s1),self.gates.NOT(s0))
+		output[1] = self.gates.AND(a,self.gates.NOT(s2),self.gates.NOT(s1),s0)
+		output[2] = self.gates.AND(a,self.gates.NOT(s2),s1,self.gates.NOT(s0))
+		output[3] = self.gates.AND(a,self.gates.NOT(s2),s1,s0)
+		output[4] = self.gates.AND(a,s2,self.gates.NOT(s1),self.gates.NOT(s0))
+		output[5] = self.gates.AND(a,s2,self.gates.NOT(s1),s0)
+		output[6] = self.gates.AND(a,s2,s1,self.gates.NOT(s0))
+		output[7] = self.gates.AND(a,s2,s1,s0)
+		
+		if strobe == 0:
+			for w in output:
+				if output[w] == 1:
+					output[w] = self.gates.NOT(output[w])
+
+		return output
+
+	def demux_1_16(self,inputs,select_inputs,strobe=1):
+		'''
+		This method implements 1:16 DEMUX using logic gates
+		Input and output is the same  as run() method
+		'''
+		output = {}
+
+		select_inputs = select_inputs[::-1]
+		s0 = select_inputs[0]
+		s1 = select_inputs[1]
+		s2 = select_inputs[2]
+		s3 = select_inputs[3]
+		a = inputs[0]
+
+		output[0] = self.gates.AND(a,self.gates.NOT(s3),self.gates.NOT(s2),
+						self.gates.NOT(s1),self.gates.NOT(s0))
+		output[1] = self.gates.AND(a,self.gates.NOT(s3),self.gates.NOT(s2),self.gates.NOT(s1),s0)
+		output[2] = self.gates.AND(a,self.gates.NOT(s3),self.gates.NOT(s2),s1,self.gates.NOT(s0))
+		output[3] = self.gates.AND(a,self.gates.NOT(s3),self.gates.NOT(s2),s1,s0)
+		output[4] = self.gates.AND(a,self.gates.NOT(s3),s2,self.gates.NOT(s1),self.gates.NOT(s0))
+		output[5] = self.gates.AND(a,self.gates.NOT(s3),s2,self.gates.NOT(s1),s0)
+		output[6] = self.gates.AND(a,self.gates.NOT(s3),s2,s1,self.gates.NOT(s0))
+		output[7] = self.gates.AND(a,self.gates.NOT(s3),s2,s1,s0)
+
+		output[8] = self.gates.AND(a,s3,self.gates.NOT(s2),self.gates.NOT(s1),self.gates.NOT(s0))
+		output[9] = self.gates.AND(a,s3,self.gates.NOT(s2),self.gates.NOT(s1),s0)
+		output[10] = self.gates.AND(a,s3,self.gates.NOT(s2),s1,self.gates.NOT(s0))
+		output[11] = self.gates.AND(a,s3,self.gates.NOT(s2),s1,s0)
+		output[12] = self.gates.AND(a,s3,s2,self.gates.NOT(s1),self.gates.NOT(s0))
+		output[13] = self.gates.AND(a,s3,s2,self.gates.NOT(s1),s0)
+		output[14] = self.gates.AND(a,s3,s2,s1,self.gates.NOT(s0))
+		output[15] = self.gates.AND(a,s3,s2,s1,s0)
 			
+		#todo: can this be made using 1:4 and 1:8 demultiplexers? Code too inefficient
+		
+		if strobe == 0:
+			for w in output:
+				if output[w] == 1:
+					output[w] = self.gates.NOT(output[w])
+
+		return output
