@@ -53,8 +53,10 @@ Available Resources
 * Combinational logics
 	* Adder
 	* Subtractor
-	* Multiplyer
+	* Multiplier
 	* MUX (2:1, 4:1, 8:1, 16:1)
+	* DEMUX (1:2, 1:4, 1:8, 1:16)
+	* Encoder
 	
 * IC
 	* 7400
@@ -74,6 +76,11 @@ Available Resources
 	* 7411
 	* 7442
 	* 7443
+	* 7444
+	* 7451
+	* 7454
+	* 7455
+	* 7458
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
 	* Moore Machine Optimizer
