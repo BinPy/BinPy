@@ -46,13 +46,17 @@ class Connector :
 
 	def set (self, value) :
 		if self.value == value : return 
-		
+
 		self.value = value
 
 		if self.activates : self.owner.evaluate()
 		if self.monitor :
-			print "Connector %s-%s set to %s" % (self.owner.name,self.name,self.value)
+			#print "Connector %s-%s set to %s" % (self.owner.name,self.name,self.value)
+			pass
 		for con in self.connects : con.set(value)
+
+	def getState(self):
+		return self.value
 
 
 class LC :
@@ -64,6 +68,7 @@ class LC :
 	def __init__ (self, name) :
 		self.name = name
 	def evaluate (self) : return
+
 
 class Not (LC) : 
 	'''
