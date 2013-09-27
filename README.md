@@ -28,7 +28,7 @@ myClock2.start()
 while(True):
 	print 'S:',myClock2.getState(),"\t",'R:',myClock1.getState(),"\t",'Q:', NOR1.C.getState(),"\t",'Q\':',NOR2.C.getState()
 	time.sleep(1)
-```python
+```
 
 <strong>Output</strong>
 ```python
