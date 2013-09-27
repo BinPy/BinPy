@@ -21,7 +21,7 @@ NOR2 = Nor('NOR2')	#Second NOR gate
 NOR1.B.connect(NOR2.C)	#Connecting input of first NOR with output of second NOR
 NOR2.A.connect(NOR1.C)	#Connecting input of second NOR with output of first NOR
 myClock1.A.connect(NOR1.A)	#Connecting output of myClock1 which is 'R' with input of first NOR
-myClock2.A.connect(NOR2.B)	#Connecting output of myClock1 which is 'S' with input of first NOR
+myClock2.A.connect(NOR2.B)	#Connecting output of myClock2 which is 'S' with input of second NOR
 myClock1.start()
 myClock2.start()
 
@@ -55,7 +55,7 @@ S: 1 	R: 1 	Q: False 	Q': False
 ```
 <strong>Operations, Combinatonal Logic and Algorithms</strong>
 
-```
+```python
 from BinPy import *
 
 #Operations
