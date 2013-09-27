@@ -3,7 +3,7 @@ import time
 import threading
 from BinPy import Connector, LC
 
-class Clock(threading.Thread, LC):
+class Clock(threading.Thread):
 	"""
 	This class uses threading technique to create a clock with a certain time period.
 	This is how you can create a clock with this class:
