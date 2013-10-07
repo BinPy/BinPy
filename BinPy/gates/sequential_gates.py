@@ -95,5 +95,5 @@ def testLatch () :
 	while 1 :
 		ans = raw_input("Input A or B to drop:")
 		if ans == "" : break
-		if ans == 'A' : x.A.set(0); x.A.set(1)
-		if ans == 'B' : x.B.set(0); x.B.set(1)
+		if ans == 'A' : x.A.set(0); x.A.set(1); print x.C.getState()
+		if ans == 'B' : x.B.set(0); x.B.set(1); print x.C.getState()
