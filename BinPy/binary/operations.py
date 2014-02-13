@@ -1,5 +1,5 @@
 import sys
-from BinPy import Gates
+from BinPy import *
 
 class Operation:
 	'''
@@ -97,6 +97,3 @@ class Operation:
 			last_out = temp['sum'].insert(0,temp['carry'])
 		return last_out
 	
-
-
-
