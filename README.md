@@ -7,6 +7,7 @@
  * [About](#about)
  * [Installation](#installation)
  * [Available Resources](#resources)
+ * [Documentation](#documentation)
  * [Contribute](#contribute)
 
 
@@ -137,6 +138,11 @@ Available Resources
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
 	* Moore Machine Optimizer
+
+<a id="documentation"></a>
+Documentation
+-------------
+Auto-generated documentation is available for reference at [BinPy docs](http://packages.python.org/BinPy/index.html)
 
 <a id="installation"></a>
 Installation
