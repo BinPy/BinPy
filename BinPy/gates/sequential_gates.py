@@ -67,7 +67,7 @@ class Clock (LC):
         LC.__init__(self,name)
         self.A = Connector(self,'A',monitor=1)
         self.A.set(1)
-
+"""
 def testDivBy2 () :
     x = Div2("X")
     c = 0; x.B.set(c)
@@ -94,3 +94,4 @@ def testLatch () :
         if ans == "" : break
         if ans == 'A' : x.A.set(0); x.A.set(1); print x.C.getState()
         if ans == 'B' : x.B.set(0); x.B.set(1); print x.C.getState()
+"""
