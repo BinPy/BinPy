@@ -1,8 +1,11 @@
-BinPy
+-----------
+# BinPy
 -----------
 
  * [About](#about)
  * [Installation](#installation)
+ * [Available Resources](#resources)
+ * [Contribute](#contribute)
 
 <a id="about"></a>
 What is BinPy?
@@ -89,6 +92,8 @@ IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
 Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
+
+<a id="resources"></a>
 Available Resources
 -------------------
 * All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
@@ -154,6 +159,14 @@ Future Works
 * Graphical representation of the circuit
 * ...
 
+<a id="contribute"></a>
+
+How To Contribute
+-----------------
+
+ - [Report Bugs and Issues](https://github.com/BinPy/BinPy/issues)
+ - [Solve Bugs and Issues](https://github.com/BinPy/BinPy/issues?page=1&state=open)
+ - Write Tutorials, Examples and Documentation
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mrsud/binpy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
