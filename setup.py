@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-#from distutils.core import setup
+
 setup(
     name='BinPy',
     version='0.1.7',
@@ -9,8 +9,7 @@ setup(
     license=open('docs/LICENSE.txt').read(),
     description='Virtualizing Electronics',
     long_description=open('docs/README.txt').read(),
-	#packages=['BinPy','BinPy/binary','BinPy/combi_logic','BinPy/ic','BinPy/gates', 'BinPy/algorithms','BinPy/tools'],
     packages = find_packages(),
-	package_data={'data': ['docs/LICENSE.txt','docs/README.txt']},
-	include_package_data=True,
+    package_data={'data': ['docs/LICENSE.txt','docs/README.txt']},
+    include_package_data=True,
 )
