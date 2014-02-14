@@ -40,7 +40,7 @@ print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
 Q:  True 	Q':  False
 Q:  False 	Q':  True
 Q:  False 	Q':  True
-Q:  False 	Q':  False
+Q:  False 	Q':  False	#Invalid State
 ```
 <strong>Operations, Combinatonal Logic and Algorithms</strong>
 
