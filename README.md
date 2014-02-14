@@ -1,3 +1,10 @@
+BinPy
+-----------
+
+ * [About](#about)
+ * [Installation](#installation)
+
+<a id="about"></a>
 What is BinPy?
 ---------------
 This package will serve as a base to develop circuit based applications or logical games on top of it. 
@@ -119,6 +126,25 @@ Available Resources
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
 	* Moore Machine Optimizer
+
+<a id="installation"></a>
+Installation
+------------
+
+### Linux
+
+Install with **pip**
+
+    sudo pip install https://github.com/BinPy/BinPy/zipball/master
+
+Install using **git**
+
+    sudo apt-get install git
+    git clone https://github.com/BinPy/BinPy.git
+    cd BinPy/
+    sudo python setup.py install
+
+    
 
 Future Works
 ------------
