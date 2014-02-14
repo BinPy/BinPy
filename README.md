@@ -2,6 +2,8 @@
 # BinPy
 -----------
 
+[![Build Status](https://travis-ci.org/BinPY/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
+
  * [About](#about)
  * [Installation](#installation)
  * [Available Resources](#resources)
@@ -29,21 +31,24 @@ NOR2 = Nor('NOR2')  #Second NOR gate
 NOR2.C.connect(NOR1.B)  #Connecting output of second NOR with input of first NOR
 NOR1.C.connect(NOR2.A)  #Connecting output of first NOR with input of second NOR
 
+# Set state
+NOR1['A'] = 1
+NOR2['B'] = 0
+print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
 
-NOR1.A.set(1);NOR2.B.set(0)	#Set state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+NOR1['A'] = 0
+NOR2['B'] = 1
+print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
 
+# Hold state
+NOR1['A'] = 0
+NOR2['B'] = 0
+print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
 
-NOR1.A.set(0);NOR2.B.set(1)	#Reset state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
-
-
-NOR1.A.set(0);NOR2.B.set(0)	#Hold state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
-
-
-NOR1.A.set(1);NOR2.B.set(1)	#Invalid state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+# Invalid State
+NOR1['A'] = 1
+NOR2['B'] = 1
+print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
 ```
 
 <strong>Output</strong>

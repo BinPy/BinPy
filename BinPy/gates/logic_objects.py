@@ -39,22 +39,20 @@ class Connector(object):
         self.connects = []
         self.activates = activates 
         self.connected = connected
-    """
+    
     def __set__(self, obj, val):
-        print "Updating"
         self.value = val
 
     def __get__(self, instance, owner):
-        print "Retrieving"
         return self.value
-    """
+
     def connect (self, inputs) :
         if type(inputs) != type([]) : inputs = [inputs]
         for input in inputs : self.connects.append(input)
     
     def __repr__(self):
         return "<BinPy.Connector Object name:(%s), value:(%s), at memory location: (%s)"\
-         %(self.name, str(self.value), hex(id(self)))
+        %(self.name, str(self.value), hex(id(self)))
     
     def set (self, value) :
         if self.value == value : return 
@@ -110,6 +108,14 @@ class Not (LC) :
             warnings.warn("The logic gate has no such connector. Returning None.")
             return None
 
+    def getStates(self):
+    	return self.states
+
+   	def printStates(self):
+   		keys = self.states.getKeys()
+   		for key in keys:
+   			print key,":",self.states.get(key)
+
     def evaluate (self) : self.B.set(not self.A.value)          
 
 
@@ -145,6 +151,14 @@ class Gate2 (LC) :
         else:
             warnings.warn("The logic gate has no such connector. Returning None.")
             return None
+
+    def getStates(self):
+    	return self.states
+
+    def stringStates(self):
+        keys = self.states.keys()
+        for key in keys:
+            print key,":",self.states.get(key)
 
 class And (Gate2) :   
     '''
