@@ -1,3 +1,5 @@
+__version__ = "0.2"
+
 from BinPy.gates import *
 from BinPy.binary import *
 from BinPy.combi_logic import *

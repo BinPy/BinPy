@@ -7,6 +7,7 @@
  * [Available Resources](#resources)
  * [Contribute](#contribute)
 
+
 <a id="about"></a>
 What is BinPy?
 ---------------
@@ -140,11 +141,12 @@ Installation
 
 Install with **pip**
 
+    sudo apt-get install pip setuptools ipython
     sudo pip install https://github.com/BinPy/BinPy/zipball/master
 
 Install using **git**
 
-    sudo apt-get install git
+    sudo apt-get install git setuptools ipython
     git clone https://github.com/BinPy/BinPy.git
     cd BinPy/
     sudo python setup.py install
