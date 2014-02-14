@@ -7,86 +7,126 @@ class Gates:
 		'''
 		This method takes one input and returns its inverted value
 		'''
-		if a==True:
-			return 0
-		elif a==False:
-			return 1
+		
+		return int ( not a )
 	
 	def OR(self, *inputs):
 		'''
 		This method takes n>1 inputs and returns its OR
 		'''
-		if len(inputs)<2:
-			raise Exception("ERROR: Number of inputs must be more than 1")
-		for i in inputs:
-			if i==True:
-				return 1
-		return 0
+		
+		if (isinstance(inputs[0],list) and len(inputs[0]) > 1) or len(inputs) > 1 :
+			if isinstance(inputs[0],list) :
+				data = inputs[0]
+			else:
+				data = inputs
+
+			for i in data:
+				if i==True:
+					return 1
+		
+			return 0
+		else:
+			raise Exception("ERROR: Too few inputs given")
+			return
 
 	def NOR(self, *inputs):
 		'''
 		This method takes n>1 inputs and returns its NOR
 		'''
-		if len(inputs)<2:
-			raise Exception("ERROR: Number of inputs must be more than 1")
-		for i in inputs:
-			if i==True:
-				return 0
-		return 1
+		
+		if (isinstance(inputs[0],list) and len(inputs[0]) > 1) or len(inputs) > 1 :
+			if isinstance(inputs[0],list) :
+				data = inputs[0]
+			else:
+				data = inputs
+
+			for i in data:
+				if i==True:
+					return 0
+			return 1
+		else:
+			raise Exception("ERROR: Too few inputs given")
+			return
 		
 	def AND(self, *inputs):
 		'''
 		This method takes n>1 inputs and returns its AND
 		'''
-		if len(inputs)<2:
-			raise Exception("ERROR: Number of inputs must be more than 1")
-		for i in inputs:
-			if i==False:
-				return 0
-		return 1
 		
+		if (isinstance(inputs[0],list) and len(inputs[0]) > 1) or len(inputs) > 1 :
+			if isinstance(inputs[0],list) :
+				data = inputs[0]
+			else:
+				data = inputs
+
+			for i in data:
+				if i == False:
+					return 0
+			return 1
+		else:
+			raise Exception("ERROR: Too few inputs given")
+			return
+
 	def NAND(self, *inputs):
 		'''
 		This method takes n>1 inputs and returns its NAND
 		'''
-		if len(inputs)<2:
-			raise Exception("ERROR: Number of inputs must be more than 1")
-		for i in inputs:
-			if i==False:
-				return 1
-		return 0
+
+		if (isinstance(inputs[0],list) and len(inputs[0]) > 1) or len(inputs) > 1 :
+			if isinstance(inputs[0],list) :
+				data = inputs[0]
+			else:
+				data = inputs
+
+			for i in data:
+				if i == False:
+					return 1
+			return 0
+		else:
+			raise Exception("ERROR: Too few inputs given")
+			return
 	
 	def XOR(self, *inputs):
 		'''
 		This method takes n>1 inputs and returns its XOR
 		'''
-		if len(inputs)<2:
-			raise Exception("ERROR: Number of inputs must be more than 1")
-		elif len(inputs)==2:
-			return inputs[0]^inputs[1]
-		else:
-			last_out = inputs[0]
-			for i in range(1,len(inputs)):
-				 last_out =  self.XOR(last_out,inputs[i])
-			if last_out==True:
-				return 1
+
+		if (isinstance(inputs[0],list) and len(inputs[0]) > 1) or len(inputs) > 1 :
+			if isinstance(inputs[0],list) :
+				data = inputs[0]
 			else:
-				return 0
+				data = inputs
+
+			temp = data[0]
+
+			for i in data[1:]:
+				temp = temp ^ i
+
+		else:
+			raise Exception("ERROR: Too few inputs given")
+			return
+
+		return int( temp )
 					
 	def XNOR(self, *inputs):
 		'''
 		This method takes n>1 inputs and returns its XNOR
 		'''
-		if len(inputs)<2:
-			raise Exception("ERROR: Number of inputs must be more than 1")
-		elif len(inputs)==2:
-			return inputs[0]^inputs[1]
-		else:
-			last_out = inputs[0]
-			for i in range(1,len(inputs)):
-				 last_out =  self.XOR(last_out,inputs[i])
-			if last_out==True:
-				return 0
+		
+		if (isinstance(inputs[0],list) and len(inputs[0]) > 1) or len(inputs) > 1 :
+			if isinstance(inputs[0],list) :
+				data = inputs[0]
 			else:
-				return 1
+				data = inputs
 
+			temp = data[0]
+
+			for i in data[1:]:
+				temp = temp ^ i
+
+		else:
+			raise Exception("ERROR: Too few inputs given")
+			return
+
+		return int( not temp )
