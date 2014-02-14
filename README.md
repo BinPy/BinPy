@@ -2,6 +2,8 @@
 # BinPy
 -----------
 
+[![Build Status](https://travis-ci.org/BinPY/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
+
  * [About](#about)
  * [Installation](#installation)
  * [Available Resources](#resources)
