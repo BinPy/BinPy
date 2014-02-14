@@ -1,6 +1,9 @@
-from gates import *
-from binary import *
-from combi_logic import *
-from ic import *
-from algorithms import *
-from tools import *
+__version__ = "0.2"
+
+from BinPy.gates import *
+from BinPy.binary import *
+from BinPy.combi_logic import *
+from BinPy.ic import *
+from BinPy.algorithms import *
+from BinPy.tools import *
+from BinPy.base import *
