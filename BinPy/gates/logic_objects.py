@@ -1,6 +1,6 @@
 #  Define classes for Connector, Logic Circuit, Gate
 
-class Connector :
+class Connector(object):
 
     '''
     The Connector class is the basic object connecting Gate Type Objects. Connectors can
@@ -37,13 +37,24 @@ class Connector :
         self.monitor  = monitor
         self.connects = []
         self.activates = activates 
-        self.connected = connected  
+        self.connected = connected
+    """
+    def __set__(self, obj, val):
+        print "Updating"
+        self.value = val
 
+    def __get__(self, instance, owner):
+        print "Retrieving"
+        return self.value
+    """
     def connect (self, inputs) :
         if type(inputs) != type([]) : inputs = [inputs]
         for input in inputs : self.connects.append(input)
-
-
+    
+    def __repr__(self):
+        return "<BinPy.Connector Object name:(%s), value:(%s), at memory location: (%s)"\
+         %(self.name, str(self.value), hex(id(self)))
+    
     def set (self, value) :
         if self.value == value : return 
 
@@ -69,15 +80,32 @@ class LC :
         self.name = name
     def evaluate (self) : return
 
-
 class Not (LC) : 
     '''
     Not gate using the LC class
     '''                                                                                             
-    def __init__ (self, name="NOT") :
+    def __init__ (self, name="NOT"):
+        self.states = {}
         LC.__init__ (self, name)
         self.A = Connector(self,'A', activates=1)
         self.B = Connector(self,'B',monitor=1)
+        self.states.setdefault('A', self.A)
+        self.states.setdefault('B', self.B)
+
+    def __setitem__(self, coord, value):
+        item = self.states.get(coord)
+        if item:
+            item.set(value)
+        else:
+            print "no such connector"
+
+    def __getitem__(self, coord):
+        item = self.states.get(coord)
+        if item:
+            return item.getState()
+        else:
+            print "no such connector"
+            return None
 
     def evaluate (self) : self.B.set(not self.A.value)          
 
@@ -86,11 +114,32 @@ class Gate2 (LC) :
     '''
     Base class for 2 input gates
     ''' 
-    def __init__ (self, name) :
+    def __init__ (self, name):
+        self.states = {}
+
         LC.__init__ (self, name)
         self.A = Connector(self,'A',activates=1)
         self.B = Connector(self,'B',activates=1)
         self.C = Connector(self,'C', monitor=1)
+
+        self.states.setdefault('A', self.A)
+        self.states.setdefault('B', self.B)
+        self.states.setdefault('C', self.C)
+
+    def __setitem__(self, coord, value):
+        item = self.states.get(coord)
+        if item:
+            item.set(value)
+        else:
+            print "no such connector"
+
+    def __getitem__(self, coord):
+        item = self.states.get(coord)
+        if item:
+            return item.getState()
+        else:
+            print "no such connector"
+            return None
 
 class And (Gate2) :   
     '''
