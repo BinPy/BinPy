@@ -1,10 +1,7 @@
 from logic_objects import *
 
-
-		
-
 class Latch (LC) :
-	def __init__ (self, name) :
+	def __init__ (self, name="LATCH") :
 		LC.__init__ (self, name)
 		self.A = Connector(self,'A',1)
 		self.B = Connector(self,'B',1)
@@ -17,7 +14,7 @@ class Latch (LC) :
 		self.N2.C.connect ([self.N1.B])
 
 class DFlipFlop (LC) :
-	def __init__ (self, name) :
+	def __init__ (self, name="DFlipFlop") :
 		LC.__init__ (self, name)
 		self.A = Connector(self,'D',1)
 		self.B = Connector(self,'C',1)
@@ -31,7 +28,7 @@ class DFlipFlop (LC) :
 		self.prev = self.B.value
 
 class Div2 (LC) :
-	def __init__ (self, name) :
+	def __init__ (self, name="DIV2") :
 		LC.__init__ (self, name)
 		self.B = Connector(self,'C',activates=1)
 		self.A = Connector(self,'D')
@@ -48,7 +45,7 @@ class Div2 (LC) :
 		self.DFF.A.value = 1 - self.DFF.C.value
 
 class Counter (LC) :
-	def __init__ (self, name) :
+	def __init__ (self, name="Counter") :
 		LC.__init__ (self, name)
 		self.B0 = Div2('B0')
 		self.B1 = Div2('B1')
@@ -66,7 +63,7 @@ class Counter (LC) :
 		self.B2.C.connect( self.B3.B )
 
 class Clock (LC):
-	def __init__(self,name):
+	def __init__(self,name="Clock"):
 		LC.__init__(self,name)
 		self.A = Connector(self,'A',monitor=1)
 		self.A.set(1)

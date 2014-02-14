@@ -74,7 +74,7 @@ class Not (LC) :
 	'''
 	Not gate using the LC class
 	''' 																							
-	def __init__ (self, name) :
+	def __init__ (self, name="NOT") :
 		LC.__init__ (self, name)
 		self.A = Connector(self,'A', activates=1)
 		self.B = Connector(self,'B',monitor=1)
@@ -96,7 +96,7 @@ class And (Gate2) :
 	'''
 	And gate using the Gate2 class
 	''' 
-	def __init__ (self, name) :
+	def __init__ (self, name="AND") :
 		Gate2.__init__ (self, name)
 	def evaluate (self) : self.C.set(self.A.value and self.B.value)
 
@@ -104,7 +104,7 @@ class Or (Gate2) :
 	'''
 	Or gate using the Gate2 class
 	''' 
-	def __init__ (self, name) :
+	def __init__ (self, name="OR") :
 		Gate2.__init__ (self, name)
 	def evaluate (self) : self.C.set(self.A.value or self.B.value)
 
@@ -114,7 +114,7 @@ class Xor (Gate2) :
 	This class uses the previous And and Not classes from above and connects them via a
 	connector object. This forms the basis of combinational logic with these objects
 	''' 
-	def __init__ (self, name) :
+	def __init__ (self, name="XOR") :
 		Gate2.__init__ (self, name)
 		self.A1 = And("A1") 
 		self.A2 = And("A2")
@@ -133,7 +133,7 @@ class Nand (Gate2) :
 	'''
 	Nand gate using the Gate2 class
 	'''       
-	def __init__ (self, name) :
+	def __init__ (self, name="NAND") :
 		Gate2.__init__ (self, name)
 	def evaluate (self) :
 		self.C.set(not(self.A.value and self.B.value))
@@ -142,7 +142,7 @@ class Nor (Gate2) :
 	'''
 	Nor gate using the Gate2 class
 	'''
-	def __init__ (self, name) :
+	def __init__ (self, name="NOR") :
 		Gate2.__init__ (self, name)
 	def evaluate (self) :
 		self.C.set(not(self.A.value or self.B.value))
@@ -151,7 +151,7 @@ class Xnor (Gate2) :
 	'''
 	Xnor gate using the Gate2 class
 	'''
-	def __init__ (self,name):
+	def __init__ (self,name="XNOR"):
 		Gate2.__init__(self,name)
 		self.A1 = And("A1") 
 		self.A2 = And("A2")
@@ -171,7 +171,7 @@ class HalfAdder (LC) :
 	'''
 	Half Adder class using Xor and And objects
 	''' 
-	def __init__ (self, name) :
+	def __init__ (self, name="HALFADDER") :
 		LC.__init__ (self, name)
 		self.A = Connector(self,'A',1)
 		self.B = Connector(self,'B',1)
@@ -188,7 +188,7 @@ class FullAdder (LC) :
 	'''
 	Full Adder class using the Half Adder object
 	''' 
-	def __init__ (self, name) :
+	def __init__ (self, name="FULLADDER") :
 		LC.__init__ (self, name)
 		self.A= Connector(self,'A',1)
 		self.B= Connector(self,'B',1)
@@ -206,3 +206,24 @@ class FullAdder (LC) :
 		self.H2.Cout.connect ([ self.O1.A])
 		self.H2.S.connect ([ self.S])
 		self.O1.C.connect ([ self.Cout])
+
+class logicGate(Not, Nand, Or, Nor, And, Xor, Xnor):
+	def __init__(self, name):
+		lname = name.lower()
+		if lname == "not":
+			Not.__init__(self, name)
+		elif lname == "or":
+			Or.__init__(self, name)
+		elif lname == "and":
+			And.__init__(self, name)
+		elif lname == "nor":
+			Nor.__init__(self, name)
+		elif lname == "nand":
+			Nand.__init__(self, name)
+		elif lname == "xor":
+			Xor.__init__(self, name)
+		elif lname == "xnor":
+			Xnor.__init__(self, name)
+		else:
+			#raise ExceptionError("No standard logic gate")
+			return None
