@@ -12,4 +12,5 @@ setup(
     packages = find_packages(),
     package_data={'data': ['docs/LICENSE.txt','docs/README.txt']},
     include_package_data=True,
+    entry_points={'console_scripts':['binpy = BinPy.Shell:shellMain']}
 )
