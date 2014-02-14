@@ -1,4 +1,5 @@
 #  Define classes for Connector, Logic Circuit, Gate
+from BinPy.base import warnings
 
 class Connector(object):
 
@@ -96,15 +97,17 @@ class Not (LC) :
         item = self.states.get(coord)
         if item:
             item.set(value)
+            return True
         else:
-            print "no such connector"
+            warnings.warn("The logic gate has no such connector. Returning None.")
+            return None
 
     def __getitem__(self, coord):
         item = self.states.get(coord)
         if item:
             return item.getState()
         else:
-            print "no such connector"
+            warnings.warn("The logic gate has no such connector. Returning None.")
             return None
 
     def evaluate (self) : self.B.set(not self.A.value)          
@@ -130,15 +133,17 @@ class Gate2 (LC) :
         item = self.states.get(coord)
         if item:
             item.set(value)
+            return True
         else:
-            print "no such connector"
+            warnings.warn("The logic gate has no such connector. Returning None.")
+            return None
 
     def __getitem__(self, coord):
         item = self.states.get(coord)
         if item:
             return item.getState()
         else:
-            print "no such connector"
+            warnings.warn("The logic gate has no such connector. Returning None.")
             return None
 
 class And (Gate2) :   
@@ -147,7 +152,12 @@ class And (Gate2) :
     ''' 
     def __init__ (self, name="AND") :
         Gate2.__init__ (self, name)
-    def evaluate (self) : self.C.set(self.A.value and self.B.value)
+
+    def evaluate (self):
+    	self.C.set(self.A.value and self.B.value)
+
+    def __repr__(self):
+    	return "<BinPy.And Object Name: (%s), A: (%s), B: (%s), C:(%s), at memory location: (%s)>" %(self.name, self['A'], self['B'], self['C'], hex(id(self)))
 
 class Or (Gate2) : 
     '''
@@ -156,6 +166,9 @@ class Or (Gate2) :
     def __init__ (self, name="OR") :
         Gate2.__init__ (self, name)
     def evaluate (self) : self.C.set(self.A.value or self.B.value)
+
+    def __repr__(self):
+    	return "<BinPy.Or Object Name: (%s), A: (%s), B: (%s), C:(%s), at memory location: (%s)>" %(self.name, self['A'], self['B'], self['C'], hex(id(self)))
 
 class Xor (Gate2) :
     '''
@@ -177,6 +190,8 @@ class Xor (Gate2) :
         self.A1.C.connect ([ self.O1.A ])
         self.A2.C.connect ([ self.O1.B ])
         self.O1.C.connect ([ self.C ])
+    def __repr__(self):
+    	return "<BinPy.Xor Object Name: (%s), A: (%s), B: (%s), C:(%s), at memory location: (%s)>" %(self.name, self['A'], self['B'], self['C'], hex(id(self)))
 
 class Nand (Gate2) :
     '''
@@ -186,6 +201,8 @@ class Nand (Gate2) :
         Gate2.__init__ (self, name)
     def evaluate (self) :
         self.C.set(not(self.A.value and self.B.value))
+    def __repr__(self):
+    	return "<BinPy.Nand Object Name: (%s), A: (%s), B: (%s), C:(%s), at memory location: (%s)>" %(self.name, self['A'], self['B'], self['C'], hex(id(self)))
 
 class Nor (Gate2) :       
     '''
@@ -195,6 +212,8 @@ class Nor (Gate2) :
         Gate2.__init__ (self, name)
     def evaluate (self) :
         self.C.set(not(self.A.value or self.B.value))
+    def __repr__(self):
+    	return "<BinPy.Nor Object Name: (%s), A: (%s), B: (%s), C:(%s), at memory location: (%s)>" %(self.name, self['A'], self['B'], self['C'], hex(id(self)))
 
 class Xnor (Gate2) :
     '''
@@ -214,6 +233,8 @@ class Xnor (Gate2) :
         self.A1.C.connect ([ self.N1.A ])
         self.A2.C.connect ([ self.N1.B ])
         self.N1.C.connect ([ self.C ])
+    def __repr__(self):
+    	return "<BinPy.Xnor Object Name: (%s), A: (%s), B: (%s), C:(%s), at memory location: (%s)>" %(self.name, self['A'], self['B'], self['C'], hex(id(self)))
 
 
 class HalfAdder (LC) : 
