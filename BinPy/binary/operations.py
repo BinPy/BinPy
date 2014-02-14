@@ -1,5 +1,5 @@
 import sys
-from BinPy import *
+from logic_gates import *
 
 class Operation:
 	'''
