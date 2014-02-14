@@ -51,7 +51,7 @@ print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
 Q:  True 	Q':  False
 Q:  False 	Q':  True
 Q:  False 	Q':  True
-Q:  False 	Q':  False
+Q:  False 	Q':  False	#Invalid State
 ```
 <strong>Operations, Combinatonal Logic and Algorithms</strong>
 
@@ -89,9 +89,9 @@ print "IC_7401 Out: ", myIC1.run()
 {'carry': 0, 'sum': [1, 1, 1, 0]}
 {'carry': 1, 'difference': [1, 0, 0, 0]}
 MUX Out:  0
+Minimized Boolean Equation : ((NOT B) OR (NOT A))
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
-Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 
 <a id="resources"></a>
