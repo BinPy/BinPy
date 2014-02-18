@@ -7,3 +7,4 @@ from BinPy.ic import *
 from BinPy.algorithms import *
 from BinPy.tools import *
 from BinPy.base import *
+from BinPy.Operations import *
