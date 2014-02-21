@@ -1,4 +1,4 @@
-from BinPy.gates import *
+from BinPy.Gates import *
 
 class SRLatch:
 

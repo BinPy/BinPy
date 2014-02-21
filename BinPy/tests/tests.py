@@ -2,85 +2,80 @@ from BinPy import *
 from nose.tools import with_setup, nottest
 
 def AND_test():
-    lgate = And()
+    lgate = AND(1,0)
     outputLogic = []
 
     inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
     for logic in inputLogic:
-        lgate['A'] = logic[0]
-        lgate['B'] = logic[1]
-        outputLogic.append(lgate['C'])
+        lgate.setInputs(logic[0],logic[1])
+        outputLogic.append(lgate.output())
     print outputLogic
-    if outputLogic != [False, False, True, False]:
+    if outputLogic != [0, 0, 1, 0]:
         assert False
 
 def OR_test():
-    lgate = Or()
+    lgate = OR(0,0)
     outputLogic = []
 
     inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
     for logic in inputLogic:
-        lgate['A'] = logic[0]
-        lgate['B'] = logic[1]
-        outputLogic.append(lgate['C'])
+        lgate.setInputs(logic[0], logic[1])
+        outputLogic.append(lgate.output())
     print outputLogic
-    if outputLogic != [False, True, True, True]:
+    if outputLogic != [0, 1, 1, 1]:
         assert False
 
 def NAND_test():
-    lgate = Nand()
+    lgate = NAND(0,0)
     outputLogic = []
 
     inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
     for logic in inputLogic:
-        lgate['A'] = logic[0]
-        lgate['B'] = logic[1]
-        outputLogic.append(lgate['C'])
+        lgate.setInputs(logic[0],logic[1])
+        outputLogic.append(lgate.output())
     print outputLogic
-    if outputLogic != [True, True, False, True]:
+    if outputLogic != [1, 1, 0, 1]:
         assert False
 
 def NOR_test():
-    lgate = Nor()
+    lgate = NOR(0,0)
     outputLogic = []
 
     inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
     for logic in inputLogic:
-        lgate['A'] = logic[0]
-        lgate['B'] = logic[1]
-        outputLogic.append(lgate['C'])
+        lgate.setInputs(logic[0],logic[1])
+        outputLogic.append(lgate.output())
     print outputLogic
-    if outputLogic != [True, False, False, False]:
+    if outputLogic != [1, 0, 0, 0]:
         assert False
 
 def XOR_test():
-    lgate = Xor()
+    lgate = XOR(0,0)
     outputLogic = []
 
     inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
     for logic in inputLogic:
-        lgate['A'] = logic[0]
-        lgate['B'] = logic[1]
-        outputLogic.append(lgate['C'])
+        lgate.setInputs(logic[0],logic[1])
+        outputLogic.append(lgate.output())
     print outputLogic
-    if outputLogic != [False, True, False, True]:
+    if outputLogic != [0, 1, 0, 1]:
         assert False
 
 def XNOR_test():
-    lgate = Xnor()
+    lgate = XNOR(0,0)
     outputLogic = []
 
     inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
     for logic in inputLogic:
-        lgate['A'] = logic[0]
-        lgate['B'] = logic[1]
-        outputLogic.append(lgate['C'])
+        lgate.setInputs(logic[0],logic[1])
+        outputLogic.append(lgate.output())
     print outputLogic
-    if outputLogic != [True, False, True, False]:
+    if outputLogic != [1, 0, 1, 0]:
         assert False
+        

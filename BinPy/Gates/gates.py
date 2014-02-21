@@ -153,7 +153,7 @@ class OR(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			self._updateResult(False)
 			self._updateHistory() # Update the inputs after a computation
 			
 			for i in self.inputs:
