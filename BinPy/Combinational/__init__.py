@@ -1,1 +1,1 @@
-from decoder import *
+from combinational import *

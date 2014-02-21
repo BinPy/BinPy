@@ -1,7 +1,7 @@
 import sys
 import time
 import threading
-from BinPy import Connector, LC
+from BinPy import Connector
 
 class Clock(threading.Thread):
     """
