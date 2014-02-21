@@ -1,7 +1,10 @@
 class Connector:
 
 	state = 0 # To store the state of the connection
-	connections = list() # To store the all the taps onto this connection
+	
+
+	def __init__(self):
+		self.connections = list() # To store the all the taps onto this connection
 
 	def tap(self,element,mode):
 		self.connections.append([element,mode]) # Add an element to the connections list

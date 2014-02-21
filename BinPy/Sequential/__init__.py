@@ -1,1 +1,1 @@
-from Sequential import *
+from sequential import *
