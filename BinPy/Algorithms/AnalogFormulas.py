@@ -18,7 +18,7 @@ class OhmsLaw:
         DictKeys: 'i', 'v', 'r', 'p'
         '''
         values = [i, v, r, p]
-        if (any(j < 0) for j in values):
+        if (any((j != None and j < 0) for j in values)):
             raise Exception('enter positive values')
         else:
             if not p:
