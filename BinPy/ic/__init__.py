@@ -1,1 +1,1 @@
-from series_7400_1 import *
+from series_7400 import *
