@@ -1,5 +1,5 @@
 -----------
-# BinPy
+# [BinPy](http://binpy.github.io/)
 -----------
 
 [![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
@@ -26,77 +26,54 @@ Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
 ```python
 from BinPy import *
 
-NOR1 = Nor('NOR1')  #First NOR gate
-NOR2 = Nor('NOR2')  #Second NOR gate
+a = Connector()
+b = Connector()
 
-NOR2.C.connect(NOR1.B)  #Connecting output of second NOR with input of first NOR
-NOR1.C.connect(NOR2.A)  #Connecting output of first NOR with input of second NOR
+g1 = NOR(R,b)
+g1.setOutput(a)    # SET OUTPUT as a
 
-# Set state
-NOR1['A'] = 1
-NOR2['B'] = 0
-print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
+g2 = NOR(S,a) 
+g2.setOutput()    # SET OUTPUT as b
 
-NOR1['A'] = 0
-NOR2['B'] = 1
-print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
-
-# Hold state
-NOR1['A'] = 0
-NOR2['B'] = 0
-print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
-
-# Invalid State
-NOR1['A'] = 1
-NOR2['B'] = 1
-print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
+print [g1.output(),g2.output]
 ```
-
 <strong>Output</strong>
 ```python
-Q:  True 	Q':  False
-Q:  False 	Q':  True
-Q:  False 	Q':  True
-Q:  False 	Q':  False
+Q:  True       Q':  False
+Q:  False      Q':  True
+Q:  False      Q':  True
+Q:  False      Q':  False
 ```
+
 <strong>Operations, Combinatonal Logic and Algorithms</strong>
 
 ```python
 from BinPy import *
 
 #Operations
-operator = Operation()
-print operator.add([1,0,1,1],[1,1])
-print operator.subtract([1,0,1,1],[1,1])
+operator = Operations()
+operator.ADD(1011,11)
+operator.SUB(1011,11)
+operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
+
 
 #Combinational Logic
-myMUX = MUX()
-print "MUX Out: ", myMUX.run([1,0,0,0,1,1,1,1],[0,0,1])
+d = Decoder([1,1,0,1])
+d.output('01')
+
+#Sequential Circuits
+a = DFlipFlop(1,0)
+a.output()
 
 #Algorithms 
 #Includes the Quine-McCluskey algorithm for solving K-Maps
 FinalEquation = QM(['A','B'])
 print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1,2],[])[1])
-
-
-#IC
-myIC = IC_7400()
-p = {1:1,2:0,4:0,5:0,7:0,10:1,9:1,13:0,12:0,14:1}
-myIC.setIC(p)
-print "IC_7400 Out: ", myIC.run()
-
-myIC1 = IC_7401()
-p = {2:0,3:1,5:0,6:0,7:0,8:1,9:1,11:0,12:0,14:1}
-myIC1.setIC(p)
-print "IC_7401 Out: ", myIC1.run()
 ```
+
 <strong>Output</strong><br/>
 ```python
-{'carry': 0, 'sum': [1, 1, 1, 0]}
-{'carry': 1, 'difference': [1, 0, 0, 0]}
-MUX Out:  0
-IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
-IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
+DFlipFlop Output: [1,0]
 Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 
@@ -164,7 +141,7 @@ Install using **git**
 
     
 
-Future Works
+Future Work
 ------------
 * Introduction of all ICs
 * Introduction of problem solving algorithms
