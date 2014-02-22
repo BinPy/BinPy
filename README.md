@@ -1,3 +1,17 @@
+-----------
+# BinPy
+-----------
+
+[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
+
+ * [About](#about)
+ * [Installation](#installation)
+ * [Available Resources](#resources)
+ * [Documentation](#documentation)
+ * [Contribute](#contribute)
+
+
+<a id="about"></a>
 What is BinPy?
 ---------------
 This package will serve as a base to develop circuit based applications or logical games on top of it. 
@@ -18,21 +32,24 @@ NOR2 = Nor('NOR2')  #Second NOR gate
 NOR2.C.connect(NOR1.B)  #Connecting output of second NOR with input of first NOR
 NOR1.C.connect(NOR2.A)  #Connecting output of first NOR with input of second NOR
 
+# Set state
+NOR1['A'] = 1
+NOR2['B'] = 0
+print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
 
-NOR1.A.set(1);NOR2.B.set(0)	#Set state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+NOR1['A'] = 0
+NOR2['B'] = 1
+print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
 
+# Hold state
+NOR1['A'] = 0
+NOR2['B'] = 0
+print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
 
-NOR1.A.set(0);NOR2.B.set(1)	#Reset state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
-
-
-NOR1.A.set(0);NOR2.B.set(0)	#Hold state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
-
-
-NOR1.A.set(1);NOR2.B.set(1)	#Invalid state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+# Invalid State
+NOR1['A'] = 1
+NOR2['B'] = 1
+print 'Q: ',NOR2['C'], '\t','Q\': ',NOR1['C']
 ```
 
 <strong>Output</strong>
@@ -82,6 +99,8 @@ Minimized Boolean Equation : ((NOT B) OR (NOT A))
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
 ```
+
+<a id="resources"></a>
 Available Resources
 -------------------
 * All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
@@ -120,6 +139,31 @@ Available Resources
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
 	* Moore Machine Optimizer
 
+<a id="documentation"></a>
+Documentation
+-------------
+Auto-generated documentation is available for reference at [BinPy docs](http://packages.python.org/BinPy/index.html)
+
+<a id="installation"></a>
+Installation
+------------
+
+### Linux
+
+Install with **pip**
+
+    sudo apt-get install pip setuptools ipython
+    sudo pip install https://github.com/BinPy/BinPy/zipball/master
+
+Install using **git**
+
+    sudo apt-get install git setuptools ipython
+    git clone https://github.com/BinPy/BinPy.git
+    cd BinPy/
+    sudo python setup.py install
+
+    
+
 Future Works
 ------------
 * Introduction of all ICs
@@ -128,6 +172,14 @@ Future Works
 * Graphical representation of the circuit
 * ...
 
+<a id="contribute"></a>
+
+How To Contribute
+-----------------
+
+ - [Report Bugs and Issues](https://github.com/BinPy/BinPy/issues)
+ - [Solve Bugs and Issues](https://github.com/BinPy/BinPy/issues?page=1&state=open)
+ - Write Tutorials, Examples and Documentation
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mrsud/binpy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
