@@ -84,7 +84,7 @@ def test_IC_7400():
     p = {1:1,2:0,4:0,5:0,7:0,10:1,9:1,13:0,12:0,14:1}
     testIC.setIC(p)
     q = {3:1,6:1,8:0,11:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_741G00():
@@ -92,7 +92,7 @@ def test_IC_741G00():
      p = {1:1,2:0,3:0,5:1}
      testIC.setIC(p)
      q = {4:1}
-     if q!=testIC.run()
+     if q!=testIC.run():
         assert False
 
 def test_IC_7401():
@@ -100,7 +100,7 @@ def test_IC_7401():
     p = {2:0,3:0,5:0,6:1,7:0,9:1,8:1,11:1,12:1,14:1}
     testIC.setIC(p)
     q = {1:1,4:1,10:0,13:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7402():
@@ -108,7 +108,7 @@ def test_IC_7402():
     p = {2:0,3:0,5:0,6:1,7:0,9:1,8:1,11:1,12:1,14:1}
     testIC.setIC(p)
     q = {1:1,4:0,10:0,13:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_741G02():
@@ -116,7 +116,7 @@ def test_IC_741G02():
     p = {1:1,2:0,3:0,5:1}
     testIC.setIC(p)
     q = {4:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7403():
@@ -124,7 +124,7 @@ def test_IC_7403():
     p = {1:1,2:0,4:0,5:0,7:0,10:1,9:1,13:0,12:0,14:1}
     testIC.setIC(p)
     q = {3:1,6:1,8:0,11:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_741G03():
@@ -132,7 +132,7 @@ def test_IC_741G03():
     p = {1:1,2:0,3:0,5:1}
     testIC.setIC(p)
     q = {4:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7404():
@@ -140,7 +140,7 @@ def test_IC_7404():
     p = {1:1,3:0,5:0,9:0,11:0,13:1,7:0,14:1}
     testIC.setIC(p)
     q = {2:0,4:1,6:1,8:1,10:1,12:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_741G04():
@@ -148,7 +148,7 @@ def test_IC_741G04():
     p = {2:0,3:0,5:1}
     testIC.setIC(p)
     q = {4:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7405():
@@ -156,7 +156,7 @@ def test_IC_7405():
     p = {1:1,3:0,5:0,9:0,11:0,13:1,7:0,14:1}
     testIC.setIC(p)
     q = {2:0,4:1,6:1,8:1,10:1,12:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_741G05():
@@ -164,7 +164,7 @@ def test_IC_741G05():
     p = {2:1,3:0,5:1}
     testIC.setIC(p)
     q = {4:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7408():
@@ -172,7 +172,7 @@ def test_IC_7408():
     p = {1:1,2:0,4:0,5:0,7:0,10:1,9:1,13:0,12:0,14:1}
     testIC.setIC(p)
     q = {3:0,6:0,8:1,11:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_741G08():
@@ -180,7 +180,7 @@ def test_IC_741G08():
     p = {1:1,2:0,3:0,5:1}
     testIC.setIC(p)
     q = {4:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7410():
@@ -188,7 +188,7 @@ def test_IC_7410():
     p = {1:1,2:0,13:0,3:0,4:0,5:0,9:1,10:1,11:1,14:1,7:0}
     testIC.setIC(p)
     q = {12:1,6:1,8:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7411():
@@ -196,7 +196,7 @@ def test_IC_7411():
     p = {1:1,2:0,13:0,3:0,4:0,5:0,9:1,10:1,11:1,14:1,7:0}
     testIC.setIC(p)
     q = {12:0,6:0,8:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7412():
@@ -204,7 +204,7 @@ def test_IC_7412():
     p = {1:1,2:0,13:0,3:0,4:0,5:0,9:1,10:1,11:1,14:1,7:0}
     testIC.setIC(p)
     q = {12:1,6:1,8:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7413():
@@ -212,7 +212,7 @@ def test_IC_7413():
     p = {1:1,2:0,4:0,5:0,9:1,10:1,12:1,13:1,14:1,7:0}
     testIC.setIC(p)
     q = {6:1,8:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7415():
@@ -220,7 +220,7 @@ def test_IC_7415():
     p = {1:1,2:0,13:0,3:0,4:0,5:0,9:1,10:1,11:1,14:1,7:0}
     testIC.setIC(p)
     q = {12:0,6:0,8:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7420():
@@ -228,7 +228,7 @@ def test_IC_7420():
     p = {1:1,2:0,4:0,5:0,9:1,10:1,12:1,13:1,14:1,7:0}
     testIC.setIC(p)
     q = {6:1,8:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7421():
@@ -236,7 +236,7 @@ def test_IC_7421():
     p = {1:1,2:0,4:0,5:0,9:1,10:1,12:1,13:1,14:1,7:0}
     testIC.setIC(p)
     q = {6:0,8:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7422():
@@ -244,7 +244,7 @@ def test_IC_7422():
     p = {1:1,2:0,4:0,5:0,9:1,10:1,12:1,13:1,14:1,7:0}
     testIC.setIC(p)
     q = {6:1,8:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7442():
@@ -252,7 +252,7 @@ def test_IC_7442():
     p = {15:1,14:0,13:0,12:0,8:0,16:1}
     testIC.setIC(p)
     q = {1:1,2:0,3:1,4:1,5:1,6:1,7:1,9:1,10:1,11:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7443():
@@ -260,7 +260,7 @@ def test_IC_7443():
     p = {15:1,14:0,13:1,12:0,8:0,16:1}
     testIC.setIC(p)
     q = {1:1,2:1,3:0,4:1,5:1,6:1,7:1,9:1,10:1,11:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7444():
@@ -268,7 +268,7 @@ def test_IC_7444():
     p = {15:1,14:0,13:1,12:0,8:0,16:1}
     testIC.setIC(p)
     q = {1:1,2:1,3:1,4:0,5:1,6:1,7:1,9:1,10:1,11:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7451():
@@ -276,7 +276,7 @@ def test_IC_7451():
     p = {2:1,3:0,4:0,5:0,7:0,1:1,13:1,12:1,11:0,10:0,9:0,14:1}
     testIC.setIC(p)
     q = {6:1,8:0}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7454():
@@ -284,7 +284,7 @@ def test_IC_7454():
     p = {1:1,2:0,3:0,4:0,7:0,10:1,9:1,11:0,12:0,13:0,14:1}
     testIC.setIC(p)
     q = {6:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
  
 def test_IC_7455():
@@ -292,7 +292,7 @@ def test_IC_7455():
     p = {1:1,2:0,3:0,4:0,7:0,10:1,9:1,11:0,12:0,13:0,14:1}
     testIC.setIC(p)
     q = {8:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False
 
 def test_IC_7458():
@@ -300,5 +300,5 @@ def test_IC_7458():
     p = {2:0,3:0,4:0,5:0,7:0,1:1,13:1,12:1,11:0,10:0,9:0,14:1}
     testIC.setIC(p)
     q = {6:0,8:1}
-    if q!=testIC.run()
+    if q!=testIC.run():
         assert False     
