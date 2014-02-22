@@ -1,5 +1,5 @@
 -----------
-# BinPy
+# [BinPy](http://binpy.github.io/)
 -----------
 
 [![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
@@ -37,7 +37,7 @@ g2.setOutput()    # SET OUTPUT as b
 
 print [g1.output(),g2.output]
 ```
--<strong>Output</strong>
+<strong>Output</strong>
 ```python
 Q:  True       Q':  False
 Q:  False      Q':  True
@@ -52,12 +52,18 @@ from BinPy import *
 
 #Operations
 operator = Operations()
-operator.add(1011,11)
-operator.subtract(1011,11)
+operator.ADD(1011,11)
+operator.SUB(1011,11)
+operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
+
 
 #Combinational Logic
 d = Decoder([1,1,0,1])
 d.output('01')
+
+#Sequential Circuits
+a = DFlipFlop(1,0)
+a.output()
 
 #Algorithms 
 #Includes the Quine-McCluskey algorithm for solving K-Maps
@@ -67,9 +73,7 @@ print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1
 
 <strong>Output</strong><br/>
 ```python
-{'carry': 0, 'sum': [1, 1, 1, 0]}
-{'carry': 1, 'difference': [1, 0, 0, 0]}
-MUX Out:  0
+DFlipFlop Output: [1,0]
 Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 
@@ -137,7 +141,7 @@ Install using **git**
 
     
 
-Future Works
+Future Work
 ------------
 * Introduction of all ICs
 * Introduction of problem solving algorithms
