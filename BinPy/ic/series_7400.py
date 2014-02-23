@@ -24,7 +24,7 @@ class Base_5pin(IC):
     def setPin(self, pin_no, pin_value):
         if pin_no<1 or pin_no>5:
 	    raise Exception("ERROR: There are only 5 pins in this IC")
-    	self.pins[pin_no] = pin_value
+        self.pins[pin_no] = pin_value
 
 class Base_14pin(IC):
     """
@@ -33,7 +33,7 @@ class Base_14pin(IC):
     def setPin(self, pin_no, pin_value):
         if pin_no<1 or pin_no>14:
 	    raise Exception("ERROR: There are only 14 pins in this IC")
-    	self.pins[pin_no] = pin_value
+        self.pins[pin_no] = pin_value
 
 class Base_16pin(IC):
     """
@@ -42,7 +42,7 @@ class Base_16pin(IC):
     def setPin(self, pin_no, pin_value):
         if pin_no<1 or pin_no>16:
 	    raise Exception("ERROR: There are only 16 pins in this IC")
-    	self.pins[pin_no] = pin_value
+        self.pins[pin_no] = pin_value
 
 ######## IC's with 14 pins #################################
 
@@ -55,7 +55,7 @@ class IC_7400(Base_14pin):
     
     def run(self):
         output = {}
-	output[3] = NAND(self.pins[1],self.pins[2]).output()
+        output[3] = NAND(self.pins[1],self.pins[2]).output()
         output[6] = NAND(self.pins[4],self.pins[5]).output()
         output[8] = NAND(self.pins[9],self.pins[10]).output()
         output[11] =NAND(self.pins[12],self.pins[13]).output()
@@ -73,7 +73,7 @@ class IC_7401(Base_14pin):
     
     def run(self):
         output = {}
-	output[1] = NAND(self.pins[2],self.pins[3]).output()
+        output[1] = NAND(self.pins[2],self.pins[3]).output()
         output[4] = NAND(self.pins[5],self.pins[6]).output()
         output[10] = NAND(self.pins[8],self.pins[9]).output()
         output[13] =NAND(self.pins[11],self.pins[12]).output()
@@ -91,7 +91,7 @@ class IC_7402(Base_14pin):
     
     def run(self):
         output = {}
-	output[1] = NOR(self.pins[2],self.pins[3]).output()
+        output[1] = NOR(self.pins[2],self.pins[3]).output()
         output[4] = NOR(self.pins[5],self.pins[6]).output()
         output[10] = NOR(self.pins[8],self.pins[9]).output()
         output[13] =NOR(self.pins[11],self.pins[12]).output()
@@ -109,7 +109,7 @@ class IC_7403(Base_14pin):
     
     def run(self):
         output = {}
-	output[3] = NAND(self.pins[1],self.pins[2]).output()
+        output[3] = NAND(self.pins[1],self.pins[2]).output()
         output[6] = NAND(self.pins[4],self.pins[5]).output()
         output[8] = NAND(self.pins[9],self.pins[10]).output()
         output[11] =NAND(self.pins[12],self.pins[13]).output()
@@ -275,7 +275,7 @@ class IC_7416(Base_14pin):
 	output[8] = NOT(self.pins[9]).output()
 	output[10] = NOT(self.pins[11]).output()
 	output[12] = NOT(self.pins[13]).output()
-        if self.pins[7] == 0 and self.pins[14] == 1:
+	if self.pins[7] == 0 and self.pins[14] == 1:
             return output
         else:
             print "Ground and VCC pins have not been configured correctly."
@@ -395,7 +395,7 @@ class IC_7424(Base_14pin):
         output = {}        
         output[3] = NAND(self.pins[1],self.pins[2]).output()
         output[6] = NAND(self.pins[4],self.pins[5]).output()
-	output[8] = NAND(self.pins[10],self.pins[9]).output()
+        output[8] = NAND(self.pins[10],self.pins[9]).output()
         output[11] = NAND(self.pins[12],self.pins[13]).output()
         if self.pins[7] == 0 and self.pins[14] == 1:
             return output
@@ -429,7 +429,7 @@ class IC_7426(Base_14pin):
         output = {}        
         output[3] = NAND(self.pins[1],self.pins[2]).output()
         output[6] = NAND(self.pins[4],self.pins[5]).output()
-	output[8] = NAND(self.pins[9],self.pins[10]).output()
+        output[8] = NAND(self.pins[9],self.pins[10]).output()
         output[11] = NAND(self.pins[12],self.pins[13]).output()
         if self.pins[7] == 0 and self.pins[14] == 1:
             return output
@@ -464,7 +464,7 @@ class IC_7428(Base_14pin):
         output = {}        
         output[1] = NOR(self.pins[2],self.pins[3]).output()
         output[4] = NOR(self.pins[5],self.pins[6]).output()
-	output[10] = NOR(self.pins[8],self.pins[9]).output()
+        output[10] = NOR(self.pins[8],self.pins[9]).output()
         output[13] = NOR(self.pins[11],self.pins[12]).output()
         if self.pins[7] == 0 and self.pins[14] == 1:
             return output
@@ -496,9 +496,9 @@ class IC_7432(Base_14pin):
     def run(self):
         output = {}        
         output[3] = OR(self.pins[1],self.pins[2]).output()
-	output[6] = OR(self.pins[4],self.pins[5]).output()
-	output[8] = OR(self.pins[9],self.pins[10]).output() 
-	output[11] = OR(self.pins[12],self.pins[13]).output()
+        output[6] = OR(self.pins[4],self.pins[5]).output()
+        output[8] = OR(self.pins[9],self.pins[10]).output() 
+        output[11] = OR(self.pins[12],self.pins[13]).output()
         if self.pins[7] == 0 and self.pins[14] == 1:
             return output
         else:
@@ -514,9 +514,9 @@ class IC_7433(Base_14pin):
     def run(self):
         output = {}        
         output[1] = NOR(self.pins[2],self.pins[3]).output()
-	output[4] = NOR(self.pins[5],self.pins[6]).output()
-	output[10] = NOR(self.pins[8],self.pins[9]).output()
-	output[13] = NOR(self.pins[11],self.pins[12]).output()
+        output[4] = NOR(self.pins[5],self.pins[6]).output()
+        output[10] = NOR(self.pins[8],self.pins[9]).output()
+        output[13] = NOR(self.pins[11],self.pins[12]).output()
         if self.pins[7] == 0 and self.pins[14] == 1:
             return output
         else:
@@ -532,9 +532,9 @@ class IC_7437(Base_14pin):
     def run(self):
         output = {}        
         output[3] = NAND(self.pins[1],self.pins[2]).output()
-	output[6] = NAND(self.pins[4],self.pins[5]).output()
-	output[8] = NAND(self.pins[9],self.pins[10]).output()
-	output[11] = NAND(self.pins[12],self.pins[13]).output()
+        output[6] = NAND(self.pins[4],self.pins[5]).output()
+        output[8] = NAND(self.pins[9],self.pins[10]).output()
+        output[11] = NAND(self.pins[12],self.pins[13]).output()
         if self.pins[7] == 0 and self.pins[14] == 1:
             return output
         else:
@@ -550,9 +550,9 @@ class IC_7438(Base_14pin):
     def run(self):
         output = {}        
         output[3] = NAND(self.pins[1],self.pins[2]).output()
-	output[6] = NAND(self.pins[4],self.pins[5]).output()
-	output[8] = NAND(self.pins[9],self.pins[10]).output()
-	output[11] = NAND(self.pins[12],self.pins[13]).output()
+        output[6] = NAND(self.pins[4],self.pins[5]).output()
+        output[8] = NAND(self.pins[9],self.pins[10]).output()
+        output[11] = NAND(self.pins[12],self.pins[13]).output()
         if self.pins[7] == 0 and self.pins[14] == 1:
             return output
         else:
@@ -765,11 +765,11 @@ class IC_7431(Base_16pin):
     def run(self):
         output = {}        
         output[2] = NOT(self.pins[1]).output()
-	output[7] = NAND(self.pins[5],self.pins[6]).output()
-	output[14] = NOT(self.pins[15]).output()
-	output[9] = NAND(self.pins[10],self.pins[11]).output()
-	output[4] = self.pins[3]
-	output[12] = self.pins[13]
+        output[7] = NAND(self.pins[5],self.pins[6]).output()
+        output[14] = NOT(self.pins[15]).output()
+        output[9] = NAND(self.pins[10],self.pins[11]).output()
+        output[4] = self.pins[3]
+        output[12] = self.pins[13]
 
         if self.pins[8] == 0 and self.pins[16] == 1:
             return output
