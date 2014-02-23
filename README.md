@@ -65,6 +65,17 @@ d.output('01')
 a = DFlipFlop(1,0)
 a.output()
 
+#IC
+myIC = IC_7400()
+p = {1:1,2:0,4:0,5:0,7:0,10:1,9:1,13:0,12:0,14:1}
+myIC.setIC(p)
+print "IC_7400 Out: ", myIC.run()
+
+myIC1 = IC_7401()
+p = {2:0,3:1,5:0,6:0,7:0,8:1,9:1,11:0,12:0,14:1}
+myIC1.setIC(p)
+print "IC_7401 Out: ", myIC1.run()
+
 #Algorithms 
 #Includes the Quine-McCluskey algorithm for solving K-Maps
 FinalEquation = QM(['A','B'])
@@ -74,6 +85,8 @@ print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1
 <strong>Output</strong><br/>
 ```python
 DFlipFlop Output: [1,0]
+IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
+IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
 Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 
@@ -91,27 +104,49 @@ Available Resources
 	
 * IC
 	* 7400
-	* 741G00
 	* 7401
 	* 7402
-	* 741G02
 	* 7403
-	* 741G03
 	* 7404
-	* 741G04
 	* 7405
-	* 741G05
 	* 7408
-	* 741G08
 	* 7410
 	* 7411
-	* 7442
-	* 7443
-	* 7444
+	* 7412
+	* 7413
+	* 7415
+	* 7416
+	* 7417
+	* 7418
+	* 7419
+	* 7420
+	* 7421
+	* 7422
+	* 7424
+	* 7425
+	* 7426
+	* 7427
+	* 7428
+	* 7430
+	* 7432
+	* 7433
+	* 7437
+	* 7440
 	* 7451
 	* 7454
 	* 7455
 	* 7458
+	* 741G00
+	* 741G02
+	* 741G03
+	* 741G04
+	* 741G05
+	* 741G08
+	* 7431
+	* 7442
+	* 7443
+	* 7444
+
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
 	* Moore Machine Optimizer
