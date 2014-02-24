@@ -42,8 +42,9 @@ class Operations:
 			input1 = str(input1)
 
 		result = bin(int(input1,2) ^ int(len(input1)*'1',2))[2:]
+		temp = bin(int(result,2) + int('1',2))[2:]
 		if str(option) == '1':
-			return result
+			return (len(input1) - len(result)) * '0' + result
 		else:
-			return bin(int(result,2) + int('1',2))[2:]
+			return (len(input1) - len(temp)) * temp[0] + temp
 
