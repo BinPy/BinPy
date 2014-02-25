@@ -660,6 +660,78 @@ class IC_7458(Base_14pin):
         else:
             print "Ground and VCC pins have not been configured correctly."
 
+class IC_7464(Base_14pin):
+    """
+    This is a 4-2-3-2 input AND-OR-invert gate
+    """
+
+    #Datasheet here, http://www.skot9000.com/ttl/datasheets/64.pdf
+
+    def __init__(self):
+        self.pins = [None,0,0,0,0,0,0,0,None,0,0,0,0,0,0]
+
+    def run(self):
+        output = {}
+        output[8] = NOR(AND(self.pins[2],self.pins[3]).output(),
+                        AND(self.pins[9],self.pins[10]).output(),
+                        AND(self.pins[1],self.pins[11],self.pins[13],self.pins[12]).output(),
+                        AND(self.pins[4],self.pins[5],self.pins[6]).output()).output()
+
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            return output
+        else:
+            print "Ground and VCC pins have not been configured correctly"
+
+class IC_7486(Base_14pin):
+    """
+    This is a quad 2-input exclusive OR gate
+    """
+
+    #Datasheet here, http://www.skot9000.com/ttl/datasheets/86.pdf
+
+    def __init__(self):
+        self.pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
+
+    def run(self):
+        output = {}
+        
+        output[3] = XOR(self.pins[1],self.pins[2]).output()
+
+        output[6] = XOR(self.pins[4],self.pins[5]).output()
+        
+        output[8] = XOR(self.pins[9],self.pins[10]).output()
+
+        output[11] = XOR(self.pins[12],self.pins[13]).output()
+        
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            return output
+        else:
+            print "Ground and VCC pins have not been configured correctly"
+
+class IC_74260(Base_14pin):
+    """
+    This is a dual 5-input NOR gate
+    """
+
+    #Datasheet here, http://www.skot9000.com/ttl/datasheets/260.pdf
+
+    def __init__(self):
+        self.pins = [None,0,0,0,0,None,None,0,0,0,0,0,0,0,0]
+
+    def run(self):
+        output = {}
+        
+        output[5] = NOR(self.pins[1],self.pins[2],self.pins[3],
+                      self.pins[12],self.pins[13]).output()
+
+        output[6] = NOR(self.pins[4],self.pins[8],self.pins[9],
+                      self.pins[10],self.pins[11]).output()
+        
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            return output
+        else:
+            print "Ground and VCC pins have not been configured correctly"
+
 ######## IC's with 5 pins #################################
 
 class IC_741G00(Base_5pin):
@@ -942,3 +1014,83 @@ class IC_7444(Base_16pin):
             return output
         else:
             print "Ground and VCC pins have not been configured correctly."
+
+class IC_7445(Base_16pin):
+
+    """
+    This is a Four-to-Ten (BCD to Decimal) DECODER
+    datasheet at http://www.skot9000.com/ttl/datasheets/45.pdf
+    """
+    def __init__(self):
+        self.pins = [None,None,None,None,None,None,None,None,0,None,None,None,0,0,0,0,0]
+
+    def run(self):
+        output = {}
+        inputlist = []
+        for i in xrange(12, 16, 1):
+            inputlist.append(self.pins[i])
+        
+        invalidlist = [[1,0,1,0], [1,0,1,1], [1,1,0,0], [1,1,0,1], [1,1,1,0], [1,1,1,1]]
+
+        if inputlist in invalidlist:
+            raise Exception("ERROR: Invalid Pin configuration")
+
+        output[1] = NAND(NOT(self.pins[15]).output(),NOT(self.pins[14]).output(),
+                      NOT(self.pins[13]).output(),NOT(self.pins[12]).output()).output()
+
+        output[2] = NAND(self.pins[15],NOT(self.pins[14]).output(),
+                      NOT(self.pins[13]).output(),NOT(self.pins[12]).output()).output()
+
+        output[3] = NAND(NOT(self.pins[15]).output(),self.pins[14],
+                      NOT(self.pins[13]).output(),NOT(self.pins[12]).output()).output()
+
+        output[4] = NAND(NOT(self.pins[15]).output(),self.pins[14],
+                      NOT(self.pins[13]).output(),NOT(self.pins[12]).output()).output()
+
+        output[5] = NAND(NOT(self.pins[15]).output(),NOT(self.pins[14]).output(),
+                      self.pins[13],NOT(self.pins[12]).output()).output()
+
+        output[6] = NAND(self.pins[15],NOT(self.pins[14]).output(),
+                      self.pins[13],NOT(self.pins[12]).output()).output()
+
+        output[7] = NAND(NOT(self.pins[15]).output(),self.pins[14],
+                      self.pins[13],NOT(self.pins[12]).output()).output()
+
+        output[9] = NAND(self.pins[15],self.pins[14],
+                      self.pins[13],NOT(self.pins[12]).output()).output()
+
+        output[10] = NAND(NOT(self.pins[15]).output(),NOT(self.pins[14]).output(),
+                      NOT(self.pins[13]).output(),self.pins[12]).output()
+
+        output[11] = NAND(self.pins[15],NOT(self.pins[14]).output(),
+                      NOT(self.pins[13]).output(),self.pins[12]).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            return output
+        else:
+            print "Ground and VCC pins have not been configured correctly."
+
+class IC_74133(Base_16pin):
+    """
+    This is a 13-input NAND gate
+    """
+
+    #Datasheet here, http://www.skot9000.com/ttl/datasheets/133.pdf
+
+    def __init__(self):
+        self.pins = [None,0,0,0,0,0,0,0,0,None,0,0,0,0,0,0,0]
+
+    def run(self):
+        output = {}
+
+        output[9] = NAND(self.pins[1],self.pins[2],self.pins[3],self.pins[4],
+                      self.pins[5],self.pins[6],self.pins[7],self.pins[10],
+                      self.pins[11],self.pins[12],self.pins[13],self.pins[14],
+                      self.pins[15]).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            return output
+        else:
+            print "Ground and VCC pins have not been configured correctly"
+
+
