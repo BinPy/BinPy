@@ -137,8 +137,8 @@ Available Resources
 	* 7455
 	* 7458
 	* 7464
-        * 7486
-        * 741G00
+	* 7486
+	* 741G00
 	* 741G02
 	* 741G03
 	* 741G04
@@ -148,9 +148,9 @@ Available Resources
 	* 7442
 	* 7443
 	* 7444
-        * 7445
-        * 74133
-        * 74260
+	* 7445
+	* 74133
+	* 74260
 
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
