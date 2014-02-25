@@ -33,7 +33,7 @@ g1 = NOR(R,b)
 g1.setOutput(a)    # SET OUTPUT as a
 
 g2 = NOR(S,a) 
-g2.setOutput()    # SET OUTPUT as b
+g2.setOutput(b)    # SET OUTPUT as b
 
 print [g1.output(),g2.output]
 ```
@@ -136,7 +136,9 @@ Available Resources
 	* 7454
 	* 7455
 	* 7458
-	* 741G00
+	* 7464
+        * 7486
+        * 741G00
 	* 741G02
 	* 741G03
 	* 741G04
@@ -146,6 +148,9 @@ Available Resources
 	* 7442
 	* 7443
 	* 7444
+        * 7445
+        * 74133
+        * 74260
 
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
