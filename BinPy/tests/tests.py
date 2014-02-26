@@ -79,6 +79,50 @@ def XNOR_test():
     if outputLogic != [1, 0, 1, 0]:
         assert False
 
+def MUX_test():
+    mux = MUX([0,1])
+    if mux.output('0') != 0:
+    	assert False
+    if mux.output('1') != 1:
+    	assert False
+
+    mux = MUX([0,1,0,1])
+    if mux.output('00') != 0:
+    	assert False
+    if mux.output('01') != 1:
+    	assert False
+    if mux.output('10') != 0:
+    	assert False
+    if mux.output('11') != 1:
+    	assert False
+
+def Decoder_test():
+    decoder = Decoder('0')
+    q = [1,0]
+    if decoder.output() != q:
+        assert False
+    decoder = Decoder('1')
+    q = [0,1]
+    if decoder.output() != q:
+        assert False
+    
+    decoder = Decoder('00')
+    q = [1,0,0,0]
+    if decoder.output() != q:
+        assert False
+    decoder = Decoder('01')
+    q = [0,1,0,0]
+    if decoder.output() != q:
+        assert False
+    decoder = Decoder('10')
+    q = [0,0,1,0]
+    if decoder.output() != q:
+        assert False
+    decoder = Decoder('11')
+    q = [0,0,0,1]
+    if decoder.output() != q:
+        assert False
+
 ######## IC's with 14 pins #################################
 
 def test_IC_7400():
