@@ -1,5 +1,5 @@
 # [BinPy](http://binpy.github.io/)
------------
+==================================
 
 [![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
 
@@ -87,7 +87,6 @@ print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1
 {'carry': 1, 'difference': [1, 0, 0, 0]}
 MUX Out:  0
 Minimized Boolean Equation : ((NOT B) OR (NOT A))
-=======
 DFlipFlop Output: [1,0]
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
