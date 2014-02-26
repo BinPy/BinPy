@@ -58,8 +58,14 @@ operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
 m = MUX([1,1,0,1])
 print "MUX Out: ", m.output('01')
 
+d = DEMUX(0)
+print "DEMUX Out: ", d.output('01')
+
 d = Decoder('01')
 print "Decoder Out: ", d.output()
+
+e = Encoder([0, 1, 0, 0])
+print "Encoder Out: ", e.output()
 
 #Sequential Circuits
 a = DFlipFlop(1,0)
@@ -87,7 +93,9 @@ print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1
 {'carry': 0, 'sum': [1, 1, 1, 0]}
 {'carry': 1, 'difference': [1, 0, 0, 0]}
 MUX Out: 1
+DEMUX Out: [0, 0, 0, 0]
 Decoder Out:  [0, 1, 0, 0]
+Encoder Out: '01'
 DFlipFlop Out: [1, 0]
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
@@ -100,7 +108,9 @@ Available Resources
 * All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
 * Combinational logics
 	* MUX
+	* DEMUX
 	* Decoder
+	* Encoder
 	
 * IC
 	* 7400
