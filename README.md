@@ -12,8 +12,7 @@
 <a id="about"></a>
 What is BinPy?
 ---------------
-This package will serve as a base to develop circuit based applications or logical games on top of it. 
-This package does not depend on any external library other than pure Python.
+It is a library which will serve as a base to develop circuit based applications and educational software on top of it. BinPy is a clear representation of fundamentals. Everything has been written from scratch such as gates, logical operations, etc. This package does not depend on any external library other than pure Python. It aims to extend the hardware programming concepts to Python.
 
 How to use
 ----------
