@@ -139,7 +139,7 @@ class IC_4023(Base_14pin):
 
 class IC_4025(Base_14pin):
     """
-    Triple 3 input NAND gate
+    Triple 3 input NOR gate
     Pin_6 = NOR(Pin_3, Pin_4, Pin_5)
     Pin_9 = NOR(Pin_1, Pin_2, Pin_8)
     Pin_10 = NOR(Pin_11, Pin_12, Pin_13)
