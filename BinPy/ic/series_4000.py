@@ -95,6 +95,7 @@ class IC_4011(Base_14pin):
         else:
             print "Ground and VCC pins have not been configured correctly."
 
+
 class IC_4012(Base_14pin):
     """
     Dual 4 input NAND gate
@@ -112,4 +113,46 @@ class IC_4012(Base_14pin):
             return output
         else:
             print "Ground and VCC pins have not been configured correctly."
+            
 
+
+class IC_4023(Base_14pin):
+    """
+    Triple 3 input NAND gate
+    Pin_6 = NAND(Pin_3, Pin_4, Pin_5)
+    Pin_9 = NAND(Pin_1, Pin_2, Pin_8)
+    Pin_10 = NAND(Pin_11, Pin_12, Pin_13)
+    """
+    def __init__(self):
+        self.pins = [None,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    
+    def run(self):
+        output = {}
+        output[6] = NAND(self.pins[3],self.pins[4],self.pins[5]).output()
+        output[9] = NAND(self.pins[1],self.pins[2],self.pins[8]).output()
+        output[10] = NAND(self.pins[11],self.pins[12],self.pins[13]).output()
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            return output
+        else:
+            print "Ground and VCC pins have not been configured correctly."
+
+
+class IC_4025(Base_14pin):
+    """
+    Triple 3 input NAND gate
+    Pin_6 = NOR(Pin_3, Pin_4, Pin_5)
+    Pin_9 = NOR(Pin_1, Pin_2, Pin_8)
+    Pin_10 = NOR(Pin_11, Pin_12, Pin_13)
+    """
+    def __init__(self):
+        self.pins = [None,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    
+    def run(self):
+        output = {}
+        output[6] = NOR(self.pins[3],self.pins[4],self.pins[5]).output()
+        output[9] = NOR(self.pins[1],self.pins[2],self.pins[8]).output()
+        output[10] = NOR(self.pins[11],self.pins[12],self.pins[13]).output()
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            return output
+        else:
+            print "Ground and VCC pins have not been configured correctly."
