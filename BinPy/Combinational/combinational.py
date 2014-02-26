@@ -9,7 +9,7 @@ class Decoder:
 
 	def output(self,select):
 
-		if pow(len(select),2) == len(self.inputs):
+		if pow(2,len(select)) == len(self.inputs):
 			return self.inputs[int(select,2)]
 		else:
 			raise Exception("ERROR: Number of select lines not consistent with inputs")
