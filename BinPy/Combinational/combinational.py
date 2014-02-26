@@ -88,7 +88,7 @@ class Demultiplexer:
 
     def output(self,select,data):
 
-        if (pow(2,len(select)) == len(self.inputs) and data == 1):   
+        if (pow(2,len(select)) == len(self.inputs) and len(data) == 1):   
             return self.inputs[int(select,2)]
         else:
             raise Exception("ERROR: Number of select lines not consistent with inputs")
