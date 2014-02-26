@@ -56,11 +56,11 @@ operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
 
 #Combinational Logic
 d = Decoder([1,1,0,1])
-d.output('01')
+print "Decoder Out: ", d.output('01')
 
 #Sequential Circuits
 a = DFlipFlop(1,0)
-a.output()
+print "DFlipFlop Out: ", a.output()
 
 #IC
 myIC = IC_7400()
@@ -83,11 +83,11 @@ print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1
 ```python
 {'carry': 0, 'sum': [1, 1, 1, 0]}
 {'carry': 1, 'difference': [1, 0, 0, 0]}
-MUX Out:  0
-Minimized Boolean Equation : ((NOT B) OR (NOT A))
-DFlipFlop Output: [1,0]
+Decoder Out:  1
+DFlipFlop Out: [1,0]
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
+Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 
 <a id="resources"></a>
