@@ -1,4 +1,4 @@
-clafrom BinPy.Gates import *
+from BinPy.Gates import *
 from BinPy.ic import *
 from BinPy.Algorithms import *
 from BinPy.tools import *
@@ -101,4 +101,3 @@ class Demultiplexer:
             return None
 
         self.inputs = inputs[:]        
-
