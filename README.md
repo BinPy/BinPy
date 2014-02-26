@@ -1,5 +1,4 @@
 # [BinPy](http://binpy.github.io/)
-==================================
 
 [![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
 
