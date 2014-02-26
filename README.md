@@ -1,6 +1,4 @@
------------
 # [BinPy](http://binpy.github.io/)
------------
 
 [![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
 
@@ -14,8 +12,7 @@
 <a id="about"></a>
 What is BinPy?
 ---------------
-This package will serve as a base to develop circuit based applications or logical games on top of it. 
-This package does not depend on any external library other than pure Python.
+It is a library which will serve as a base to develop circuit based applications and educational software on top of it. BinPy is a clear representation of fundamentals. Everything has been written from scratch such as gates, logical operations, etc. This package does not depend on any external library other than pure Python. It aims to extend the hardware programming concepts to Python.
 
 How to use
 ----------
@@ -39,10 +36,10 @@ print [g1.output(),g2.output]
 ```
 <strong>Output</strong>
 ```python
-Q:  True       Q':  False
-Q:  False      Q':  True
-Q:  False      Q':  True
-Q:  False      Q':  False
+Q:  True 	Q':  False
+Q:  False 	Q':  True
+Q:  False 	Q':  True
+Q:  False 	Q':  False	#Invalid State
 ```
 
 <strong>Operations, Combinatonal Logic and Algorithms</strong>
@@ -84,10 +81,13 @@ print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1
 
 <strong>Output</strong><br/>
 ```python
+{'carry': 0, 'sum': [1, 1, 1, 0]}
+{'carry': 1, 'difference': [1, 0, 0, 0]}
+MUX Out:  0
+Minimized Boolean Equation : ((NOT B) OR (NOT A))
 DFlipFlop Output: [1,0]
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
-Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 
 <a id="resources"></a>
