@@ -244,7 +244,7 @@ class logic():
         return logic(AND(self.value,right.value).output())
         #Returns a logic instance corresponding to the boolean value of the output of BinPy's AND Gate implementation
         
-    def __invert__(self,right):
+    def __invert__(self):
         '''NOT Gate'''
         return logic(NOT(self.value).output())
         #Returns a logic instance corresponding to the boolean value of the output of BinPy's NOT Gate implementation
