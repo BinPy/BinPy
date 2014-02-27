@@ -942,3 +942,57 @@ class IC_7444(Base_16pin):
             return output
         else:
             print "Ground and VCC pins have not been configured correctly."
+
+
+class IC_744511(Base_16pin):
+
+    """
+    This is a BCD to seven ssegment decoder
+    BCD Digits are in order of D C B A where pin 6=D,pin 2 = C,pin 1 =B
+    and pin 7 = A 
+    """
+
+    def __init__(self):
+        self.pins=[None,0,0,1,1,0,0,0,0,None,None,None,None,None,None,None,0]
+
+    def run(self):
+        output={}
+        inputlist=[]
+        inputlist.append(self.pins[6])
+        inputlist.append(self.pins[2])
+        inputlist.append(self.pins[1])
+        inputlist.append(self.pins[7])
+
+            
+        invalidlist=[[1,0,1,0],[1,0,1,1],[1,1,0,0],[1,1,0,1],[1,1,1,0],[1,1,1,1]]
+
+        if inputlist in invalidlist or self.pins[4]==0:
+            for i in xrange(9,16):
+                output[i]=0
+            return output
+        elif self.pins[3]==0:
+            for i in xrange(9,16):
+                output[i]=1
+            return output
+            
+        else:
+            output[9]=OR(NOR(self.pins[7],self.pins[2]).output(),
+                         AND(NOT(self.pins[7]).output(),self.pins[1]).output()).output()
+            output[10]=OR(NOR(self.pins[7],self.pins[2]).output(),self.pins[6],
+                          AND(NOT(self.pins[2]).output(),self.pins[1]).output(),AND(NOT(self.pins[7]).output(),self.pins[1]).output(),
+                          AND(NOT(self.pins[1]).output(),self.pins[7],self.pins[2]).output()).output()
+            output[11]=OR(self.pins[7],NOT(self.pins[1]).output(),self.pins[2]).output()
+            output[12]=OR(NOR(self.pins[7],self.pins[1]).output(),AND(self.pins[7],self.pins[1]).output(),
+                          NOT(self.pins[2]).output()).output()
+            output[13]=OR(NOR(self.pins[7],self.pins[2]).output(),AND(self.pins[7],self.pins[2]).output(),
+                          self.pins[1],self.pins[6]).output()
+            output[14]=OR(self.pins[6],XOR(self.pins[2],self.pins[1]).output(),
+                          AND(NOT(self.pins[7]).output(),self.pins[1]).output()).output()
+            output[15]=OR(self.pins[6],NOR(self.pins[7],self.pins[1]).output(),
+                          AND(NOT(self.pins[7]).output(),self.pins[2]).output(),AND(NOT(self.pins[1]).output(),self.pins[2]).output()).output()
+            
+        if self.pins[8] == 0 and self.pins[16] == 1 and self.pins[5]==0:
+            return output
+        else:
+            print "Ground and VCC or enable pins have not been configured correctly."
+

@@ -428,3 +428,13 @@ def test_IC_7444():
     q = {1:1,2:1,3:1,4:0,5:1,6:1,7:1,9:1,10:1,11:1}
     if q!=testIC.run():
         assert False
+
+def test_IC_744511():
+    testIC=IC_744511()
+    p={6:1,2:0,1:0,7:1,8:0,16:1}
+    testIC.setIC(p)
+    q={9: 0, 10: 1, 11: 1, 12: 1, 13: 1, 14: 1, 15: 1}
+    if q!=testIC.run():
+        assert False
+
+
