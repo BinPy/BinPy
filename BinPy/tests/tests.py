@@ -428,3 +428,34 @@ def test_IC_7444():
     q = {1:1,2:1,3:1,4:0,5:1,6:1,7:1,9:1,10:1,11:1}
     if q!=testIC.run():
         assert False
+
+######## Tests for Latches ##################################
+
+def test_SRLatch():
+    srlatch = SRLatch(0,0)
+    output = []
+
+    inputs = [(0, 0), (1, 0),(0,0), (1, 1), (0, 1), (0,0)]    # input (1, 1) not allowed
+
+    for logic in inputs:
+        srlatch.setInputs(logic[0],logic[1])
+        output.append(srlatch.getOutput())
+    print output
+    if output != [[1, 0], [0, 1],[0, 1], [0, 0], [1, 0], [1, 0]]:    # output [0,0] is not defined
+        assert False
+
+def test_DLatch():
+    dlatch = DLatch(0,0)
+    output = []
+    """
+    First couple of inputs have enable set to 0
+    Hence the output not defined
+    """
+    inputs = [(0, 0), (1, 0), (1, 1), (0, 1), (0, 1), (1, 1)]
+
+    for logic in inputs:
+        dlatch.setInputs(logic[0],logic[1])
+        output.append(dlatch.output())
+    print output
+    if output != [[1, 0], [1, 0], [1, 0], [0, 1], [0, 1], [1, 0]]:
+        assert False
