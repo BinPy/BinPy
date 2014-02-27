@@ -7,11 +7,11 @@ class SRLatch:
 		self.a = Connector()
 		self.b = Connector()
 
-		self.g1 = NOR(input1,b)
-		self.g1.setOutput(a)
+		self.g1 = NOR(input1,self.b)
+		self.g1.setOutput(self.a)
 
-		self.g2 = NOR(input2,a)
-		self.g2.setOutput(b)
+		self.g2 = NOR(input2,self.a)
+		self.g2.setOutput(self.b)
 
 	def setInputs(self,input1,input2):
 
