@@ -22,7 +22,7 @@ class SRLatch:
 		self.g1.setInput(0,input1)
 		self.g2.setInput(0,input2)
 
-	def getOutput(self):
+	def output(self):
 
 		return [self.g1.output(), self.g2.output()]
 
