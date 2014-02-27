@@ -80,97 +80,173 @@ def XNOR_test():
         assert False
 
 def MUX_test():
-    mux = MUX([0, 1])
-    if mux.output('0') != 0:
-    	assert False
-    if mux.output('1') != 1:
-    	assert False
+    mux = MUX(0, 1)
+    mux.selectLines(0)
+    if mux.output() != 0:
+        assert False
+    mux.selectLines(1)
+    if mux.output() != 1:
+        assert False
 
-    mux = MUX([0, 1, 0, 1])
-    if mux.output('00') != 0:
-    	assert False
-    if mux.output('01') != 1:
-    	assert False
-    if mux.output('10') != 0:
-    	assert False
-    if mux.output('11') != 1:
-    	assert False
+    mux = MUX(0, 1, 0, 1)
+    mux.selectLines(0, 0)
+    if mux.output() != 0:
+        assert False
+    mux.selectLines(0, 1)
+    if mux.output() != 1:
+        assert False
+    mux.selectLines(1, 0)
+    if mux.output() != 0:
+        assert False
+    mux.selectLines(1, 1)
+    if mux.output() != 1:
+        assert False
+    
+    a = Connector()
+    b = Connector()
+    NOT(1).setOutput(a)
+    NOT(0).setOutput(b)
+    mux = MUX(0, 1, 0, 1)
+    mux.selectLines(a, b)
+    if mux.output() != 1:
+        assert False
+    mux.selectLine(1, a)
+    if mux.output() != 0:
+        assert False
+    mux.setInput(0, 1)
+    if mux.output() !=1:
+        assert False    
 
 def DEMUX_test():
     demux = DEMUX(0)
+    demux.selectLines(0)
     q = [0, 0]
-    if demux.output('0') != q:
-    	assert False
-    if demux.output('1') != q:
-    	assert False
+    if demux.output() != q:
+        assert False
+    demux.selectLines(1)
+    if demux.output() != q:
+        assert False
     demux = DEMUX(1)
+    demux.selectLines(0)
     q = [1, 0]
-    if demux.output('0') != q:
-    	assert False
+    if demux.output() != q:
+        assert False
+    demux.selectLines(1)    
     q = [0, 1]
-    if demux.output('1') != q:
-    	assert False
+    if demux.output() != q:
+        assert False
 
     demux = DEMUX(0)
+    demux.selectLines(0, 0)
     q = [0, 0, 0, 0]
-    if demux.output('00') != q:
-    	assert False
-    if demux.output('01') != q:
-    	assert False
+    if demux.output() != q:
+        assert False
+    demux.selectLines(0, 1)
+    if demux.output() != q:
+        assert False
     demux = DEMUX(1)
+    demux.selectLines(1, 0)
     q = [0, 0, 1, 0]
-    if demux.output('10') != q:
-    	assert False
+    if demux.output() != q:
+        assert False
+    demux.selectLines(1, 1)
     q = [0, 0, 0, 1]
-    if demux.output('11') != q:
-    	assert False
+    if demux.output() != q:
+        assert False
+
+    a = Connector()
+    b = Connector()
+    NOT(1).setOutput(a)
+    NOT(0).setOutput(b)
+    demux = DEMUX(0)
+    demux.selectLines(a, 0)
+    q = [0, 0, 0, 0]
+    if demux.output() != q:
+        assert False
+    demux.setInputs(b)
+    demux.selectLine(1,b)
+    q = [0, 1, 0, 0]
+    if demux.output() != q:
+        assert False
 
 def Decoder_test():
-    decoder = Decoder('0')
+    decoder = Decoder(0)
     q = [1, 0]
     if decoder.output() != q:
         assert False
-    decoder = Decoder('1')
+    decoder = Decoder(1)
     q = [0, 1]
     if decoder.output() != q:
         assert False
-    
-    decoder = Decoder('00')
+
+    decoder = Decoder(0, 0)
     q = [1, 0, 0, 0]
     if decoder.output() != q:
         assert False
-    decoder = Decoder('01')
+    decoder = Decoder(0, 1)
     q = [0, 1, 0, 0]
     if decoder.output() != q:
         assert False
-    decoder = Decoder('10')
+    decoder = Decoder(1, 0)
     q = [0, 0, 1, 0]
     if decoder.output() != q:
         assert False
-    decoder = Decoder('11')
+    decoder = Decoder(1, 1)
     q = [0, 0, 0, 1]
+    if decoder.output() != q:
+        assert False
+
+    a = Connector()
+    b = Connector()
+    NOT(1).setOutput(a)
+    NOT(0).setOutput(b)
+    decoder = Decoder(a, a)
+    q = [1, 0, 0, 0]
+    if decoder.output() != q:
+        assert False
+    decoder.setInput(1, b)
+    q = [0, 1, 0, 0]
     if decoder.output() != q:
         assert False
 
 def Encoder_test():
-    encoder = Encoder([0, 1])
-    if encoder.output() != '1':
+    encoder = Encoder(0, 1)
+    q = [1]
+    if encoder.output() != q:
         assert False
-    encoder = Encoder([1, 0])
-    if encoder.output() != '0':
+    encoder = Encoder(1, 0)
+    q = [0]
+    if encoder.output() != q:
         assert False
-    
-    encoder = Encoder([1, 0, 0, 0])
-    if encoder.output() != '00':
+
+    encoder = Encoder(1, 0, 0, 0)
+    q = [0, 0]
+    if encoder.output() != q:
         assert False
-    encoder = Encoder([0, 1, 0, 0])
-    if encoder.output() != '01':
+    encoder = Encoder(0, 1, 0, 0)
+    q = [0, 1]
+    if encoder.output() != q:
         assert False
-    encoder = Encoder([0, 0, 1, 0])
-    if encoder.output() != '10':
+    encoder = Encoder(0, 0, 1, 0)
+    q = [1, 0]
+    if encoder.output() != q:
         assert False
-    encoder = Encoder([0, 0, 0, 1])
-    if encoder.output() != '11':
+    encoder = Encoder(0, 0, 0, 1)
+    q = [1, 1]
+    if encoder.output() != q:
+        assert False
+
+    a = Connector()
+    b = Connector()
+    NOT(1).setOutput(a)
+    NOT(0).setOutput(b)
+    encoder = Encoder(a, 0, 0, 1)
+    q = [1, 1]
+    if encoder.output() != q:
+        assert False
+    encoder.setInputs(b, 0, 0, a)
+    q = [0, 0]
+    if encoder.output() != q:
         assert False
 
 ######## IC's with 14 pins #################################
@@ -432,7 +508,7 @@ def test_IC_7454():
     q = {6:1}
     if q!=testIC.run():
         assert False
- 
+
 def test_IC_7455():
     testIC = IC_7455()
     p = {1:1,2:0,3:0,4:0,7:0,10:1,9:1,11:0,12:0,13:0,14:1}
@@ -481,7 +557,7 @@ def test_IC_741G00():
      testIC.setIC(p)
      q = {4:1}
      if q!=testIC.run():
-        assert False
+         assert False
 
 def test_IC_741G02():
     testIC = IC_741G02()
@@ -555,7 +631,7 @@ def test_IC_7444():
     q = {1:1,2:1,3:1,4:0,5:1,6:1,7:1,9:1,10:1,11:1}
     if q!=testIC.run():
         assert False
-        
+
 def test_IC_7445():
     testIC = IC_7445()
     p = {15:0,14:0,13:1,12:0,8:0,16:1}
