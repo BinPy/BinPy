@@ -478,7 +478,7 @@ def test_IC_4081():
         assert False
 
 def test_IC_4082():
-    testIC = IC_4081()
+    testIC = IC_4082()
     p = {2:1,3:1,4:1,5:1,9:1,10:1,11:1,12:0,14:1}
     testIC.setIC(p)
     q = {1:1,13:0}
