@@ -55,16 +55,18 @@ operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
 
 
 #Combinational Logic
-m = MUX([1,1,0,1])
-print "MUX Out: ", m.output('01')
+m = MUX(1,1,0,1)
+m.selectLines(0,1)
+print "MUX Out: ", m.output()
 
 d = DEMUX(0)
-print "DEMUX Out: ", d.output('01')
+d.selectLines(0,1)
+print "DEMUX Out: ", d.output()
 
-d = Decoder('01')
+d = Decoder(0,1)
 print "Decoder Out: ", d.output()
 
-e = Encoder([0, 1, 0, 0])
+e = Encoder(0, 1, 0, 0)
 print "Encoder Out: ", e.output()
 
 #Sequential Circuits
@@ -94,8 +96,8 @@ print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1
 {'carry': 1, 'difference': [1, 0, 0, 0]}
 MUX Out: 1
 DEMUX Out: [0, 0, 0, 0]
-Decoder Out:  [0, 1, 0, 0]
-Encoder Out: '01'
+Decoder Out: [0, 1, 0, 0]
+Encoder Out: [0, 1]
 DFlipFlop Out: [1, 0]
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
