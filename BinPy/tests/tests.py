@@ -472,7 +472,7 @@ def test_IC_74133():
 def test_SR():
     testSR = SRLatch()
     p = testSR(1,0,1)+testSR(0,1,1)+testSR(1,0,0)
-    if p != [1,0,1,0,1,0]:
+    if p != [1,0,0,1,0,1]:
         assert False
 
 def test_JK():
@@ -502,5 +502,6 @@ def test_binaryCounter():
 def test_NBitRippleCounter():
     test_C = NBitRippleCounter(4)
     p = test_C()+test_C.trigger(1)+test_C.trigger(1)+test_C.trigger(1)+test_C.trigger(1)
-    if p != [0, 0, 0, 0,   0, 0, 0, 1,   0, 0, 1, 0,   0, 0, 1, 1,   0, 1, 0, 0]
+    print p
+    if p != [0, 0, 0, 0,   0, 0, 0, 1,   0, 0, 1, 0,   0, 0, 1, 1,   0, 1, 0, 0]:
         assert False
