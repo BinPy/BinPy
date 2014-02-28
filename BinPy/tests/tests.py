@@ -468,3 +468,39 @@ def test_IC_74133():
     q = {9:1}
     if q!=testIC.run():
         assert False
+
+def test_SR():
+    testSR = SRLatch()
+    p = testSR(1,0,1)+testSR(0,1,1)+testSR(1,0,0)
+    if p != [1,0,1,0,1,0]:
+        assert False
+
+def test_JK():
+    testJK = JKFlipFlop()
+    p = testJK(1,0,1)+testJK(0,1,1)+testJK(1,1,1)+testJK(1,1,0)
+    if p!= [1,0,0,1,1,0,1,0]:
+        assert False
+        
+def test_D():
+    testD = DFlipFlop()
+    p = testD(1,0)+testD(0,1)+testD(1,1)+testD(0,0)
+    if p != [0,1,0,1,1,0,1,0]:
+        assert False
+
+def test_T():
+    testT = TFlipFlop()
+    p = testT(1,0)+testT(0,1)+testT(1,1)+testT(0,0)
+    if p != [0,1,0,1,1,0,1,0]:
+        assert False
+
+def test_binaryCounter():
+    test_bC = BinaryCounter()
+    p = test_bC()+test_bC.trigger(1)+test_bC.trigger(1)+test_bC.trigger(1)+test_bC.trigger(1)
+    if p != [0,0,0,1,1,0,1,1,0,0]:
+        assert False
+
+def test_NBitRippleCounter():
+    test_C = NBitRippleCounter(4)
+    p = test_C()+test_C.trigger(1)+test_C.trigger(1)+test_C.trigger(1)+test_C.trigger(1)
+    if p != [0, 0, 0, 0,   0, 0, 0, 1,   0, 0, 1, 0,   0, 0, 1, 1,   0, 1, 0, 0]
+        assert False
