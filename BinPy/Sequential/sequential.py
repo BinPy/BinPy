@@ -1,5 +1,5 @@
 from BinPy import *
-
+from BinPy.Gates import *
 #Rewriting all FlipFlops using behavioural modelling and partially using data flow modelling.
 
 class SRLatch:
@@ -12,9 +12,6 @@ class SRLatch:
     def __call__(self,s,r,enable):
         if enable == 1:
             #Ouput will change only if enable is 1
-            
-            s = AND(s,s)    # s.s = s -> done to make s an instance of GATE class.
-            r = AND(r,r)    # r.r = r -> done to make r an instance of GATE class.
             
             if ( s==1 ) and ( r==0 ) :
                 self.q = NOT(False)

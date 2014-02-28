@@ -502,6 +502,5 @@ def test_binaryCounter():
 def test_NBitRippleCounter():
     test_C = NBitRippleCounter(4)
     p = test_C()+test_C.trigger(1)+test_C.trigger(1)+test_C.trigger(1)+test_C.trigger(1)
-    print p
     if p != [0, 0, 0, 0,   0, 0, 0, 1,   0, 0, 1, 0,   0, 0, 1, 1,   0, 1, 0, 0]:
         assert False
