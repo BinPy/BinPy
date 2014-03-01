@@ -1,5 +1,5 @@
 from BinPy import *
-from nose.tools import with_setup, nottest
+from nose.tools import with_setup, nottest, raises
 
 def AND_test():
     lgate = AND(1,0)
@@ -77,6 +77,32 @@ def XNOR_test():
         outputLogic.append(lgate.output())
     print outputLogic
     if outputLogic != [1, 0, 1, 0]:
+        assert False
+
+######## Combinational circuits #################################
+
+@raises(Exception)
+def test_Decoder_no_inputs():
+    testDecoder = Decoder([])
+
+@raises(Exception)
+def test_Decoder_non_power_2_inputs():
+    testDecoder = Decoder([1, 2, 3])
+
+@raises(Exception)
+def test_Decoder_too_few_select_bits():
+    testDecoder = Decoder([1, 2, 3, 4])
+    testDecoder.output("0")
+
+@raises(Exception)
+def test_Decoder_too_many_select_bits():
+    testDecoder = Decoder([1, 2])
+    testDecoder.output("00")
+
+def test_Decoder():
+    testDecoder = Decoder([1, 2, 3, 4])
+    output = map(testDecoder.output, ["00", "01", "10", "11"])
+    if output != [1, 2, 3, 4]:
         assert False
 
 ######## IC's with 14 pins #################################
@@ -329,7 +355,7 @@ def test_IC_7454():
     q = {6:1}
     if q!=testIC.run():
         assert False
- 
+
 def test_IC_7455():
     testIC = IC_7455()
     p = {1:1,2:0,3:0,4:0,7:0,10:1,9:1,11:0,12:0,13:0,14:1}
@@ -419,7 +445,7 @@ def test_IC_741G08():
     if q!=testIC.run():
         assert False
 
-######## IC's with 16 pins #################################  
+######## IC's with 16 pins #################################
 
 def test_IC_7431():
     testIC = IC_7431()
@@ -452,7 +478,7 @@ def test_IC_7444():
     q = {1:1,2:1,3:1,4:0,5:1,6:1,7:1,9:1,10:1,11:1}
     if q!=testIC.run():
         assert False
-        
+
 def test_IC_7445():
     testIC = IC_7445()
     p = {15:0,14:0,13:1,12:0,8:0,16:1}
