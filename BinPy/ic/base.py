@@ -69,7 +69,7 @@ class IC:
                         v2 = 'Z' if self.pins[j] == None else str(self.pins[j])
 
                         f = ('   ',v1,str(i),ic_name[i],str(j),v2,'   ')
-                    diag += "              |                 |\n"z
+                    diag += "              |                 |\n"
                     diag += " %3s [%1s]   ---| %2s     %1s     %2s |---   [%1s] %3s\n"%f
                     diag += "              |                 |\n"
                 diag += bottom
