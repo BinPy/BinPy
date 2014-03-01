@@ -34,7 +34,7 @@ class IC:
                 diag = top
                 
                 ic_number =  str(self.__class__.__name__.split('_')[-1])
-                ic_name  = ' '*2 + ic_number + ' '*2
+                ic_name  = ' '*2 + ic_number + ' '*10
                 
                 #IC number is obtained by the __class__.__name__ parameter assuming the naming of the class is such
                 #that last 4 digits correspond to the IC Number.
@@ -69,7 +69,7 @@ class IC:
                         v2 = 'Z' if self.pins[j] == None else str(self.pins[j])
 
                         f = ('   ',v1,str(i),ic_name[i],str(j),v2,'   ')
-                    diag += "              |                 |\n"
+                    diag += "              |                 |\n"z
                     diag += " %3s [%1s]   ---| %2s     %1s     %2s |---   [%1s] %3s\n"%f
                     diag += "              |                 |\n"
                 diag += bottom
