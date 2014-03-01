@@ -69,11 +69,13 @@ class GATES:
                                 input_states.append(self.inputs[i])
 		return input_states
 
-	def _updateResult(self,value):
+	def _updateResult(self):
 		
-		self.result = int(value) #Set True or False
+		#self.result = int(value) 
 		if self.outputType == 1:
-			self.outputConnector.state = self.result
+                        if outputConnector.state != None #if the connector was not having a value of None
+                                print('WARNING: Logic Contention detected') #then the new output would mean a contention
+			self.outputConnector.state = self.result #the connector would however be loaded with this result of this gate
 
 	def _updateHistory(self):
 
@@ -133,13 +135,15 @@ class AND(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			self.result = True
 			self._updateHistory() # Update the inputs after a computation
 
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == False) or i == False:
-					self._updateResult(False)
+					self.result = False
 					break
+
+			self._updateResult()
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -159,13 +163,15 @@ class OR(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(False)
+			self.result = False
 			self._updateHistory() # Update the inputs after a computation
 			
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == True) or i == True:
-					self._updateResult(True)
+					self.result = True
 					break
+
+			self._updateResult()
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -175,7 +181,7 @@ class NOT(GATES):
 	def __init__(self,*inputs):
 
 		if len(inputs) != 1:
-			raise Exception("ERROR: NOT Gates takes only one input")
+			raise Exception("ERROR: NOT Gates take only one input")
 			return None
 
 		else:
@@ -187,11 +193,38 @@ class NOT(GATES):
 			self.history_active = 1
 			#self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
-			
-			self._updateResult( not self.inputs[0] )
+			self.result = not self.inputs[0]
+			self._updateResult()
 
 			if self.outputType:
 				self.outputConnector.trigger()
+
+class BUFFER(GATES):
+        ''' Assumes that the first argument is an input to the gate and
+        the second one is the enable input of the buffer.'''
+
+	def __init__(self,*inputs):
+
+		if len(inputs) != 2:
+			raise Exception("ERROR: BUFFER Gates take only two inputs - Input and Enable")
+			return None
+
+		else:
+			GATES.__init__(self,list(inputs))
+
+	def trigger(self):
+
+		if self._compareHistory() == True:
+			self.history_active = 1
+			self.result = None
+			self._updateHistory() # Update the inputs after a computation
+			if inputs[1] == True
+                                self.result = inputs[0]
+			self._updateResult()
+
+			if self.outputType:
+				self.outputConnector.trigger()
+
 
 class XOR(GATES):
 
@@ -208,7 +241,7 @@ class XOR(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			#self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
 			temp = self.inputs[0]
@@ -216,7 +249,8 @@ class XOR(GATES):
 			for i in self.inputs[1:]:
 				temp = temp ^ i
 
-			self._updateResult(temp)
+                        self.result = temp
+			self._updateResult()
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -236,7 +270,7 @@ class XNOR(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			#self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
 			temp = self.inputs[0]
@@ -244,7 +278,8 @@ class XNOR(GATES):
 			for i in self.inputs[1:]:
 				temp = temp ^ i
 
-			self._updateResult( not temp)
+                        self.result = (not temp)
+			self._updateResult()
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -264,7 +299,7 @@ class NAND(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(False)
+			self.result = False
 			self._updateHistory() # Update the inputs after a computation
 			
 			#temp = self.inputs[0]
@@ -273,9 +308,10 @@ class NAND(GATES):
 
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == False) or i == False:
-					self._updateResult(True)
+					self.result=True
 					break
-
+				
+                        self._updateResult()
 			if self.outputType:
 				self.outputConnector.trigger()
 
@@ -294,15 +330,16 @@ class NOR(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			self.result = True
 			self._updateHistory() # Update the inputs after a computation
 			
 			#self._updateResult(True)
 
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == True) or i == True:
-					self._updateResult(False)
+					self.result = False
 					break
+                        self._updateResult()
 
 			if self.outputType:
 				self.outputConnector.trigger()
