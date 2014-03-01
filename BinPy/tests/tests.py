@@ -105,6 +105,24 @@ def test_Decoder():
     if output != [1, 2, 3, 4]:
         assert False
 
+######## Sequential circuits #################################
+
+def test_SRLatch():
+    testLatch = SRLatch(1, 0)
+    assert testLatch.output() == [0, 1]
+
+    testLatch.setInputs(0, 0)
+    assert testLatch.output() == [0, 1]
+
+    testLatch.setInputs(0, 1)
+    assert testLatch.output() == [1, 0]
+
+    testLatch.setInputs(0, 0)
+    assert testLatch.output() == [1, 0]
+
+    testLatch.setInputs(1, 1)
+    assert testLatch.output() == [0, 0]
+
 ######## IC's with 14 pins #################################
 
 def test_IC_7400():

@@ -2,27 +2,33 @@ from BinPy.Gates import *
 
 class SRLatch:
 
-	def __init__(self,input1,input2):
-		
+	def __init__(self, R, S):
+		"""
+		Construct an SRLatch with initial reset input R and set input S.
+		"""
+
 		self.a = Connector()
 		self.b = Connector()
 
-		self.g1 = NOR(input1,b)
-		self.g1.setOutput(a)
+		self.g1 = NOR(R, self.b)
+		self.g1.setOutput(self.a)
 
-		self.g2 = NOR(input2,a)
-		self.g2.setOutput(b)
+		self.g2 = NOR(S, self.a)
+		self.g2.setOutput(self.b)
 
-	def setInputs(self,input1,input2):
+	def setInputs(self, R, S):
+		"""
+		Set this SRLatch's reset input to R and set input to S.
+		Unstable behaviour when transitioning directly from RS = 11 to RS = 00.
+		"""
 
-		if len(inputs) != 2:
-			raise Exception("ERROR: Latch takes two inputs!")
-			return None
+		self.g1.setInputs(R, self.b)
+		self.g2.setInputs(S, self.a)
 
-		self.g1.setInput(0,input1)
-		self.g2.setInput(0,input2)
-
-	def getOutput(self):
+	def output(self):
+		"""
+		Return the output of this SRLatch in the format [Q, ~Q].
+		"""
 
 		return [self.g1.output(), self.g2.output()]
 
