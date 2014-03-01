@@ -223,7 +223,7 @@ if(str(raw_input('Quit - Y/y or N/n - or Simply press Enter to Continue')).lower
 
 
 print '\nUsage of IC 7408:\n'
-ic = IC_7408)
+ic = IC_7408()
 
 print '\nPin configuration\n'
 p = {1:1,2:0,4:0,5:0,7:0,9:1,10:1,12:0,13:0,14:1}
@@ -563,6 +563,3 @@ ic.setIC(ic.run())
 
 print '\nThe final configuration ...'
 ic.drawIC()
-
-if(str(raw_input('Quit - Y/y or N/n - or Simply press Enter to Continue')).lower() == 'y'):
-    sys.exit()
