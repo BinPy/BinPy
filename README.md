@@ -93,7 +93,7 @@ BinPy also comes with a console that is a simple  wrapper around the classic pyt
 
 To start it, simply issue:
 
-$ bynpy
+$ binpy
 
 if BinPy is installed in your path.
 
