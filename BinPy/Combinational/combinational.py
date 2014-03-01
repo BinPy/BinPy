@@ -2,10 +2,7 @@ class Decoder:
 
 	def __init__(self,inputs):
 
-		if not (len(inputs) != 0 and (len(inputs) & (len(inputs) - 1) == 0)):
-			raise Exception("ERROR: Number inputs should be a power of 2")
-			return None
-		self.inputs = inputs[:]
+		self.setInputs(inputs)
 
 	def output(self,select):
 
