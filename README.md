@@ -29,10 +29,10 @@ b = Connector()
 g1 = NOR(R,b)
 g1.setOutput(a)    # SET OUTPUT as a
 
-g2 = NOR(S,a) 
+g2 = NOR(S,a)
 g2.setOutput(b)    # SET OUTPUT as b
 
-print [g1.output(),g2.output]
+print [g1.output(),g2.output()]
 ```
 <strong>Output</strong>
 ```python
@@ -73,7 +73,7 @@ p = {2:0,3:1,5:0,6:0,7:0,8:1,9:1,11:0,12:0,14:1}
 myIC1.setIC(p)
 print "IC_7401 Out: ", myIC1.run()
 
-#Algorithms 
+#Algorithms
 #Includes the Quine-McCluskey algorithm for solving K-Maps
 FinalEquation = QM(['A','B'])
 print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1,2],[])[1])
@@ -101,7 +101,7 @@ Available Resources
 	* MUX (2:1, 4:1, 8:1, 16:1)
 	* DEMUX (1:2, 1:4, 1:8, 1:16)
 	* Encoder
-	
+
 * IC
 	* 7400
 	* 7401
@@ -179,7 +179,7 @@ Install using **git**
     cd BinPy/
     sudo python setup.py install
 
-    
+
 
 Future Work
 ------------
