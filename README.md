@@ -26,13 +26,13 @@ from BinPy import *
 a = Connector()
 b = Connector()
 
-g1 = NOR(R,b)
+g1 = NOR(R,b)	   # SET R as 0/1
 g1.setOutput(a)    # SET OUTPUT as a
 
-g2 = NOR(S,a) 
+g2 = NOR(S,a) 	   # SET S as 0/1
 g2.setOutput(b)    # SET OUTPUT as b
 
-print [g1.output(),g2.output]
+print [g1.output(),g2.output()]
 ```
 <strong>Output</strong>
 ```python
