@@ -45,7 +45,7 @@ class GATES:
 		if index > len(self.inputs):
 			self.inputs.append(value) #If the index is more than the length then append to the list
 			self.history_active = 0 # Dont use history after a new input is added
-			self._updateHistroy() # because history_active is set to 0 trigger will get called irrespective of the history.
+			self._updateHistory() # because history_active is set to 0 trigger will get called irrespective of the history.
 
 		else:
 			self.history_active = 1 # Use history before computing
@@ -134,6 +134,7 @@ class AND(GATES):
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == False) or i == False:
 					self._updateResult(False)
+					break
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -159,6 +160,7 @@ class OR(GATES):
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == True) or i == True:
 					self._updateResult(True)
+					break
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -178,7 +180,7 @@ class NOT(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			#self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
 			self._updateResult( not self.inputs[0] )
@@ -257,16 +259,17 @@ class NAND(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			self._updateResult(False)
 			self._updateHistory() # Update the inputs after a computation
 			
-			temp = self.inputs[0]
+			#temp = self.inputs[0]
 
-			self._updateResult(False)
+			#self._updateResult(False)
 
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == False) or i == False:
 					self._updateResult(True)
+					break
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -289,11 +292,12 @@ class NOR(GATES):
 			self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
-			self._updateResult(True)
+			#self._updateResult(True)
 
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == True) or i == True:
 					self._updateResult(False)
+					break
 
 			if self.outputType:
 				self.outputConnector.trigger()
