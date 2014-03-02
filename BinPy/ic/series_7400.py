@@ -1095,5 +1095,3 @@ class IC_7483(Base_16pin):
         else:
             print "Ground and VCC pins have not been configured correctly"
 
-
-
