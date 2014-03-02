@@ -11,7 +11,7 @@ class GATES:
 		self.history_active = 0 # Ignore history for first computation
 		self.outputType = 0 # 1->output goes to a connector class
 		self.result = 0 #To store the result
-		self.outputConnector = None #Valid only is outputType = 1
+		self.outputConnector = None #Valid only if outputType = 1
 		self.inputs = inputs[:] # Set the inputs
 		self.history_inputs = [] # Save a copy of the inputs
 		self.__updateConnections(self.inputs)
@@ -45,7 +45,7 @@ class GATES:
 		if index > len(self.inputs):
 			self.inputs.append(value) #If the index is more than the length then append to the list
 			self.history_active = 0 # Dont use history after a new input is added
-			self._updateHistroy() # because history_active is set to 0 trigger will get called irrespective of the history.
+			self._updateHistory() # because history_active is set to 0 trigger will get called irrespective of the history.
 
 		else:
 			self.history_active = 1 # Use history before computing
@@ -60,9 +60,14 @@ class GATES:
 
 		self.trigger()
 
-	def inputs(self):
-
-		return self.inputs
+	def getInputStates(self):
+                input_states = []
+                for i in self.inputs:
+                        if isinstance(i, Connector):
+                                input_states.append(self.inputs[i].state)
+                        else:
+                                input_states.append(self.inputs[i])
+		return input_states
 
 	def _updateResult(self,value):
 		
@@ -134,6 +139,7 @@ class AND(GATES):
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == False) or i == False:
 					self._updateResult(False)
+					break
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -159,6 +165,7 @@ class OR(GATES):
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == True) or i == True:
 					self._updateResult(True)
+					break
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -178,7 +185,7 @@ class NOT(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			#self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
 			self._updateResult( not self.inputs[0] )
@@ -257,16 +264,17 @@ class NAND(GATES):
 
 		if self._compareHistory() == True:
 			self.history_active = 1
-			self._updateResult(True)
+			self._updateResult(False)
 			self._updateHistory() # Update the inputs after a computation
 			
-			temp = self.inputs[0]
+			#temp = self.inputs[0]
 
-			self._updateResult(False)
+			#self._updateResult(False)
 
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == False) or i == False:
 					self._updateResult(True)
+					break
 
 			if self.outputType:
 				self.outputConnector.trigger()
@@ -289,11 +297,12 @@ class NOR(GATES):
 			self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
-			self._updateResult(True)
+			#self._updateResult(True)
 
 			for i in self.inputs:
 				if (isinstance(i,Connector) and i.state == True) or i == True:
 					self._updateResult(False)
+					break
 
 			if self.outputType:
 				self.outputConnector.trigger()
