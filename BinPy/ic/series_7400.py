@@ -696,7 +696,6 @@ class IC_74260(Base_14pin):
         else:
             print "Ground and VCC pins have not been configured correctly"
 
-
 ######## IC's with 5 pins #################################
 
 class IC_741G00(Base_5pin):
