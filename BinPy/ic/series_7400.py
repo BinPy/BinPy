@@ -696,6 +696,7 @@ class IC_74260(Base_14pin):
         else:
             print "Ground and VCC pins have not been configured correctly"
 
+
 ######## IC's with 5 pins #################################
 
 class IC_741G00(Base_5pin):
@@ -1056,5 +1057,44 @@ class IC_74133(Base_16pin):
             return output
         else:
             print "Ground and VCC pins have not been configured correctly"
+
+class IC_7483(Base_16pin):
+    """
+    This is a 4-bit full adder with fast carry
+    """
+
+    #Datasheet here, http://www.skot9000.com/ttl/datasheets/83.pdf
+
+    def __init__(self):
+        self.pins = [None,0,None,0,0,0,None,0,0,None,0,0,0,0,None,None,0]
+
+    def run(self):
+        output = {}
+
+        output[9] = XOR(self.pins[10],self.pins[11],self.pins[13]).output()
+
+        carry = OR(AND(self.pins[13],XOR(self.pins[10],self.pins[11]).output()).output(),
+                   AND(self.pins[10],self.pins[11]).output()).output()
+
+        output[6] = XOR(self.pins[8],self.pins[7],carry).output()
+
+	carry = OR(AND(carry,XOR(self.pins[8],self.pins[7]).output()).output(),
+                   AND(self.pins[8],self.pins[7]).output()).output()
+
+        output[2] = XOR(self.pins[3],self.pins[4],carry).output()
+
+        carry = OR(AND(carry,XOR(self.pins[3],self.pins[4]).output()).output(),
+                   AND(self.pins[3],self.pins[4]).output()).output()
+
+        output[15] = XOR(self.pins[1],self.pins[16],carry).output()
+
+        output[14] = OR(AND(carry,XOR(self.pins[1],self.pins[16]).output()).output(),
+                        AND(self.pins[1],self.pins[16]).output()).output()
+
+        if self.pins[12] == 0 and self.pins[5] == 1:
+            return output
+        else:
+            print "Ground and VCC pins have not been configured correctly"
+
 
 
