@@ -42,7 +42,7 @@ class GATES:
 
 	def setInput(self,index,value):
 
-		if index > len(self.inputs):
+		if index >= len(self.inputs):
 			self.inputs.append(value) #If the index is more than the length then append to the list
 			self.history_active = 0 # Dont use history after a new input is added
 			self._updateHistory() # because history_active is set to 0 trigger will get called irrespective of the history.
@@ -54,10 +54,15 @@ class GATES:
 			else:
 				self.history_inputs[index] = self.inputs[index] # Modify the history
 			self.inputs[index] = value
-
 		if isinstance(value,Connector):
-			value.tap(self,'input')
-
+			#Avoid re-tap to the Connector instance if already present
+			self_connected = False
+			for connection in value.connections:
+				if (connection[0] == self) and (connection[1] == 'input'):
+					self_connected = True
+					break
+			if not self_connected:
+				value.tap(self,'input')
 		self.trigger()
 
 	def getInputStates(self):
