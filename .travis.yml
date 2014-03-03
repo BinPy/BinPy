@@ -9,4 +9,5 @@ before install:
 
 script:
  - cd BinPy/tests/
- - nosetests -v tests.py
+ - nosetests -v gates_tests.py
+ - nosetests -v ics_tests.py
