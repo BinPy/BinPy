@@ -1,8 +1,7 @@
 class Operations:
 	
 	'''
-	This class implements the functions ADD, SUB, MUL, DIV, COMP(complement).
-	
+	This class implements the primary arithmetic binary functions ADD, SUB, MUL, DIV, COMP(complement).
 	'''
 
 	def __parseInput(self,input1,input2):
