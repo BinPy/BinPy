@@ -14,12 +14,12 @@ class GATES:
 		self.outputConnector = None #Valid only if outputType = 1
 		self.inputs = inputs[:] # Set the inputs
 		self.history_inputs = [] # Save a copy of the inputs
-		self.__updateConnections(self.inputs)
+		self._updateConnections(self.inputs)
 		self._updateHistory()
 
 		self.trigger() # Any change in the input will trigger change in the output
 	
-	def __updateConnections(self,inputs):
+	def _updateConnections(self,inputs):
 
 		for i in inputs:
 			if isinstance(i,Connector):
@@ -36,7 +36,7 @@ class GATES:
 		else:
 			self.history_active = 1 #Use history before computing
 			self.inputs = list(inputs)[:] # Set the inputs
-			self.__updateConnections(self.inputs)
+			self._updateConnections(self.inputs)
 
 		self.trigger() # Any change in the input will trigger change in the output
 
