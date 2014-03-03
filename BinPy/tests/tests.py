@@ -79,6 +79,33 @@ def XNOR_test():
     if outputLogic != [1, 0, 1, 0]:
         assert False
 
+def NOT_test():
+    lgate = NOT(0)
+    outputLogic = []
+
+    inputLogic = [(0), (1)]
+    
+    for logic in inputLogic:
+        lgate.setInputs(logic[0])
+        outputLogic.append(lgate.output())
+    print outputLogic
+    if outputLogic != [1, 0]:
+        assert False
+
+def BUFFER_test():
+    lgate = BUFFER(0,0)
+    outputLogic = []
+
+    inputLogic = [(0,0), (0,1), (1,0), (1,1)]
+    
+    for logic in inputLogic:
+        lgate.setInputs(logic[0], logic([1])
+        outputLogic.append(lgate.output())
+    print outputLogic
+    if outputLogic != [None, 0, None, 1]:
+        assert False
+
+
 ######## IC's with 14 pins #################################
 
 def test_IC_7400():
