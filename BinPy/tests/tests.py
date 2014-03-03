@@ -84,7 +84,7 @@ def NOT_test():
     outputLogic = []
 
     inputLogic = [(0), (1)]
-    
+
     for logic in inputLogic:
         lgate.setInputs(logic)
         outputLogic.append(lgate.output())
@@ -97,9 +97,9 @@ def BUFFER_test():
     outputLogic = []
 
     inputLogic = [(0,0), (0,1), (1,0), (1,1)]
-    
+
     for logic in inputLogic:
-        lgate.setInputs(logic[0], logic([1])
+        lgate.setInputs(logic[0], logic[1])
         outputLogic.append(lgate.output())
     print outputLogic
     if outputLogic != [None, 0, None, 1]:
@@ -356,7 +356,7 @@ def test_IC_7454():
     q = {6:1}
     if q!=testIC.run():
         assert False
- 
+
 def test_IC_7455():
     testIC = IC_7455()
     p = {1:1,2:0,3:0,4:0,7:0,10:1,9:1,11:0,12:0,13:0,14:1}
@@ -446,7 +446,7 @@ def test_IC_741G08():
     if q!=testIC.run():
         assert False
 
-######## IC's with 16 pins #################################  
+######## IC's with 16 pins #################################
 
 def test_IC_7431():
     testIC = IC_7431()
@@ -479,7 +479,7 @@ def test_IC_7444():
     q = {1:1,2:1,3:1,4:0,5:1,6:1,7:1,9:1,10:1,11:1}
     if q!=testIC.run():
         assert False
-        
+
 def test_IC_7445():
     testIC = IC_7445()
     p = {15:0,14:0,13:1,12:0,8:0,16:1}
@@ -495,7 +495,7 @@ def test_IC_74133():
     q = {9:1}
     if q!=testIC.run():
         assert False
-        
+
 def test_IC_4081():
     testIC = IC_4081()
     p = {1:0,2:0,5:0,6:1,8:1,9:0,12:1,13:1}
