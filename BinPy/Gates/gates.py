@@ -64,10 +64,10 @@ class GATES:
                 input_states = []
                 for i in self.inputs:
                         if isinstance(i, Connector):
-                                input_states.append(self.inputs[i].state)
+                                input_states.append(i.state)
                         else:
-                                input_states.append(self.inputs[i])
-		return input_states
+                                input_states.append(i)
+                return input_states
 
 	def _updateResult(self,value):
 		
