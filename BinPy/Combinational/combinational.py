@@ -1,10 +1,28 @@
-from BinPy import *
+from BinPy.Gates.gates import *
 import math
 
 class MUX(GATES):
     """
-    This class can be used to create MUX in your circuit.
-    It takes 2^n inputs and has n select lines, which are used to select which input line to send to the output.
+    This class can be used to create MUX in your circuit. MUX is used to select 
+    a single output line out of many inputs. This class can be used as any 2^n X n Multiplexer
+    where n is the number of select lines used to select the input out of 2^n input lines.
+    INPUT:          nth index has nth input value, input should be power of 2
+    OUTPUT:         single output, 1 or 0
+    SELECT LINES:   In binary form, select line for 4 will be 1 0 0
+    
+    Example:
+        >>> from BinPy import *
+        >>> mux = MUX(0, 1)            "MUX takes its 2^n inputs (digital or Connector)"
+        >>> mux.selectLines(0)         "Put select Line"
+        >>> mux.output()
+        0                              
+        >>> mux.selectLine(0, 1)       "Select line at index 0 is changed to 1"
+        >>> mux.output()                
+        1
+        >>> mux.setInput(1, 0)         "Input line at index 1 is changed to 0"
+        >>> mux.output()
+        0
+
     """
     def __init__(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
@@ -60,10 +78,22 @@ class MUX(GATES):
 
 class DEMUX(GATES):
     """
-    This class can be used to create de-multiplexer in your circuit.
-    It has one input, n select lines and return one of many data-output-lines, 
-    which is connected to the single input. In case of high input,
-    it works as decoder.
+    This class can be used to create DEMUX in your circuit. DEMUX is used to select 
+    It takes single input and n select lines and decode the select lines into BCD form
+    base upon the input. In case of high input, it works as a decoder.     
+    INPUT:          Single Input, 1 or 0
+    OUTPUT:         BCD form of select lines in case of high input, else low output
+    SELECT LINES:   nth select line at nth index
+    
+    Example:
+        >>> from BinPy import *
+        >>> demux = DEMUX(0)             "DEMUX takes 1 input (digital or Connector)"
+        >>> demux.selectLines(0)         "Put select Lines"
+        >>> demux.output()
+        [0, 0]
+        >>> demux.selectLine(0, 1)       "Select line at index 0 is changed to 1"
+        >>> demux.output()                
+        [0, 1]
     """
     def __init__(self, *inputs):
         if not (len(inputs) == 1):
@@ -146,7 +176,17 @@ class DEMUX(GATES):
 class Decoder(GATES):
     """
     This class can be used to create decoder in your circuit.
-    Input is taken as Binary String and returns the 2^n output.
+    Input is taken as Binary String and returns the equivalent BCD form.
+    INPUT:      n Binary inputs, nth input ant the nth index
+    OUTPUT:     Gives equivalent BCD form
+    
+    Example:
+        >>> decoder = Decoder(0)            "Decoder with 1 input, 0"
+        >>> decoder.output()                
+        [1, 0]
+        >>> decoder.setInputs(0, 1)         "sets the new inputs to the decoder"
+        [0, 1, 0, 1]
+
     """
     def __init__(self, *inputs):
         if not (len(inputs) != 0):
@@ -211,8 +251,16 @@ class Decoder(GATES):
 
 class Encoder(GATES):
     """
-    This class can be used to create encoder in your circuit.
-    Input is taken as an array and returns the binary coded output.
+    This class can be used to create encoder in your circuit. It converts the input BCD form to binary output. It works as the inverse of the decoder
+    INPUT:      Input in BCD form, length of input must me in power of 2
+    OUTPUT:     Encoded Binary Form
+
+    Example:
+        >>> encoder = Encoder(0, 1)             "Encoder with BCD input 01 "
+        >>> encoder.output()                    "Binary Form"
+        [1]
+        >>> encoder.setInputs(0, 0, 0, 1)       "Sets the new inputs"
+        [1 , 1]
     """
     def __init__(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
