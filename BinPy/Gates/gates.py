@@ -292,7 +292,7 @@ class XOR(GATES):
                                         temp = temp ^ (i.state or i.state == None)
                                 else:
                                         temp = temp ^ (i or i == None)
-                        temp = 1
+                        temp = temp ^1
                         self.result = temp
                         self._updateResult()
 
