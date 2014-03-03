@@ -10,7 +10,7 @@ setup(
     description='Virtualizing Electronics',
     long_description=open('README.md').read(),
     packages = find_packages(),
-    package_data={'data': ['docs/LICENSE.txt','README.md']},
+    package_data={'data': ['README.md']},
     include_package_data=True,
     entry_points={'console_scripts':['binpy = BinPy.Shell:shellMain']}
 )
