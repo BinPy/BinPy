@@ -21,18 +21,32 @@ Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
 ![SR latch | Source: Wikipedia](https://upload.wikimedia.org/wikipedia/commons/c/c6/R-S_mk2.gif)
 
 ```python
+
 from BinPy import *
 
-a = Connector()
-b = Connector()
+NOR1 = Nor('NOR1')  #First NOR gate
+NOR2 = Nor('NOR2')  #Second NOR gate
 
-g1 = NOR(R,b)
-g1.setOutput(a)    # SET OUTPUT as a
+NOR2.C.connect(NOR1.B)  #Connecting output of second NOR with input of first NOR
+NOR1.C.connect(NOR2.A)  #Connecting output of first NOR with input of second NOR
 
-g2 = NOR(S,a) 
-g2.setOutput(b)    # SET OUTPUT as b
 
-print [g1.output(),g2.output]
+NOR1.A.set(1);NOR2.B.set(0) #Set state
+print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
+NOR1.A.set(0);NOR2.B.set(1) #Reset state
+print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
+NOR1.A.set(0);NOR2.B.set(0) #Hold state
+print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
+NOR1.A.set(1);NOR2.B.set(1) #Invalid state
+print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
 ```
 <strong>Output</strong>
 ```python
