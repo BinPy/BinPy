@@ -1,4 +1,4 @@
-from BinPy import *
+from BinPy.Combinational.combinational import *
 from nose.tools import with_setup, nottest
 
 def MUX_test():
