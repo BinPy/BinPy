@@ -81,26 +81,36 @@ def XNOR_test():
 
 ######## Combinational circuits #################################
 
-@raises(Exception)
-def test_Decoder_no_inputs():
-    testDecoder = Decoder([])
-
-@raises(Exception)
-def test_Decoder_non_power_2_inputs():
-    testDecoder = Decoder([1, 2, 3])
-
-@raises(Exception)
-def test_Decoder_too_few_select_bits():
-    testDecoder = Decoder([1, 2, 3, 4])
-    testDecoder.output("0")
-
-@raises(Exception)
-def test_Decoder_too_many_select_bits():
-    testDecoder = Decoder([1, 2])
-    testDecoder.output("00")
-
 def test_Decoder():
+    try:
+        # No inputs.
+        testDecoder = Decoder([])
+        assert False
+    except Exception:
+        pass
+
+    try:
+        # Number of inputs not a power of two.
+        testDecoder = Decoder([1, 2, 3])
+        assert False
+    except Exception:
+        pass
+
     testDecoder = Decoder([1, 2, 3, 4])
+    try:
+        # Too few select bits.
+        testDecoder.output("0")
+        assert False
+    except Exception:
+        pass
+
+    try:
+        # Too many select bits.
+        testDecoder.output("000")
+        assert False
+    except Exception:
+        pass
+
     output = map(testDecoder.output, ["00", "01", "10", "11"])
     if output != [1, 2, 3, 4]:
         assert False
