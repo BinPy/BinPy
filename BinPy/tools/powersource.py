@@ -1,4 +1,4 @@
-from BinPy import *
+from BinPy.Gates import *
 
 
 class PowerSource:
@@ -17,7 +17,7 @@ class PowerSource:
                         if not isinstance(connector, Connector):
                                 raise Exception("Error: Input given is not a connector")
                         else:
-                                if len(connector.output_of) != 0:
+                                if len(connector.connections['output']) != 0:
                                         raise Exception("ERROR: The connector is already an output of some other object")
                                 self.taps.append(connector)
                                 connector.state = 1
@@ -34,7 +34,7 @@ class PowerSource:
                                 try:
                                         self.taps.remove(connector)
                                         connector.state = None
-                                        connector.output_of.remove(self)
+                                        connector.connections['output'].remove(self)
                                         connector.trigger()
                                 except:
                                         print ("The specified connector is not tapped to this power source")

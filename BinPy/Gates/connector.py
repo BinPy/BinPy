@@ -5,7 +5,7 @@ class Connector:
         self.connections = {'output': [], 'input': []} # To store the all the taps onto this connection
 
     def tap(self,element,mode):
-        self.connections[mode].append([element]) # Add an element to the connections list
+        self.connections[mode].append(element) # Add an element to the connections list
 
     #This function is called when the value of the connection changes
     def trigger(self):
