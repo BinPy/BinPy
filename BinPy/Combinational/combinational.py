@@ -190,7 +190,7 @@ class Decoder(GATES):
 
     """
     def __init__(self, *inputs):
-        if (len(inputs) == 0):
+        if len(inputs) == 0:
             raise Exception("ERROR: Input Length should be greater than zero")
         GATES.__init__(self, list(inputs))
         self.outputType = []
@@ -215,7 +215,7 @@ class Decoder(GATES):
         self._updateResult(out)
 
     def setInputs(self, *inputs):
-        if len(inputs) == 0):
+        if len(inputs) == 0:
             raise Exception("ERROR: Input length must be greater than zero")
         self.inputs = list(inputs)
         for i in range(len(self.outputType), pow(2, len(self.inputs))):
