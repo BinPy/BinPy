@@ -1,4 +1,3 @@
-
 class OhmsLaw:
     '''
     This class implements Ohm's law for circuit analysis
@@ -70,7 +69,7 @@ class OhmsLaw_AC:
                 if i and v and c and not z:
                     z = float(v/i)
                     p = v*i*c
-                if i and z and and c not v:
+                if i and z and c not v:
                     v = i*z
                     p = (i**2)*z*c
                 if v and z and c and not i:
