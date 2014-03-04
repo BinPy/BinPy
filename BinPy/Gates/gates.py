@@ -122,11 +122,11 @@ class GATES:
 		return self.history_active
 
 class MIGATES(GATES):
-    '''
-    Class implementing functions for Multiple Input Gates
-    '''
+	'''
+	Class implementing functions for Multiple Input Gates
+	'''
 
-    def __init__(self,*inputs):
+	def __init__(self,*inputs):
 
 		if len(inputs) < 2:
 			raise Exception("ERROR: Too few inputs given. Needs at least 2 or more inputs.")
