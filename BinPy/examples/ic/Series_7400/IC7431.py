@@ -4,8 +4,8 @@ ic = IC_7431()
 print '\nThe Pin configuration is:\n'
 p = {1: 1, 3: 1, 5: 0, 6: 0, 8: 0, 10: 1, 11: 1, 13: 0, 15: 1, 16: 1}
 print p
-print '\nPin initinalization\n'
-print ic.setIC(p)
+print '\nPin initialization -using -- ic.setIC(p) --\n'
+ic.setIC(p)
 print '\nPowering up the IC - using -- ic.setIC({14:1,7:0}) -- \n'
 ic.setIC({14:1,7:0})
 print '\nDraw the IC with the current configuration\n'
