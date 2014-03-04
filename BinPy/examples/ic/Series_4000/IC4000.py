@@ -5,7 +5,6 @@ print '\nThe Pin configuration is:\n'
 input = {3: 1, 4: 1, 5: 1, 7: 0, 8: 1, 11: 0, 12: 0, 13: 0, 14: 1}
 print input
 print '\nPin initinalization\n'
-print ic.setIC(input)
 print '\nPowering up the IC - using -- ic.setIC({14: 1, 7: 0}) -- \n'
 ic.setIC({14: 1, 7: 0})
 print '\nDraw the IC with the current configuration\n'
