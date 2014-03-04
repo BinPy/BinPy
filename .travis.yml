@@ -11,3 +11,4 @@ script:
  - cd BinPy/tests/
  - nosetests -v gates_tests.py
  - nosetests -v ics_tests.py
+ - nosetests -v combinational_tests.py
