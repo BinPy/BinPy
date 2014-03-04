@@ -1,4 +1,4 @@
-from BinPy import *
+from BinPy.ic import *
 from nose.tools import with_setup, nottest
 
 ######## IC's with 14 pins #################################
