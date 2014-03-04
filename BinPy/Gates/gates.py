@@ -8,7 +8,7 @@ class GATES:
 	def __init__(self,inputs):
 
 		#Clean Connections before updating new connections
-		self.history_active = 0 # Ignore history for first computation
+		self.history_active = False # Ignore history for first computation
 		self.outputType = 0 # 1->output goes to a connector class
 		self.result = 0 #To store the result
 		self.outputConnector = None #Valid only is outputType = 1
@@ -20,21 +20,21 @@ class GATES:
 		self.trigger() # Any change in the input will trigger change in the output
 	
 	def __updateConnections(self,inputs):
-
+		
 		for i in inputs:
 			if isinstance(i,Connector):
 				i.tap(self,'input')
 
 
 	def setInputs(self,*inputs):
-
+		
 		#Clean Connections before updating new connections
 		if len(inputs) < 2:
 			raise Exception("ERROR: Too few inputs given")
 			return None
 
 		else:
-			self.history_active = 1 #Use history before computing
+			self.setHistoryActive(True) #Use history before computing
 			self.inputs = list(inputs)[:] # Set the inputs
 			self.__updateConnections(self.inputs)
 
@@ -44,11 +44,11 @@ class GATES:
 
 		if index > len(self.inputs):
 			self.inputs.append(value) #If the index is more than the length then append to the list
-			self.history_active = 0 # Dont use history after a new input is added
+			self.setHistoryActive(False) # Dont use history after a new input is added
 			self._updateHistroy() # because history_active is set to 0 trigger will get called irrespective of the history.
 
 		else:
-			self.history_active = 1 # Use history before computing
+			self.setHistoryActive(True) # Use history before computing
 			if isinstance(self.inputs[index],Connector):
 				self.history_inputs[index]  = self.inputs[index].state
 			else:
@@ -61,7 +61,7 @@ class GATES:
 		self.trigger()
 
 	def inputs(self):
-
+		
 		return self.inputs
 
 	def _updateResult(self,value):
@@ -71,7 +71,7 @@ class GATES:
 			self.outputConnector.state = self.result
 
 	def _updateHistory(self):
-
+		
 		for i in range(len(self.inputs)):
 			if isinstance(self.inputs[i],Connector):
 				val1 = self.inputs[i].state
@@ -91,7 +91,7 @@ class GATES:
 		value.tap(self,'output')
 		self.outputType = 1
 		self.outputConnector = value
-		self.history_active = 0
+		self.setHistoryActive(False)
 		self.trigger()
 
 	def output(self):
@@ -101,7 +101,7 @@ class GATES:
 
 	def _compareHistory(self):
 
-		if self.history_active == 1: # Only check history if it is active
+		if self.getHistoryActive(): # Only check history if it is active
 			for i in range(len(self.inputs)):
 				if isinstance(self.inputs[i],Connector):
 					val1 = self.inputs[i].state
@@ -113,21 +113,37 @@ class GATES:
 			return False
 		return True
 
-class AND(GATES):
+	def setHistoryActive(self, active):
+
+		self.history_active = active
+
+	def getHistoryActive(self):
+
+		return self.history_active
+
+class MIGATES(GATES):
+    '''
+    Class implementing functions for Multiple Input Gates
+    '''
+
+    def __init__(self,*inputs):
+
+		if len(inputs) < 2:
+			raise Exception("ERROR: Too few inputs given. Needs at least 2 or more inputs.")
+			return None
+
+		GATES.__init__(self,list(inputs))
+
+class AND(MIGATES):
 
 	def __init__(self,*inputs):
 
-		if len(inputs) < 2:
-			raise Exception("ERROR: Too few inputs given")
-			return None
-
-		else:
-			GATES.__init__(self,list(inputs))
+		GATES.__init__(self,inputs)
 
 	def trigger(self):
 
 		if self._compareHistory() == True:
-			self.history_active = 1
+			self.setHistoryActive(True)
 			self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 
@@ -138,21 +154,16 @@ class AND(GATES):
 			if self.outputType:
 				self.outputConnector.trigger()
 
-class OR(GATES):
+class OR(MIGATES):
 
 	def __init__(self,*inputs):
 
-		if len(inputs) < 2:
-			raise Exception("ERROR: Too few inputs given")
-			return None
-
-		else:
-			GATES.__init__(self,list(inputs))
+		GATES.__init__(self,inputs)
 
 	def trigger(self):
 
 		if self._compareHistory() == True:
-			self.history_active = 1
+			self.setHistoryActive(True)
 			self._updateResult(False)
 			self._updateHistory() # Update the inputs after a computation
 			
@@ -177,7 +188,7 @@ class NOT(GATES):
 	def trigger(self):
 
 		if self._compareHistory() == True:
-			self.history_active = 1
+			self.setHistoryActive(True)
 			self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
@@ -186,21 +197,16 @@ class NOT(GATES):
 			if self.outputType:
 				self.outputConnector.trigger()
 
-class XOR(GATES):
+class XOR(MIGATES):
 
 	def __init__(self,*inputs):
 
-		if len(inputs) < 2:
-			raise Exception("ERROR: Too few inputs given")
-			return None
-
-		else:
-			GATES.__init__(self,list(inputs))
+		GATES.__init__(self,inputs)
 
 	def trigger(self):
 
 		if self._compareHistory() == True:
-			self.history_active = 1
+			self.setHistoryActive(True)
 			self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
@@ -214,21 +220,16 @@ class XOR(GATES):
 			if self.outputType:
 				self.outputConnector.trigger()
 
-class XNOR(GATES):
+class XNOR(MIGATES):
 
 	def __init__(self,*inputs):
 
-		if len(inputs) < 2:
-			raise Exception("ERROR: Too few inputs given")
-			return None
-
-		else:
-			GATES.__init__(self,list(inputs))
+		GATES.__init__(self,inputs)
 
 	def trigger(self):
 
 		if self._compareHistory() == True:
-			self.history_active = 1
+			self.setHistoryActive(True)
 			self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
@@ -242,21 +243,16 @@ class XNOR(GATES):
 			if self.outputType:
 				self.outputConnector.trigger()
 
-class NAND(GATES):
+class NAND(MIGATES):
 
 	def __init__(self,*inputs):
 
-		if len(inputs) < 2:
-			raise Exception("ERROR: Too few inputs given")
-			return None
-
-		else:
-			GATES.__init__(self,list(inputs))
+		GATES.__init__(self,inputs)
 
 	def trigger(self):
 
 		if self._compareHistory() == True:
-			self.history_active = 1
+			self.setHistoryActive(True)
 			self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
@@ -271,21 +267,16 @@ class NAND(GATES):
 			if self.outputType:
 				self.outputConnector.trigger()
 
-class NOR(GATES):
+class NOR(MIGATES):
 
 	def __init__(self,*inputs):
 
-		if len(inputs) < 2:
-			raise Exception("ERROR: Too few inputs given")
-			return None
-
-		else:
-			GATES.__init__(self,list(inputs))
+		GATES.__init__(self,inputs)
 
 	def trigger(self):
 
 		if self._compareHistory() == True:
-			self.history_active = 1
+			self.setHistoryActive(True)
 			self._updateResult(True)
 			self._updateHistory() # Update the inputs after a computation
 			
