@@ -1,7 +1,7 @@
 import sys
 import time
 import threading
-from BinPy.Gates import *
+from BinPy import *
 
 class Clock(threading.Thread):
     """
@@ -79,14 +79,15 @@ class Clock(threading.Thread):
         """
         self.curr_state = not self.curr_state
         for connector in self.taps:
+            connector.state = self.curr_state
             connector.trigger()
         
 
     def __main_func(self):
         while True:
             if self.exitFlag:
-                thread.exit()
-            time.sleep(self.time_period)
+                sys.exit()
+            time.sleep(self.time_period/2.0)
             try:
                 self.__toggleState()
             except:
