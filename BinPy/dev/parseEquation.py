@@ -179,31 +179,31 @@ def eqnParse(eqn,isOperandtype = str.isalpha):
             equation_final = removeBraces(pos,equation_final)
             #print equation_final
         
-        pos = equation_final.find('NOR(NOR(',1)
+        pos = equation_final.find('NOR(NOR(')
         if pos != -1:
             unoptimized = True
-            equation_final = equation_final[:pos]+equation_final[pos:].replace('NOR(NOR(','NOR(')
+            equation_final = equation_final[:pos]+equation_final[pos:].replace('NOR(NOR(','NOR(',1)
             equation_final = removeBraces(pos,equation_final)
             #print equation_final
             
-        pos = equation_final.find('XNOR(XNOR(',1)
+        pos = equation_final.find('XNOR(XNOR(')
         if pos != -1:
             unoptimized = True
-            equation_final = equation_final[:pos]+equation_final[pos:].replace('XNOR(XNOR(','XNOR(')
+            equation_final = equation_final[:pos]+equation_final[pos:].replace('XNOR(XNOR(','XNOR(',1)
             equation_final = removeBraces(pos,equation_final)
             #print equation_final
             
-        pos = equation_final.find('NAND(AND(',1)
+        pos = equation_final.find('NAND(AND(')
         if pos != -1:
             unoptimized = True
-            equation_final = equation_final[:pos]+equation_final[pos:].replace('NAND(AND(','NAND(')
+            equation_final = equation_final[:pos]+equation_final[pos:].replace('NAND(AND(','NAND(',1)
             equation_final = removeBraces(pos,equation_final)
             #print equation_final
             
-        pos = equation_final.find('NOR(OR(',1)
+        pos = equation_final.find('NOR(OR(')
         if pos != -1:
             unoptimized = True
-            equation_final = equation_final[:pos]+equation_final[pos:].replace('NOR(OR(','NOR(')
+            equation_final = equation_final[:pos]+equation_final[pos:].replace('NOR(OR(','NOR(',1)
             equation_final = removeBraces(pos,equation_final)
             #print equation_final
     
