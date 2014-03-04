@@ -2,35 +2,47 @@ import sys
 import ast
 from BinPy import * #Needed so that trial run of the synthesized code can be done
 
-def getCode(icno):
+def getExampleCode(icno,sampleip = None):
+    """
+    Synthesizes the example code for an IC given its IC no. and a sample input to test it.
+    If no sample input is given, the test input in the file ics_tests.py is taken as the sample input.
+    """
     try:
         dict_of_vars = {}
         dict_of_vars['IC_NO']  = str(icno)
         icstr = 'ic = IC_{IC_NO}()'.format(**dict_of_vars)
+            
         try:
             exec icstr
         except Exception,e :
             raise Exception('IC Number not found - '+str(e))
-        f = open('../tests/tests.py')
-        content = f.read()
-        f.close()
+        
+        #Get the total_pins attribute of IC
+        dict_of_vars['PINS'] = eval('IC_{IC_NO}.total_pins'.format(**dict_of_vars))
+        
+        dic = {}
+        if sampleip is None:
+            f = open('../tests/ics_tests.py')
+            content = f.read()
+            f.close()
+            
+            pos = content.find(dict_of_vars['IC_NO']+'()')
+            offset = content[pos:].find('setIC')
+            content = content[ pos : ( pos + offset) ]
 
-        pos = content.find(dict_of_vars['IC_NO']+'()')
-        offset = content[pos:].find('setIC')
-        content = content[ pos : ( pos + offset) ]
-
-        dic = ast.literal_eval(content[content.find('{'):content.find('}')+1])
-
-        # ^ Gets the dictionary of inputs to IC from tests.py
-        # v Tests if the obtained value is a dictionary
-
-        if isinstance(dic,dict):
-            print 'Test pin configuration found! Cool!', dic
+            # Gets the dictionary of inputs to IC from ics_tests.py
+            dic = ast.literal_eval(content[content.find('{'):content.find('}')+1])
         else:
-            print 'Error: Test pin configuration not found'
+            dic = sampleip
+            
+        #Tests if the obtained value is a dictionary
+        if isinstance(dic,dict):
+            print 'Test pin configuration found!', dic
+        else:
+            raise Exception('Test pin configuration not found')
 
         dict_of_vars['PIN_CONF'] = str(dic)
-
+        
         print 'Dictinary of variables to replace in the template code',dict_of_vars
 
         code =  "from BinPy import *\n"
@@ -53,7 +65,6 @@ def getCode(icno):
         code += "print '\\nDraw the final configuration\\n'\n"
         code += "ic.drawIC()"
         
-        
         print 'The final code is \n\n:'+code
         
         print 'Executing it to see if this one runs smoothly'
@@ -68,12 +79,12 @@ while(True):
     icno = raw_input('\n\n\nEnter icno to make an example code : (Enter N/n to quit) ')
     if icno.lower() == 'n' :
         sys.exit()
-    code = getCode(icno)
+    code = getExampleCode(icno)
     if code is None:
         print 'ERROR!!!'
     else:
         print '\n\nWriting to file ... '
-        f = open("IC%s.py".format(icno),'w')
+        f = open("IC"+icno+".py",'w')
         f.write(code)
         f.close()
         print icno+' -- Done!!!' 
