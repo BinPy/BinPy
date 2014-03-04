@@ -117,6 +117,13 @@ IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
 Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
+BinPy also comes with a console that is a simple  wrapper around the classic python console from which you can directly use the BinPy Resources.
+
+To start it, simply issue:
+
+$ binpy
+
+if BinPy is installed in your path.
 
 <a id="resources"></a>
 Available Resources
