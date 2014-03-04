@@ -21,18 +21,32 @@ Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
 ![SR latch | Source: Wikipedia](https://upload.wikimedia.org/wikipedia/commons/c/c6/R-S_mk2.gif)
 
 ```python
+
 from BinPy import *
 
-a = Connector()
-b = Connector()
+NOR1 = Nor('NOR1')  #First NOR gate
+NOR2 = Nor('NOR2')  #Second NOR gate
 
-g1 = NOR(R,b)
-g1.setOutput(a)    # SET OUTPUT as a
+NOR2.C.connect(NOR1.B)  #Connecting output of second NOR with input of first NOR
+NOR1.C.connect(NOR2.A)  #Connecting output of first NOR with input of second NOR
 
-g2 = NOR(S,a)
-g2.setOutput(b)    # SET OUTPUT as b
 
-print [g1.output(),g2.output()]
+NOR1.A.set(1);NOR2.B.set(0) #Set state
+print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
+NOR1.A.set(0);NOR2.B.set(1) #Reset state
+print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
+NOR1.A.set(0);NOR2.B.set(0) #Hold state
+print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
+NOR1.A.set(1);NOR2.B.set(1) #Invalid state
+print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
 ```
 <strong>Output</strong>
 ```python
@@ -55,8 +69,19 @@ operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
 
 
 #Combinational Logic
-d = Decoder([1,1,0,1])
-print "Decoder Out: ", d.output('01')
+m = MUX(1,1,0,1)
+m.selectLines(0,1)
+print "MUX Out: ", m.output()
+
+d = DEMUX()
+d.selectLines(0,1)
+print "DEMUX Out: ", d.output()
+
+d = Decoder(0,1)
+print "Decoder Out: ", d.output()
+
+e = Encoder(0,1,0,0)
+print "Encoder Out: ", e.output()
 
 #Sequential Circuits
 a = DFlipFlop(1,0)
@@ -73,7 +98,7 @@ p = {2:0,3:1,5:0,6:0,7:0,8:1,9:1,11:0,12:0,14:1}
 myIC1.setIC(p)
 print "IC_7401 Out: ", myIC1.run()
 
-#Algorithms
+#Algorithms 
 #Includes the Quine-McCluskey algorithm for solving K-Maps
 FinalEquation = QM(['A','B'])
 print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1,2],[])[1])
@@ -83,25 +108,33 @@ print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1
 ```python
 {'carry': 0, 'sum': [1, 1, 1, 0]}
 {'carry': 1, 'difference': [1, 0, 0, 0]}
-Decoder Out:  1
+MUX Out: 1
+DEMUX Out: [0, 0, 0, 0]
+Decoder Out:  [0, 1, 0, 0]
+Encoder Out: [0, 1]
 DFlipFlop Out: [1,0]
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
 Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
+BinPy also comes with a console that is a simple  wrapper around the classic python console from which you can directly use the BinPy Resources.
+
+To start it, simply issue:
+
+$ binpy
+
+if BinPy is installed in your path.
 
 <a id="resources"></a>
 Available Resources
 -------------------
 * All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
 * Combinational logics
-	* Adder
-	* Subtractor
-	* Multiplier
-	* MUX (2:1, 4:1, 8:1, 16:1)
-	* DEMUX (1:2, 1:4, 1:8, 1:16)
+	* MUX 
+	* DEMUX 
+    * Decoder
 	* Encoder
-
+	
 * IC
 	* 7400
 	* 7401
@@ -179,7 +212,7 @@ Install using **git**
     cd BinPy/
     sudo python setup.py install
 
-
+    
 
 Future Work
 ------------

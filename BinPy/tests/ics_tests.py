@@ -1,137 +1,5 @@
 from BinPy import *
-from nose.tools import with_setup, nottest, raises
-
-def AND_test():
-    lgate = AND(1,0)
-    outputLogic = []
-
-    inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
-
-    for logic in inputLogic:
-        lgate.setInputs(logic[0],logic[1])
-        outputLogic.append(lgate.output())
-    print outputLogic
-    if outputLogic != [0, 0, 1, 0]:
-        assert False
-
-def OR_test():
-    lgate = OR(0,0)
-    outputLogic = []
-
-    inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
-
-    for logic in inputLogic:
-        lgate.setInputs(logic[0], logic[1])
-        outputLogic.append(lgate.output())
-    print outputLogic
-    if outputLogic != [0, 1, 1, 1]:
-        assert False
-
-def NAND_test():
-    lgate = NAND(0,0)
-    outputLogic = []
-
-    inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
-
-    for logic in inputLogic:
-        lgate.setInputs(logic[0],logic[1])
-        outputLogic.append(lgate.output())
-    print outputLogic
-    if outputLogic != [1, 1, 0, 1]:
-        assert False
-
-def NOR_test():
-    lgate = NOR(0,0)
-    outputLogic = []
-
-    inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
-
-    for logic in inputLogic:
-        lgate.setInputs(logic[0],logic[1])
-        outputLogic.append(lgate.output())
-    print outputLogic
-    if outputLogic != [1, 0, 0, 0]:
-        assert False
-
-def XOR_test():
-    lgate = XOR(0,0)
-    outputLogic = []
-
-    inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
-
-    for logic in inputLogic:
-        lgate.setInputs(logic[0],logic[1])
-        outputLogic.append(lgate.output())
-    print outputLogic
-    if outputLogic != [0, 1, 0, 1]:
-        assert False
-
-def XNOR_test():
-    lgate = XNOR(0,0)
-    outputLogic = []
-
-    inputLogic = [(0, 0), (1, 0), (1, 1), (0, 1)]
-
-    for logic in inputLogic:
-        lgate.setInputs(logic[0],logic[1])
-        outputLogic.append(lgate.output())
-    print outputLogic
-    if outputLogic != [1, 0, 1, 0]:
-        assert False
-
-######## Combinational circuits #################################
-
-def test_Decoder():
-    try:
-        # No inputs.
-        testDecoder = Decoder([])
-        assert False
-    except Exception:
-        pass
-
-    try:
-        # Number of inputs not a power of two.
-        testDecoder = Decoder([1, 2, 3])
-        assert False
-    except Exception:
-        pass
-
-    testDecoder = Decoder([1, 2, 3, 4])
-    try:
-        # Too few select bits.
-        testDecoder.output("0")
-        assert False
-    except Exception:
-        pass
-
-    try:
-        # Too many select bits.
-        testDecoder.output("000")
-        assert False
-    except Exception:
-        pass
-
-    output = map(testDecoder.output, ["00", "01", "10", "11"])
-    if output != [1, 2, 3, 4]:
-        assert False
-
-######## Sequential circuits #################################
-
-def test_SRLatch():
-    testLatch = SRLatch(1, 0)
-    assert testLatch.output() == [0, 1]
-
-    testLatch.setInputs(0, 0)
-    assert testLatch.output() == [0, 1]
-
-    testLatch.setInputs(0, 1)
-    assert testLatch.output() == [1, 0]
-
-    testLatch.setInputs(0, 0)
-    assert testLatch.output() == [1, 0]
-
-    testLatch.setInputs(1, 1)
-    assert testLatch.output() == [0, 0]
+from nose.tools import with_setup, nottest
 
 ######## IC's with 14 pins #################################
 
@@ -383,7 +251,7 @@ def test_IC_7454():
     q = {6:1}
     if q!=testIC.run():
         assert False
-
+ 
 def test_IC_7455():
     testIC = IC_7455()
     p = {1:1,2:0,3:0,4:0,7:0,10:1,9:1,11:0,12:0,13:0,14:1}
@@ -473,7 +341,7 @@ def test_IC_741G08():
     if q!=testIC.run():
         assert False
 
-######## IC's with 16 pins #################################
+######## IC's with 16 pins #################################  
 
 def test_IC_7431():
     testIC = IC_7431()
@@ -506,7 +374,7 @@ def test_IC_7444():
     q = {1:1,2:1,3:1,4:0,5:1,6:1,7:1,9:1,10:1,11:1}
     if q!=testIC.run():
         assert False
-
+        
 def test_IC_7445():
     testIC = IC_7445()
     p = {15:0,14:0,13:1,12:0,8:0,16:1}
@@ -520,5 +388,21 @@ def test_IC_74133():
     p = {1:0,2:1,3:1,4:1,5:1,6:1,7:1,8:0,9:1,10:1,12:1,13:1,14:1,15:1,16:1}
     testIC.setIC(p)
     q = {9:1}
+    if q!=testIC.run():
+        assert False
+        
+def test_IC_4081():
+    testIC = IC_4081()
+    p = {1:0,2:0,5:0,6:1,8:1,9:0,12:1,13:1}
+    testIC.setIC(p)
+    q = {3: 0, 4: 0, 10: 0, 11: 1}
+    if q!=testIC.run():
+        assert False
+
+def test_IC_4082():
+    testIC = IC_4082()
+    p = {2:1,3:1,4:1,5:1,9:1,10:1,11:1,12:0,14:1}
+    testIC.setIC(p)
+    q = {1:1,13:0}
     if q!=testIC.run():
         assert False
