@@ -157,6 +157,7 @@ class NOT(GATES):
                 self._updateResult(not self.inputs[0].state)
             else:
                 self._updateResult(not self.inputs[0])
+            if self.outputType == 1:
                 self.outputConnector.trigger()
 
 class XOR(GATES):
