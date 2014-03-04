@@ -19,7 +19,7 @@ class GATES:
 
 		self.trigger() # Any change in the input will trigger change in the output
 	
-	def __updateConnections(self,inputs):
+	def _updateConnections(self,inputs):
 
 		for i in inputs:
 			if isinstance(i,Connector):
