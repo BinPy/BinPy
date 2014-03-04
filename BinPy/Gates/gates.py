@@ -174,7 +174,7 @@ class XOR(GATES):
             self._updateHistory() # Update the inputs after a computation
             temp = 1
             for i in self.inputs:
-                if isinstance(i, Connector()):
+                if isinstance(i, Connector):
                     val = i.state
                 else:
                     val = i
