@@ -26,14 +26,12 @@ class Operations:
             >>> opr = Operations()
             >>> opr.ADD('1100','0001')
             '1101'
-            >>> opr.ADD('-1', '1')
-            '0'
         """
 
         a,b = self.__parseInput(input1,input2)
         c = bin(int(a,2) + int(b,2))
         if c[0] == '-':
-            return c[0] + c[3:]
+            return c[3:]
         else:
             return c[2:]
 
@@ -45,14 +43,12 @@ class Operations:
             >>> opr = Operations()
             >>> opr.SUB('1100','0100')
             '1000'
-            >>> opr.SUB('0', '1')
-            '-1'
         """
 
         a,b = self.__parseInput(input1,input2)
         c = bin(int(a,2) - int(b,2))
         if c[0] == '-':
-            return c[0] + c[3:]
+            return c[3:]
         else:
             return c[2:]
 
@@ -64,14 +60,12 @@ class Operations:
             >>> opr = Operations()
             >>> opr.MUL('1100','0100')
             '110000'
-            >>> opr.MUL('10', '-1')
-            '-10'
         """
 
         a,b = self.__parseInput(input1,input2)
         c = bin(int(a,2) * int(b,2))
         if c[0] == '-':
-            return c[0] + c[3:]
+            return c[3:]
         else:
             return c[2:]
 
@@ -88,7 +82,7 @@ class Operations:
         a,b = self.__parseInput(input1,input2)
         c = bin(int(a,2) / int(b,2))
         if c[0] == '-':
-            return c[0] + c[3:]
+            return c[3:]
         else:
             return c[2:]
 
