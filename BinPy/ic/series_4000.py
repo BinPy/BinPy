@@ -34,7 +34,7 @@ class IC_4000(Base_14pin):
                     5: {'desc': 'C1: Input 3 of NOR gate 1'},
                     6: {'desc': 'Q1: Output of NOR gate 1'},
                     7: {'desc': 'GND'},
-                    8: {'desc': 'B2 '},
+                    8: {'desc': 'B2: Input of NOT gate'},
                     9: {'desc': 'Q2: Output of NOT gate'},
                     10: {'desc': 'Q3: Output of NOR gate 2'},
                     11: {'desc': 'C3: Input 3 of NOR gate 2'},
@@ -70,19 +70,19 @@ class IC_4001(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'A1: Input 1 of NOR gate 1'},
+                    2: {'desc': 'B1: Input 2 of NOR gate 1'},
+                    3: {'desc': 'Q1: Output of NOR gate 1'},
+                    4: {'desc': 'Q2: Output of NOR gate 2'},
+                    5: {'desc': 'B2: Input 2 of NOR gate 2'},
+                    6: {'desc': 'A2: Input 1 of NOR gate 2'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A3: Input 1 of NOR gate 3'},
+                    9: {'desc': 'B3: Input 2 of NOR gate 3'},
+                    10: {'desc': 'Q3: Output of NOR gate 3'},
+                    11: {'desc': 'Q4: Output of NOR gate 4'},
+                    12: {'desc': 'B4: Input 2 of NOR gate 4'},
+                    13: {'desc': 'A4: Input 1 of NOR gate 4'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -110,19 +110,19 @@ class IC_4002(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'Q1: Output of NOR gate 1'},
+                    2: {'desc': 'A1: Input 1 of NOR gate 1'},
+                    3: {'desc': 'B1: Input 2 of NOR gate 1'},
+                    4: {'desc': 'C1: Input 3 of NOR gate 1'},
+                    5: {'desc': 'D1: Input 4 of NOR gate 1'},
+                    6: {'desc': 'NC'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'NC'},
+                    9: {'desc': 'D2: Input 4 of NOR gate 2'},
+                    10: {'desc': 'C2: Input 3 of NOR gate 2'},
+                    11: {'desc': 'B2: Input 2 of NOR gate 2'},
+                    12: {'desc': 'A2: Input 1 of NOR gate 2'},
+                    13: {'desc': 'Q2: Output of NOR gate 2'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -152,19 +152,19 @@ class IC_4011(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'A1: Input 1 of NAND gate 1'},
+                    2: {'desc': 'B1: Input 2 of NAND gate 1'},
+                    3: {'desc': 'Q1: Output of NAND gate 1'},
+                    4: {'desc': 'Q2: Output of NAND gate 2'},
+                    5: {'desc': 'B2: Input 2 of NAND gate 2'},
+                    6: {'desc': 'A2: Input 1 of NAND gate 2'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A3: Input 1 of NAND gate 3'},
+                    9: {'desc': 'B3: Input 2 of NAND gate 3'},
+                    10: {'desc': 'Q3: Output of NAND gate 3'},
+                    11: {'desc': 'Q4: Output of NAND gate 4'},
+                    12: {'desc': 'B4: Input 2 of NAND gate 4'},
+                    13: {'desc': 'A4: Input 1 of NAND gate 4'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -191,19 +191,19 @@ class IC_4012(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'Q1: Output of NAND gate 1'},
+                    2: {'desc': 'A1: Input 1 of NAND gate 1'},
+                    3: {'desc': 'B1: Input 2 of NAND gate 1'},
+                    4: {'desc': 'C1: Input 3 of NAND gate 1'},
+                    5: {'desc': 'D1: Input 4 of NAND gate 1'},
+                    6: {'desc': 'NC'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'NC'},
+                    9: {'desc': 'D2: Input 4 of NAND gate 2'},
+                    10: {'desc': 'C2: Input 3 of NAND gate 2'},
+                    11: {'desc': 'B2: Input 2 of NAND gate 2'},
+                    12: {'desc': 'A2: Input 1 of NAND gate 2'},
+                    13: {'desc': 'Q2: Output of NAND gate 2'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -231,19 +231,19 @@ class IC_4023(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'C2: Input 3 of NAND gate 2'},
+                    2: {'desc': 'B2: Input 2 of NAND gate 2'},
+                    3: {'desc': 'C1: Input 3 of NAND gate 1'},
+                    4: {'desc': 'B1: Input 2 of NAND gate 1'},
+                    5: {'desc': 'A1: Input 1 of NAND gate 1'},
+                    6: {'desc': 'Q1: Output of NAND gate 1'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A2: Input 1 of NAND gate 2'},
+                    9: {'desc': 'Q2: Output of NAND gate 2'},
+                    10: {'desc': 'Q3: Output of NAND gate 3'},
+                    11: {'desc': 'A3: Input 1 of NAND gate 3'},
+                    12: {'desc': 'B3: Input 2 of NAND gate 3'},
+                    13: {'desc': 'C3: Input 3 of NAND gate 3'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -273,19 +273,19 @@ class IC_4025(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'C2: Input 3 of NOR gate 2'},
+                    2: {'desc': 'B2: Input 2 of NOR gate 2'},
+                    3: {'desc': 'C1: Input 3 of NOR gate 1'},
+                    4: {'desc': 'B1: Input 2 of NOR gate 1'},
+                    5: {'desc': 'A1: Input 1 of NOR gate 1'},
+                    6: {'desc': 'Q1: Output of NOR gate 1'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A2: Input 1 of NOR gate 2'},
+                    9: {'desc': 'Q2: Output of NOR gate 2'},
+                    10: {'desc': 'Q3: Output of NOR gate 3'},
+                    11: {'desc': 'A3: Input 1 of NOR gate 3'},
+                    12: {'desc': 'B3: Input 2 of NOR gate 3'},
+                    13: {'desc': 'C3: Input 3 of NOR gate 3'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -313,19 +313,19 @@ class IC_4068(Base_14pin):
         self.pins = [None, None, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'NC'},
+                    2: {'desc': 'Input 1 of NAND gate'},
+                    3: {'desc': 'Input 2 of NAND gate'},
+                    4: {'desc': 'Input 3 of NAND gate'},
+                    5: {'desc': 'Input 4 of NAND gate'},
+                    6: {'desc': 'NC'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'NC'},
+                    9: {'desc': 'Input 5 of NAND gate'},
+                    10: {'desc': 'Input 6 of NAND gate'},
+                    11: {'desc': 'Input 7 of NAND gate'},
+                    12: {'desc': 'Input 8 of NAND gate'},
+                    13: {'desc': 'Output of NAND gate'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -356,19 +356,19 @@ class IC_4069(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'Input of NOT gate 1'},
+                    2: {'desc': 'Output of NOT gate 1'},
+                    3: {'desc': 'Input of NOT gate 2'},
+                    4: {'desc': 'Output of NOT gate 2'},
+                    5: {'desc': 'Input of NOT gate 3'},
+                    6: {'desc': 'Output of NOT gate 3'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'Output of NOT gate 4'},
+                    9: {'desc': 'Input of NOT gate 4'},
+                    10: {'desc': 'Output of NOT gate 5'},
+                    11: {'desc': 'Input of NOT gate 5'},
+                    12: {'desc': 'Output of NOT gate 6'},
+                    13: {'desc': 'Input of NOT gate 6'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -399,19 +399,19 @@ class IC_4070(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'A1: Input 1 of XOR gate 1'},
+                    2: {'desc': 'B1: Input 2 of XOR gate 1'},
+                    3: {'desc': 'Q1: Output of XOR gate 1'},
+                    4: {'desc': 'Q2: Output of XOR gate 2'},
+                    5: {'desc': 'B2: Input 2 of XOR gate 2'},
+                    6: {'desc': 'A2: Input 1 of XOR gate 2'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A3: Input 1 of XOR gate 3'},
+                    9: {'desc': 'B3: Input 2 of XOR gate 3'},
+                    10: {'desc': 'Q3: Output of XOR gate 3'},
+                    11: {'desc': 'Q4: Output of XOR gate 4'},
+                    12: {'desc': 'B4: Input 2 of XOR gate 4'},
+                    13: {'desc': 'A4: Input 1 of XOR gate 4'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -440,19 +440,19 @@ class IC_4071(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'A1: Input 1 of OR gate 1'},
+                    2: {'desc': 'B1: Input 2 of OR gate 1'},
+                    3: {'desc': 'Q1: Output of OR gate 1'},
+                    4: {'desc': 'Q2: Output of OR gate 2'},
+                    5: {'desc': 'B2: Input 2 of OR gate 2'},
+                    6: {'desc': 'A2: Input 1 of OR gate 2'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A3: Input 1 of OR gate 3'},
+                    9: {'desc': 'B3: Input 2 of OR gate 3'},
+                    10: {'desc': 'Q3: Output of OR gate 3'},
+                    11: {'desc': 'Q4: Output of OR gate 4'},
+                    12: {'desc': 'B4: Input 2 of OR gate 4'},
+                    13: {'desc': 'A4: Input 1 of OR gate 4'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -479,19 +479,19 @@ class IC_4072(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'Q1: Output of OR gate 1'},
+                    2: {'desc': 'A1: Input 1 of OR gate 1'},
+                    3: {'desc': 'B1: Input 2 of OR gate 1'},
+                    4: {'desc': 'C1: Input 3 of OR gate 1'},
+                    5: {'desc': 'D1: Input 4 of OR gate 1'},
+                    6: {'desc': 'NC'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'NC'},
+                    9: {'desc': 'D2: Input 4 of OR gate 2'},
+                    10: {'desc': 'C2: Input 3 of OR gate 2'},
+                    11: {'desc': 'B2: Input 2 of OR gate 2'},
+                    12: {'desc': 'A2: Input 1 of OR gate 2'},
+                    13: {'desc': 'Q2: Output of OR gate 2'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -519,19 +519,19 @@ class IC_4073(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'C2: Input 3 of AND gate 2'},
+                    2: {'desc': 'B2: Input 2 of AND gate 2'},
+                    3: {'desc': 'C1: Input 3 of AND gate 1'},
+                    4: {'desc': 'B1: Input 2 of AND gate 1'},
+                    5: {'desc': 'A1: Input 1 of AND gate 1'},
+                    6: {'desc': 'Q1: Output of AND gate 1'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A2: Input 1 of AND gate 2'},
+                    9: {'desc': 'Q2: Output of AND gate 2'},
+                    10: {'desc': 'Q3: Output of AND gate 3'},
+                    11: {'desc': 'A3: Input 1 of AND gate 3'},
+                    12: {'desc': 'B3: Input 2 of AND gate 3'},
+                    13: {'desc': 'C3: Input 3 of AND gate 3'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -561,19 +561,19 @@ class IC_4075(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'C2: Input 3 of OR gate 2'},
+                    2: {'desc': 'B2: Input 2 of OR gate 2'},
+                    3: {'desc': 'C1: Input 3 of OR gate 1'},
+                    4: {'desc': 'B1: Input 2 of OR gate 1'},
+                    5: {'desc': 'A1: Input 1 of OR gate 1'},
+                    6: {'desc': 'Q1: Output of OR gate 1'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A2: Input 1 of OR gate 2'},
+                    9: {'desc': 'Q2: Output of OR gate 2'},
+                    10: {'desc': 'Q3: Output of OR gate 3'},
+                    11: {'desc': 'A3: Input 1 of OR gate 3'},
+                    12: {'desc': 'B3: Input 2 of OR gate 3'},
+                    13: {'desc': 'C3: Input 3 of OR gate 3'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -604,19 +604,19 @@ class IC_4077(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'A1: Input 1 of XNOR gate 1'},
+                    2: {'desc': 'B1: Input 2 of XNOR gate 1'},
+                    3: {'desc': 'Q1: Output of XNOR gate 1'},
+                    4: {'desc': 'Q2: Output of XNOR gate 2'},
+                    5: {'desc': 'B2: Input 2 of XNOR gate 2'},
+                    6: {'desc': 'A2: Input 1 of XNOR gate 2'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A3: Input 1 of XNOR gate 3'},
+                    9: {'desc': 'B3: Input 2 of XNOR gate 3'},
+                    10: {'desc': 'Q3: Output of XNOR gate 3'},
+                    11: {'desc': 'Q4: Output of XNOR gate 4'},
+                    12: {'desc': 'B4: Input 2 of XNOR gate 4'},
+                    13: {'desc': 'A4: Input 1 of XNOR gate 4'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -642,19 +642,19 @@ class IC_4078(Base_14pin):
         self.pins = [None, None, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'NC'},
+                    2: {'desc': 'Input 1 of NOR gate'},
+                    3: {'desc': 'Input 2 of NOR gate'},
+                    4: {'desc': 'Input 3 of NOR gate'},
+                    5: {'desc': 'Input 4 of NOR gate'},
+                    6: {'desc': 'NC'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'NC'},
+                    9: {'desc': 'Input 5 of NOR gate'},
+                    10: {'desc': 'Input 6 of NOR gate'},
+                    11: {'desc': 'Input 7 of NOR gate'},
+                    12: {'desc': 'Input 8 of NOR gate'},
+                    13: {'desc': 'Output of NOR gate'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -683,19 +683,19 @@ class IC_4081(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'A1: Input 1 of AND gate 1'},
+                    2: {'desc': 'B1: Input 2 of AND gate 1'},
+                    3: {'desc': 'Q1: Output of AND gate 1'},
+                    4: {'desc': 'Q2: Output of AND gate 2'},
+                    5: {'desc': 'B2: Input 2 of AND gate 2'},
+                    6: {'desc': 'A2: Input 1 of AND gate 2'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'A3: Input 1 of AND gate 3'},
+                    9: {'desc': 'B3: Input 2 of AND gate 3'},
+                    10: {'desc': 'Q3:Output of AND gate 3'},
+                    11: {'desc': 'Q4:Output of AND gate 4'},
+                    12: {'desc': 'B4: Input 2 of AND gate 4'},
+                    13: {'desc': 'A4: Input 1 of AND gate 4'},
                     14: {'desc': 'VCC'}
                     })
 
@@ -722,19 +722,19 @@ class IC_4082(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': ''},
-                    2: {'desc': ''},
-                    3: {'desc': ''},
-                    4: {'desc': ''},
-                    5: {'desc': ''},
-                    6: {'desc': ''},
+        self.setIC({1: {'desc': 'Q1: Output of AND gate 1'},
+                    2: {'desc': 'A1: Input 1 of AND gate 1'},
+                    3: {'desc': 'B1: Input 2 of AND gate 1'},
+                    4: {'desc': 'C1: Input 3 of AND gate 1'},
+                    5: {'desc': 'D1: Input 4 of AND gate 1'},
+                    6: {'desc': 'NC'},
                     7: {'desc': 'GND'},
-                    8: {'desc': ''},
-                    9: {'desc': ''},
-                    10: {'desc': ''},
-                    11: {'desc': ''},
-                    12: {'desc': ''},
-                    13: {'desc': ''},
+                    8: {'desc': 'NC'},
+                    9: {'desc': 'D2: Input 4 of AND gate 2'},
+                    10: {'desc': 'C2: Input 3 of AND gate 2'},
+                    11: {'desc': 'B2: Input 2 of AND gate 2'},
+                    12: {'desc': 'A2: Input 1 of AND gate 2'},
+                    13: {'desc': 'Q2: Output of AND gate 2'},
                     14: {'desc': 'VCC'}
                     })
 
