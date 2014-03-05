@@ -1,7 +1,7 @@
 from BinPy.Combinational.combinational import *
-""" Examples for MUX class """
-print "\n---Initializing the MUX class--- "
-print "mux = DEMUX(1) #Must be a single input"
+""" Examples for DEMUX class """
+print "\n---Initializing the DEMUX class--- "
+print "demux = DEMUX(1) #Must be a single input"
 demux = DEMUX(1)
 print "\n---Put select lines---"
 print "demux.selectLines(0) #Select Lines must be power of 2"
