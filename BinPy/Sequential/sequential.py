@@ -33,34 +33,37 @@ class SRLatch:
 
         return [self.g1.output(), self.g2.output()]
 
+class DLatch:
 
-class DFlipFlop:
-
-    def __init__(self, input1, input2):
-
+    def __init__(self, D):
+        """
+        Construct an DLatch with initial reset input D1 and set input D.
+        """
+	D1=0
+	if D==0:
+		D1=1
         self.a = Connector()
         self.b = Connector()
-        self.c = Connector()
-        self.d = Connector()
 
-        self.g1 = NAND(input1, input2)
+        self.g1 = NOR(D1, self.b)
         self.g1.setOutput(self.a)
 
-        self.g2 = NAND(self.a, input2)
+        self.g2 = NOR(D, self.a)
         self.g2.setOutput(self.b)
 
-        self.g3 = NAND(self.a, self.d)
-        self.g3.setOutput(self.c)
-
-        self.g4 = NAND(self.b, self.c)
-        self.g4.setOutput(self.d)
+    def setInputs(self,D):
+        """
+        Set this DLatch's reset input to D1 and set input to D.
+        """
+	D1=0
+	if D==0:
+		D1=1
+        self.g1.setInput(0, D1)
+        self.g2.setInput(0, D)
 
     def output(self):
+        """
+        Return the output of this DLatch in the format [Q, Q'].
+        """
 
-        return [self.g3.output(), self.g4.output()]
-
-    def setInputs(self, input1, input2):
-
-        self.g1.setInput(0, input1)
-        self.g1.setInput(1, input2)
-        self.g2.setInput(1, input2)
+        return [self.g1.output(), self.g2.output()]
