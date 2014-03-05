@@ -1,4 +1,4 @@
-from BinPy import *
+from BinPy.Gates.gates import *
 from nose.tools import with_setup, nottest
 
 def AND_test():
