@@ -1,11 +1,12 @@
 def makeCompatible(expr):
     '''Used by convertExpression to convert logical operators to english words.'''
-    expr.replace('&', 'AND')
-    expr.replace('|', 'OR')
-    expr.replace('~', 'NOT')
-    expr.replace('^', 'XOR')
-    expr.replace('~&', 'NAND')
-    expr.replace('~|', 'NOR')
+    expr = expr.replace('~&', ' NAND ')
+    expr = expr.replace('~|', ' NOR ')
+    expr = expr.replace('~^', ' XNOR ')
+    expr = expr.replace('&', ' AND ')
+    expr = expr.replace('|', ' OR ')
+    expr = expr.replace('~', ' NOT ')
+    expr = expr.replace('^', ' XOR ')
     return '('+expr+')'
 
 
