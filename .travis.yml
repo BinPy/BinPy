@@ -14,4 +14,3 @@ script:
  - nosetests -v combinational_tests.py
  - nosetests -v operations_tests.py
  - nosetests -v sequential_tests.py
-
