@@ -1,7 +1,9 @@
 from BinPy.Gates.gates import *
 import math
 
+
 class MUX(GATES):
+
     """
     This class can be used to create MUX in your circuit. MUX is used to select
     a single output line out of many inputs. This class can be used as any 2^n X
@@ -25,15 +27,17 @@ class MUX(GATES):
         0
 
     """
+
     def __init__(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number inputs should be a power of 2")
         self.selects = []
-        GATES.__init__(self, list(inputs))
+        GATES.__init__(self, *inputs)
 
     def selectLines(self, *select):
         if not (pow(2, len(select)) == len(self.inputs)):
-            raise Exception("ERROR: No. of Select lines are inconsistent with the inputs")
+            raise Exception(
+                "ERROR: No. of Select lines are inconsistent with the inputs")
         self.selects = list(select)
         self._updateConnections(self.selects)
         self.trigger()
@@ -73,11 +77,14 @@ class MUX(GATES):
             else:
                 self._updateResult(self.inputs[int(bstr, 2)])
         except IndexError:
-            raise Exception("Error: Select lines are inconsistent with Input lines")
+            raise Exception(
+                "Error: Select lines are inconsistent with Input lines")
         if self.outputType:
             self.outputConnector.trigger()
 
+
 class DEMUX(GATES):
+
     """
     This class can be used to create DEMUX in your circuit. DEMUX is used to select
     It takes single input and n select lines and decode the select lines into BCD form
@@ -96,17 +103,19 @@ class DEMUX(GATES):
         >>> demux.output()
         [0, 1]
     """
+
     def __init__(self, *inputs):
         if not (len(inputs) == 1):
             raise Exception("ERROR: Input should be 0/1")
         self.selects = []
-        GATES.__init__(self, list(inputs))
+        GATES.__init__(self, *inputs)
         self.outputType = []
         self.outputConnector = []
 
     def selectLines(self, *select):
         if not (len(select) != 0):
-            raise Exception("ERROR: Number of select lines should be greater than zero")
+            raise Exception(
+                "ERROR: Number of select lines should be greater than zero")
         self.selects = list(select)
         for i in range(pow(2, len(select))):
             self.outputType.append(0)
@@ -163,7 +172,7 @@ class DEMUX(GATES):
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
-        value.tap(self,'output')
+        value.tap(self, 'output')
         self.outputType[index] = 1
         self.outputConnector[index] = value
         self.trigger()
@@ -174,7 +183,9 @@ class DEMUX(GATES):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
 
+
 class Decoder(GATES):
+
     """
     This class can be used to create decoder in your circuit.
     Input is taken as Binary String and returns the equivalent BCD form.
@@ -189,10 +200,11 @@ class Decoder(GATES):
         [0, 1, 0, 1]
 
     """
+
     def __init__(self, *inputs):
         if len(inputs) == 0:
             raise Exception("ERROR: Input Length should be greater than zero")
-        GATES.__init__(self, list(inputs))
+        GATES.__init__(self, *inputs)
         self.outputType = []
         self.outputConnector = []
         for i in range(pow(2, len(inputs))):
@@ -239,7 +251,7 @@ class Decoder(GATES):
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
-        value.tap(self,'output')
+        value.tap(self, 'output')
         self.outputType[index] = 1
         self.outputConnector[index] = value
         self.trigger()
@@ -250,7 +262,9 @@ class Decoder(GATES):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
 
+
 class Encoder(GATES):
+
     """
     This class can be used to create encoder in your circuit. It converts the input BCD form to binary output. It works as the inverse of the decoder
     INPUT:      Input in BCD form, length of input must me in power of 2
@@ -263,13 +277,14 @@ class Encoder(GATES):
         >>> encoder.setInputs(0, 0, 0, 1)       "Sets the new inputs"
         [1 , 1]
     """
+
     def __init__(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
         if not (inputs.count(1) == 1 or list(x.state for x in
-             filter(lambda i : isinstance(i, Connector), inputs)).count(1) == 1):
+                                             filter(lambda i: isinstance(i, Connector), inputs)).count(1) == 1):
             raise Exception("Invalid Input")
-        GATES.__init__(self, list(inputs))
+        GATES.__init__(self, *inputs)
         self.outputType = []
         self.outputConnector = []
         for i in range(int(math.log(len(self.inputs), 2))):
@@ -296,7 +311,7 @@ class Encoder(GATES):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
         if not (inputs.count(1) == 1 or list(x.state for x in
-            filter(lambda i : isinstance(i, Connector), inputs)).count(1) == 1):
+                                             filter(lambda i: isinstance(i, Connector), inputs)).count(1) == 1):
             raise Exception("ERROR: Invalid Input")
         self.inputs = list(inputs)
         for i in range(len(self.outputType), int(math.log(len(self.inputs), 2))):
@@ -310,7 +325,7 @@ class Encoder(GATES):
         if index >= len(temp):
             temp.append(value)
             if not (temp.count(1) == 1 or list(x.state for x in
-                    filter(lambda i : isinstance(i,Connector), temp)).count(1) == 1):
+                    filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs.append(value)
             for i in range(len(self.outputType), int(math.log(len(self.inputs), 2))):
@@ -319,7 +334,7 @@ class Encoder(GATES):
         else:
             temp[index] = value
             if not (temp.count(1) == 1 or list(x.state for x in
-                    filter(lambda i : isinstance(i,Connector), temp)).count(1) == 1):
+                    filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs[index] = value
 
@@ -330,7 +345,7 @@ class Encoder(GATES):
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
-        value.tap(self,'output')
+        value.tap(self, 'output')
         self.outputType[index] = 1
         self.outputConnector[index] = value
         self.trigger()
