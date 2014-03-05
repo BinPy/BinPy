@@ -54,9 +54,9 @@ class GATES:
         input_states = []
         for i in self.inputs:
             if isinstance(i, Connector):
-                input_states.append(self.inputs[i].state)
+                input_states.append(i.state)
             else:
-                input_states.append(self.inputs[i])
+                input_states.append(i)
         return input_states
 
     def _updateResult(self,value):
@@ -75,12 +75,12 @@ class GATES:
             else:
                 self.history_inputs[i] = val1
 
-    def setOutput(self, value):
-        if not isinstance(value,Connector):
+    def setOutput(self, connector):
+        if not isinstance(connector,Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
-        value.tap(self,'output')
+        connector.tap(self,'output')
         self.outputType = 1
-        self.outputConnector = value
+        self.outputConnector = connector
         self.history_active = 0
         self.trigger()
 
@@ -149,12 +149,28 @@ class NOT(GATES):
         else:
             GATES.__init__(self,list(inputs))
 
+    def setInputs(self,*inputs):
+        #Clean Connections before updating new connections
+        if len(inputs) != 1:
+            raise Exception("ERROR: NOT Gates takes only one input")
+        else:
+            self.history_active = 1 #Use history before computing
+            self.inputs = list(inputs)[:] # Set the inputs
+            self._updateConnections(self.inputs)
+        self.trigger() # Any change in the input will trigger change in the output
+
+    def setInput(self,value):
+        self.setInputs(value)
+
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
             self._updateHistory() # Update the inputs after a computation
-            self._updateResult( not self.inputs[0] )
-            if self.outputType:
+            if (isinstance(self.inputs[0], Connector)):
+                self._updateResult(not self.inputs[0].state)
+            else:
+                self._updateResult(not self.inputs[0])
+            if self.outputType == 1:
                 self.outputConnector.trigger()
 
 class XOR(GATES):
@@ -170,9 +186,14 @@ class XOR(GATES):
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory() # Update the inputs after a computation
-            temp = self.inputs[0]
-            for i in self.inputs[1:]:
-                temp = temp ^ i
+            temp = 1
+            for i in self.inputs:
+                if isinstance(i, Connector):
+                    val = i.state
+                else:
+                    val = i
+                temp = temp ^ val
+            temp = temp ^ 1
             self._updateResult(temp)
             if self.outputType:
                 self.outputConnector.trigger()
@@ -190,9 +211,14 @@ class XNOR(GATES):
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory() # Update the inputs after a computation
-            temp = self.inputs[0]
-            for i in self.inputs[1:]:
-                temp = temp ^ i
+            temp = 1
+            for i in self.inputs:
+                if (isinstance(i, Connector)):
+                    val = i.state
+                else:
+                    val = i
+                temp = temp ^ val
+            temp = temp ^ 1
             self._updateResult( not temp)
             if self.outputType:
                 self.outputConnector.trigger()

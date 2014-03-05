@@ -12,3 +12,5 @@ script:
  - nosetests -v gates_tests.py
  - nosetests -v ics_tests.py
  - nosetests -v combinational_tests.py
+ - nosetests -v operations_tests.py
+ - nosetests -v sequential_tests.py
