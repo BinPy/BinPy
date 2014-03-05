@@ -23,7 +23,7 @@ def MUX_test():
     mux.selectLines(1, 1)
     if mux.output() != 1:
         assert False
-    
+
     a = Connector()
     b = Connector()
     NOT(1).setOutput(a)
@@ -37,7 +37,7 @@ def MUX_test():
         assert False
     mux.setInput(0, 1)
     if mux.output() !=1:
-        assert False    
+        assert False
 
 def DEMUX_test():
     demux = DEMUX(0)
@@ -53,7 +53,7 @@ def DEMUX_test():
     q = [1, 0]
     if demux.output() != q:
         assert False
-    demux.selectLines(1)    
+    demux.selectLines(1)
     q = [0, 1]
     if demux.output() != q:
         assert False
@@ -92,6 +92,19 @@ def DEMUX_test():
         assert False
 
 def Decoder_test():
+    try:
+        decoder = Decoder()
+        assert False
+    except Exception:
+        pass
+
+    decoder = Decoder(0)
+    try:
+        decoder.setInputs()
+        assert False
+    except Exception:
+        pass
+
     decoder = Decoder(0)
     q = [1, 0]
     if decoder.output() != q:
