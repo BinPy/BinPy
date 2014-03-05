@@ -1,4 +1,4 @@
-from BinPy import *
+from BinPy.ic import *
 from nose.tools import with_setup, nottest
 
 ######## IC's with 14 pins #################################
@@ -388,6 +388,14 @@ def test_IC_74133():
     p = {1:0,2:1,3:1,4:1,5:1,6:1,7:1,8:0,9:1,10:1,12:1,13:1,14:1,15:1,16:1}
     testIC.setIC(p)
     q = {9:1}
+    if q!=testIC.run():
+        assert False
+
+def test_IC_7483():
+    testIC = IC_7483()
+    p = {1:1,3:0,4:0,5:1,7:1,8:0,10:1,11:1,12:0,13:1,16:1}
+    testIC.setIC(p)
+    q = {9:1,2:1,14:1,6:0,15:0}
     if q!=testIC.run():
         assert False
         
