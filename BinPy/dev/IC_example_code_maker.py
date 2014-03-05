@@ -75,16 +75,17 @@ def getExampleCode(icno,sampleip = None):
         print 'ERROR: '+str(e)
         return None
 
-while(True):
-    icno = raw_input('\n\n\nEnter icno to make an example code : (Enter N/n to quit) ')
-    if icno.lower() == 'n' :
-        sys.exit()
-    code = getExampleCode(icno)
-    if code is None:
-        print 'ERROR!!!'
-    else:
-        print '\n\nWriting to file ... '
-        f = open("IC"+icno+".py",'w')
-        f.write(code)
-        f.close()
-        print icno+' -- Done!!!' 
+if __name__ == "__main__":
+    while(True):
+        icno = raw_input('\n\n\nEnter icno to make an example code : (Enter N/n to quit) ')
+        if icno.lower() == 'n' :
+            sys.exit()
+        code = getExampleCode(icno)
+        if code is None:
+            print 'ERROR!!!'
+        else:
+            print '\n\nWriting to file ... '
+            f = open("IC"+icno+".py",'w')
+            f.write(code)
+            f.close()
+            print icno+' -- Done!!!' 
