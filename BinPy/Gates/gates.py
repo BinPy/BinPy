@@ -149,6 +149,19 @@ class NOT(GATES):
         else:
             GATES.__init__(self,list(inputs))
 
+    def setInputs(self,*inputs):
+        #Clean Connections before updating new connections
+        if len(inputs) != 1:
+            raise Exception("ERROR: NOT Gates takes only one input")
+        else:
+            self.history_active = 1 #Use history before computing
+            self.inputs = list(inputs)[:] # Set the inputs
+            self._updateConnections(self.inputs)
+        self.trigger() # Any change in the input will trigger change in the output
+
+    def setInput(self,value):
+        self.setInputs(value)
+
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
