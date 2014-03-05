@@ -63,7 +63,7 @@ class Clock(threading.Thread):
         for connector in connectors:
             if isinstance(connector, Connector):
                 try:
-                    self.taps.remove(Connector)
+                    self.taps.remove(connector)
                     connector.state = None
                     connector.connections['output'].remove(self)
                     connector.trigger()
