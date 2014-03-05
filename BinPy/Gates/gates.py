@@ -288,3 +288,4 @@ class NOR(MIGATES):
 
 			if self.outputType:
 				self.outputConnector.trigger()
+
