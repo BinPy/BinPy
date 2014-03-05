@@ -3,21 +3,22 @@ import math
 
 class MUX(GATES):
     """
-    This class can be used to create MUX in your circuit. MUX is used to select 
-    a single output line out of many inputs. This class can be used as any 2^n X n Multiplexer
-    where n is the number of select lines used to select the input out of 2^n input lines.
+    This class can be used to create MUX in your circuit. MUX is used to select
+    a single output line out of many inputs. This class can be used as any 2^n X
+    n Multiplexer where n is the number of select lines used to select the input
+    out of 2^n input lines.
     INPUT:          nth index has nth input value, input should be power of 2
     OUTPUT:         single output, 1 or 0
     SELECT LINES:   In binary form, select line for 4 will be 1 0 0
-    
+
     Example:
         >>> from BinPy import *
         >>> mux = MUX(0, 1)            "MUX takes its 2^n inputs (digital or Connector)"
         >>> mux.selectLines(0)         "Put select Line"
         >>> mux.output()
-        0                              
+        0
         >>> mux.selectLine(0, 1)       "Select line at index 0 is changed to 1"
-        >>> mux.output()                
+        >>> mux.output()
         1
         >>> mux.setInput(1, 0)         "Input line at index 1 is changed to 0"
         >>> mux.output()
@@ -39,7 +40,7 @@ class MUX(GATES):
 
     def selectLine(self, index, value):
         if index >= len(self.selects):
-            self.selects.append(value) 
+            self.selects.append(value)
         else:
             self.selects[index] = value
         if isinstance(value, Connector):
@@ -66,7 +67,7 @@ class MUX(GATES):
                 bstr = bstr + str(i.state)
             else:
                 bstr = bstr + str(i)
-        try:        
+        try:
             if isinstance(self.inputs[int(bstr, 2)], Connector):
                 self._updateResult(self.inputs[int(bstr, 2)].state)
             else:
@@ -78,13 +79,13 @@ class MUX(GATES):
 
 class DEMUX(GATES):
     """
-    This class can be used to create DEMUX in your circuit. DEMUX is used to select 
+    This class can be used to create DEMUX in your circuit. DEMUX is used to select
     It takes single input and n select lines and decode the select lines into BCD form
-    base upon the input. In case of high input, it works as a decoder.     
+    base upon the input. In case of high input, it works as a decoder.
     INPUT:          Single Input, 1 or 0
     OUTPUT:         BCD form of select lines in case of high input, else low output
     SELECT LINES:   nth select line at nth index
-    
+
     Example:
         >>> from BinPy import *
         >>> demux = DEMUX(0)             "DEMUX takes 1 input (digital or Connector)"
@@ -92,7 +93,7 @@ class DEMUX(GATES):
         >>> demux.output()
         [0, 0]
         >>> demux.selectLine(0, 1)       "Select line at index 0 is changed to 1"
-        >>> demux.output()                
+        >>> demux.output()
         [0, 1]
     """
     def __init__(self, *inputs):
@@ -179,17 +180,17 @@ class Decoder(GATES):
     Input is taken as Binary String and returns the equivalent BCD form.
     INPUT:      n Binary inputs, nth input ant the nth index
     OUTPUT:     Gives equivalent BCD form
-    
+
     Example:
         >>> decoder = Decoder(0)            "Decoder with 1 input, 0"
-        >>> decoder.output()                
+        >>> decoder.output()
         [1, 0]
         >>> decoder.setInputs(0, 1)         "sets the new inputs to the decoder"
         [0, 1, 0, 1]
 
     """
     def __init__(self, *inputs):
-        if not (len(inputs) != 0):
+        if len(inputs) == 0:
             raise Exception("ERROR: Input Length should be greater than zero")
         GATES.__init__(self, list(inputs))
         self.outputType = []
@@ -214,7 +215,7 @@ class Decoder(GATES):
         self._updateResult(out)
 
     def setInputs(self, *inputs):
-        if not (len(inputs) != 0):
+        if len(inputs) == 0:
             raise Exception("ERROR: Input length must be greater than zero")
         self.inputs = list(inputs)
         for i in range(len(self.outputType), pow(2, len(self.inputs))):
@@ -228,9 +229,9 @@ class Decoder(GATES):
             self.inputs.append(value)
             for i in range(len(self.outputType), pow(2, len(self.inputs))):
                 self.outputType.append(0)
-                self.outputConnector.append(None) 
+                self.outputConnector.append(None)
         else:
-            self.inputs[index] = value    
+            self.inputs[index] = value
         if isinstance(value, Connector):
             value.tap(self, 'input')
             self.trigger()
@@ -265,7 +266,7 @@ class Encoder(GATES):
     def __init__(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
-        if not (inputs.count(1) == 1 or list(x.state for x in 
+        if not (inputs.count(1) == 1 or list(x.state for x in
              filter(lambda i : isinstance(i, Connector), inputs)).count(1) == 1):
             raise Exception("Invalid Input")
         GATES.__init__(self, list(inputs))
@@ -294,7 +295,7 @@ class Encoder(GATES):
     def setInputs(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
-        if not (inputs.count(1) == 1 or list(x.state for x in 
+        if not (inputs.count(1) == 1 or list(x.state for x in
             filter(lambda i : isinstance(i, Connector), inputs)).count(1) == 1):
             raise Exception("ERROR: Invalid Input")
         self.inputs = list(inputs)
@@ -306,9 +307,9 @@ class Encoder(GATES):
 
     def setInput(self, index, value):
         temp = self.inputs[:]
-        if index >= len(temp):        
+        if index >= len(temp):
             temp.append(value)
-            if not (temp.count(1) == 1 or list(x.state for x in 
+            if not (temp.count(1) == 1 or list(x.state for x in
                     filter(lambda i : isinstance(i,Connector), temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs.append(value)
@@ -317,7 +318,7 @@ class Encoder(GATES):
                 self.outputConnector.append(None)
         else:
             temp[index] = value
-            if not (temp.count(1) == 1 or list(x.state for x in 
+            if not (temp.count(1) == 1 or list(x.state for x in
                     filter(lambda i : isinstance(i,Connector), temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs[index] = value
