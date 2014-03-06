@@ -135,7 +135,8 @@ Available Resources
     * Decoder
 	* Encoder
 	
-* IC
+* IC-7400 Series
+
 	* 7400
 	* 7401
 	* 7402
@@ -184,6 +185,28 @@ Available Resources
 	* 7445
 	* 74133
 	* 74260
+
+* IC-4000 Series
+
+    * 4000
+    * 4001
+    * 4002
+    * 4011
+    * 4012
+    * 4023
+    * 4025
+    * 4068
+    * 4069
+    * 4070
+    * 4071
+    * 4072
+    * 4073
+    * 4075
+    * 4077
+    * 4078
+    * 4081
+    * 4082
+    
 
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)

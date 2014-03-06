@@ -81,7 +81,7 @@ to 1 or don't-care.
 """
 
     sigma = []
-    for i in xrange(self.numvars+1):
+    for i in range(self.numvars+1):
       sigma.append(set())
     for i in cubes:
       sigma[bitcount(i)].add((i,0))
@@ -119,7 +119,7 @@ evaluate to 1.
     chart = []
     for one in ones:
       column = []
-      for i in xrange(len(primes)):
+      for i in range(len(primes)):
         if (one & (~primes[i][1])) == primes[i][0]:
           column.append(i)
       chart.append(column)
@@ -127,14 +127,14 @@ evaluate to 1.
     covers = []
     if len(chart) > 0:
       covers = [set([i]) for i in chart[0]]
-    for i in xrange(1,len(chart)):
+    for i in range(1,len(chart)):
       new_covers = []
       for cover in covers:
         for prime_index in chart[i]:
           x = set(cover)
           x.add(prime_index)
           append = True
-          for j in xrange(len(new_covers)-1,-1,-1):
+          for j in range(len(new_covers)-1,-1,-1):
             if x <= new_covers[j]:
               del new_covers[j]
             elif x > new_covers[j]:
@@ -232,7 +232,7 @@ NOT.
     or_terms = []
     for minterm in minterms:
       and_terms = []
-      for j in xrange(len(self.variables)):
+      for j in range(len(self.variables)):
         if minterm[0] & 1<<j:
           and_terms.append(self.variables[j])
         elif not minterm[1] & 1<<j:
@@ -259,7 +259,6 @@ input has at most 1 bit set.
 
 def merge(i, j):
   """ Combine two minterms. """
-
   if i[1] != j[1]:
     return None
   y = i[0] ^ j[0]
