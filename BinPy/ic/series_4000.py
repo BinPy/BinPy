@@ -5,8 +5,9 @@ Please note that the length of list self.pins is 1 more than the number of actua
 is not used as a general term referring to the first pin of the IC. Zeroth index of the self.pins is not being used.
 """
 
-from BinPy import *
-from base import *
+from __future__ import print_function
+from BinPy.Gates.gates import *
+from BinPy.ic.base import *
 
 ######## IC's with 14 pins #################################
 
@@ -41,7 +42,7 @@ class IC_4081(Base_14pin):
         if self.pins[7].value == 0 and self.pins[14].value == 1:
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 class IC_4082(Base_14pin):
     """
@@ -86,4 +87,4 @@ class IC_4082(Base_14pin):
         if self.pins[7].value == 0 and self.pins[14].value == 1:
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")

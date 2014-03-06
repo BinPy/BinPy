@@ -1,1 +1,1 @@
-from combinational import *
+from BinPy.Combinational.combinational import *

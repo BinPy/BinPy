@@ -1,6 +1,7 @@
 """
 This module includes all the base classes for different ICs.
 """
+from __future__ import print_function
 from BinPy import *
 
 class IC:
@@ -73,12 +74,12 @@ class IC:
                     diag += " %3s [%1s]   ---| %2s     %1s     %2s |---   [%1s] %3s\n"%f
                     diag += "              |                 |\n"
                 diag += bottom
-                print diag
+                print(diag)
 
             else:
                 raise Exception("ERROR: IC not supported")
-        except Exception, e:
-            print "ERROR: Draw Failed - "+str(e)
+        except (Exception, e):
+            print("ERROR: Draw Failed - "+str(e))
 
 class Base_5pin(IC):
     """
@@ -178,7 +179,7 @@ class Pin():
                 elif param == 'can_vary':
                     self.can_vary = bool(param_dict[param])
                 else:
-                    print 'ERROR: Unknown Parameters passed'
+                    print("ERROR: Unknown Parameters passed")
         elif ( type(param_dict) is int ) and ( param_dict in [ 0,1,None ] ):
             #If the value is passed , store the value
             val = param_dict

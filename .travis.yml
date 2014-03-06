@@ -1,6 +1,7 @@
 language: python
 python:
   - 2.7
+  - 3.3
   - pypy
 
 before install:
@@ -14,3 +15,8 @@ script:
  - nosetests -v combinational_tests.py
  - nosetests -v operations_tests.py
  - nosetests -v sequential_tests.py
+ - nosetests3 -v gates_tests.py
+ - nosetests3 -v ics_tests.py
+ - nosetests3 -v combinational_tests.py
+ - nosetests3 -v operations_tests.py
+ - nosetests3 -v sequential_tests.py

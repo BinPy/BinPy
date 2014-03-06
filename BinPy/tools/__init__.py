@@ -1,1 +1,1 @@
-from digital import *
+from BinPy.tools.digital import *
