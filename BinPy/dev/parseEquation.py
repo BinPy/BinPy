@@ -87,7 +87,7 @@ def eqnParse(eqn,isOperandtype = str.isalpha):
                 print 'ERROR: Equation error - Unmatched braces'
                 no_error = False
                 break
-            tmp = eqnParse(eqn[i+1:pos])
+            tmp = eqnParse(eqn[i+1:pos],isOperandtype)
             operands.append(tmp)
             i = pos
         elif isOperandtype(eqn[i]):
@@ -211,6 +211,7 @@ def eqnParse(eqn,isOperandtype = str.isalpha):
     
 #Uncomment to test:    
 
-print eqnParse('~((((~A)&B&C)^(~A))&E&F&G)')
+#print eqnParse('~((((~A)&B&C)^(~A))&E&F&G)')
 #NAND(G,F,E,XOR(NOT(A),AND(C,B,NOT(A))))
 #print findMatchingBrace(2,'((((((()))))abcedfljk(()))a&b)')
+#print eqnParse('(~ 14) & (~ 13) & (~ 12)',str.isdigit)
