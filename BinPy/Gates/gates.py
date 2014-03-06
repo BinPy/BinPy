@@ -48,11 +48,7 @@ class GATES:
             self.inputs[index] = value
         if isinstance(value,Connector):
             #Avoid re-tap to the Connector instance if already present
-            self_connected = False
-            if self in connections['input']:
-                self_connected = True
-                break
-            if not self_connected:
+            if not self in value.connections['input']:
                 value.tap(self,'input')
 
         self.trigger()
