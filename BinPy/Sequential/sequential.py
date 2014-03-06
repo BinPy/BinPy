@@ -1,7 +1,4 @@
 from BinPy import *
-from BinPy.Gates import *
-from BinPy.Gates import *
-
 
 class FlipFlop:
     """
@@ -10,11 +7,11 @@ class FlipFlop:
     def __init__(self):
         pass
         
-    def enable(self):
+    def Enable(self):
         self.enable.state = 1
         self.enable.trigger()
     
-    def disable(self):
+    def Disable(self):
         self.enable.state = 0
         self.enable.trigger()
         
@@ -30,18 +27,18 @@ class SRLatch(FlipFlop):
     Set the inputs of SRLatch and to trigger any change in input use trigger() method.
     
     """
-    def __init__(self,S,R,enable,a = Connector(),b = Connector()):
+    def __init__(self,S,R,enable,a = Connector(0),b = Connector(1)):
         
         self.a = a
         self.b = b        
         
         #Initiated to support numerical inputs --> See trigger method's doc
-        self.S = Connector()
-        self.R = Connector()
+        self.S = Connector(0)
+        self.R = Connector(1)
         
         #Initiated to initiate the gates
-        self.enabledS = Connector()
-        self.enabledR = Connector()
+        self.enabledS = Connector(0)
+        self.enabledR = Connector(1)
         
         #Initiating the gates with inputs - Will be overwritten when the self.setInputs() is called 4 lines hence.
         #This is just to initiate the gates.
@@ -110,8 +107,7 @@ class SRLatch(FlipFlop):
         
         self.g2.setInput(0,self.enabledR)
         self.g2.setInput(1,self.b)
-        self.trigger()
-        
+                
     def setOutputs(self,**outputs):
         
         for key in outputs:
@@ -130,32 +126,15 @@ class SRLatch(FlipFlop):
         self.g2.setOutput(self.a)
         self.g2.setInput(1,self.b)
         
-        self.trigger()
-        
-    def trigger(self,**inputs):
-        """ 
-        Call to SR Latch Instance will return its current state of outputs as a List of values [ q, qcomp ]
-        
-        Parameters can also be passed. Binary parameters will update the SRLatch
-        Connector instances will connect them to the SRLatch
-        
-        Once SR is triggered with binary values the values of S and R are changed however since backward triggering is not present
-        The circuit preceeding the SR Latch will not get affected by this change.
-        
-        """
-        if len(inputs) != 0:
-            self.setInputs(**inputs)
-           
+    def trigger(self):
         if bool(self.S) and bool(self.R):
             print "ERROR: Invalid State - Resetting the Latch"
             self.S.state = 0
             self.R.state = 1
             
-        self.S.trigger()
-        self.R.trigger()
         self.enable.trigger()
+        
         #This will trigger the gates which will trigger the a and b
-    
         return [self.a(), self.b()]
     
     
@@ -167,7 +146,10 @@ class SRLatch(FlipFlop):
         self.trigger()
     
     def __call__(self):
-        self.trigger()
+        return self.trigger()
+        
+    def state(self):
+        """Returns the current state of the SRLatch"""
         return [self.a(), self.b()]
 
 class DFlipFlop(FlipFlop):
@@ -183,13 +165,20 @@ class DFlipFlop(FlipFlop):
     Calling an instance of DFlipFlop returns a list of its state [ a, b]
     
     """
-    def __init__(self,D,enable,a = Connector(),b = Connector()):
+    def __init__(self,D,enable,a = Connector(0),b = Connector(1)):
         
-        self.g1 = AND(D,enable)
-        self.g2 = NOT(a)
+        self.a = a
+        self.b = b        
+        self.enable = enable
         
-        self.setInputs(D = D, enable = enable)
+        #Initiated to support numerical inputs --> See trigger method's doc
+        self.D = D
+        self.g1 = AND(self.D,self.enable)
+        self.g2 = NOT(self.a)
+        
+        self.setInputs(D = D, enable = enable)    
         self.setOutputs(A = a, B = b)
+        
         
     def setInputs(self,**inputs):
         """
@@ -210,12 +199,11 @@ class DFlipFlop(FlipFlop):
                     self.D = inputs[key]
                 else:
                     self.D.state = int(inputs[key])
-                    
             elif key.lower() == 'enable':
                 if isinstance(inputs[key],Connector):
                     self.enable = inputs[key]
                 else:
-                    self.enable.state = int(inputs[key])    
+                    self.enable.state = int(inputs[key])                
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
                 
@@ -225,10 +213,8 @@ class DFlipFlop(FlipFlop):
         self.g1.setInput(1,self.enable)
         self.g1.setOutput(self.a)
         
-        self.g2.setInput(0,self.a)
+        self.g2.setInput(self.a)
         self.g2.setOutput(self.b)
-        
-        self.trigger()
         
     def setOutputs(self,**outputs):
         
@@ -244,25 +230,11 @@ class DFlipFlop(FlipFlop):
         
         self.g1.setOutput(self.a)
         
-        self.g2.setInput(0,self.a)
+        self.g2.setInput(self.a)
         self.g2.setOutput(self.b)
-                
-        self.trigger()
         
-    def trigger(self,**inputs):
-        """ 
-        Call to D FlipFlop Instance will return its current state of outputs as a List of values [ q, qcomp ]
-        
-        Parameters can also be passed to the trigger method. Binary parameters will update the D value
-        Connector instances will connect them to the DFlipFlop
-        
-        """
-        #This should take care of every thing.    
-        
-        if len(inputs) != 0:
-            self.setInputs(inputs)
-
-        self.D.trigger()        
+    def trigger(self):
+        self.D.trigger()
         return [self.a(), self.b()]
         
     def reset(self):
@@ -270,10 +242,14 @@ class DFlipFlop(FlipFlop):
         self.D.state = 0
         self.D.trigger()
     
-    def __call__(self):
-        self.trigger()
+    def __call__(self,**inputs):
+        """Call to the FlipFlop instance will invoke the trigger method"""
+        return self.trigger(**inputs)
+        
+    def state(self):
+        """Returns the current state of the DFlipflop"""
         return [self.a(), self.b()]
-    
+
 class JKFlipFlop(FlipFlop):
     """
     Class to implement JKFlipFlop
@@ -287,33 +263,18 @@ class JKFlipFlop(FlipFlop):
     call to the JKFlipFlop instance also triggers it and returns the current state as a list
     
     """
-    def __init__(self,J,K,enable,a = Connector(),b = Connector()):
+    def __init__(self,J,K,enable,a = Connector(0),b = Connector(1)):
         
         #Initiated to support numerical inputs --> See trigger method's doc
+        self.J = J
+        self.K = K
+        self.enable = enable
         self.a = a
-        self.b = b  
-
-        self.J = Connector()
-        self.K = Connector()
+        self.b = b
         
-        self.wire1 = Connector(0)
-        self.wire2 = Connector(0)
+        #self.wire1 = Connector(0)
+        #self.wire2 = Connector(0)
         
-        #Initiated to initiate the gates
-        self.enabledJ = Connector()
-        self.enabledK = Connector()
-        
-        #Initiating the gates with inputs - Will be overwritten when the self.setInputs() is called 4 lines below.
-        #This is just to initiate the gates.
-        #I.E   J, K, enable are Dummy variables w.r.t the below 2 lines.
-        self.en1 = AND(J,enable,b)
-        self.en2 = AND(K,enable,a)
-        
-        self.g1 = NOR(self.enabledJ,a)
-        self.g2 = NOR(self.enabledK,b)
-        
-        self.setInputs(J = J, K = K, enable = enable)
-        self.setOutputs(A = a, B = b)
         
     def setInputs(self,**inputs):
         """
@@ -352,26 +313,6 @@ class JKFlipFlop(FlipFlop):
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
                 
-        self.en1.setInput(0,self.wire1)
-        
-        self.en1.setInput(1,self.J)
-        self.en1.setInput(2,self.enable)
-        self.en1.setOutput(self.enabledJ)
-        
-        self.en2.setInput(0,self.wire2)
-        
-        self.en2.setInput(1,self.K)
-        self.en2.setInput(2,self.enable)
-        self.en2.setOutput(self.enabledK)
-                
-        self.g1.setInput(0,self.enabledJ)
-        self.g1.setInput(1,self.a)
-        
-        self.g2.setInput(0,self.enabledK)
-        self.g2.setInput(1,self.b)
-        
-        self.trigger()
-        
     def setOutputs(self,**outputs):
         
         for key in outputs:
@@ -384,15 +325,9 @@ class JKFlipFlop(FlipFlop):
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
         
-        self.g1.setOutput(self.b)
-        self.g1.setInput(1,self.a)
-        
-        self.g2.setOutput(self.a)
-        self.g2.setInput(1,self.b)
-        
         self.trigger()
                 
-    def trigger(self,**inputs):
+    def trigger(self):
         """ 
         Call to JK Latch Instance will return its current state of outputs as a List of values [ q, qcomp ]
         
@@ -403,23 +338,24 @@ class JKFlipFlop(FlipFlop):
         The circuit preceeding the JKFlipFlop will not get affected by this change.
         
         """
-        if len(inputs) != 0:
-            self.setInputs(**inputs)
-
-        #This will trigger all the gates once
-        self.enable.trigger()
+        #Using behavioural Modelling
+        
+        if bool(self.enable):
+            if bool(self.J) and bool(self.K):
+                self.a.state = 0 if bool(self.a) else 1
+                
+            elif not bool(self.J) and bool(self.K):
+                self.a.state = 0
             
-        #This will set the wire1 and wire2 to outputs of NOR gates 1 and 2       
-        self.wire1.state = self.g1.result
-        self.wire2.state = self.g2.result
+            elif bool(self.J) and not bool(self.K):
+                self.a.state = 1
         
-        #This will trigger it again to obtain the final answer
-        self.enable.trigger()
+        self.b.state = 0 if self.a.state else 1
         
-        #This seems to be the only workaround to  avoid infinite recursions and still get correct output.
-    
+        self.a.trigger()
+        self.b.trigger()
+        
         return [self.a(), self.b()]
-        
     
     def reset(self):
         #Resets the latch
@@ -429,8 +365,11 @@ class JKFlipFlop(FlipFlop):
         self.trigger()
     
     def __call__(self):
-        self.trigger()
+        return self.trigger()
+    
+    def state(self):
         return [self.a(), self.b()]
+        
 
 class TFlipFlop:
     """
@@ -482,11 +421,8 @@ class TFlipFlop:
         self.jkff.setOutputs(self.a,self.b)
         self.trigger()
         
-    def trigger(self,**inputs):
+    def trigger(self):
 
-        if len(inputs) != 0:
-            self.setInputs(**inputs)
-        
         self.jkff.trigger()
         
         return [self.a(), self.b()]
