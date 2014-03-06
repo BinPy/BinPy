@@ -14,3 +14,11 @@ class Connector:
 
     def __call__(self):
         return self.state
+    
+    #Overloads the bool() method
+    def __nonzero__(self):
+        return bool(self.state)
+    
+    #Overloads the int() method
+    def __int__(self):
+        return self.state
