@@ -110,7 +110,7 @@ class MIGATES(GATES):
 class AND(MIGATES):
 
     def __init__(self,*inputs):
-        GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -127,7 +127,7 @@ class AND(MIGATES):
 class OR(MIGATES):
 
     def __init__(self,*inputs):
-        GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -177,7 +177,7 @@ class NOT(GATES):
 class XOR(MIGATES):
 
     def __init__(self,*inputs):
-        GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -199,7 +199,7 @@ class XOR(MIGATES):
 class XNOR(MIGATES):
 
     def __init__(self,*inputs):
-        GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -221,7 +221,7 @@ class XNOR(MIGATES):
 class NAND(MIGATES):
 
     def __init__(self,*inputs):
-        GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -238,7 +238,7 @@ class NAND(MIGATES):
 class NOR(MIGATES):
 
     def __init__(self,*inputs):
-        GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
