@@ -2,10 +2,12 @@ import sys
 import ast
 from BinPy import * #Needed so that trial run of the synthesized code can be done
 
-def getExampleCode(icno,sampleip = None):
+def getExampleCode(icno,sampleip = None,initialize = ''):
     """
     Synthesizes the example code for an IC given its IC no. and a sample input to test it.
     If no sample input is given, the test input in the file ics_tests.py is taken as the sample input.
+    Initialize provides a few lines of code to execute while testing the ic or example code.
+    This funcionality allows the icMaker to use this function to generate example code
     """
     try:
         dict_of_vars = {}
@@ -13,7 +15,7 @@ def getExampleCode(icno,sampleip = None):
         icstr = 'ic = IC_{IC_NO}()'.format(**dict_of_vars)
             
         try:
-            exec icstr
+            exec initialize+'\n'+icstr
         except Exception,e :
             raise Exception('IC Number not found - '+str(e))
         
@@ -68,7 +70,7 @@ def getExampleCode(icno,sampleip = None):
         print 'The final code is \n\n:'+code
         
         print 'Executing it to see if this one runs smoothly'
-        exec code        
+        exec initialize+'\n'+code        
         return code
             
     except Exception,e:
