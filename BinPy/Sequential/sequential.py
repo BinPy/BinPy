@@ -4,22 +4,24 @@ class FlipFlop:
     """
     Super Class for all FlipFlops
     """
-    def __init__(self):
-        pass
-        
+    def __init__(self,enable,clk,a,b):
+        self.a = a
+        self.b = b
+        self.clk = clk
+        self.enable = enable
+        self.clkoldval = 1
+
     def Enable(self):
         self.enable.state = 1
-        self.enable.trigger()
     
     def Disable(self):
         self.enable.state = 0
-        self.enable.trigger()
         
 class SRLatch(FlipFlop):
     """
-    Class to implement SRLatch
     S and R are the two primary inputs.
     They are enabled by the third input enable.
+    The clock triggers the FlipFlop
 
     Ouputs are a ( q ) and b ( ~q )
     
@@ -27,10 +29,9 @@ class SRLatch(FlipFlop):
     Set the inputs of SRLatch and to trigger any change in input use trigger() method.
     
     """
-    def __init__(self,S,R,enable,a = Connector(0),b = Connector(1)):
+    def __init__(self,S,R,enable,clk,a = Connector(0),b = Connector(1)):
         
-        self.a = a
-        self.b = b        
+        FlipFlop.__init__(self,enable,clk,a,b)
         
         #Initiated to support numerical inputs --> See trigger method's doc
         self.S = Connector(0)
@@ -85,6 +86,13 @@ class SRLatch(FlipFlop):
                     self.enable = inputs[key]
                 else:
                     self.enable.state = int(inputs[key])
+
+            elif key.lower() == 'clk':
+                if isinstance(inputs[key],Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
+                    
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
                 
@@ -127,16 +135,20 @@ class SRLatch(FlipFlop):
         self.g2.setInput(1,self.b)
         
     def trigger(self):
-        if bool(self.S) and bool(self.R):
-            print "ERROR: Invalid State - Resetting the Latch"
-            self.S.state = 0
-            self.R.state = 1
-            
-        self.enable.trigger()
         
-        #This will trigger the gates which will trigger the a and b
+        if self.clkoldval == 1 and self.clk.state == 0:
+            if bool(self.S) and bool(self.R):
+                print "ERROR: Invalid State - Resetting the Latch"
+                self.S.state = 0
+                self.R.state = 1
+                
+            self.enable.trigger()
+            #This will trigger the gates which will trigger the a and b
+        
+        self.clkoldval = self.clk.state
+        #stores the current clock state
+        
         return [self.a(), self.b()]
-    
     
     def reset(self):
         #Resets the latch
@@ -165,12 +177,9 @@ class DFlipFlop(FlipFlop):
     Calling an instance of DFlipFlop returns a list of its state [ a, b]
     
     """
-    def __init__(self,D,enable,a = Connector(0),b = Connector(1)):
+    def __init__(self,D,enable,clk,a = Connector(0),b = Connector(1)):
         
-        self.a = a
-        self.b = b        
-        self.enable = enable
-        
+        FlipFlop.__init__(self,enable,clk,a,b)
         #Initiated to support numerical inputs --> See trigger method's doc
         self.D = D
         self.g1 = AND(self.D,self.enable)
@@ -203,7 +212,12 @@ class DFlipFlop(FlipFlop):
                 if isinstance(inputs[key],Connector):
                     self.enable = inputs[key]
                 else:
-                    self.enable.state = int(inputs[key])                
+                    self.enable.state = int(inputs[key])            
+            elif key.lower() == 'clk':
+                if isinstance(inputs[key],Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
                 
@@ -234,7 +248,9 @@ class DFlipFlop(FlipFlop):
         self.g2.setOutput(self.b)
         
     def trigger(self):
-        self.D.trigger()
+        if self.clkoldval == 1 and self.clk.state == 0:
+            self.D.trigger()
+        self.clkoldval = self.clk.state
         return [self.a(), self.b()]
         
     def reset(self):
@@ -263,18 +279,20 @@ class JKFlipFlop(FlipFlop):
     call to the JKFlipFlop instance also triggers it and returns the current state as a list
     
     """
-    def __init__(self,J,K,enable,a = Connector(0),b = Connector(1)):
+    def __init__(self,J,K,enable,clk,a = Connector(0),b = Connector(1)):
         
-        #Initiated to support numerical inputs --> See trigger method's doc
+        FlipFlop.__init__(self,enable,clk,a,b)        
+        
         self.J = J
-        self.K = K
-        self.enable = enable
-        self.a = a
-        self.b = b
+        self.K = K        
         
-        #self.wire1 = Connector(0)
-        #self.wire2 = Connector(0)
+        self.J.tap(self,'input')
+        self.K.tap(self,'input')
+        self.enable.tap(self,'input')
+        self.clk.tap(self,'input')
         
+        self.a.tap(self,'output')
+        self.b.tap(self,'output')        
         
     def setInputs(self,**inputs):
         """
@@ -310,9 +328,19 @@ class JKFlipFlop(FlipFlop):
                     self.enable = inputs[key]
                 else:
                     self.enable.state = int(inputs[key])
+            elif key.lower() == 'clk':
+                if isinstance(inputs[key],Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
-                
+            
+        self.J.tap(self,'input')
+        self.K.tap(self,'input')
+        self.enable.tap(self,'input')
+        self.clk.tap(self,'input')
+            
     def setOutputs(self,**outputs):
         
         for key in outputs:
@@ -325,7 +353,8 @@ class JKFlipFlop(FlipFlop):
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
         
-        self.trigger()
+        self.a.tap(self,'output')
+        self.b.tap(self,'output')
                 
     def trigger(self):
         """ 
@@ -339,22 +368,23 @@ class JKFlipFlop(FlipFlop):
         
         """
         #Using behavioural Modelling
-        
-        if bool(self.enable):
-            if bool(self.J) and bool(self.K):
-                self.a.state = 0 if bool(self.a) else 1
-                
-            elif not bool(self.J) and bool(self.K):
-                self.a.state = 0
+        if self.clkoldval == 1 and self.clk.state == 0:
             
-            elif bool(self.J) and not bool(self.K):
-                self.a.state = 1
-        
-        self.b.state = 0 if self.a.state else 1
-        
-        self.a.trigger()
-        self.b.trigger()
-        
+            if bool(self.enable):
+                if bool(self.J) and bool(self.K):
+                    self.a.state = 0 if bool(self.a) else 1
+                    
+                elif not bool(self.J) and bool(self.K):
+                    self.a.state = 0
+                
+                elif bool(self.J) and not bool(self.K):
+                    self.a.state = 1
+            
+            self.b.state = 0 if self.a.state else 1
+            
+            self.a.trigger()
+            self.b.trigger()
+        self.clkoldval = self.clk.state
         return [self.a(), self.b()]
     
     def reset(self):
@@ -371,21 +401,19 @@ class JKFlipFlop(FlipFlop):
         return [self.a(), self.b()]
         
 
-class TFlipFlop:
+class TFlipFlop(FlipFlop):
     """
-    Implemented using JKFlipFlop
-    J = K = T
+    Toggle Flip Flop.
+    When toggle is high, for every negative edge clock pulse received the Flipflop output is toggled.
     """
-    def __init__(self,T,enable,a = Connector(),b = Connector()):
+    def __init__(self,T,enable,clk,a = Connector(),b = Connector()):
         
-        #Initiated to support numerical inputs --> See trigger method's doc
+        FlipFlop.__init__(self,enable,clk,a,b)
+        
         self.T = T
-        self.enable = enable
-
-        self.a = a
-        self.b = b
-
-        self.jkff = JKFlipFlop(self.T,self.T,self.enable,self.a,self.b)
+        self.T.tap(self,'input')
+        self.enable.tap(self,'input')
+        self.clk.tap(self,'input')
         
     def setInputs(self,**inputs):
         for key in inputs:
@@ -400,14 +428,20 @@ class TFlipFlop:
                     self.enable = inputs[key]
                 else:
                     self.enable.state = int(inputs[key])
+            elif key.lower() == 'clk':
+                if isinstance(inputs[key],Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
+                    
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
-                
-        self.jkff.setInputs(J = self.T,K = self.T,enable = self.enable)
-        self.trigger()
+
+        self.T.tap(self,'input')
+        self.enable.tap(self,'input')
+        self.clk.tap(self,'input')
         
     def setOutputs(self,**outputs):
-        
         for key in outputs:
             if not isinstance(outputs[key],Connector):
                 raise Exception('ERROR: Output not a connector instance')
@@ -417,12 +451,20 @@ class TFlipFlop:
                 self.b = outputs[key]
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
-                
-        self.jkff.setOutputs(a = self.a, b = self.b)
-        self.trigger()
+        
+        self.a.tap(self,'output')
+        self.b.tap(self,'output')
         
     def trigger(self):
-        self.jkff.trigger()
+        if self.clkoldval == 1 and self.clk.state == 0:
+            if bool(self.T):
+                self.a.state = 0 if bool(self.a) else 1
+            self.b.state = 0 if bool(self.a) else 1 
+            
+            self.a.trigger()
+            self.b.trigger()
+            
+        self.clkoldval = self.clk.state
         
     def reset(self):
         #Resets the latch
