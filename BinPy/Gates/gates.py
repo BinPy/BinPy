@@ -100,13 +100,17 @@ class GATES:
             return False
         return True
 
-class AND(GATES):
-
+class MIGATES(GATES):
     def __init__(self,*inputs):
         if len(inputs) < 2:
-            raise Exception("ERROR: Too few inputs given")
-        else:
-            GATES.__init__(self,list(inputs))
+            raise Exception("ERROR: Too few inputs given. Needs at least 2 or more inputs.")
+
+        GATES.__init__(self,list(inputs))
+
+class AND(MIGATES):
+
+    def __init__(self,*inputs):
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -120,13 +124,10 @@ class AND(GATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
-class OR(GATES):
+class OR(MIGATES):
 
     def __init__(self,*inputs):
-        if len(inputs) < 2:
-            raise Exception("ERROR: Too few inputs given")
-        else:
-            GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -173,13 +174,10 @@ class NOT(GATES):
             if self.outputType == 1:
                 self.outputConnector.trigger()
 
-class XOR(GATES):
+class XOR(MIGATES):
 
     def __init__(self,*inputs):
-        if len(inputs) < 2:
-            raise Exception("ERROR: Too few inputs given")
-        else:
-            GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -198,13 +196,10 @@ class XOR(GATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
-class XNOR(GATES):
+class XNOR(MIGATES):
 
     def __init__(self,*inputs):
-        if len(inputs) < 2:
-            raise Exception("ERROR: Too few inputs given")
-        else:
-            GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -223,13 +218,10 @@ class XNOR(GATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
-class NAND(GATES):
+class NAND(MIGATES):
 
     def __init__(self,*inputs):
-        if len(inputs) < 2:
-            raise Exception("ERROR: Too few inputs given")
-        else:
-            GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -243,13 +235,10 @@ class NAND(GATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
-class NOR(GATES):
+class NOR(MIGATES):
 
     def __init__(self,*inputs):
-        if len(inputs) < 2:
-            raise Exception("ERROR: Too few inputs given")
-        else:
-            GATES.__init__(self,list(inputs))
+        MIGATES.__init__(self,*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
