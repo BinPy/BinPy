@@ -7,6 +7,7 @@ python:
 before install:
  - sudo apt-get update
  - sudo apt-get install python-setuptools
+ - sudo apt-get install python3-nose
 
 script:
  - cd BinPy/tests/
