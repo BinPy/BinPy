@@ -43,7 +43,8 @@ class Clock(threading.Thread):
         self.curr_state = init_state
         self.exitFlag = 0
         self.daemon = True
-        self.A = Connector(self, 'A', activates=1, monitor=0)
+        self.A = Connector(self.curr_state)
+        self.A.tap(self,'output')
 
     def __toggleState(self):
         """
@@ -51,10 +52,10 @@ class Clock(threading.Thread):
         """
         if self.curr_state==1:
             self.curr_state = 0
-            self.A.set(self.curr_state)
+            self.A.state = self.curr_state
         else:
             self.curr_state = 1
-            self.A.set(self.curr_state)
+            self.A.state = self.curr_state
 
     def __main_func(self):
         while True:
