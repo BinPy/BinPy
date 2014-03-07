@@ -5,7 +5,7 @@ class PowerSource:
         '''Models a Power Source from which various connectors can tap by connecting to it.
 
         taps: The list of all conectors connected to this power source
-        connect(): Takes in one or more connectors as input and çonnects them to the power source.
+        connect(): Takes in one or more connectors as input and connects them to the power source.
         disconnect(): Takes in one or more connectors as input and diconnects them from the power source.'''
 
         def __init__(self):
