@@ -56,7 +56,7 @@ class IC:
                 
                 
                     
-                for i in range(1, (self.total_pins/2)+1):
+                for i in range(1, (self.total_pins//2)+1):
                     
                     j = self.total_pins-i+1
                     if self.uses_pincls:
