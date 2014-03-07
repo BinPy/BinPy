@@ -4,40 +4,101 @@ from BinPy import *
 
 j = Connector(1)
 k = Connector(0)
+
 p = Connector(0)
 q = Connector(1)
 
+#Initialize the clock
+clock = Clock(1,1)
+clock.start()
+#A clock of 1 hertz frequency
+clk_conn = clock.A
+
 enable = Connector(1)
 
-jkff = JKFlipFlop(j,k,enable)
-#To connect different outputs use s.setOutputs(op1,op2)
+jkff = JKFlipFlop(j,k,enable,clk_conn,enable)
+
+#To connect outputs use s.setOutputs(op1,op2)
 jkff.setOutputs(A = p, B = q)
 
-#set
+print 'SET STATE - J = 1, K = 0'
+#Set State
 j.state = 1
 k.state = 0
-jkff.trigger()
-print jkff.state()
-#The same thing can also be dont by --> jkff.setInputs(j = 1, k = 0)
-
-#reset
-j.state = 0
-k.state = 1
-jkff.trigger()
+#The same thing can also be done by --> jkff.setInputs(j = 1, k = 0)
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        jkff.trigger()
+        break
 print jkff.state()
 
-#toggle
+#Sending a positive edge to jkff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        jkff.trigger()
+        break
+
+
+print 'RESET STATE - J = 0, K = 1'
+#Reset State
 j.state = 0
 k.state = 1
-jkff.trigger()
+#The same thing can also be done by --> jkff.setInputs(j = 1, k = 0)
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        jkff.trigger()
+        break
+print p(),q()
+
+#Sending a positive edge to jkff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        jkff.trigger()
+        break
+
+
+print 'TOGGLE STATE - J = 1, K = 1'
+#Toggle State
+j.state = 1
+k.state = 1
+#The same thing can also be done by --> jkff.setInputs(j = 1, k = 0)
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        jkff.trigger()
+        break
 print jkff.state()
 
-#No change
+#Sending a positive edge to jkff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        jkff.trigger()
+        break
+
+
+print 'NO CHANGE STATE - J = 0, K = 0'
+#No change state
 j.state = 0
-k.state = 1
-jkff.trigger()
+k.state = 0
+#The same thing can also be done by --> jkff.setInputs(j = 1, k = 0)
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        jkff.trigger()
+        break
 print jkff.state()
+
+#Sending a positive edge to jkff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        jkff.trigger()
+        break
 
 print p(), q()
-
 #To connect different set of connectors use s.setInputs(conn1,conn2,enab)

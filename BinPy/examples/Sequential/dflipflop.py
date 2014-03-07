@@ -2,23 +2,68 @@
 
 from BinPy import *
 
-a = Connector(1)
+data = Connector(1)
+
 p = Connector(0)
 q = Connector(1)
 
+#Initialize the clock
+clock = Clock(1,1)
+clock.start()
+#A clock of 1 hertz frequency
+clk_conn = clock.A
+
 enable = Connector(1)
 
-s = DFlipFlop(a,enable)
-
-a.state = 1
-s.trigger()
-print s.state()
-#The same thing can also be dont by --> s.setInputs(d = 1)
-
-a.state = 0
-s.trigger()
-print s.state()
-
-#To connect different set of connectors use s.setInputs(conn1,enab)
+#Initialize the D-FlipFlop
+dff = DFlipFlop(data,enable,clk_conn,p,q)
+#To connect different set of connectors use :
+#dff.setInputs(conn1,enab,clk)
 #To connect different outputs use s.setOutputs(op1,op2)
-s.setOutputs(A = p, B = q)
+dff.setOutputs(A = p, B = q)
+
+print 'Data is 1'
+data.state = 1
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        dff.trigger()
+        break
+print dff.state()
+
+#Sending a positive edge to dff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        dff.trigger()
+        break
+
+print 'Data is 0'
+data.state = 0
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        dff.trigger()
+        break
+print dff.state()    
+#Sending a positive edge to dff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        dff.trigger()
+        break
+
+print 'Data is 1'
+data.state = 1
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        dff.trigger()
+        break
+print dff.state()
+#Sending a positive edge to dff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        dff.trigger()
+        break

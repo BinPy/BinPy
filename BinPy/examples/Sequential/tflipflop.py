@@ -2,27 +2,100 @@
 
 from BinPy import *
 
-toggle_ip = Connector(1)
+toggle = Connector(1)
+
 p = Connector(0)
 q = Connector(1)
 
+#Initialize the clock
+clock = Clock(1,1)
+clock.start()
+#A clock of 1 hertz frequency
+clk_conn = clock.A
+
 enable = Connector(1)
 
-t = TFlipFlop(toggle_ip,enable)
+#Initialize the T-FlipFlop
+tff = TFlipFlop(toggle,enable,clk_conn,p,q)
 
-toggle_ip.state = 1
-#The same thing can also be dont by --> t.setInputs(t = 1)
-t.trigger()
-print t.state()
+#To connect different set of connectors use :
+#tff.setInputs(conn1,enab,clk)
+#To connect different outputs use:
+tff.setOutputs(A = p, B = q)
 
-toggle_ip.state = 1
-t.trigger()
-print t.state()
+print 'Toggle is 1'
+toggle.state = 1
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
+print tff.state()
 
-toggle_ip.state = 0
-t.trigger()
-print t.state()
+#Sending a positive edge to ff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
 
-#To connect different set of connectors use t.setInputs(conn1,enab)
-#To connect different outputs use t.setOutputs(op1,op2)
-t.setOutputs(A = p, B = q)
+print 'Toggle is 1'    
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
+print tff.state()
+
+#Sending a positive edge to ff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
+
+print 'Toggle is 1'    
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
+print tff.state()
+
+#Sending a positive edge to ff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
+
+print 'Toggle is 0'    
+toggle.state = 0
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
+print tff.state()
+
+#Sending a positive edge to ff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
+
+print 'Toggle is 0'    
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break
+print tff.state()
+
+#Sending a positive edge to ff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        tff.trigger()
+        break

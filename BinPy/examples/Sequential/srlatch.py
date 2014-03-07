@@ -1,27 +1,102 @@
-#Example for SRLatch()
+#Example for SRLatch
 
 from BinPy import *
 
-a = Connector(1)
-b = Connector(0)
+s = Connector(1)
+r = Connector(0)
+
 p = Connector(0)
 q = Connector(1)
 
+#Initialize the clock
+clock = Clock(1,1)
+clock.start()
+#A clock of 1 hertz frequency
+clk_conn = clock.A
+
 enable = Connector(1)
 
-s = SRLatch(a,b,enable)
+#Initialize the sr latch
+srff = SRLatch(s,r,enable,clk_conn)
 
-a.state = 1
-b.state = 0
-s.trigger()
-print s.state()
-#The same thing can also be dont by --> s.setInputs(s = 1, r = 1)
+#To connect outputs use s.setOutputs(op1,op2)
+srff.setOutputs(A = p, B = q)
 
-a.state = 0
-b.state = 1
-s.trigger()
-print s.state()
+print 'SET STATE - S = 1, R = 0'
+#Set State
+s.state = 1
+r.state = 0
+#The same thing can also be done by --> srff.setInputs(s = 1, r = 0)
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        srff.trigger()
+        break
+print srff.state()
 
-#To connect different set of connectors use s.setInputs(conn1,conn2,enab)
-#To connect different outputs use s.setOutputs(op1,op2)
-s.setOutputs(A = p, B = q)
+#Sending a positive edge to srff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        srff.trigger()
+        break
+
+
+print 'RESET STATE - S = 0, R = 1'
+#Reset State
+s.state = 0
+r.state = 1
+#The same thing can also be done by --> srff.setInputs(s = 1, r = 0)
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        srff.trigger()
+        break
+#Displaying the output using the connector instances
+print '[',p(),',',q(),']'
+
+#Sending a positive edge to srff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        srff.trigger()
+        break
+
+
+print 'INVALID STATE - S = 1, R = 1'
+#Invalid state
+s.state = 1
+r.state = 1
+#The same thing can also be done by --> srff.setInputs(s = 1, r = 1)
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        srff.trigger()
+        break
+print srff.state()
+
+#Sending a positive edge to srff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        srff.trigger()
+        break
+    
+print '2nd INVALID STATE - S = 0, R = 0'
+#Invalid state
+s.state = 1
+r.state = 1
+#The same thing can also be done by --> srff.setInputs(s = 1, r = 1)
+while True:
+    if clk_conn.state == 0:
+        #Falling edge will trigger the FF
+        srff.trigger()
+        break
+print srff.state()
+
+#Sending a positive edge to srff
+while True:
+    if clk_conn.state == 1:
+        #Falling edge will trigger the FF
+        srff.trigger()
+        break
