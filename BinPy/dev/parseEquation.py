@@ -80,7 +80,7 @@ def eqnParse(eqn,isOperandtype = str.isalpha):
             operators.append(eqn[i])
         elif eqn[i]=='(':
             if flag:
-                print 'ERROR: Equation error at '+eqn[i-1:i+1]
+                print('ERROR: Equation error at ' + eqn[i-1:i+1])
                 no_error = False
                 break
             pos = findMatchingBrace(i,eqn)
@@ -211,7 +211,6 @@ def eqnParse(eqn,isOperandtype = str.isalpha):
     return equation_final if no_error else None
     
 #Uncomment to test:    
-
 print (eqnParse('~((((~A)&B&C)^(~A))&E&F&G)'))
 #NAND(G,F,E,XOR(NOT(A),AND(C,B,NOT(A))))
 #print findMatchingBrace(2,'((((((()))))abcedfljk(()))a&b)')
