@@ -32,7 +32,7 @@ class MUX(GATES):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number inputs should be a power of 2")
         self.selects = []
-        GATES.__init__(self, *inputs)
+        super(MUX, self).__init__(*inputs)
 
     def selectLines(self, *select):
         if not (pow(2, len(select)) == len(self.inputs)):
@@ -108,7 +108,7 @@ class DEMUX(GATES):
         if not (len(inputs) == 1):
             raise Exception("ERROR: Input should be 0/1")
         self.selects = []
-        GATES.__init__(self, *inputs)
+        super(DEMUX, self).__init__(*inputs)
         self.outputType = []
         self.outputConnector = []
 
@@ -204,7 +204,7 @@ class Decoder(GATES):
     def __init__(self, *inputs):
         if len(inputs) == 0:
             raise Exception("ERROR: Input Length should be greater than zero")
-        GATES.__init__(self, *inputs)
+        super(Decoder, self).__init__(*inputs)
         self.outputType = []
         self.outputConnector = []
         for i in range(pow(2, len(inputs))):
@@ -284,7 +284,7 @@ class Encoder(GATES):
         if not (inputs.count(1) == 1 or list(x.state for x in
                                              filter(lambda i: isinstance(i, Connector), inputs)).count(1) == 1):
             raise Exception("Invalid Input")
-        GATES.__init__(self, *inputs)
+        super(Encoder, self).__init__(*inputs)
         self.outputType = []
         self.outputConnector = []
         for i in range(int(math.log(len(self.inputs), 2))):

@@ -1,7 +1,7 @@
 from BinPy.Gates import *
 
 
-class Ground:
+class Ground(object):
     """Models a Ground from which various connectors can tap by connecting to it.
 
     taps: The list of all connectors connected to this ground.

@@ -30,7 +30,7 @@ class Clock(threading.Thread):
 
     """
     def __init__(self, init_state=1, frequency=None, time_period=None, name=None):
-        threading.Thread.__init__(self)
+        super.__init__(Clock, self)
         if frequency != None:
             self.time_period = 1.0/frequency
         if time_period != None:
@@ -101,7 +101,7 @@ class Clock(threading.Thread):
         self.__main_func()
 
 
-class DigitDisplay:
+class DigitDisplay(object):
     '''
     This class emulates a 7 segmented display(Common Cathode)
 

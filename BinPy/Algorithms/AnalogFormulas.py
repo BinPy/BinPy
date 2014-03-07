@@ -1,4 +1,5 @@
-class OhmsLaw:
+class OhmsLaw(object):
+
     '''
     This class implements Ohm's law for circuit analysis
     It requires any two parameters and it will calculate the other two.
@@ -11,7 +12,8 @@ class OhmsLaw:
     Methods:
         evaluate(i=None,v=None,r=None,p=None)
     '''
-    def evaluate(self,i=None,v=None,r=None,p=None):
+
+    def evaluate(self, i=None, v=None, r=None, p=None):
         '''
         This method returns a dictionary of current, voltage, power, and resistance
         DictKeys: 'i', 'v', 'r', 'p'
@@ -22,28 +24,30 @@ class OhmsLaw:
         else:
             if not p:
                 if i and v and not r:
-                    r = float(v/i)
-                    p = v*i
+                    r = float(v / i)
+                    p = v * i
                 if i and r and not v:
-                    v = i*r
-                    p = (i**2)*r
+                    v = i * r
+                    p = (i ** 2) * r
                 if v and r and not i:
-                    i = float(v/r)
-                    p = float((v**2)/r)
+                    i = float(v / r)
+                    p = float((v ** 2) / r)
             else:
                 if p and i and not v and not r:
-                    v = float(p)/i
-                    r = float(p)/(i**2)
+                    v = float(p) / i
+                    r = float(p) / (i ** 2)
                 if p and v and not i and not r:
-                    i = float(p)/v
-                    r = float(p)/(i**2)
+                    i = float(p) / v
+                    r = float(p) / (i ** 2)
                 if p and r and not i and not v:
-                    i = sqrt(float(p)/r)
-                    v = i*r
+                    i = sqrt(float(p) / r)
+                    v = i * r
             print(values)
-            return {'i':i,'v':v,'r':r,'p':p}
+            return {'i': i, 'v': v, 'r': r, 'p': p}
 
-class OhmsLaw_AC:
+
+class OhmsLaw_AC(object):
+
     '''
     This class implements Ohm's law for circuit analysis using AC current
     It requires any three parameters and it will calculate the other two.
@@ -56,7 +60,8 @@ class OhmsLaw_AC:
     Methods:
         evaluate(i=None,v=None,z=None,p=None,cos=None)
     '''
-    def evaluate(self,i=None,v=None,z=None,p=None,cos=None):
+
+    def evaluate(self, i=None, v=None, z=None, p=None, cos=None):
         '''
         This method returns a dictionary of current, voltage, power, resistance and cosine
         DictKeys: 'i', 'v', 'z', 'p','c'
@@ -67,26 +72,26 @@ class OhmsLaw_AC:
         else:
             if not p:
                 if i and v and c and not z:
-                    z = float(v/i)
-                    p = v*i*c
+                    z = float(v / i)
+                    p = v * i * c
                 if i and z and c and not v:
-                    v = i*z
-                    p = (i**2)*z*c
+                    v = i * z
+                    p = (i ** 2) * z * c
                 if v and z and c and not i:
-                    i = float(v/z)
-                    p = float(((v**2)*c)/z)
+                    i = float(v / z)
+                    p = float(((v ** 2) * c) / z)
             else:
                 if p and i and c and not v and not z:
-                    v = float(p)/(i*c)
-                    z = float(p)/(i**2)
+                    v = float(p) / (i * c)
+                    z = float(p) / (i ** 2)
                 if p and v and c and not i and not z:
-                    i = float(p)/v
-                    z = float(p)/((i**2)*c)
+                    i = float(p) / v
+                    z = float(p) / ((i ** 2) * c)
                 if p and z and c and not i and not v:
-                    i = sqrt(float(p)/(z*c))
-                    v = i*z
+                    i = sqrt(float(p) / (z * c))
+                    v = i * z
                 if p and z and i and not c and not v:
-                	c = float(p)/((i**2)*z)	
-                	v = i*z   
+                    c = float(p) / ((i ** 2) * z)
+                    v = i * z
             print(values)
-            return {'i':i,'v':v,'z':z,'p':p,'c':c}
+            return {'i': i, 'v': v, 'z': z, 'p': p, 'c': c}

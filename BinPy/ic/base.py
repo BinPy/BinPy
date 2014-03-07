@@ -3,7 +3,7 @@ This module includes all the base classes for different ICs.
 """
 from BinPy import *
 
-class IC:
+class IC(object):
     """
     This is a base class for IC
     """
@@ -206,7 +206,7 @@ def pinlist_quick(first_arg):
     else:
         raise Exception("ERROR: Unknown parameter type passed")
     
-class logic():
+class logic(object):
     """
     Implements methods of AND OR and EXOR using BinPy library Gate modules
     Remaps all basic python implementation of gates on variable of type bool to BinPy's implementation of the same

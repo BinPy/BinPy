@@ -1,7 +1,7 @@
 from BinPy.Gates import *
 
 
-class PowerSource:
+class PowerSource(object):
     """Models a Power Source from which various connectors can tap by connecting to it.
 
     taps: The list of all connectors connected to this power source.

@@ -1,7 +1,7 @@
 from connector import *
 
 
-class GATES:
+class GATES(object):
 
     '''
     Base Class implementing all common functions used by Logic Gates
@@ -117,13 +117,13 @@ class MIGATES(GATES):
             raise Exception(
                 "ERROR: Too few inputs given. Needs at least 2 or more inputs.")
 
-        GATES.__init__(self, *inputs)
+        super(MIGATES, self).__init__(*inputs)
 
 
 class AND(MIGATES):
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        super(AND, self).__init__(*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -141,7 +141,7 @@ class AND(MIGATES):
 class OR(MIGATES):
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        super(OR, self).__init__(*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -163,7 +163,7 @@ class NOT(GATES):
         if len(inputs) != 1:
             raise Exception("ERROR: NOT Gates takes only one input")
         else:
-            GATES.__init__(self, *inputs)
+            super(NOT, self).__init__(*inputs)
 
     def setInputs(self, *inputs):
         # Clean Connections before updating new connections
@@ -194,7 +194,7 @@ class NOT(GATES):
 class XOR(MIGATES):
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        super(XOR, self).__init__(*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -217,7 +217,7 @@ class XOR(MIGATES):
 class XNOR(MIGATES):
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        super(XNOR, self).__init__(*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -240,7 +240,7 @@ class XNOR(MIGATES):
 class NAND(MIGATES):
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        super(NAND, self).__init__(*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:
@@ -258,7 +258,7 @@ class NAND(MIGATES):
 class NOR(MIGATES):
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        super(NOR, self).__init__(*inputs)
 
     def trigger(self):
         if self._compareHistory() == True:

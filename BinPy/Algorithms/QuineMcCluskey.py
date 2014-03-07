@@ -37,7 +37,7 @@ reasons.
 '((NOT B) OR (NOT A))'
 """
 
-class QM:
+class QM(object):
   def __init__(self, variables):
     """
 Initialize the Quine-McCluskey solver.
