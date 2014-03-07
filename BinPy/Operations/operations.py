@@ -98,3 +98,25 @@ class Operations:
 		else:
 			return (len(input1) - len(temp)) * temp[0] + temp
 
+    @staticmethod
+    def dec2bin(number):
+        """
+        This function converts decimal number into binary number
+        How to use:
+            >>> Operations.dec2bin(12)
+            >>> 1100
+        """
+
+        return int(bin(number)[2:])
+
+
+    @staticmethod
+    def bin2dec(number):
+        """
+        This function converts binary number into decimal number
+        How to use:
+            >>> Operations.bin2dec('1001')
+            >>> 9
+        """
+
+        return int(number,2)
