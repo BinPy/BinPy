@@ -5,7 +5,8 @@ class Connector:
         self.state = state  # To store the state of the connection
 
     def tap(self,element,mode):
-        self.connections[mode].append(element) # Add an element to the connections list
+        if element not in self.connections[mode]:
+            self.connections[mode].append(element) # Add an element to the connections list
 
     #This function is called when the value of the connection changes
     def trigger(self):
