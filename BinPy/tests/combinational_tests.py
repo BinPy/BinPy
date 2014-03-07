@@ -1,6 +1,7 @@
 from BinPy.Combinational.combinational import *
 from nose.tools import with_setup, nottest
 
+
 def MUX_test():
     mux = MUX(0, 1)
     mux.selectLines(0)
@@ -36,8 +37,9 @@ def MUX_test():
     if mux.output() != 0:
         assert False
     mux.setInput(0, 1)
-    if mux.output() !=1:
+    if mux.output() != 1:
         assert False
+
 
 def DEMUX_test():
     demux = DEMUX(0)
@@ -86,10 +88,11 @@ def DEMUX_test():
     if demux.output() != q:
         assert False
     demux.setInputs(b)
-    demux.selectLine(1,b)
+    demux.selectLine(1, b)
     q = [0, 1, 0, 0]
     if demux.output() != q:
         assert False
+
 
 def Decoder_test():
     try:
@@ -143,6 +146,7 @@ def Decoder_test():
     q = [0, 1, 0, 0]
     if decoder.output() != q:
         assert False
+
 
 def Encoder_test():
     encoder = Encoder(0, 1)

@@ -5,7 +5,7 @@ print "op = Operations()"
 op = Operations()
 print "\n-----Binary Addition------ "
 print "op.ADD('0', '1'), op.ADD('00', '10'), op.ADD('010', '100')"
-print op.ADD('0','1'), op.ADD('00', '10'), op.ADD('010', '100')
+print op.ADD('0', '1'), op.ADD('00', '10'), op.ADD('010', '100')
 print "\n-----Binary Subtraction-----"
 print "op.SUB('1', '0'), op.SUB('00', '10'), op.SUB('010', '100')"
 print op.SUB('1', '0'), op.SUB('00', '10'), op.SUB('010', '100')

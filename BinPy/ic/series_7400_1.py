@@ -1,6 +1,8 @@
 from BinPy import *
 
+
 class IC_7400(LC):
+
     def __init__(self, name):
         super(IC_7400, self).__init__(name)
         self.pin1 = Connector(self, 'pin1')
