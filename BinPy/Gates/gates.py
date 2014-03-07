@@ -115,7 +115,7 @@ class AND(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateHistory() # Update the inputs after a computation
+            self._updateHistory() # Update the inputs before a computation
             self.result = int(True)
             for i in self.inputs:
                 if (isinstance(i,Connector) and i.state == False) or i == False:
@@ -131,7 +131,7 @@ class OR(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateHistory() # Update the inputs after a computation
+            self._updateHistory() # Update the inputs before a computation
             self.result = int(False)
             for i in self.inputs:
                 if (isinstance(i,Connector) and i.state == True) or i == True:
@@ -163,7 +163,7 @@ class NOT(GATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateHistory() # Update the inputs after a computation
+            self._updateHistory() # Update the inputs before a computation
             if (isinstance(self.inputs[0], Connector)):
                 self.result = not self.inputs[0].state
             else:
@@ -178,7 +178,7 @@ class XOR(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateHistory() # Update the inputs after a computation
+            self._updateHistory() # Update the inputs before a computation
             temp = 1
             for i in self.inputs:
                 if isinstance(i, Connector):
@@ -198,7 +198,7 @@ class XNOR(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateHistory() # Update the inputs after a computation
+            self._updateHistory() # Update the inputs before a computation
             temp = 1
             for i in self.inputs:
                 if (isinstance(i, Connector)):
@@ -219,7 +219,7 @@ class NAND(MIGATES):
         if self._compareHistory() == True:
             self.history_active = 1
             self.result = int(False)
-            self._updateHistory() # Update the inputs after a computation
+            self._updateHistory() # Update the inputs before a computation
             for i in self.inputs:
                 if (isinstance(i,Connector) and i.state == False) or i == False:
                     self.result = int(True)
@@ -235,7 +235,7 @@ class NOR(MIGATES):
         if self._compareHistory() == True:
             self.history_active = 1
             self.result = int(True)
-            self._updateHistory() # Update the inputs after a computation
+            self._updateHistory() # Update the inputs before a computation
             for i in self.inputs:
                 if (isinstance(i,Connector) and i.state == True) or i == True:
                     self.result = int(False)
