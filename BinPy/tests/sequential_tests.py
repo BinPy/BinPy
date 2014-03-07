@@ -11,44 +11,44 @@ def test_SRLatch():
     
     s.state, r.state = 1, 0
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_SRLatch.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_SRLatch.trigger()
             break
     assert test_SRLatch.state() == [1,0] 
     
     s.state, r.state = 0, 1
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_SRLatch.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_SRLatch.trigger()
             break
     assert test_SRLatch.state() == [0,1] 
     
     s.state, r.state = 1, 1
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_SRLatch.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_SRLatch.trigger()
             break
     assert test_SRLatch.state() == [0,1]
     
     s.state, r.state = 0, 0
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_SRLatch.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_SRLatch.trigger()
             break
     assert test_SRLatch.state() == [0,1]
@@ -64,22 +64,22 @@ def test_DFlipFlop():
     
     d.state = 1
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_DFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_DFF.trigger()
             break
     assert test_DFF.state() == [1,0]
     
     d.state = 0
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_DFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_DFF.trigger()
             break
     assert test_DFF.state() == [0,1]
@@ -95,55 +95,55 @@ def test_JKFlipFlop():
     
     j.state,k.state = 1,0
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_JKFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_JKFF.trigger()
             break
     assert test_JKFF.state() == [1,0]
     
     j.state,k.state = 0,1
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_JKFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_JKFF.trigger()
             break
     assert test_JKFF.state() == [0,1]
     
     j.state,k.state = 1,1
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_JKFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_JKFF.trigger()
             break
     assert test_JKFF.state() == [1,0]
     
     j.state,k.state = 1,1
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_JKFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_JKFF.trigger()
             break
     assert test_JKFF.state() == [0,1]
     
     j.state,k.state = 0,0
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_JKFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_JKFF.trigger()
             break
     assert test_JKFF.state() == [0,1]
@@ -159,33 +159,33 @@ def test_TFlipFlop():
     
     t.state = 1
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_TFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_TFF.trigger()
             break
     assert test_TFF.state() == [1,0]
     
     t.state = 1
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_TFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_TFF.trigger()
             break
     assert test_TFF.state() == [0,1]
     
     t.state = 0
     while True:
-        if clk_conn.state == 0:
+        if clock.A.state == 0:
             test_TFF.trigger()
             break
     while True:
-        if clk_conn.state == 1:
+        if clock.A.state == 1:
             test_TFF.trigger()
             break
     assert test_TFF.state() == [0,1]

@@ -60,7 +60,7 @@ class Clock(threading.Thread):
     def __main_func(self):
         while True:
             if self.exitFlag:
-                self.thread.exit()
+                sys.exit()
             time.sleep(self.time_period)
             try:
                 self.__toggleState()
