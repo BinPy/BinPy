@@ -11,6 +11,7 @@ logger.addHandler(consoleHandler)
 def init_logging(log_level):
     logger.setLevel(log_level)
 
+
 def read_logging_level(log_level):
     levels_dict = {
         1: logging.DEBUG, "debug": logging.DEBUG,
@@ -20,7 +21,7 @@ def read_logging_level(log_level):
         5: logging.CRITICAL, "critical": logging.CRITICAL
     }
 
-    if isinstance(log_level,str):
+    if isinstance(log_level, str):
         log_level = log_level.lower()
 
     if log_level in levels_dict:
@@ -28,6 +29,7 @@ def read_logging_level(log_level):
     else:
         print "The logging level given is not valid"
         return None
+
 
 def get_logging_level():
     """
@@ -43,7 +45,8 @@ def get_logging_level():
 
     print "The current logging level is:", levels_dict[logger.getEffectiveLevel()]
 
-def set_logging(log_level,myfilename = None):
+
+def set_logging(log_level, myfilename=None):
     """
     This function sets the threshold for the logging system and, if desired,
     directs the messages to a logfile. Level options:
@@ -62,13 +65,13 @@ def set_logging(log_level,myfilename = None):
     if myfilename and ipython_version:
         try:
             if ipython_version.startswith("0.10"):
-                __IPYTHON__.set_custom_exc((Exception,), ipython_exception_handler)
+                __IPYTHON__.set_custom_exc(
+                    (Exception,), ipython_exception_handler)
             else:
                 ip = get_ipython()
                 ip.set_custom_exc((Exception,), ipython_exception_handler)
-        except NameError: #In case the interactive shell is not being used
+        except NameError:  # In case the interactive shell is not being used
             sys.exc_clear()
-
 
     level = read_logging_level(log_level)
 
@@ -77,9 +80,9 @@ def set_logging(log_level,myfilename = None):
         fileHandler.setLevel(level)
         fileHandler.setFormatter(formatter)
         logger.addHandler(fileHandler)
-        logger.removeHandler(consoleHandler) #Console logging is disabled.
-        print "Now logging to",myfilename,"with level",log_level
+        logger.removeHandler(consoleHandler)  # Console logging is disabled.
+        print "Now logging to", myfilename, "with level", log_level
     elif level:
-        print "Now logging with level",log_level
+        print "Now logging with level", log_level
 
     logger.setLevel(level)

@@ -1,6 +1,7 @@
 from BinPy import *
 from nose.tools import with_setup, nottest
 
+
 def test_SRLatch():
     testLatch = SRLatch(1, 0)
     assert testLatch.output() == [0, 1]

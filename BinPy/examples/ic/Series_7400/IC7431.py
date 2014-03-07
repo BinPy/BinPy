@@ -7,7 +7,7 @@ print p
 print '\nPin initialization -using -- ic.setIC(p) --\n'
 ic.setIC(p)
 print '\nPowering up the IC - using -- ic.setIC({14:1,7:0}) -- \n'
-ic.setIC({14:1,7:0})
+ic.setIC({14: 1, 7: 0})
 print '\nDraw the IC with the current configuration\n'
 ic.drawIC()
 print '\nRun the IC with the current configuration using -- print ic.run() -- \n'

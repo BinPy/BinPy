@@ -34,4 +34,3 @@ gate1 = AND(conn, 1)
 print "\n---Output of the gate1---"
 print "gate1.output()"
 print gate1.output()
-

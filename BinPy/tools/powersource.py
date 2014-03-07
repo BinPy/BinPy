@@ -1,7 +1,8 @@
 from BinPy.Gates import *
 
 
-class PowerSource:
+class PowerSource(object):
+
     """Models a Power Source from which various connectors can tap by connecting to it.
 
     taps: The list of all connectors connected to this power source.
@@ -18,7 +19,8 @@ class PowerSource:
                 raise Exception("Error: Input given is not a connector")
             else:
                 if len(connector.connections['output']) != 0:
-                    raise Exception("ERROR: The connector is already an output of some other object")
+                    raise Exception(
+                        "ERROR: The connector is already an output of some other object")
                 self.taps.append(connector)
                 connector.state = 1
                 connector.tap(self, 'output')
@@ -37,6 +39,7 @@ class PowerSource:
                     connector.connections['output'].remove(self)
                     connector.trigger()
                 except:
-                    print ("The specified connector is not tapped to this power source")
+                    print (
+                        "The specified connector is not tapped to this power source")
             else:
                 raise Exception("Error: Input given is not a connector")

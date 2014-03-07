@@ -16,4 +16,3 @@ print '\nSeting the outputs to the current IC configuration using -- ic.setIC(ic
 ic.setIC(ic.run())
 print '\nDraw the final configuration\n'
 ic.drawIC()
-
