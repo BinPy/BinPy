@@ -417,21 +417,21 @@ class TFlipFlop:
                 self.b = outputs[key]
             else:
                 print 'ERROR: Unknow parameter passed' + str(key)
-
-        self.jkff.setOutputs(self.a,self.b)
+                
+        self.jkff.setOutputs(a = self.a, b = self.b)
         self.trigger()
         
     def trigger(self):
-
         self.jkff.trigger()
         
-        return [self.a(), self.b()]
-    
     def reset(self):
         #Resets the latch
         self.T.state = 0        
         self.trigger()
-        
+    
+    def state(self):
+        return [self.a(), self.b()]
+    
     def __call__(self):
         self.trigger()
         return [self.a(), self.b()]
