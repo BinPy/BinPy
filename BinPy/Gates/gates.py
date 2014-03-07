@@ -47,7 +47,10 @@ class GATES:
                 self.history_inputs[index] = self.inputs[index] # Modify the history
             self.inputs[index] = value
         if isinstance(value,Connector):
-            value.tap(self,'input')
+            #Avoid re-tap to the Connector instance if already present
+            if not self in value.connections['input']:
+                value.tap(self,'input')
+
         self.trigger()
 
     def getInputStates(self):
