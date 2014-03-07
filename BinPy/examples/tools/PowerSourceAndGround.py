@@ -1,5 +1,5 @@
-from Binpy.gates import *
-from Binpy.tools import *
+from __future__ import print_function
+from BinPy.tools import *
 print('Usage of PowerSource and Ground classes:\n')
 #Creating Power Source POW and Ground terminal, GND
 POW = PowerSource()

@@ -1,18 +1,19 @@
+from __future__ import print_function
 from BinPy import *
-print 'Usage of IC 4069:\n'
+print ( 'Usage of IC 4069:\n')
 ic = IC_4069()
-print '\nThe Pin configuration is:\n'
+print ( '\nThe Pin configuration is:\n')
 input = {1: 0, 3: 1, 5: 1, 7: 0, 9: 0, 11: 0, 13: 0, 14: 1}
-print input
-print '\nPin initinalization\n'
-print '\nPowering up the IC - using -- ic.setIC({14: 1, 7: 0}) -- \n'
+print ( input)
+print ( '\nPin initinalization\n')
+print ( '\nPowering up the IC - using -- ic.setIC({14: 1, 7: 0}) -- \n')
 ic.setIC({14: 1, 7: 0})
-print '\nDraw the IC with the current configuration\n'
+print ( '\nDraw the IC with the current configuration\n')
 ic.drawIC()
-print '\nRun the IC with the current configuration using -- print ic.run() -- \n'
-print 'Note that the ic.run() returns a dict of pin configuration similar to :'
-print ic.run()
-print '\nSeting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n'
+print ( '\nRun the IC with the current configuration using -- print ic.run() -- \n')
+print ( 'Note that the ic.run() returns a dict of pin configuration similar to :')
+print ( ic.run())
+print ( '\nSeting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n')
 ic.setIC(ic.run())
-print '\nDraw the final configuration\n'
+print ( '\nDraw the final configuration\n')
 ic.drawIC()

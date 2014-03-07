@@ -1,3 +1,4 @@
+from __future__ import print_function
 from BinPy.Algorithms import *
 print('An example to demostrate functionality of ExpressionConvert.py\n')
 
