@@ -69,9 +69,11 @@ class MUX(GATES):
                 bstr = bstr + str(i)
         try:
             if isinstance(self.inputs[int(bstr, 2)], Connector):
-                self._updateResult(self.inputs[int(bstr, 2)].state)
+                self.result = int(self.inputs[int(bstr, 2)].state)
+                self._updateResult()
             else:
-                self._updateResult(self.inputs[int(bstr, 2)])
+                self.result = int(self.inputs[int(bstr, 2)])
+                self._updateResult()
         except IndexError:
             raise Exception("Error: Select lines are inconsistent with Input lines")
         if self.outputType:
@@ -212,7 +214,8 @@ class Decoder(GATES):
             else:
                 bstr = bstr + str(i)
         out[int(bstr, 2)] = 1
-        self._updateResult(out)
+        self.result = out
+        self._updateResult()
 
     def setInputs(self, *inputs):
         if len(inputs) == 0:
@@ -290,6 +293,7 @@ class Encoder(GATES):
             bstr = '0' + bstr
         out = list(bstr)
         out = map(int, out)
+        self.result = int(out)        
         self._updateResult(out)
 
     def setInputs(self, *inputs):
