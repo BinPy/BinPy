@@ -102,5 +102,6 @@ while True:
         # Falling edge will trigger the FF
         jkff.trigger()
         break
-
 # To connect different set of connectors use s.setInputs(conn1,conn2,enab)
+
+clk_conn.kill()
