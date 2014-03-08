@@ -21,4 +21,5 @@ print ('TRIGGERING THE COUNTER SEQUENTIALLY')
 for i in range(5):
     b.trigger()
     print (b.state())
-clk_conn.kill()
+
+clock.kill()

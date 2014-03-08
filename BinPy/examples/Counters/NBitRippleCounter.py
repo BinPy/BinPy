@@ -15,18 +15,19 @@ clk_conn = clock.A
 
 enable = Connector(1)
 
-print ("Setting No of Bits to 8")
+print ("Setting No of Bits to 4")
 print ("Clock frequency is 100 Hz")
 
 # Initializing the counter
-b = NBitRippleCounter(8, clk_conn)
+b = NBitRippleCounter(4, clk_conn)
 
 print ("INITIAL STATE")
 print (b.state())
 
-print ("TRIGGERING THE COUNTER SEQUENTIALLY 2^8 + 1 times")
+print ("TRIGGERING THE COUNTER SEQUENTIALLY 2^4 + 1 times")
 
-for i in range(1, 2 ** 8 + 1):
+for i in range(1, 2 ** 4 + 1):
     b.trigger()
     print (b.state())
-clk_conn.kill()
+
+clock.kill()
