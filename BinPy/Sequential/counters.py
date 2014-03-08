@@ -13,6 +13,9 @@ class Counter(object):
         self.out = []
         for i in range(self.bits):
             self.out.append(Connector(0))
+        self.outinv = []
+        for i in range(self.bits):
+            self.outinv.append(Connector(1))
         self.outold = self.out[:]
         self.ff = []
         self.enable = Connector(1)
@@ -65,8 +68,8 @@ class BinaryCounter(Counter):
         Counter.__init__(self, 2, clk)
         # Calling the super class constructor
 
-        self.ff = [TFlipFlop(self.t, self.enable, self.clk, self.out[0]),
-                   TFlipFlop(self.t, self.enable, self.out[0], self.out[1])]
+        self.ff = [TFlipFlop(self.t, self.enable, self.clk, self.out[0],self.outinv[0]),
+                   TFlipFlop(self.t, self.enable, self.out[0], self.out[1],self.outinv[1])]
         #<self.bit> nos of TFlipFlop instances are appended in the ff array
 
         # output of previous stage becomes the input clock for next flip flop
@@ -101,11 +104,47 @@ class NBitRippleCounter(Counter):
         Counter.__init__(self, bits, clock_connector)
         # Calling the super class constructor
 
-        self.ff = [TFlipFlop(self.t, self.enable, self.clk, self.out[0])]
+        self.ff = [TFlipFlop(self.t, self.enable, self.clk, self.out[0], self.outinv[0])]
 
         for i in range(1, bits):
             self.ff.append(
-                TFlipFlop(self.t, self.enable, self.out[i - 1], self.out[i]))
+                TFlipFlop(self.t, self.enable, self.out[i - 1], self.out[i], self.outinv[i]))
+
+    def trigger(self):
+         # Sending a negative edge to ff
+        while True:
+            if self.clk.state == 0:
+                # Falling edge will trigger the FF
+                self.ff[0].trigger()
+                break
+        # Sending a positive edge to ff
+        while True:
+            if self.clk.state == 1:
+                self.ff[0].trigger()
+                break
+
+        # This completes one full pulse.
+
+        # To print with MSB at the Left Most position
+        return [i.state for i in self.out[::-1]]
+
+
+class NBitDownCounter(Counter):
+
+    """
+    An N-Bit Down Counter
+    """
+
+    def __init__(self, bits, clock_connector):
+
+        Counter.__init__(self, bits, clock_connector)
+        # Calling the super class constructor
+        
+        self.ff = [TFlipFlop(self.t, self.enable, self.clk, self.out[0],self.outinv[0])]
+
+        for i in range(1, bits):
+            self.ff.append(
+                TFlipFlop(self.t, self.enable, self.outinv[i - 1], self.out[i],self.outinv[i]))
 
     def trigger(self):
          # Sending a negative edge to ff
