@@ -29,3 +29,5 @@ print ("TRIGGERING THE COUNTER SEQUENTIALLY 2^4 + 1 times")
 for i in range(1, 2 ** 4 + 2):
     b.trigger()
     print (b.state())
+
+clk_conn.kill()
