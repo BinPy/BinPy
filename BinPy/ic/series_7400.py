@@ -176,7 +176,7 @@ class IC_7403(Base_14pin):
 	
 	How to use:
 	
-	>>> ic = IC_7403()
+	    >>> ic = IC_7403()
     	>>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
     	>>> ic.setIC(pin_cofig)
     	>>> ic.drawIC()
@@ -233,7 +233,7 @@ class IC_7404(Base_14pin):
 	
 	How to use:
 	
-	>>> ic = IC_7404()
+	    >>> ic = IC_7404()
     	>>> pin_config = {1: 1, 3: 0, 5: 0, 7: 0, 9: 0, 11: 0, 13: 1, 14: 1}
     	>>> ic.setIC(pin_cofig)
     	>>> ic.drawIC()
@@ -312,7 +312,7 @@ class IC_7408(Base_14pin):
 	
 	How to use:
 	
-	>>> ic = IC_7408()
+	    >>> ic = IC_7408()
     	>>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
     	>>> ic.setIC(pin_cofig)
     	>>> ic.drawIC()
@@ -369,7 +369,7 @@ class IC_7410(Base_14pin):
 	
 	How to use:
 	
-	>>> ic = IC_7410()
+	    >>> ic = IC_7410()
     	>>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
     	>>> ic.setIC(pin_cofig)
     	>>> ic.drawIC()
@@ -424,7 +424,7 @@ class IC_7411(Base_14pin):
 	
 	How to use:
 	
-	>>> ic = IC_7411()
+	    >>> ic = IC_7411()
     	>>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
     	>>> ic.setIC(pin_cofig)
     	>>> ic.drawIC()
@@ -480,7 +480,7 @@ class IC_7412(Base_14pin):
 	
 	How to use:
 	
-	>>> ic = IC_7412()
+	    >>> ic = IC_7412()
     	>>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
     	>>> ic.setIC(pin_cofig)
     	>>> ic.drawIC()
@@ -535,7 +535,7 @@ class IC_7413(Base_14pin):
 	
 	How to use:
 	
-	>>> ic = IC_7413()
+	    >>> ic = IC_7413()
     	>>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 1, 13: 1, 14: 1}
     	>>> ic.setIC(pin_cofig)
     	>>> ic.drawIC()
@@ -589,7 +589,7 @@ class IC_7415(Base_14pin):
 	
 	How to use:
 	
-	>>> ic = IC_7415()
+	    >>> ic = IC_7415()
     	>>> pin_config = {1:1, 2:0, 3:0, 4:0, 5:0, 7:0, 9:1, 10:1, 11:1, 13:0, 14:1}
     	>>> ic.setIC(pin_cofig)
     	>>> ic.drawIC()
