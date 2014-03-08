@@ -104,4 +104,4 @@ while True:
         break
 # To connect different set of connectors use s.setInputs(conn1,conn2,enab)
 
-clk_conn.kill()
+clock.kill()

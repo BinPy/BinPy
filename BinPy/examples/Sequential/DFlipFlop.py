@@ -70,4 +70,4 @@ while True:
         # Falling edge will trigger the FF
         dff.trigger()
         break
-clk_conn.kill()
+clock.kill()
