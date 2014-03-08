@@ -1485,3 +1485,33 @@ class IC_7483(Base_16pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+class IC_74279(Base_16pin):
+    """
+    Quad set-reset latch
+
+    """
+
+    #Datasheet here, http://www.skot9000.com/ttl/datasheets/279.pdf
+
+    def __init__(self):
+
+        self.pins = [None,0,0,0,None,0,0,None,0,None,0,0,0,None,0,0,0]
+
+    def run(self):
+
+        output = {}
+
+        output[4] = SRLatch(self.pins[1],OR(self.pins[2],self.pins[3]).output()).output()[0]
+
+        output[7] = SRLatch(self.pins[5],self.pins[6]).output()[0]
+
+        output[9] = SRLatch(NOT(self.pins[10]).output(),OR(NOT(self.pins[11]).output(),
+                            NOT(self.pins[12]).output()).output()).output()[0]
+
+
+        output[13] = SRLatch(NOT(self.pins[14]).output(),NOT(self.pins[15])).output()[0]
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
