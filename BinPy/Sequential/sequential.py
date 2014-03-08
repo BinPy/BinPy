@@ -27,13 +27,13 @@ class SRLatch(FlipFlop):
     """
     S and R are the two primary inputs.
     They are enabled by the third input enable.
-    The clock triggers the FlipFlop
+    Clock is used to trigger the Latch.
 
     Ouputs are a ( q ) and b ( ~q )
 
     To Use :
-    Set the inputs of SRLatch and to trigger any change in input use trigger() method.
-
+    Set the inputs of SRLatch and to trigger any change in input use\
+    trigger() method.
     """
 
     def __init__(self, S, R, enable, clk, a=Connector(0), b=Connector(1)):
@@ -48,9 +48,10 @@ class SRLatch(FlipFlop):
         self.enabledS = Connector(0)
         self.enabledR = Connector(1)
 
-        # Initiating the gates with inputs - Will be overwritten when the self.setInputs() is called 4 lines hence.
-        # This is just to initiate the gates.
+        # Initiating the gates with inputs - Will be overwritten when the
+        # self.setInputs() is called 4 lines hence.
 
+        # This is just to initiate the gates.
         self.en1 = AND(S, enable)
         self.en2 = AND(R, enable)
 
@@ -66,18 +67,23 @@ class SRLatch(FlipFlop):
         Give input parameters as a dictionary
 
         Ex.: sr1.setInputs(S = S, R = R)
-        Ex.2: sr2.setInputs(enable = foo)
+        Ex.2: sr2.setInputs(enable = en1)
 
-        Where S, R, foo are all Connector class instances.
+        [ where S, R, foo are all Connector class instances. ]
 
         This is done to support partial change in input [ only S or R etc ]
+
+        Note:
+        1) When inputs are given as type-int - The S and R states alone are
+        changed. The connections remain intact.
+        2) Setting the inputs does not trigger the Latch.
+        Use trigger separately to trigger any change.
         """
 
         # To support both upper and lower case
         for key in inputs:
             if key.lower() == 's':
-                # To support both numerical/boolean values or Connector
-                # instances
+                # To support both numerical values or Connector instances
                 if isinstance(inputs[key], Connector):
                     self.S = inputs[key]
                 else:
@@ -175,15 +181,14 @@ class SRLatch(FlipFlop):
 class DFlipFlop(FlipFlop):
 
     """
-    Class to implement DFlipFlop
+    DATA Flip Flop ( Negative edge triggered )
+
     D is the primary input.
-    It is enabled by the second input enable.
+    enable activates the Flip Flop.
+    ( Negative edge triggered )
+    Clock triggers the output
 
     Ouputs are a ( q ) and b ( ~q )
-
-    To Use :
-    Set the inputs of DFlipFlop and to trigger any change in input use trigger() method.
-    Calling an instance of DFlipFlop returns a list of its state [ a, b]
 
     """
 
@@ -206,7 +211,14 @@ class DFlipFlop(FlipFlop):
         Ex.: dff.setInputs(D = dconnector, enable = enable_connector)
         Ex.2: dff.setInputs(enable = foo)
 
-        Usage of **inputs is to pass parameters as dict to to support partial change in input [ D or enable alone ]
+        Usage of **inputs is to pass parameters as dict to to support \
+        partial change in input [ D or enable alone ]
+
+        Note:
+        1) When inputs are given as type-int - The S and R states alone are
+        changed. The connections remain intact.
+        2) Setting the inputs does not trigger the Latch.
+        Use trigger separately to trigger any change.
         """
 
         # To support both upper and lower case
@@ -278,16 +290,19 @@ class DFlipFlop(FlipFlop):
 class JKFlipFlop(FlipFlop):
 
     """
-    Class to implement JKFlipFlop
+    J K Flip Flop - Negative edge triggered
+
     J and K are the two primary inputs.
     They are enabled by the third input enable.
+    Clock triggers the Flip flop.
 
     Ouputs are a ( q ) and b ( ~q )
 
     To Use :
-    Set the inputs of JKFlipFlop and to trigger any change in input use trigger() method.
-    call to the JKFlipFlop instance also triggers it and returns the current state as a list
-
+    Set the inputs of JKFlipFlop and to trigger any change in input \
+    use trigger() method.
+    call to the JKFlipFlop instance also triggers it and returns the \
+    current state as a list
     """
 
     def __init__(self, J, K, enable, clk, a=Connector(0), b=Connector(1)):
@@ -307,7 +322,7 @@ class JKFlipFlop(FlipFlop):
 
     def setInputs(self, **inputs):
         """
-        Sets the input connectors of SRLatch.
+        Sets the input connectors of Jk Flip flop.
         Give input parameters as a dictionary
 
         Ex.: jk1.setInputs(J = J, K = K)
@@ -316,11 +331,16 @@ class JKFlipFlop(FlipFlop):
         Where J, K, foo are all Connector class instances.
 
         This is done to support partial change in input [ only J or K etc ]
+
+        Note:
+        1) When inputs are given as type-int - The S and R states alone are
+        changed. The connections remain intact.
+        2) Setting the inputs does not trigger the Latch.
+        Use trigger separately to trigger any change.
         """
 
-        # To support both upper and lower case
-
         for key in inputs:
+            # To support both upper and lower case
             if key.lower() == "j":
                 # To support both numerical/boolean values or Connector
                 # instances
@@ -370,15 +390,9 @@ class JKFlipFlop(FlipFlop):
 
     def trigger(self):
         """
-        Call to JK Latch Instance will return its current state of outputs as a List of values [ q, qcomp ]
-
-        Parameters can also be passed. Binary parameters will update the J and K states. Connections will remain intact.
-        Connector instances will connect them to the JKFlipFlop
-
-        Once JK is triggered with binary values the values of J and S are changed, however since backward triggering is not present
-        The circuit preceeding the JKFlipFlop will not get affected by this change.
-
+        Trigger will update the output when any of the inputs change.
         """
+
         # Using behavioural Modelling
         if self.clkoldval == 1 and self.clk.state == 0:
 
@@ -416,8 +430,14 @@ class JKFlipFlop(FlipFlop):
 class TFlipFlop(FlipFlop):
 
     """
-    Toggle Flip Flop.
-    When toggle is high, for every negative edge clock pulse received the Flipflop output is toggled.
+    Toggle Flip Flop. Negative edge triggered.
+
+    Inputs are T and enable.
+    Clock triggers the circuit
+
+    Outputs are:
+    a = ( q )
+    b = ( q~ )
     """
 
     def __init__(self, T, enable, clk, a=Connector(), b=Connector()):
