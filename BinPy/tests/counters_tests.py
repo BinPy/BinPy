@@ -51,13 +51,13 @@ def test_NBitDownCounter():
 
 def test_DecadeCounter():
 
-clock = Clock(1, 50000)
-clock.start()
-test_DecadeCounter = DecadeCounter(clock.A)
-op = []
-for i in range(14):
-    test_DecadeCounter.trigger()
-    op += test_DecadeCounter.state()
+    clock = Clock(1, 50000)
+    clock.start()
+    test_DecadeCounter = DecadeCounter(clock.A)
+    op = []
+    for i in range(14):
+        test_DecadeCounter.trigger()
+        op += test_DecadeCounter.state()
 
     assert op == [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1,
                   1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1,
