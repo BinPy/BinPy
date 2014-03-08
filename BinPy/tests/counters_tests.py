@@ -1,6 +1,7 @@
 from BinPy import *
 from nose.tools import with_setup, nottest
 
+
 def test_BinaryCounter():
 
     clock = Clock(1, 50000)
@@ -31,6 +32,7 @@ def test_NBitRippleCounter():
 
     clock.kill()
 
+
 def test_NBitDownCounter():
 
     clock = Clock(1, 50000)
@@ -43,5 +45,24 @@ def test_NBitDownCounter():
 
     assert op == [1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0,
                   0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1]
+
+    clock.kill()
+
+
+def test_DecadeCounter():
+
+clock = Clock(1, 50000)
+clock.start()
+test_DecadeCounter = DecadeCounter(clock.A)
+op = []
+for i in range(14):
+    test_DecadeCounter.trigger()
+    op += test_DecadeCounter.state()
+
+    assert op == [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1,
+                  1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1,
+                  1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1,
+                  0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1,
+                  0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0]
 
     clock.kill()
