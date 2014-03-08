@@ -9,10 +9,12 @@ try:
 except ImportError:
     BINPY_VERSION = ""
 
+
 def shellclear():
     if platform.system() == "Windows":
         return
     subprocess.call("clear")
+
 
 def magic_clear(self, arg):
     shellclear()
@@ -30,6 +32,7 @@ banner += '\n'
 
 exit_msg = '\n... [Exiting the BinPy interactive shell] ...\n'
 
+
 def self_update():
     URL = "https://github.com/binpy/binpy/zipball/master"
     command = "pip install -U %s" % URL
@@ -39,6 +42,7 @@ def self_update():
 
     returncode = subprocess.call(command, shell=True)
     sys.exit()
+
 
 def setupIpython():
     try:
@@ -65,6 +69,7 @@ def setupIpython():
             raise
 
     return bpyShell()
+
 
 def shellMain(*args):
     log_level = logging.WARNING
