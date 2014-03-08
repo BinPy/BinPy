@@ -1,3 +1,4 @@
+from __future__ import print_function
 import warnings
 import logging
 
@@ -26,7 +27,7 @@ def read_logging_level(log_level):
     if log_level in levels_dict:
         return levels_dict[log_level]
     else:
-        print "The logging level given is not valid"
+        print ("The logging level given is not valid")
         return None
 
 def get_logging_level():
@@ -41,7 +42,7 @@ def get_logging_level():
         50: "CRITICAL"
     }
 
-    print "The current logging level is:", levels_dict[logger.getEffectiveLevel()]
+    print ("The current logging level is:", levels_dict[logger.getEffectiveLevel()])
 
 def set_logging(log_level,myfilename = None):
     """
@@ -78,8 +79,8 @@ def set_logging(log_level,myfilename = None):
         fileHandler.setFormatter(formatter)
         logger.addHandler(fileHandler)
         logger.removeHandler(consoleHandler) #Console logging is disabled.
-        print "Now logging to",myfilename,"with level",log_level
+        print ("Now logging to",myfilename,"with level",log_level)
     elif level:
-        print "Now logging with level",log_level
+        print ("Now logging with level",log_level)
 
     logger.setLevel(level)

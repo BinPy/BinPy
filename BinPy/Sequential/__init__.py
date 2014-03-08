@@ -1,1 +1,1 @@
-from sequential import *
+from BinPy.Sequential.sequential import *

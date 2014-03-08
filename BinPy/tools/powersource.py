@@ -3,7 +3,6 @@ from BinPy.Gates import *
 
 class PowerSource:
     """Models a Power Source from which various connectors can tap by connecting to it.
-
     taps: The list of all connectors connected to this power source.
     connect(): Takes in one or more connectors as input and connects them to the power source.
     disconnect(): Takes in one or more connectors as input and disconnects them from the power source."""

@@ -1,3 +1,4 @@
+from __future__ import print_function
 from BinPy import *
 import sys
 
@@ -79,12 +80,12 @@ def eqnParse(eqn,isOperandtype = str.isalpha):
             operators.append(eqn[i])
         elif eqn[i]=='(':
             if flag:
-                print 'ERROR: Equation error at '+eqn[i-1:i+1]
+                print('ERROR: Equation error at ' + eqn[i-1:i+1])
                 no_error = False
                 break
             pos = findMatchingBrace(i,eqn)
             if pos == -1:
-                print 'ERROR: Equation error - Unmatched braces'
+                print ('ERROR: Equation error - Unmatched braces')
                 no_error = False
                 break
             tmp = eqnParse(eqn[i+1:pos])
@@ -99,7 +100,7 @@ def eqnParse(eqn,isOperandtype = str.isalpha):
                 flag = True
                 #Check if the operand is a two letter operand, in the next iteration.
         else:
-            print 'ERROR: Unrecognized characters in equation '+eqn[i]
+            print ('ERROR: Unrecognized characters in equation '+eqn[i])
             no_error = False
         i += 1
         
@@ -210,7 +211,6 @@ def eqnParse(eqn,isOperandtype = str.isalpha):
     return equation_final if no_error else None
     
 #Uncomment to test:    
-
-print eqnParse('~((((~A)&B&C)^(~A))&E&F&G)')
+print (eqnParse('~((((~A)&B&C)^(~A))&E&F&G)'))
 #NAND(G,F,E,XOR(NOT(A),AND(C,B,NOT(A))))
 #print findMatchingBrace(2,'((((((()))))abcedfljk(()))a&b)')

@@ -1,1 +1,1 @@
-from operations import *
+from BinPy.Operations.operations import *

@@ -3,7 +3,6 @@ from BinPy.Gates import *
 
 class Ground:
     """Models a Ground from which various connectors can tap by connecting to it.
-
     taps: The list of all connectors connected to this ground.
     connect(): Takes in one or more connectors as input and connects them to the ground.
     disconnect(): Takes in one or more connectors as input and disconnects them from the ground."""

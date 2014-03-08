@@ -290,7 +290,7 @@ class Encoder(GATES):
             bstr = '0' + bstr
         out = list(bstr)
         out = map(int, out)
-        self._updateResult(out)
+        self._updateResult(list(out))
 
     def setInputs(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):

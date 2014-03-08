@@ -10,8 +10,9 @@ ICs in this module:
  4075, 4077, 4078, 4081, 4082]
 """
 
-from BinPy import *
-from base import *
+from __future__ import print_function
+from BinPy.Gates.gates import *
+from BinPy.ic.base import *
 
 ######## IC's with 14 pins #################################
 
@@ -55,7 +56,7 @@ class IC_4000(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4001(Base_14pin):
@@ -97,7 +98,7 @@ class IC_4001(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4002(Base_14pin):
@@ -137,7 +138,7 @@ class IC_4002(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4011(Base_14pin):
@@ -178,7 +179,7 @@ class IC_4011(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4012(Base_14pin):
@@ -217,7 +218,7 @@ class IC_4012(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4023(Base_14pin):
@@ -259,7 +260,7 @@ class IC_4023(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4025(Base_14pin):
@@ -301,7 +302,7 @@ class IC_4025(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4068(Base_14pin):
@@ -339,7 +340,7 @@ class IC_4068(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4069(Base_14pin):
@@ -384,7 +385,7 @@ class IC_4069(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4070(Base_14pin):
@@ -425,7 +426,7 @@ class IC_4070(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4071(Base_14pin):
@@ -466,7 +467,7 @@ class IC_4071(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4072(Base_14pin):
@@ -505,7 +506,7 @@ class IC_4072(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4073(Base_14pin):
@@ -547,7 +548,7 @@ class IC_4073(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4075(Base_14pin):
@@ -589,7 +590,7 @@ class IC_4075(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4077(Base_14pin):
@@ -630,7 +631,7 @@ class IC_4077(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4078(Base_14pin):
@@ -668,7 +669,7 @@ class IC_4078(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4081(Base_14pin):
@@ -709,7 +710,7 @@ class IC_4081(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+            print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4082(Base_14pin):
@@ -748,4 +749,5 @@ class IC_4082(Base_14pin):
             self.setIC(output)
             return output
         else:
-            print "Ground and VCC pins have not been configured correctly."
+
+            print ("Ground and VCC pins have not been configured correctly.")

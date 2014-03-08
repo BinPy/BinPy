@@ -80,7 +80,7 @@ class Operations:
         """
 
         a,b = self.__parseInput(input1,input2)
-        c = bin(int(a,2) / int(b,2))
+        c = bin(int(a,2) // int(b,2))
         if c[0] == '-':
             return c[3:]
         else:
