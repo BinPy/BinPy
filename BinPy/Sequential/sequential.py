@@ -1,66 +1,494 @@
-from BinPy.Gates import *
+from __future__ import print_function
+from BinPy import *
 
 
-class SRLatch:
+class FlipFlop:
 
-    def __init__(self, R, S):
+    """
+    Super Class for all FlipFlops
+    """
+
+    def __init__(self, enable, clk, a, b):
+        self.a = a
+        self.b = b
+        self.clk = clk
+        self.enable = enable
+        self.clkoldval = 1
+
+    def Enable(self):
+        self.enable.state = 1
+
+    def Disable(self):
+        self.enable.state = 0
+
+
+class SRLatch(FlipFlop):
+
+    """
+    S and R are the two primary inputs.
+    They are enabled by the third input enable.
+    The clock triggers the FlipFlop
+
+    Ouputs are a ( q ) and b ( ~q )
+
+    To Use :
+    Set the inputs of SRLatch and to trigger any change in input use trigger() method.
+
+    """
+
+    def __init__(self, S, R, enable, clk, a=Connector(0), b=Connector(1)):
+
+        FlipFlop.__init__(self, enable, clk, a, b)
+
+        # Initiated to support numerical inputs --> See trigger method's doc
+        self.S = Connector(0)
+        self.R = Connector(1)
+
+        # Initiated to initiate the gates
+        self.enabledS = Connector(0)
+        self.enabledR = Connector(1)
+
+        # Initiating the gates with inputs - Will be overwritten when the self.setInputs() is called 4 lines hence.
+        # This is just to initiate the gates.
+
+        self.en1 = AND(S, enable)
+        self.en2 = AND(R, enable)
+
+        self.g1 = NOR(self.enabledS, a)
+        self.g2 = NOR(self.enabledR, b)
+
+        self.setInputs(S=S, R=R, enable=enable)
+        self.setOutputs(A=a, B=b)
+
+    def setInputs(self, **inputs):
         """
-        Construct an SRLatch with initial reset input R and set input S.
+        Sets the input connectors of SRLatch.
+        Give input parameters as a dictionary
+
+        Ex.: sr1.setInputs(S = S, R = R)
+        Ex.2: sr2.setInputs(enable = foo)
+
+        Where S, R, foo are all Connector class instances.
+
+        This is done to support partial change in input [ only S or R etc ]
         """
 
-        self.a = Connector()
-        self.b = Connector()
+        # To support both upper and lower case
+        for key in inputs:
+            if key.lower() == 's':
+                # To support both numerical/boolean values or Connector
+                # instances
+                if isinstance(inputs[key], Connector):
+                    self.S = inputs[key]
+                else:
+                    self.S.state = int(inputs[key])
 
-        self.g1 = NOR(R, self.b)
+            elif key.lower() == 'r':
+                if isinstance(inputs[key], Connector):
+                    self.R = inputs[key]
+                else:
+                    self.R.state = int(inputs[key])
+
+            elif key.lower() == 'enable':
+                if isinstance(inputs[key], Connector):
+                    self.enable = inputs[key]
+                else:
+                    self.enable.state = int(inputs[key])
+
+            elif key.lower() == 'clk':
+                if isinstance(inputs[key], Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
+
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
+
+        if not (bool(self.S) ^ bool(self.R)):
+            print("ERROR: Invalid State - Resetting the Latch")
+            self.S.state = 0
+            self.R.state = 1
+
+        self.en1.setInput(0, self.S)
+        self.en1.setInput(1, self.enable)
+        self.en1.setOutput(self.enabledS)
+
+        self.en2.setInput(0, self.R)
+        self.en2.setInput(1, self.enable)
+        self.en2.setOutput(self.enabledR)
+
+        self.g1.setInput(0, self.enabledS)
+        self.g1.setInput(1, self.a)
+
+        self.g2.setInput(0, self.enabledR)
+        self.g2.setInput(1, self.b)
+
+    def setOutputs(self, **outputs):
+
+        for key in outputs:
+            if not isinstance(outputs[key], Connector):
+                raise Exception("ERROR: Output not a connector instance")
+            if key.lower() == 'a':
+                self.a = outputs[key]
+            elif key.lower() == 'b':
+                self.b = outputs[key]
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
+
+        self.g1.setOutput(self.b)
+        self.g1.setInput(1, self.a)
+
+        self.g2.setOutput(self.a)
+        self.g2.setInput(1, self.b)
+
+    def trigger(self):
+
+        if self.clkoldval == 1 and self.clk.state == 0:
+            if bool(self.S) and bool(self.R):
+                print("ERROR: Invalid State - Resetting the Latch")
+                self.S.state = 0
+                self.R.state = 1
+
+            self.enable.trigger()
+            # This will trigger the gates which will trigger the a and b
+
+        self.clkoldval = self.clk.state
+        # stores the current clock state
+
+        return [self.a(), self.b()]
+
+    def reset(self):
+        # Resets the latch
+        self.S.state = 0
+        self.R.state = 1
+
+        self.trigger()
+
+    def __call__(self):
+        return self.trigger()
+
+    def state(self):
+        """Returns the current state of the SRLatch"""
+        return [self.a(), self.b()]
+
+
+class DFlipFlop(FlipFlop):
+
+    """
+    Class to implement DFlipFlop
+    D is the primary input.
+    It is enabled by the second input enable.
+
+    Ouputs are a ( q ) and b ( ~q )
+
+    To Use :
+    Set the inputs of DFlipFlop and to trigger any change in input use trigger() method.
+    Calling an instance of DFlipFlop returns a list of its state [ a, b]
+
+    """
+
+    def __init__(self, D, enable, clk, a=Connector(0), b=Connector(1)):
+
+        FlipFlop.__init__(self, enable, clk, a, b)
+        # Initiated to support numerical inputs --> See trigger method's doc
+        self.D = D
+        self.g1 = AND(self.D, self.enable)
+        self.g2 = NOT(self.a)
+
+        self.setInputs(D=D, enable=enable)
+        self.setOutputs(A=a, B=b)
+
+    def setInputs(self, **inputs):
+        """
+        Sets the input connectors of DFlipFlop.
+        Give input parameters as a dictionary
+
+        Ex.: dff.setInputs(D = dconnector, enable = enable_connector)
+        Ex.2: dff.setInputs(enable = foo)
+
+        Usage of **inputs is to pass parameters as dict to to support partial change in input [ D or enable alone ]
+        """
+
+        # To support both upper and lower case
+        for key in inputs:
+            if key.lower() == "d":
+                # To support both numerical/boolean values or Connector
+                # instances
+                if isinstance(inputs[key], Connector):
+                    self.D = inputs[key]
+                else:
+                    self.D.state = int(inputs[key])
+            elif key.lower() == "enable":
+                if isinstance(inputs[key], Connector):
+                    self.enable = inputs[key]
+                else:
+                    self.enable.state = int(inputs[key])
+            elif key.lower() == "clk":
+                if isinstance(inputs[key], Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
+
+        self.g1.setInput(0, self.D)
+        self.g1.setInput(1, self.enable)
         self.g1.setOutput(self.a)
 
-        self.g2 = NOR(S, self.a)
+        self.g2.setInput(self.a)
         self.g2.setOutput(self.b)
 
-    def setInputs(self, R, S):
-        """
-        Set this SRLatch's reset input to R and set input to S.
-        Unstable behaviour when transitioning directly from RS = 11 to RS = 00.
-        """
+    def setOutputs(self, **outputs):
 
-        self.g1.setInput(0, R)
-        self.g2.setInput(0, S)
+        for key in outputs:
+            if not isinstance(outputs[key], Connector):
+                raise Exception("ERROR: Output not a connector instance")
+            if key.lower() == "a":
+                self.a = outputs[key]
+            elif key.lower() == "b":
+                self.b = outputs[key]
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
 
-    def output(self):
-        """
-        Return the output of this SRLatch in the format [Q, Q'].
-        """
-
-        return [self.g1.output(), self.g2.output()]
-
-
-class DFlipFlop:
-
-    def __init__(self, input1, input2):
-
-        self.a = Connector()
-        self.b = Connector()
-        self.c = Connector()
-        self.d = Connector()
-
-        self.g1 = NAND(input1, input2)
         self.g1.setOutput(self.a)
 
-        self.g2 = NAND(self.a, input2)
+        self.g2.setInput(self.a)
         self.g2.setOutput(self.b)
 
-        self.g3 = NAND(self.a, self.d)
-        self.g3.setOutput(self.c)
+    def trigger(self):
+        if self.clkoldval == 1 and self.clk.state == 0:
+            self.D.trigger()
+        self.clkoldval = self.clk.state
+        return [self.a(), self.b()]
 
-        self.g4 = NAND(self.b, self.c)
-        self.g4.setOutput(self.d)
+    def reset(self):
+        # Resets the latch
+        self.D.state = 0
+        self.D.trigger()
 
-    def output(self):
+    def __call__(self, **inputs):
+        """Call to the FlipFlop instance will invoke the trigger method"""
+        return self.trigger(**inputs)
 
-        return [self.g3.output(), self.g4.output()]
+    def state(self):
+        """Returns the current state of the DFlipflop"""
+        return [self.a(), self.b()]
 
-    def setInputs(self, input1, input2):
 
-        self.g1.setInput(0, input1)
-        self.g1.setInput(1, input2)
-        self.g2.setInput(1, input2)
+class JKFlipFlop(FlipFlop):
+
+    """
+    Class to implement JKFlipFlop
+    J and K are the two primary inputs.
+    They are enabled by the third input enable.
+
+    Ouputs are a ( q ) and b ( ~q )
+
+    To Use :
+    Set the inputs of JKFlipFlop and to trigger any change in input use trigger() method.
+    call to the JKFlipFlop instance also triggers it and returns the current state as a list
+
+    """
+
+    def __init__(self, J, K, enable, clk, a=Connector(0), b=Connector(1)):
+
+        FlipFlop.__init__(self, enable, clk, a, b)
+
+        self.J = J
+        self.K = K
+
+        self.J.tap(self, "input")
+        self.K.tap(self, "input")
+        self.enable.tap(self, "input")
+        self.clk.tap(self, "input")
+
+        self.a.tap(self, "output")
+        self.b.tap(self, "output")
+
+    def setInputs(self, **inputs):
+        """
+        Sets the input connectors of SRLatch.
+        Give input parameters as a dictionary
+
+        Ex.: jk1.setInputs(J = J, K = K)
+        Ex.2: jk2.setInputs(enable = foo)
+
+        Where J, K, foo are all Connector class instances.
+
+        This is done to support partial change in input [ only J or K etc ]
+        """
+
+        # To support both upper and lower case
+
+        for key in inputs:
+            if key.lower() == "j":
+                # To support both numerical/boolean values or Connector
+                # instances
+                if isinstance(inputs[key], Connector):
+                    self.J = inputs[key]
+                else:
+                    self.J.state = int(inputs[key])
+
+            elif key.lower() == "k":
+                if isinstance(inputs[key], Connector):
+                    self.K = inputs[key]
+                else:
+                    self.K.state = int(inputs[key])
+
+            elif key.lower() == "enable":
+                if isinstance(inputs[key], Connector):
+                    self.enable = inputs[key]
+                else:
+                    self.enable.state = int(inputs[key])
+            elif key.lower() == "clk":
+                if isinstance(inputs[key], Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
+
+        self.J.tap(self, "input")
+        self.K.tap(self, "input")
+        self.enable.tap(self, "input")
+        self.clk.tap(self, "input")
+
+    def setOutputs(self, **outputs):
+
+        for key in outputs:
+            if not isinstance(outputs[key], Connector):
+                raise Exception("ERROR: Output not a connector instance")
+            if key.lower() == "a":
+                self.a = outputs[key]
+            elif key.lower() == "b":
+                self.b = outputs[key]
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
+
+        self.a.tap(self, "output")
+        self.b.tap(self, "output")
+
+    def trigger(self):
+        """
+        Call to JK Latch Instance will return its current state of outputs as a List of values [ q, qcomp ]
+
+        Parameters can also be passed. Binary parameters will update the J and K states. Connections will remain intact.
+        Connector instances will connect them to the JKFlipFlop
+
+        Once JK is triggered with binary values the values of J and S are changed, however since backward triggering is not present
+        The circuit preceeding the JKFlipFlop will not get affected by this change.
+
+        """
+        # Using behavioural Modelling
+        if self.clkoldval == 1 and self.clk.state == 0:
+
+            if bool(self.enable):
+                if bool(self.J) and bool(self.K):
+                    self.a.state = 0 if bool(self.a) else 1
+
+                elif not bool(self.J) and bool(self.K):
+                    self.a.state = 0
+
+                elif bool(self.J) and not bool(self.K):
+                    self.a.state = 1
+
+            self.b.state = 0 if self.a.state else 1
+
+            self.a.trigger()
+            self.b.trigger()
+        self.clkoldval = self.clk.state
+        return [self.a(), self.b()]
+
+    def reset(self):
+        # Resets the latch
+        self.J.state = 0
+        self.K.state = 1
+
+        self.trigger()
+
+    def __call__(self):
+        return self.trigger()
+
+    def state(self):
+        return [self.a(), self.b()]
+
+
+class TFlipFlop(FlipFlop):
+
+    """
+    Toggle Flip Flop.
+    When toggle is high, for every negative edge clock pulse received the Flipflop output is toggled.
+    """
+
+    def __init__(self, T, enable, clk, a=Connector(), b=Connector()):
+
+        FlipFlop.__init__(self, enable, clk, a, b)
+
+        self.T = T
+        self.T.tap(self, "input")
+        self.enable.tap(self, "input")
+        self.clk.tap(self, "input")
+
+    def setInputs(self, **inputs):
+        for key in inputs:
+            if key.lower() == "t":
+                # To support both numerical/boolean values or Connector
+                # instances
+                if isinstance(inputs[key], Connector):
+                    self.T = inputs[key]
+                else:
+                    self.T.state = int(inputs[key])
+            elif key.lower() == "enable":
+                if isinstance(inputs[key], Connector):
+                    self.enable = inputs[key]
+                else:
+                    self.enable.state = int(inputs[key])
+            elif key.lower() == "clk":
+                if isinstance(inputs[key], Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
+
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
+
+        self.T.tap(self, "input")
+        self.enable.tap(self, "input")
+        self.clk.tap(self, "input")
+
+    def setOutputs(self, **outputs):
+        for key in outputs:
+            if not isinstance(outputs[key], Connector):
+                raise Exception("ERROR: Output not a connector instance")
+            if key.lower() == "a":
+                self.a = outputs[key]
+            elif key.lower() == "b":
+                self.b = outputs[key]
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
+
+        self.a.tap(self, "output")
+        self.b.tap(self, "output")
+
+    def trigger(self):
+        if self.clkoldval == 1 and self.clk.state == 0:
+            if bool(self.T):
+                self.a.state = 0 if bool(self.a) else 1
+            self.b.state = 0 if bool(self.a) else 1
+
+            self.a.trigger()
+            self.b.trigger()
+
+        self.clkoldval = self.clk.state
+
+    def reset(self):
+        # Resets the latch
+        self.T.state = 0
+        self.trigger()
+
+    def state(self):
+        return [self.a(), self.b()]
+
+    def __call__(self):
+        self.trigger()
+        return [self.a(), self.b()]
