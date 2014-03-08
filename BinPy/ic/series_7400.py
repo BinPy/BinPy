@@ -70,9 +70,6 @@ class IC_7400(Base_14pin):
 class IC_7401(Base_14pin):
     """
     This is a Quad 2-input open-collector NAND gate IC
-
-
-
     """
     def __init__(self):
         self.pins = [None,None,0,0,None,0,0,0,0,0,None,0,0,None,0]
@@ -207,7 +204,6 @@ class IC_7404(Base_14pin):
     """
     This is a hex inverter IC
 
-
     Pin Number	Description
         1	A Input Gate 1
         2	Y Output Gate 1
@@ -264,8 +260,6 @@ class IC_7404(Base_14pin):
 class IC_7405(Base_14pin):
     """
     This is hex open-collector inverter IC
-
-
     """
     def __init__(self):
         self.pins = [None,0,None,0,None,0,None,0,None,0,None,0,None,0,0]
@@ -287,7 +281,7 @@ class IC_7408(Base_14pin):
     """
     This is a Quad 2 input AND gate IC
 
-   Pin Number	Description
+    Pin Number	Description
         1	A Input Gate 1
         2	B Input Gate 1
         3	Y Output Gate 1
