@@ -14,44 +14,44 @@ class IC_7400(Base_14pin):
     """
     This is a QUAD 2 INPUT NAND gate IC
     Pin Configuration:
-    
-    Pin Number	Description
-		1	A Input Gate 1
-		2	B Input Gate 1
-		3	Y Output Gate 1
-		4	A Input Gate 2
-		5	B Input Gate 2
-		6	Y Output Gate 2
-		7	Ground
-		8	Y Output Gate 3
-		9	B Input Gate 3
-		10	A Input Gate 3
-		11	Y Output Gate 4
-		12	B Input Gate 4
-		13	A Input Gate 4
-		14	Positive Supply
 
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7400:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7400()
-    	>>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+    Pin Number	Description
+        1	A Input Gate 1
+        2	B Input Gate 1
+        3	Y Output Gate 1
+        4	A Input Gate 2
+        5	B Input Gate 2
+        6	Y Output Gate 2
+        7	Ground
+        8	Y Output Gate 3
+        9	B Input Gate 3
+        10	A Input Gate 3
+        11	Y Output Gate 4
+        12	B Input Gate 4
+        13	A Input Gate 4
+        14	Positive Supply
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7400:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7400()
+        >>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Methods:
-    	pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
-    	
-    
+        pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
+
+
     """
     def __init__(self):
         self.pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
@@ -70,9 +70,6 @@ class IC_7400(Base_14pin):
 class IC_7401(Base_14pin):
     """
     This is a Quad 2-input open-collector NAND gate IC
-    
-    
-    
     """
     def __init__(self):
         self.pins = [None,None,0,0,None,0,0,0,0,0,None,0,0,None,0]
@@ -91,46 +88,46 @@ class IC_7401(Base_14pin):
 class IC_7402(Base_14pin):
     """
     This is a Quad 2-input NOR gate IC
-    
-    Pin Configuration:
-    
-    Pin Number	Description
-		1	Y Output Gate 1
-		2	A Input Gate 1
-		3	B Input Gate 1
-		4	Y Output Gate 2
-		5	A Input Gate 2
-		6	B Input Gate 2
-		7	Ground
-		8	A Input Gate 3
-		9	B Input Gate 3
-		10	Y Output Gate 3
-		11	A Input Gate 4
-		12	B Input Gate 4
-		13	Y Output Gate 4
-		14	Positive Supply
 
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7402:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7402()
-    	>>> pin_config = {2: 0, 3: 0, 5: 0, 6: 1, 7: 0, 8: 1, 9: 1, 11: 1, 12: 1, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+    Pin Configuration:
+
+    Pin Number	Description
+        1	Y Output Gate 1
+        2	A Input Gate 1
+        3	B Input Gate 1
+        4	Y Output Gate 2
+        5	A Input Gate 2
+        6	B Input Gate 2
+        7	Ground
+        8	A Input Gate 3
+        9	B Input Gate 3
+        10	Y Output Gate 3
+        11	A Input Gate 4
+        12	B Input Gate 4
+        13	Y Output Gate 4
+        14	Positive Supply
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7402:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7402()
+        >>> pin_config = {2: 0, 3: 0, 5: 0, 6: 1, 7: 0, 8: 1, 9: 1, 11: 1, 12: 1, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,None,0,0,None,0,0,0,0,0,None,0,0,None,0]
-    
-    
+        pins = [None,None,0,0,None,0,0,0,0,0,None,0,0,None,0]
+
+
     """
     def __init__(self):
         self.pins = [None,None,0,0,None,0,0,0,0,0,None,0,0,None,0]
@@ -149,45 +146,45 @@ class IC_7402(Base_14pin):
 class IC_7403(Base_14pin):
     """
     This is a Quad 2-input open-collector NAND gate IC
-    
+
     Pin Number	Description
-		1	A Input Gate 1
-		2	B Input Gate 1
-		3	Y Output Gate 1
-		4	A Input Gate 2
-		5	B Input Gate 2
-		6	Y Output Gate 2
-		7	Ground
-		8	Y Output Gate 3
-		9	B Input Gate 3
-		10	A Input Gate 3
-		11	Y Output Gate 4
-		12	B Input Gate 4
-		13	A Input Gate 4
-		14	Positive Supply
-    
-    
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7403:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7403()
-    	>>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+        1	A Input Gate 1
+        2	B Input Gate 1
+        3	Y Output Gate 1
+        4	A Input Gate 2
+        5	B Input Gate 2
+        6	Y Output Gate 2
+        7	Ground
+        8	Y Output Gate 3
+        9	B Input Gate 3
+        10	A Input Gate 3
+        11	Y Output Gate 4
+        12	B Input Gate 4
+        13	A Input Gate 4
+        14	Positive Supply
+
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7403:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7403()
+        >>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
-    
-    
+        pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
+
+
     """
     def __init__(self):
         self.pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
@@ -206,44 +203,43 @@ class IC_7403(Base_14pin):
 class IC_7404(Base_14pin):
     """
     This is a hex inverter IC
-    
-    
+
     Pin Number	Description
-		1	A Input Gate 1
-		2	Y Output Gate 1
-		3	A Input Gate 2
-		4	Y Output Gate 2
-		5	A Input Gate 3
-		6	Y Output Gate 3
-		7	Ground
-		8	Y Output Gate 4
-		9	A Input Gate 4
-		10	Y Output Gate 5
-		11	A Input Gate 5
-		12	Y Output Gate 6
-		13	A Input Gate 6
-		14	Positive Supply
-    
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7404:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7404()
-    	>>> pin_config = {1: 1, 3: 0, 5: 0, 7: 0, 9: 0, 11: 0, 13: 1, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+        1	A Input Gate 1
+        2	Y Output Gate 1
+        3	A Input Gate 2
+        4	Y Output Gate 2
+        5	A Input Gate 3
+        6	Y Output Gate 3
+        7	Ground
+        8	Y Output Gate 4
+        9	A Input Gate 4
+        10	Y Output Gate 5
+        11	A Input Gate 5
+        12	Y Output Gate 6
+        13	A Input Gate 6
+        14	Positive Supply
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7404:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7404()
+        >>> pin_config = {1: 1, 3: 0, 5: 0, 7: 0, 9: 0, 11: 0, 13: 1, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
-    
+        pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
+
     """
     def __init__(self):
         self.pins = [None,0,None,0,None,0,None,0,None,0,None,0,None,0,0]
@@ -264,8 +260,6 @@ class IC_7404(Base_14pin):
 class IC_7405(Base_14pin):
     """
     This is hex open-collector inverter IC
-    
-    
     """
     def __init__(self):
         self.pins = [None,0,None,0,None,0,None,0,None,0,None,0,None,0,0]
@@ -286,44 +280,44 @@ class IC_7405(Base_14pin):
 class IC_7408(Base_14pin):
     """
     This is a Quad 2 input AND gate IC
-    
-   Pin Number	Description
-		1	A Input Gate 1
-		2	B Input Gate 1
-		3	Y Output Gate 1
-		4	A Input Gate 2
-		5	B Input Gate 2
-		6	Y Output Gate 2
-		7	Ground
-		8	Y Output Gate 3
-		9	B Input Gate 3
-		10	A Input Gate 3
-		11	Y Output Gate 4
-		12	B Input Gate 4
-		13	A Input Gate 4
-		14	Positive Supply
-    
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7408:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7408()
-    	>>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+
+    Pin Number	Description
+        1	A Input Gate 1
+        2	B Input Gate 1
+        3	Y Output Gate 1
+        4	A Input Gate 2
+        5	B Input Gate 2
+        6	Y Output Gate 2
+        7	Ground
+        8	Y Output Gate 3
+        9	B Input Gate 3
+        10	A Input Gate 3
+        11	Y Output Gate 4
+        12	B Input Gate 4
+        13	A Input Gate 4
+        14	Positive Supply
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7408:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7408()
+        >>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
-    
-    
+        pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
+
+
     """
     def __init__(self):
         self.pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
@@ -342,44 +336,44 @@ class IC_7408(Base_14pin):
 class IC_7410(Base_14pin):
     """
     This is a Triple 3 input NAND gate IC
-    
+
     Pin Number	Description
-		1	A Input Gate 1		
-		2	B Input Gate 1
-		3	A Input Gate 2
-		4	B Input Gate 2
-		5	C Input gate 2
-		6	Y Output Gate 2
-		7	Ground
-		8	Y Output Gate 3
-		9	A Input Case 3
-		10	B Input Case 3
-		11	C Input Case 3
-		12	Y Output Gate 1
-		13	C Input Gate 1
-		14	Positive Supply
-		
-    
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7410:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7410()
-    	>>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+        1	A Input Gate 1		
+        2	B Input Gate 1
+        3	A Input Gate 2
+        4	B Input Gate 2
+        5	C Input gate 2
+        6	Y Output Gate 2
+        7	Ground
+        8	Y Output Gate 3
+        9	A Input Case 3
+        10	B Input Case 3
+        11	C Input Case 3
+        12	Y Output Gate 1
+        13	C Input Gate 1
+        14	Positive Supply
+
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7410:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7410()
+        >>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
-    
+        pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
+
     """
     def __init__(self):
         self.pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
@@ -397,45 +391,45 @@ class IC_7410(Base_14pin):
 class IC_7411(Base_14pin):
     """
     This is a Triple 3 input AND gate IC
-    
+
     Pin Number	Description
-		1	A Input Gate 1		
-		2	B Input Gate 1
-		3	A Input Gate 2
-		4	B Input Gate 2
-		5	C Input gate 2
-		6	Y Output Gate 2
-		7	Ground
-		8	Y Output Gate 3
-		9	A Input Case 3
-		10	B Input Case 3
-		11	C Input Case 3
-		12	Y Output Gate 1
-		13	C Input Gate 1
-		14	Positive Supply
-		
-    
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7411:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7411()
-    	>>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+        1	A Input Gate 1		
+        2	B Input Gate 1
+        3	A Input Gate 2
+        4	B Input Gate 2
+        5	C Input gate 2
+        6	Y Output Gate 2
+        7	Ground
+        8	Y Output Gate 3
+        9	A Input Case 3
+        10	B Input Case 3
+        11	C Input Case 3
+        12	Y Output Gate 1
+        13	C Input Gate 1
+        14	Positive Supply
+
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7411:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7411()
+        >>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
-    
-    
+        pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
+
+
     """
     def __init__(self):
         self.pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
@@ -453,44 +447,44 @@ class IC_7411(Base_14pin):
 class IC_7412(Base_14pin):
     """
     This is a Triple 3 input NAND gate IC with open collector outputs
-    
+
     Pin Number	Description
-		1	A Input Gate 1		
-		2	B Input Gate 1
-		3	A Input Gate 2
-		4	B Input Gate 2
-		5	C Input gate 2
-		6	Y Output Gate 2
-		7	Ground
-		8	Y Output Gate 3
-		9	A Input Case 3
-		10	B Input Case 3
-		11	C Input Case 3
-		12	Y Output Gate 1
-		13	C Input Gate 1
-		14	Positive Supply
-		
-    
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7412:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7412()
-    	>>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+        1	A Input Gate 1		
+        2	B Input Gate 1
+        3	A Input Gate 2
+        4	B Input Gate 2
+        5	C Input gate 2
+        6	Y Output Gate 2
+        7	Ground
+        8	Y Output Gate 3
+        9	A Input Case 3
+        10	B Input Case 3
+        11	C Input Case 3
+        12	Y Output Gate 1
+        13	C Input Gate 1
+        14	Positive Supply
+
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7412:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7412()
+        >>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
-    
+        pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
+
     """
     def __init__(self):
         self.pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
@@ -508,44 +502,44 @@ class IC_7412(Base_14pin):
 class IC_7413(Base_14pin):
     """
     This is a dual 4 input NAND gate IC
-    
+
     Pin Number	Description
-		1	A Input Gate 1
-		2	B Input Gate 1
-		3	Not Connected
-		4	C Input Gate 1
-		5	D Input Gate 1
-		6	Y Output Gate 1
-		7	Ground
-		8	Y Output Gate 2
-		9	A Input Gate 2
-		10	B Input Gate 2
-		11	Not Connected
-		12	C Input Gate 2
-		13	D Input Gate 2
-		14	Positive Supply
-		
-    
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7413:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7413()
-    	>>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 1, 13: 1, 14: 1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+        1	A Input Gate 1
+        2	B Input Gate 1
+        3	Not Connected
+        4	C Input Gate 1
+        5	D Input Gate 1
+        6	Y Output Gate 1
+        7	Ground
+        8	Y Output Gate 2
+        9	A Input Gate 2
+        10	B Input Gate 2
+        11	Not Connected
+        12	C Input Gate 2
+        13	D Input Gate 2
+        14	Positive Supply
+
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7413:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7413()
+        >>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 1, 13: 1, 14: 1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,0,0,0,0,0,None,0,None,0,0,0,0,0,0]
-    
+        pins = [None,0,0,0,0,0,None,0,None,0,0,0,0,0,0]
+
     """
     def __init__(self):
         self.pins = [None,0,0,0,0,0,None,0,None,0,0,0,0,0,0]
@@ -562,44 +556,44 @@ class IC_7413(Base_14pin):
 class IC_7415(Base_14pin):
     """
     This is a Triple 3 input AND gate IC with open collector outputs
-    
+
     Pin Number	Description
-		1	A Input Gate 1
-		2	B Input Gate 1
-		3	A Input Gate 2
-		4	B Input Gate 2
-		5	C Input Gate 2
-		6	Y Output Gate 2
-		7	Ground
-		8	Y Output Gate 3
-		9	A Input Gate 3
-		10	B Input Gate 3
-		11	C Input Gate 3
-		12	Y Output Gate 1
-		13	C Input Gate 1
-		14	Positive Supply
-		
-    
-	This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-	with pin number as the key and its value being either 1 or 0
-	
-	To initialise the ic 7415:
-		1. set pin 7:0
-		2. set pin 14:1
-	
-	How to use:
-	
-	>>> ic = IC_7415()
-    	>>> pin_config = {1:1, 2:0, 3:0, 4:0, 5:0, 7:0, 9:1, 10:1, 11:1, 13:0, 14:1}
-    	>>> ic.setIC(pin_cofig)
-    	>>> ic.drawIC()
-    	>>> ic.run()
-    	>>> ic.setIC(ic.run())
-    	>>> ic.drawIC()
-    
+        1	A Input Gate 1
+        2	B Input Gate 1
+        3	A Input Gate 2
+        4	B Input Gate 2
+        5	C Input Gate 2
+        6	Y Output Gate 2
+        7	Ground
+        8	Y Output Gate 3
+        9	A Input Gate 3
+        10	B Input Gate 3
+        11	C Input Gate 3
+        12	Y Output Gate 1
+        13	C Input Gate 1
+        14	Positive Supply
+
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7415:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7415()
+        >>> pin_config = {1:1, 2:0, 3:0, 4:0, 5:0, 7:0, 9:1, 10:1, 11:1, 13:0, 14:1}
+        >>> ic.setIC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.setIC(ic.run())
+        >>> ic.drawIC()
+
     Default pins:
-    	pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
-    
+        pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
+
     """
     def __init__(self):
         self.pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
@@ -1468,7 +1462,7 @@ class IC_7483(Base_16pin):
         output[6] = XOR(self.pins[8],self.pins[7],carry).output()
 
         carry = OR(AND(carry,XOR(self.pins[8],self.pins[7]).output()).output(),
-            AND(self.pins[8],self.pins[7]).output()).output()
+                AND(self.pins[8],self.pins[7]).output()).output()
 
         output[2] = XOR(self.pins[3],self.pins[4],carry).output()
 

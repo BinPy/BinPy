@@ -132,7 +132,7 @@ class AND(MIGATES):
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == False) or i == False:
+                if (isinstance(i,Connector) and i.state == False) or (isinstance(i, GATES) and i.output() == False) or i == False:
                     self._updateResult(False)
                     break
             if self.outputType:
