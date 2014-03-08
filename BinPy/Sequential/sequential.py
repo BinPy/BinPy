@@ -233,8 +233,8 @@ class DFlipFlop(FlipFlop):
             clk,
             a=Connector(0),
             b=Connector(1),
-            set=Connector(1),
-            reset=Connector(1)):
+            set=Connector(0),
+            reset=Connector(0)):
 
         FlipFlop.__init__(self, enable, clk, a, b, set, reset)
         # Initiated to support numerical inputs --> See trigger method's doc
