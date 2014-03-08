@@ -9,3 +9,4 @@ from BinPy.Operations import *
 from BinPy.Sequential import *
 from BinPy.Combinational import *
 from BinPy.Shell import *
+from BinPy.dev import *
