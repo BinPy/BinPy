@@ -44,7 +44,7 @@ def test_IC_4012():
     testIC = IC_4012()
     p = {2: 0, 3: 1, 4: 0, 5: 1, 7: 0, 9: 1, 10: 1, 11: 1, 12: 1, 14: 1}
     testIC.setIC(p)
-    q = {1: 1,  13: 0}
+    q = {1: 1, 13: 0}
     if q != testIC.run():
         assert False
 
@@ -161,6 +161,6 @@ def test_IC_4082():
     testIC = IC_4082()
     p = {2: 0, 3: 1, 4: 0, 5: 1, 7: 0, 9: 1, 10: 1, 11: 1, 12: 1, 14: 1}
     testIC.setIC(p)
-    q = {1: 0,  13: 1}
+    q = {1: 0, 13: 1}
     if q != testIC.run():
         assert False
