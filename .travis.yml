@@ -19,9 +19,11 @@ script:
  - nosetests -v operations_tests.py
  - nosetests -v sequential_tests.py
  - nosetests -v series_4000_test.py
+ - nosetests -v counters_test.py
  - nosetests3 -v gates_tests.py
  - nosetests3 -v ics_tests.py
  - nosetests3 -v combinational_tests.py
  - nosetests3 -v operations_tests.py
  - nosetests3 -v sequential_tests.py
  - nosetests3 -v series_4000_test.py
+ - nosetests3 -v counters_test.py
