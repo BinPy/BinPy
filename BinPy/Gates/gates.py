@@ -33,8 +33,8 @@ class GATES:
             raise Exception("ERROR: Too few inputs given")
         else:
             self.history_active = 1  # Use history before computing
-            self.inputs = list(inputs)[:]  # Set the inputs
-            self._updateConnections(self.inputs)
+            for i in range(len(inputs)):
+                self.inputs[i].state = inputs[i] # Set the inputs
         self.trigger()
                      # Any change in the input will trigger change in the
                      # output
@@ -52,12 +52,11 @@ class GATES:
             self.history_active = 1  # Use history before computing
             if isinstance(self.inputs[index], Connector):
                 self.history_inputs[index] = self.inputs[index].state
+                self.inputs[index].state = value
             else:
                 self.history_inputs[index] = self.inputs[
                     index]  # Modify the history
-            self.inputs[index] = value
-        if isinstance(value, Connector):
-            value.tap(self, 'input')
+                self.inputs[index] = value
         self.trigger()
 
     def getInputStates(self):
@@ -70,9 +69,9 @@ class GATES:
         return input_states
 
     def _updateResult(self, value):
-        self.result = int(value)  # Set True or False
         if self.outputType == 1:
             self.outputConnector.state = self.result
+            self.outputConnector.trigger()
 
     def _updateHistory(self):
         for i in range(len(self.inputs)):
@@ -129,14 +128,13 @@ class AND(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateResult(True)
-            self._updateHistory()  # Update the inputs after a computation
+            self._updateHistory()  # Update the inputs before a computation
+            self.result = int(True)
             for i in self.inputs:
-                if (isinstance(i,Connector) and i.state == False) or (isinstance(i, GATES) and i.output() == False) or i == False:
-                    self._updateResult(False)
+                if (isinstance(i,Connector) and i.state == False) or i == False:
+                    self.result = int(False)
                     break
-            if self.outputType:
-                self.outputConnector.trigger()
+            self._updateResult()
 
 
 class OR(MIGATES):
@@ -147,15 +145,13 @@ class OR(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateResult(False)
-            self._updateHistory()  # Update the inputs after a computation
-
+            self._updateHistory()  # Update the inputs before a computation
+            self.result = int(False)
             for i in self.inputs:
                 if (isinstance(i, Connector) and i.state == True) or i == True:
-                    self._updateResult(True)
+                    self.result = int(True)
                     break
-            if self.outputType:
-                self.outputConnector.trigger()
+            self._updateResult()
 
 
 class NOT(GATES):
@@ -186,11 +182,10 @@ class NOT(GATES):
             self.history_active = 1
             self._updateHistory()  # Update the inputs after a computation
             if (isinstance(self.inputs[0], Connector)):
-                self._updateResult(not self.inputs[0].state)
+                self.result = int(not self.inputs[0].state)
             else:
-                self._updateResult(not self.inputs[0])
-            if self.outputType == 1:
-                self.outputConnector.trigger()
+                self.result = int(not self.inputs[0])
+            self._updateResult()
 
 
 class XOR(MIGATES):
@@ -201,7 +196,6 @@ class XOR(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
             temp = 1
             for i in self.inputs:
@@ -211,9 +205,8 @@ class XOR(MIGATES):
                     val = i
                 temp = temp ^ val
             temp = temp ^ 1
-            self._updateResult(temp)
-            if self.outputType:
-                self.outputConnector.trigger()
+            self.result = int(temp)
+            self._updateResult()
 
 
 class XNOR(MIGATES):
@@ -225,7 +218,7 @@ class XNOR(MIGATES):
         if self._compareHistory() == True:
             self.history_active = 1
             self._updateResult(True)
-            self._updateHistory()  # Update the inputs after a computation
+            self._updateHistory()  # Update the inputs before a computation
             temp = 1
             for i in self.inputs:
                 if (isinstance(i, Connector)):
@@ -234,9 +227,8 @@ class XNOR(MIGATES):
                     val = i
                 temp = temp ^ val
             temp = temp ^ 1
-            self._updateResult(not temp)
-            if self.outputType:
-                self.outputConnector.trigger()
+            self.result = int(not temp)
+            self._updateResult()
 
 
 class NAND(MIGATES):
@@ -247,14 +239,13 @@ class NAND(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateResult(False)
-            self._updateHistory()  # Update the inputs after a computation
+            self.result = int(False)
+            self._updateHistory()  # Update the inputs before a computation
             for i in self.inputs:
                 if (isinstance(i, Connector) and i.state == False) or i == False:
-                    self._updateResult(True)
+                    self.result = int(True)
                     break
-            if self.outputType:
-                self.outputConnector.trigger()
+            self._updateResult()
 
 
 class NOR(MIGATES):
@@ -265,11 +256,9 @@ class NOR(MIGATES):
     def trigger(self):
         if self._compareHistory() == True:
             self.history_active = 1
-            self._updateResult(True)
+            self.result = int(True)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
                 if (isinstance(i, Connector) and i.state == True) or i == True:
-                    self._updateResult(False)
-
-            if self.outputType:
-                self.outputConnector.trigger()
+                    self.result = int(False)
+            self._updateResult()
