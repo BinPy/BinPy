@@ -218,10 +218,10 @@ class NOT(GATES):
             self.history_active = 1
             self._updateHistory()  # Update the inputs after a computation
             if (isinstance(self.inputs[0], Connector)):
-                self.result = ((not self.inputs[0].state) and
+                self.result = int((not self.inputs[0].state) and
                               (self.inputs[0].state is not None))
             else:
-                self.result = ((not self.inputs[0]) and
+                self.result = int((not self.inputs[0]) and
                               (self.inputs[0] is not None))
             self._updateResult()
 
