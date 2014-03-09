@@ -161,8 +161,8 @@ class AND(MIGATES):
             self.result = int(True)
             for i in self.inputs:
                 if ((isinstance(i, Connector) and
-                    (not i.state and i.state is not None)) or
-                    (not i and i is not None)):
+                    not i.state and i.state is not None) or
+                    (not isinstance(i, Connector) and not i and i is not None)):
                     self.result = int(False)
                     break
             self._updateResult()
@@ -200,8 +200,13 @@ class NOT(GATES):
         if len(inputs) != 1:
             raise Exception("ERROR: NOT Gates takes only one input")
         else:
+            val = inputs[0]
             self.history_active = 1  # Use history before computing
-            self.inputs = list(inputs)[:]  # Set the inputs
+            if isinstance(self.inputs[0], Connector):
+                self.inputs[0].state = val  # Set the inputs
+                self.inputs[0].trigger()
+            else:
+                self.inputs[0] = val
         self.trigger()  # Any change in the input will trigger change in the
                         # output
 
@@ -275,8 +280,8 @@ class NAND(MIGATES):
             self._updateHistory()  # Update the inputs before a computation
             for i in self.inputs:
                 if ((isinstance(i, Connector) and
-                    (not i.state and i.state is not None)) or
-                    (not i and i is not None)):
+                    not i.state and i.state is not None) or
+                    (not isinstance(i, Connector) and not i and i is not None)):
                     self.result = int(True)
                     break
             self._updateResult()
