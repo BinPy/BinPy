@@ -1,4 +1,4 @@
-from BinPy.Gates.gates import *
+from BinPy.Gates import *
 print ('This example is to illustrate logic contention')
 print ('a, b, c, d, e are connectors')
 print ('a and b are inputs to AND1 which is an 2 input AND gate')
@@ -19,7 +19,9 @@ print ('\nOutput is:')
 print ((AND1.output()))
 AND2 = AND(d, e)
 AND2.setOutput(c)
-print ('\nSetting the states of the input connectors using AND2.setInputs(1, 0)')
+print('\nSetting the states of the input connectors using AND2.setInputs(1, 0)')
 AND1.setInputs(1, 0)
-print ('Here the state of the connector c was already False which was the is output of AND1 and when AND2 tries to change its state to True a ')
-print ('WARNING  displayed and the state of the output connecter is changed to the the output of AND2')
+print ('''Here the state of the connector c was already False which was the
+is output of AND1 and when AND2 tries to change its state to True a ''')
+print ('''WARNING  displayed and the state of the output connecter is
+changed to the the output of AND2''')

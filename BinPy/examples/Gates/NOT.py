@@ -1,5 +1,5 @@
 from __future__ import print_function
-from BinPy.Gates.gates import *
+from BinPy.Gates import *
 """ Examples for NOT class """
 print ( "\n---Initializing the NOT class--- ")
 print ( "gate = NOT(0)")

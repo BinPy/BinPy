@@ -1,5 +1,5 @@
 from __future__ import print_function
-from BinPy.Gates.gates import *
+from BinPy.Gates import *
 """ Examples for OR class """
 print ( "\n---Initializing the OR class--- ")
 print ( "gate = OR(0, 1)")
@@ -25,7 +25,8 @@ gate1 = OR(0, conn1, 0, conn2)
 print ( "\n---Set Output of gate to Connector conn3---")
 print ( "gate1.setOutput(conn3)")
 gate1.setOutput(conn3)
-print ('\nSetting states to the inputs of the gate using gate1.setInputs(0, "~", 0, 0)')
+print ('''\nSetting states to the inputs of the gate
+using gate1.setInputs(0, "~", 0, 0)''')
 gate1.setInputs(0, '~', 0, 0)
 print ('Printing Inputs of gate1 using gate1.getInputStates()')
 print ((gate1.getInputStates()))

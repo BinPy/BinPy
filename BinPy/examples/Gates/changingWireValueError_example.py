@@ -1,5 +1,7 @@
-from BinPy.Gates.gates import *
-print ('This example is illustrate the generation of an axception while trying to change the state of a connector which is already an ouput of some gate')
+from BinPy.Gates import *
+print ('''This example is illustrate the generation of an exception while
+trying to change the state of a connector which is already an ouput of some
+gate''')
 print ('a, b, c, d, e are connectors')
 print ('a and b are inputs to NAND1 which is an 2 input NAND gate')
 print ('c is the output of NAND1')
@@ -12,7 +14,7 @@ d = Connector()
 e = Connector()
 NAND1 = NAND(a, b)
 NAND1.setOutput(c)
-print ('\nSetting the states of the input connectors using NAND1.setInputs(1, 0)')
+print('\nSetting the states of the input connectors using NAND1.setInputs(1, 0)')
 NAND1.setInputs(1, 0)
 print ('Inputs are:')
 print ((NAND1.getInputStates()))
@@ -29,5 +31,6 @@ print ('Output is:')
 print ((XOR1.output()))
 print ('\nSettin the state of connector d which is an input to XOR1 using')
 print ('XOR1.setInput(0, 0)')
-print ('An exception will be generated as it is the output of NAND1 and its while thus be decided by NAND1 and cannot be changed directly')
+print ('''An exception will be generated as it is the output of NAND1
+and its while thus be decided by NAND1 and cannot be changed directly''')
 XOR1.setInput(0, 0)

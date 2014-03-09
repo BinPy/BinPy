@@ -64,9 +64,9 @@ class MUX(GATES):
         bstr = ''
         for i in self.selects:
             if isinstance(i, Connector):
-                bstr = bstr + str(int(i.state))
+                bstr = bstr + str(int(i.state or i.state is not None))
             else:
-                bstr = bstr + str(int(i))
+                bstr = bstr + str(int(i or i is not None))
         try:
             if isinstance(self.inputs[int(bstr, 2)], Connector):
                 self.result = int(self.inputs[int(bstr, 2)].state)
@@ -145,9 +145,9 @@ class DEMUX(GATES):
             bstr = ''
         for i in self.selects:
             if isinstance(i, Connector):
-                bstr = bstr + str(int(i.state))
+                bstr = bstr + str(int(i.state or i.state is not None))
             else:
-                bstr = bstr + str(int(i))
+                bstr = bstr + str(int(i or i is not None))
         if isinstance(self.inputs[0], Connector):
             out[int(bstr, 2)] = self.inputs[0].state
             self._updateResult(out)
@@ -210,9 +210,9 @@ class Decoder(GATES):
             bstr = ''
         for i in self.inputs:
             if isinstance(i, Connector):
-                bstr = bstr + str(int(i.state))
+                bstr = bstr + str(int(i.state or i.state is not None))
             else:
-                bstr = bstr + str(int(i))
+                bstr = bstr + str(int(i or i is not None))
         out[int(bstr, 2)] = 1
         self._updateResult(out)
 

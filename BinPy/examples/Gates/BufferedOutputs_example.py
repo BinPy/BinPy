@@ -1,4 +1,4 @@
-from BinPy.Gates.gates import *
+from BinPy.Gates import *
 print ('This is an exampe to illustrate the usage of BUFFER')
 print ('a, b, c, d, e are connectors')
 print ('NOR1 is a NOR gate with inputs = [1, 0] and output = connector a')
