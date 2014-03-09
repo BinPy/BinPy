@@ -59,3 +59,26 @@ def COMP_test():
     if op.COMP('110', '2') != '110':
         assert False
 
+def decToBin_test():
+    if Operations.decToBin(10) != 1010:
+        assert False
+    if Operations.decToBin(11) != 1011:
+        assert False
+    if Operations.decToBin(15) != 1111:
+        assert False
+    if Operations.decToBin(1234) != 10011010010:
+        assert False
+    if Operations.decToBin(56789) != 1101110111010101:
+        assert False
+
+def binToDec_test():
+    if Operations.binToDec('111') != 7:
+        assert False
+    if Operations.binToDec('0111') != 7:
+        assert False
+    if Operations.binToDec('10011010010') != 1234:
+        assert False
+    if Operations.binToDec('0001') != 1:
+        assert False
+    if Operations.binToDec('1010101') != 85:
+        assert False
