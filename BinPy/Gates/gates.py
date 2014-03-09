@@ -1,4 +1,4 @@
-from connector import *
+from BinPy.Gates.connector import *
 
 
 class GATES:
