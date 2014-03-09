@@ -64,14 +64,16 @@ class MUX(GATES):
         bstr = ''
         for i in self.selects:
             if isinstance(i, Connector):
-                bstr = bstr + str(i.state)
+                bstr = bstr + str(int(i.state))
             else:
-                bstr = bstr + str(i)
+                bstr = bstr + str(int(i))
         try:
             if isinstance(self.inputs[int(bstr, 2)], Connector):
-                self._updateResult(self.inputs[int(bstr, 2)].state)
+                self.result = int(self.inputs[int(bstr, 2)].state)
+                self._updateResult()
             else:
-                self._updateResult(self.inputs[int(bstr, 2)])
+                self.result = int(self.inputs[int(bstr, 2)])
+                self._updateResult()
         except IndexError:
             raise Exception("Error: Select lines are inconsistent with Input lines")
         if self.outputType:
@@ -143,9 +145,9 @@ class DEMUX(GATES):
             bstr = ''
         for i in self.selects:
             if isinstance(i, Connector):
-                bstr = bstr + str(i.state)
+                bstr = bstr + str(int(i.state))
             else:
-                bstr = bstr + str(i)
+                bstr = bstr + str(int(i))
         if isinstance(self.inputs[0], Connector):
             out[int(bstr, 2)] = self.inputs[0].state
             self._updateResult(out)
@@ -208,9 +210,9 @@ class Decoder(GATES):
             bstr = ''
         for i in self.inputs:
             if isinstance(i, Connector):
-                bstr = bstr + str(i.state)
+                bstr = bstr + str(int(i.state))
             else:
-                bstr = bstr + str(i)
+                bstr = bstr + str(int(i))
         out[int(bstr, 2)] = 1
         self._updateResult(out)
 
@@ -290,7 +292,7 @@ class Encoder(GATES):
             bstr = '0' + bstr
         out = list(bstr)
         out = map(int, out)
-        self._updateResult(list(out))
+        self._updateResult(out)
 
     def setInputs(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
@@ -336,6 +338,7 @@ class Encoder(GATES):
         self.trigger()
 
     def _updateResult(self, value):
+        value = list(value)
         self.result = value
         for i in range(len(value)):
             if self.outputType[i] == 1:
