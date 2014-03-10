@@ -41,9 +41,10 @@ class GATES:
 
     def setInput(self, index, value):
         if index >= len(self.inputs):
-            self.inputs.append(
-                value)  # If the index is more than the length then append to the list
-            self.history_active = 0  # Dont use history after a new input is added
+            # If the index is more than the length then append to the list
+            self.inputs.append(value)
+            # Dont use history after a new input is added
+            self.history_active = 0
             self._updateHistory()
                                 # because history_active is set to 0 trigger
                                 # will get called irrespective of the history.
@@ -127,12 +128,12 @@ class AND(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i,Connector) and i.state == False) or (isinstance(i, GATES) and i.output() == False) or i == False:
+                if (isinstance(i, Connector) and i.state == False) or (isinstance(i, GATES) and i.output() == False) or i == False:
                     self._updateResult(False)
                     break
             if self.outputType:
@@ -145,13 +146,13 @@ class OR(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
 
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == True) or i == True:
+                if (isinstance(i, Connector) and i.state) or i:
                     self._updateResult(True)
                     break
             if self.outputType:
@@ -182,7 +183,7 @@ class NOT(GATES):
         self.setInputs(value)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateHistory()  # Update the inputs after a computation
             if (isinstance(self.inputs[0], Connector)):
@@ -199,7 +200,7 @@ class XOR(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
@@ -222,7 +223,7 @@ class XNOR(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
@@ -245,7 +246,7 @@ class NAND(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
@@ -263,12 +264,12 @@ class NOR(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == True) or i == True:
+                if (isinstance(i, Connector) and i.state) or i:
                     self._updateResult(False)
 
             if self.outputType:
