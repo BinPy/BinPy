@@ -1,8 +1,9 @@
 class Connector:
 
-    def __init__(self, state=None):
+    def __init__(self, state=3):
+        validate_state(state)
         self.connections = {"output": [], "input": []}
-            # To store the all the taps onto this connection
+            # To store all the taps onto this connection
         self.state = state  # To store the state of the connection
         self.oldstate = None
 
@@ -15,6 +16,19 @@ class Connector:
     def trigger(self):
         for i in self.connections["input"]:
             i.trigger()
+
+    def set(self, state):
+        """
+        Allows to easily change the state of the connector, as long as no output
+        is connected to it, since that could create a conflict. Example of usage:
+        >>> c = Connector(0)
+        >>> c.set(1)
+        """
+        if self.connections["output"]:
+            raise Exception("No 'output' connections allowed")
+        validate_state(state)
+        self.state = state
+        self.trigger()
 
     def __call__(self):
         return self.state
@@ -30,3 +44,9 @@ class Connector:
     # Overloads the int() method
     def __int__(self):
         return self.state
+
+
+# States: 0, 1, Hi-Z, undefined
+def validate_state(state):
+    if state not in (0,1,2,3):
+        raise Exception("Invalid state.")
