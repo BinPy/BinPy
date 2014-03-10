@@ -8,10 +8,20 @@ class IC:
     """
     This is a base class for IC
     """
-    
+    outputConnector = {}    
     def __init__(self):
-        pass	    
+        pass
     
+    def setOutput(self, index, value):
+        if not isinstance(value, Connector):
+            raise Exception("ERROR: Expecting a connector class object")
+        value.tap(self, 'output')
+        self.outputConnector[index] = value
+        try:
+            output = self.run()
+        except:
+            print("Invalid Argument")
+
     def setIC(self, param_dict):
         """
         If pin class is not used this method then it takes a dictionary with the format { PINNO:PINVALUE, ... }
@@ -126,7 +136,7 @@ class Base_16pin(IC):
     """
     total_pins = 16
     uses_pincls = False
-    
+
     def setPin(self, pin_no, pin_value):
         if pin_no<1 or pin_no>16:
             raise Exception("ERROR: There are only 16 pins in this IC")
