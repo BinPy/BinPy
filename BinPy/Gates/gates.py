@@ -49,7 +49,7 @@ class GATES:
         innum = len(self.inputs)
         if index < innum <= index:
             raise Exception("input index out of range.")
-        self.inputs[index] = input  # Remove from connector too
+        self.inputs[index] = input  # Remove previous one from connector
         input.tap(self, 'input')
         self.trigger()
 
