@@ -53,7 +53,6 @@ class IC_4000(Base_14pin):
         output[9] = NOT(self.pins[8].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
             self.setIC(output)
-            self.setIC(output)
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")

@@ -5,6 +5,9 @@ class Connector:
             # To store the all the taps onto this connection
         self.state = state  # To store the state of the connection
         self.oldstate = None
+        # To store the owner of the wire (the logic object which
+        # enforces its output on this wire)
+        self.owner = None  # To store the owner of the wire
 
     def tap(self, element, mode):
         if element not in self.connections[mode]:
