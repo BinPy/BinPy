@@ -2,6 +2,7 @@ from BinPy.Gates import *
 from BinPy.tools import *
 from nose.tools import with_setup, nottest
 
+
 def test_PowerSourceTest():
     POW = PowerSource()
     a = Connector()
@@ -14,6 +15,7 @@ def test_PowerSourceTest():
     if a.state is not None:
         assert False
 
+
 def test_GroundTest():
     GND = Ground()
     a = Connector()
@@ -25,4 +27,3 @@ def test_GroundTest():
     GND.disconnect(a)
     if a.state is not None:
         assert False
-
