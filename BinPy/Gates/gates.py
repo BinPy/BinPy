@@ -8,10 +8,7 @@ class GATES(object):
     """
 
     def __init__(self, output, *inputs):
-        for i in list(inputs) + [output]:
-            if not isinstance(i, Connector):
-                raise Exception("Connector Class instance/s expected")
-
+        is_connector(*(list(inputs) + [output]))
         self.output = output
         self.inputs = []
         self.in_states = []

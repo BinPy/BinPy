@@ -24,6 +24,7 @@ class Connector:
             self.state = 3
         elif 1 in outputs and 0 in outputs:
             self.state = 3
+
         else:
             self.state = state
         self.trigger()
@@ -48,3 +49,8 @@ class Connector:
 def validate_state(state):
     if state not in (0,1,2,3):
         raise Exception("Invalid state.")
+
+def is_connector(*connectors):
+    for i in connectors:
+        if not isinstance(i, Connector):
+            raise Exception("Connector Class instance/s expected")
