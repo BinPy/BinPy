@@ -1,7 +1,7 @@
 from BinPy.Gates.gates import *
 import math
 
-class MUX(GATES):
+class MUX(Gate):
     """
     This class can be used to create MUX in your circuit. MUX is used to select
     a single output line out of many inputs. This class can be used as any 2^n X
@@ -29,7 +29,7 @@ class MUX(GATES):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number inputs should be a power of 2")
         self.selects = []
-        GATES.__init__(self, list(inputs))
+        Gate.__init__(self, list(inputs))
 
     def selectLines(self, *select):
         if not (pow(2, len(select)) == len(self.inputs)):
@@ -77,7 +77,7 @@ class MUX(GATES):
         if self.outputType:
             self.outputConnector.trigger()
 
-class DEMUX(GATES):
+class DEMUX(Gate):
     """
     This class can be used to create DEMUX in your circuit. DEMUX is used to select
     It takes single input and n select lines and decode the select lines into BCD form
@@ -100,7 +100,7 @@ class DEMUX(GATES):
         if not (len(inputs) == 1):
             raise Exception("ERROR: Input should be 0/1")
         self.selects = []
-        GATES.__init__(self, list(inputs))
+        Gate.__init__(self, list(inputs))
         self.outputType = []
         self.outputConnector = []
 
@@ -174,7 +174,7 @@ class DEMUX(GATES):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
 
-class Decoder(GATES):
+class Decoder(Gate):
     """
     This class can be used to create decoder in your circuit.
     Input is taken as Binary String and returns the equivalent BCD form.
@@ -192,7 +192,7 @@ class Decoder(GATES):
     def __init__(self, *inputs):
         if len(inputs) == 0:
             raise Exception("ERROR: Input Length should be greater than zero")
-        GATES.__init__(self, list(inputs))
+        Gate.__init__(self, list(inputs))
         self.outputType = []
         self.outputConnector = []
         for i in range(pow(2, len(inputs))):
@@ -250,7 +250,7 @@ class Decoder(GATES):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
 
-class Encoder(GATES):
+class Encoder(Gate):
     """
     This class can be used to create encoder in your circuit. It converts the input BCD form to binary output. It works as the inverse of the decoder
     INPUT:      Input in BCD form, length of input must me in power of 2
@@ -269,7 +269,7 @@ class Encoder(GATES):
         if not (inputs.count(1) == 1 or list(x.state for x in
              filter(lambda i : isinstance(i, Connector), inputs)).count(1) == 1):
             raise Exception("Invalid Input")
-        GATES.__init__(self, list(inputs))
+        Gate.__init__(self, list(inputs))
         self.outputType = []
         self.outputConnector = []
         for i in range(int(math.log(len(self.inputs), 2))):

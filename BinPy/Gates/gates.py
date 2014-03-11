@@ -1,10 +1,10 @@
 from BinPy.Gates.connector import *
 
 
-class GATES(object):
+class Gate(object):
 
     """
-    Base Class implementing all common functions used by Logic Gates
+    Base Class implementing all common functions used by Logic gates
     """
 
     def __init__(self, output, *inputs):
@@ -15,7 +15,6 @@ class GATES(object):
         self.connect(output, *inputs)
 
     def trigger(self):
-        # if len(self.inputs) == 1
         self.in_states = [i.state for i in self.inputs]
         out_state = self.calc_output(self.in_states)
         if out_state != self.output.state:
@@ -25,8 +24,7 @@ class GATES(object):
         inputs = list(inputs)
         if isinstance(self, NOT):
             if len(inputs) != 1:
-                raise Exception("NOT Gates take only one input")
-            self.in_states = inputs[0].state
+                raise Exception("NOT Gate take only one input")
         else:
             if len(inputs) < 2:
                 raise Exception("At least 2 inputs expected")
@@ -76,59 +74,59 @@ def xor_alg(inputs):
         return 1 if inputs.count(1) % 2 else 0
 
 
-class AND(GATES):
+class AND(Gate):
     def __init__(self, output, *inputs):
-        GATES.__init__(self, output, *inputs)
+        Gate.__init__(self, output, *inputs)
 
     def calc_output(self, in_states):
         return and_alg(in_states)
 
 
-class OR(GATES):
+class OR(Gate):
     def __init__(self, output, *inputs):
-        GATES.__init__(self, output, *inputs)
+        Gate.__init__(self, output, *inputs)
 
     def calc_output(self, in_states):
         return or_alg(in_states)
 
 
-class NOT(GATES):
+class NOT(Gate):
     def __init__(self, output, *inputs):
-        GATES.__init__(self, output, *inputs)
+        Gate.__init__(self, output, *inputs)
 
     def calc_output(self, in_states):
         return abs(in_states[0]-1) if in_states[0] in (0,1) else in_states[0]
 
 
-class NAND(GATES):
+class NAND(Gate):
     def __init__(self, output, *inputs):
-        GATES.__init__(self, output, *inputs)
+        Gate.__init__(self, output, *inputs)
 
     def calc_output(self, in_states):
         temp = and_alg(in_states)
         return abs(temp-1) if temp in (0,1) else temp
 
 
-class NOR(GATES):
+class NOR(Gate):
     def __init__(self, output, *inputs):
-        GATES.__init__(self, output, *inputs)
+        Gate.__init__(self, output, *inputs)
 
     def calc_output(self, in_states):
         temp = or_alg(in_states)
         return abs(temp-1) if temp in (0,1) else temp
 
 
-class XOR(GATES):
+class XOR(Gate):
     def __init__(self, output, *inputs):
-        GATES.__init__(self, output, *inputs)
+        Gate.__init__(self, output, *inputs)
 
     def calc_output(self, in_states):
         return xor_alg(in_states)
 
 
-class NXOR(GATES):
+class NXOR(Gate):
     def __init__(self, output, *inputs):
-        GATES.__init__(self, output, *inputs)
+        Gate.__init__(self, output, *inputs)
 
     def calc_output(self, in_states):
         temp = xor_alg(in_states)
