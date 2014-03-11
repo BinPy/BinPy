@@ -18,16 +18,14 @@ class Connector:
             i.trigger()
 
     def set(self, state):
-        """
-        Allows to easily change the state of the connector, as long as no output
-        is connected to it, since that could create a conflict. Example of usage:
-        >>> c = Connector(0)
-        >>> c.set(1)
-        """
-        if self.connections["output"]:
-            raise Exception("No 'output' connections allowed")
         validate_state(state)
-        self.state = state
+        outputs = self.connections['output']
+        if 3 in outputs:
+            self.state = 3
+        elif 1 in outputs and 0 in outputs:
+            self.state = 3
+        else:
+            self.state = state
         self.trigger()
 
     def __call__(self):

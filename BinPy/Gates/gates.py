@@ -11,53 +11,50 @@ class GATES:
         for i in list(inputs) + [output]:
             if not isinstance(i, Connector):
                 raise Exception("Connector Class instance/s expected")
-        if isinstance(self, NOT):
-            if len(inputs) != 1:
-                raise Exception("NOT Gates take only one input")
-            self.in_state = 2
-        else:
-            self.in_states = []
-            if len(inputs) < 2:
-                raise Exception("At least 2 inputs expected.")
         
         self.output = output
-        self.inputs = list(inputs)
-        self._connect(self.output, self.inputs)
-        self.trigger()
+        self.inputs = []
+        self.in_states = []
+        self.connect(output, *inputs)
 
     def trigger(self):
+        # if len(self.inputs) == 1
         self.in_states = [i.state for i in self.inputs]
         out_state = self.calc_output(self.in_states)
         if out_state != self.output.state:
-            self.output.state = out_state
-            self.output.trigger()
+            self.output.set(out_state)
 
-    def _connect(self, output, inputs):
+    def connect(self, output, *inputs):
+        inputs = list(inputs)
+        if isinstance(self, NOT):
+            if len(inputs) != 1:
+                raise Exception("NOT Gates take only one input")
+            self.in_states = inputs[0].state
+        else:
+            if len(inputs) < 2:
+                raise Exception("At least 2 inputs expected")
+        self.disconnect()
+        self.inputs = inputs
+        self.output = output
         output.tap(self, 'output')
         for i in inputs:
             i.tap(self, 'input')
+        self.trigger()
+
+    def disconnect(self):
+        if self in self.output.connections['output']:
+            self.output.connections['output'].remove(self)
+        if self in self.output.connections['input']:
+            self.output.connections['input'].remove(self)
+        for i in range(len(self.inputs)):
+            if self in self.inputs[i].connections['input']:
+                self.inputs[i].connections['input'].remove(self)
+            if self in self.inputs[i].connections['output']:
+                self.inputs[i].connections['output'].remove(self)
 
     def getStates(self):
-        input_states = []
-        for i in self.inputs:
-            input_states.append(i.state)
-        return {'inputs': input_states, 'output': self.output()}
+        return {'inputs': self.in_states, 'output': self.output()}
 
-    def setInput(self, index, input):
-        if not isinstance(input, Connector):
-                raise Exception("Connector Class instance/s expected")
-        innum = len(self.inputs)
-        if index < innum <= index:
-            raise Exception("input index out of range.")
-        self.inputs[index] = input  # Remove previous one from connector
-        input.tap(self, 'input')
-        self.trigger()
-
-    def setOutput(self, output):
-        if not isinstance(output, Connector):
-            raise Exception("Connector Class instance/s expected")
-        output.tap(self, 'output')
-        self.trigger()
 
 # GATE ALGORITHMS
 
@@ -97,8 +94,8 @@ class NOT(GATES):
     def __init__(self, output, *inputs):
         GATES.__init__(self, output, *inputs)
 
-    def calc_output(self, in_state):
-        return abs(in_state-1) if in_state in (0,1) else in_state
+    def calc_output(self, in_states):
+        return abs(in_states[0]-1) if in_states[0] in (0,1) else in_states[0]
 
 
 class NAND(GATES):
