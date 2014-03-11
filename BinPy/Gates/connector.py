@@ -1,10 +1,11 @@
 class Connector:
 
-    def __init__(self, state=3):
+    def __init__(self, state=3, name=''):
         validate_state(state)
         self.connections = {"output": [], "input": []}
             # To store all the taps onto this connection
         self.state = state  # To store the state of the connection
+        self.name = name
         self.oldstate = None
 
     def tap(self, element, mode):

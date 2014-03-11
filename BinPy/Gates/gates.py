@@ -52,6 +52,11 @@ class GATES(object):
     def getStates(self):
         return {'inputs': self.in_states, 'output': self.output()}
 
+    def getConns(self):
+        return {'output': self.output.name,
+                'inputs': [i.name for i in self.inputs]}
+
+
 
 # GATE ALGORITHMS
 
