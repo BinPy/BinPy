@@ -25,7 +25,10 @@ class Connector:
             self.state = 3
         elif 1 in outputs and 0 in outputs:
             self.state = 3
-
+        elif 1 in outputs and state == 0:
+            self.state = 3
+        elif 0 in outputs and state == 1:
+            self.state = 3
         else:
             self.state = state
         self.trigger()
