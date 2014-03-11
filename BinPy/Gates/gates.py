@@ -22,6 +22,8 @@ class Gate(object):
 
     def connect(self, output, *inputs):
         inputs = list(inputs)
+        if output in inputs:
+            raise Exception("Feedback not allowed")
         if isinstance(self, NOT):
             if len(inputs) != 1:
                 raise Exception("NOT Gate take only one input")
