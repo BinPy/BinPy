@@ -126,7 +126,7 @@ class XOR(Gate):
         return xor_alg(in_states)
 
 
-class NXOR(Gate):
+class XNOR(Gate):
     def __init__(self, output, *inputs):
         Gate.__init__(self, output, *inputs)
 
