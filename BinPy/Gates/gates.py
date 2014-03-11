@@ -1,7 +1,7 @@
 from BinPy.Gates.connector import *
 
 
-class GATES:
+class GATES(object):
 
     """
     Base Class implementing all common functions used by Logic Gates
@@ -11,7 +11,7 @@ class GATES:
         for i in list(inputs) + [output]:
             if not isinstance(i, Connector):
                 raise Exception("Connector Class instance/s expected")
-        
+
         self.output = output
         self.inputs = []
         self.in_states = []
