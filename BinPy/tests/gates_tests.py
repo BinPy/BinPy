@@ -13,8 +13,7 @@ def AND_test():
         c[1].set(logic[0])
         c[2].set(logic[1])
         outputLogic.append(c[0].state)
-    if outputLogic != [0, 0, 1, 0]:
-        assert False
+    assert outputLogic == [0, 0, 1, 0]
 
 def OR_test():
     c = [Connector() for i in range(3)]
@@ -25,8 +24,7 @@ def OR_test():
         c[1].set(logic[0])
         c[2].set(logic[1])
         outputLogic.append(c[0].state)
-    if outputLogic != [0, 1, 1, 1]:
-        assert False
+    assert outputLogic == [0, 1, 1, 1]
 
 def NAND_test():
     # Output connector state can also be accessed through the gate's output
@@ -38,8 +36,7 @@ def NAND_test():
         c[1].set(logic[0])
         c[2].set(logic[1])
         outputLogic.append(g.output.state)
-    if outputLogic != [1, 1, 0, 1]:
-        assert False
+    assert outputLogic == [1, 1, 0, 1]
 
 def NOR_test():
     c = [Connector() for i in range(3)]
@@ -50,8 +47,7 @@ def NOR_test():
         c[1].set(logic[0])
         c[2].set(logic[1])
         outputLogic.append(c[0].state)
-    if outputLogic != [1, 0, 0, 0]:
-        assert False
+    assert outputLogic == [1, 0, 0, 0]
 
 def XOR_test():
     c = [Connector() for i in range(3)]
@@ -62,8 +58,7 @@ def XOR_test():
         c[1].set(logic[0])
         c[2].set(logic[1])
         outputLogic.append(c[0].state)
-    if outputLogic != [0, 1, 0, 1]:
-        assert False
+    assert outputLogic == [0, 1, 0, 1]
 
 def XNOR_test():
     c = [Connector() for i in range(3)]
@@ -74,5 +69,4 @@ def XNOR_test():
         c[1].set(logic[0])
         c[2].set(logic[1])
         outputLogic.append(c[0].state)
-    if outputLogic != [1, 0, 1, 0]:
-        assert False
+    assert outputLogic == [1, 0, 1, 0]
