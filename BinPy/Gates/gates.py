@@ -97,7 +97,7 @@ class NOT(Gate):
         Gate.__init__(self, output, *inputs)
 
     def calc_output(self, in_states):
-        return abs(in_states[0]-1) if in_states[0] in (0,1) else in_states[0]
+        return abs(in_states[0]-1) if in_states[0] in (0,1) else 3
 
 
 class NAND(Gate):
