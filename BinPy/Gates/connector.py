@@ -21,22 +21,21 @@ class Connector:
 
     # This function is called when the value of the connection changes
     def trigger(self):
-        for i in self.connections["input"]:
-            i.trigger()
-
-    def set(self, state):
-        validate_state(state)
         outputs = self.connections['output']
         if 3 in outputs:
             self.state = 3
         elif 1 in outputs and 0 in outputs:
             self.state = 3
-        elif 1 in outputs and state == 0:
+        elif 1 in outputs and self.state == 0:
             self.state = 3
-        elif 0 in outputs and state == 1:
+        elif 0 in outputs and self.state == 1:
             self.state = 3
-        else:
-            self.state = state
+        for i in self.connections["input"]:
+            i.trigger()
+
+    def set(self, state):
+        validate_state(state)
+        self.state = state
         self.trigger()
 
     def __call__(self):
