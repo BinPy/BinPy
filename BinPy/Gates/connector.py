@@ -12,6 +12,12 @@ class Connector:
         if element not in self.connections[mode]:
             self.connections[mode].append(
                 element)  # Add an element to the connections list
+        if self not in element.inputs and self != element.output:
+            if mode == 'input':
+                element.connect(element.output, element.inputs + self)
+            elif mode == 'output':
+                element.connect(self, element.inputs)
+
 
     # This function is called when the value of the connection changes
     def trigger(self):

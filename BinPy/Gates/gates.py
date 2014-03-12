@@ -27,8 +27,7 @@ class Gate(object):
         if isinstance(self, NOT):
             if len(inputs) != 1:
                 raise Exception("NOT Gate take only one input")
-        else:
-            if len(inputs) < 2:
+        elif len(inputs) < 2:
                 raise Exception("At least 2 inputs expected")
         self.disconnect()
         self.inputs = inputs
