@@ -82,3 +82,20 @@ def NOT_test():
         c[1].set(logic)
         outputLogic.append(c[0].state)
     assert outputLogic == [1, 0, 3, 3]
+
+def connection_test():
+    c = [Connector(i) for i in range(4)]
+    g = AND(*c)
+    for i in range(4):
+        c2 = c[i:] + c[:i]
+        g.connect(*c2)
+        assert c2[0].connections['output'] == [g]
+        for j in range(1,4):
+            assert c2[j].connections['input'] == [g]
+        assert g.output == c2[0]
+        assert g.inputs == c2[1:4]
+    g.disconnect()
+    for i in range(4):
+        assert not c[i].connections['input']
+        assert not c[i].connections['output']
+
