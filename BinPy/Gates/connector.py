@@ -38,6 +38,12 @@ class Connector:
         self.state = state
         self.trigger()
 
+    def getTaps(self):
+        inputs = [i.name for i in self.connections['input']]
+        outputs = [i.name for i in self.connections['output']]
+        return {'inputs': inputs, 'outputs': outputs}
+
+
     def __call__(self):
         return self.state
 
