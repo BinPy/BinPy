@@ -16,7 +16,7 @@ print (
     'Note that the ic.run() returns a dict of pin configuration similar to :')
 print (ic.run())
 print (
-    '\nSeting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n')
+    '\nSetting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n')
 ic.setIC(ic.run())
 print ('\nDraw the final configuration\n')
 ic.drawIC()
