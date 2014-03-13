@@ -7,8 +7,9 @@ class Gate(object):
     Base Class implementing all common functions used by Logic gates
     """
 
-    def __init__(self, *taps):
+    def __init__(self, name='', *taps):
         is_connector(*taps)
+        self.name = name
         self.output = None
         self.inputs = []
         self.in_states = []
