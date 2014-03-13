@@ -7,12 +7,12 @@ class Gate(object):
     Base Class implementing all common functions used by Logic gates
     """
 
-    def __init__(self, output, *inputs):
-        is_connector(*(list(inputs) + [output]))
-        self.output = output
+    def __init__(self, *taps):
+        is_connector(*taps)
+        self.output = None
         self.inputs = []
         self.in_states = []
-        self.connect(output, *inputs)
+        self.connect(*taps)
 
     def trigger(self):
         self.in_states = [i.state for i in self.inputs]
@@ -20,8 +20,9 @@ class Gate(object):
         if out_state != self.output.state:
             self.output.set(out_state)
 
-    def connect(self, output, *inputs):
-        inputs = list(inputs)
+    def connect(self, *taps):
+        inputs = list(taps)[:-1]
+        output = list(taps)[-1]
         if output in inputs:
             raise Exception("Feedback not allowed")
         if isinstance(self, NOT):
@@ -38,9 +39,9 @@ class Gate(object):
         self.trigger()
 
     def disconnect(self):
-        if self in self.output.connections['output']:
+        if self.output and self in self.output.connections['output']:
             self.output.connections['output'].remove(self)
-        if self in self.output.connections['input']:
+        if self.output and self in self.output.connections['input']:
             self.output.connections['input'].remove(self)
         for i in range(len(self.inputs)):
             if self in self.inputs[i].connections['input']:

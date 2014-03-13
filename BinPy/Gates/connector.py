@@ -1,6 +1,6 @@
 class Connector:
 
-    def __init__(self, state=3, name=''):
+    def __init__(self, name='', state=3):
         validate_state(state)
         self.connections = {"output": [], "input": []}
             # To store all the taps onto this connection
