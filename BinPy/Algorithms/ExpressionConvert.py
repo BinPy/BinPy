@@ -12,6 +12,11 @@ def makeCompatible(expr):
 
 def createList(expr):
     '''Creates a list which can be used by convertExpression for conversion.'''
+    '''Eg. >> expr = '(BinPy(welcomes(all)' 
+           >> createList(expr) 
+           >> ['BinPy', 'welcomes', 'all', ')']
+    '''
+    
     list1 = expr.split('(')
     list2 = []
     list3 = []
@@ -41,7 +46,7 @@ def createList(expr):
 
 
 def mergeNot(case, expr):
-    '''Combines NOR gate with othes to minimize the number of gates used.'''
+    '''Combines NOR gate with others to minimize the number of gates used.'''
     if expr[-1] == ')':
         index = expr.find('(')
         gate = expr[:index].upper()
