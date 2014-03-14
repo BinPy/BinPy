@@ -1,5 +1,5 @@
 from __future__ import print_function
-from BinPy.Algorithms import *
+from BinPy.Algorithms.ExpressionConvert import *
 print('An example to demostrate functionality of ExpressionConvert.py\n')
 
 expr = '~(((A^B)|(~a^b^C))) ~^ c'
