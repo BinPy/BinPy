@@ -27,7 +27,7 @@ class IC:
 
     def setIC(self, param_dict):
         """
-        If pin class is not used this method then it takes a dictionary with the format { PINNO:PINVALUE, ... }
+        If pin class is not used in this method then it takes a dictionary with the format { PINNO:PINVALUE, ... }
         Else it takes a dictionary of dictionaries with the format ->
         { PINNO:{PARAM1:VAL1, PARAM2:VAL2, ... }, PINNO2:{PARAM1:VAL1, PARAM2:VAL2, ... } , ... }
         """
