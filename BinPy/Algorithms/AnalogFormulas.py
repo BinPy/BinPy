@@ -23,25 +23,25 @@ class OhmsLaw:
             raise Exception('enter positive values')
         else:
             if not p:
-                if i and v and not r:
+                if not r:
                     r = float(v / i)
-                    p = v * i
-                if i and r and not v:
-                    v = i * r
-                    p = (i ** 2) * r
-                if v and r and not i:
-                    i = float(v / r)
-                    p = float((v ** 2) / r)
+                    p = float(v) * i
+                if not v:
+                    v = float(i) * r
+                    p = float(i) ** 2 * r
+                if not i:
+                    i = float(v) / r
+                    p = float(v) ** 2 / r
             else:
-                if p and i and not v and not r:
+                if not v and not r:
                     v = float(p) / i
-                    r = float(p) / (i ** 2)
-                if p and v and not i and not r:
+                    r = float(p) / i ** 2
+                if not i and not r:
                     i = float(p) / v
-                    r = float(p) / (i ** 2)
-                if p and r and not i and not v:
+                    r = float(p) / i ** 2
+                if not i and not v:
                     i = sqrt(float(p) / r)
-                    v = i * r
+                    v = float(i) * r
             print(values)
             return {'i': i, 'v': v, 'r': r, 'p': p}
 
@@ -71,27 +71,27 @@ class OhmsLaw_AC:
             raise Exception('enter positive values')
         else:
             if not p:
-                if i and v and c and not z:
-                    z = float(v / i)
-                    p = v * i * c
-                if i and z and c and not v:
-                    v = i * z
-                    p = (i ** 2) * z * c
-                if v and z and c and not i:
+                if not z:
+                    z = float(v) / i
+                    p = float(v) * i * c
+                if not v:
+                    v = float(i) * z
+                    p = float(i) ** 2 * z * c
+                if not i:
                     i = float(v / z)
-                    p = float(((v ** 2) * c) / z)
+                    p = float((v ** 2 * c) / z)
             else:
-                if p and i and c and not v and not z:
+                if not v and not z:
                     v = float(p) / (i * c)
                     z = float(p) / (i ** 2)
-                if p and v and c and not i and not z:
+                if not i and not z:
                     i = float(p) / v
                     z = float(p) / ((i ** 2) * c)
-                if p and z and c and not i and not v:
+                if not i and not v:
                     i = sqrt(float(p) / (z * c))
-                    v = i * z
-                if p and z and i and not c and not v:
-                    c = float(p) / ((i ** 2) * z)
-                    v = i * z
+                    v = float(i) * z
+                if not c and not v:
+                    c = float(p) / (i ** 2 * z)
+                    v = float(i) * z
             print(values)
             return {'i': i, 'v': v, 'z': z, 'p': p, 'c': c}
