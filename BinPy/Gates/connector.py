@@ -7,6 +7,9 @@ class Connector:
         self.oldstate = None
 
     def tap(self, element, mode):
+        if mode == "output":
+            self.connections["output"] = []
+        
         if element not in self.connections[mode]:
             self.connections[mode].append(
                 element)  # Add an element to the connections list
