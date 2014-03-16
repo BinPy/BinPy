@@ -55,7 +55,6 @@ class IC_4000(Base_14pin):
         output[9] = NOT(self.pins[8].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
             self.setIC(output)
-            self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
@@ -101,7 +100,6 @@ class IC_4001(Base_14pin):
         output[11] = NOR(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
             self.setIC(output)
-            self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
@@ -144,7 +142,6 @@ class IC_4002(Base_14pin):
         output[13] = NOR(self.pins[9].value, self.pins[10].value,
                          self.pins[11].value, self.pins[12].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
