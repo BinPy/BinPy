@@ -61,7 +61,7 @@ class OhmsLaw_AC:
         evaluate(i=None,v=None,z=None,p=None,cos=None)
     '''
 
-    def evaluate(self, i=None, v=None, z=None, p=None, cos=None):
+    def evaluate(self, i=None, v=None, z=None, p=None, c=None):
         '''
         This method returns a dictionary of current, voltage, power, resistance and cosine
         DictKeys: 'i', 'v', 'z', 'p','c'
