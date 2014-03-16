@@ -7,7 +7,7 @@ class Counter(object):
     Base class for all counters
     """
 
-    def __init__(self, bits, clock_connector, set, reset, data):
+    def __init__(self, bits, clock_connector, inset, reset, data):
 
         self.bits = bits
         self.out = []
@@ -23,7 +23,7 @@ class Counter(object):
         self.enable = Connector(1)
         self.t = Connector(1)
         self.clk = clock_connector
-        self.set = set
+        self.inset = inset
         self.reset = reset
         self.set_once = False
         self.reset_once = False
@@ -67,7 +67,7 @@ class Counter(object):
                 break
         # This completes one full pulse.
 
-        if self.set.state == 1:
+        if self.inset.state == 1:
             self.setCounter()
         elif self.reset.state == 1:
             self.resetCounter()
@@ -78,20 +78,20 @@ class Counter(object):
         self.trigger()
 
     def setCounter(self):
-        set = self.set.state
+        set = self.inset.state
         if self.bits_fixed:
-            self.__init__(self.clk, self.set, self.reset, 1)
+            self.__init__(self.clk, self.inset, self.reset, 1)
         else:
-            self.__init__(self.bits, self.clk, self.set, self.reset, 1)
+            self.__init__(self.bits, self.clk, self.inset, self.reset, 1)
         if not self.set_once:
-            self.set.state = set
+            self.inset.state = inset
 
     def resetCounter(self):
         reset = self.reset.state
         if self.bits_fixed:
-            self.__init__(self.clk, self.set, self.reset, 0)
+            self.__init__(self.clk, self.inset, self.reset, 0)
         else:
-            self.__init__(self.bits, self.clk, self.set, self.reset, 0)
+            self.__init__(self.bits, self.clk, self.inset, self.reset, 0)
         if not self.reset_once:
             self.reset.state = reset
 
@@ -117,9 +117,9 @@ class BinaryCounter(Counter):
     Output connectors can be referenced by --> BinaryCounter_instance_name.out
     """
 
-    def __init__(self, clk, set=Connector(0), reset=Connector(0), data=0):
+    def __init__(self, clk, inset=Connector(0), reset=Connector(0), data=0):
 
-        Counter.__init__(self, 2, clk, set, reset, data)
+        Counter.__init__(self, 2, clk, inset, reset, data)
         # Calling the super class constructor
 
         self.ff[1] = TFlipFlop(
@@ -128,7 +128,7 @@ class BinaryCounter(Counter):
             self.clk,
             self.out[1],
             self.outinv[1],
-            self.set,
+            self.inset,
             self.reset)
         self.ff[0] = TFlipFlop(
             self.t,
@@ -136,7 +136,7 @@ class BinaryCounter(Counter):
             self.out[1],
             self.out[0],
             self.outinv[0],
-            self.set,
+            self.inset,
             self.reset)
 
         #<self.bit> nos of TFlipFlop instances are appended in the ff array
@@ -154,13 +154,13 @@ class NBitRippleCounter(Counter):
             self,
             bits,
             clock_connector,
-            set=Connector(0),
+            inset=Connector(0),
             reset=Connector(0),
             data=0):
 
         # All the output bits are initialized to this data bit
 
-        Counter.__init__(self, bits, clock_connector, set, reset, data)
+        Counter.__init__(self, bits, clock_connector, inset, reset, data)
         # Calling the super class constructor
 
         self.ff[
@@ -175,7 +175,7 @@ class NBitRippleCounter(Counter):
             self.outinv[
                 self.bits -
                 1],
-            self.set,
+            self.inset,
             self.reset)
 
         for i in range(self.bits - 1):
@@ -186,7 +186,7 @@ class NBitRippleCounter(Counter):
                     i + 1],
                 self.out[i],
                 self.outinv[i],
-                self.set,
+                self.inset,
                 self.reset)
 
 
@@ -200,12 +200,12 @@ class NBitDownCounter(Counter):
             self,
             bits,
             clock_connector,
-            set=Connector(0),
+            inset=Connector(0),
             reset=Connector(0),
             data=0):
 
         # All the output bits are initialized to this data bit
-        Counter.__init__(self, bits, clock_connector, set, reset, data)
+        Counter.__init__(self, bits, clock_connector, inset, reset, data)
         # Calling the super class constructor
 
         self.ff[
@@ -220,7 +220,7 @@ class NBitDownCounter(Counter):
             self.outinv[
                 self.bits -
                 1],
-            self.set,
+            self.inset,
             self.reset)
 
         for i in range(self.bits - 1):
@@ -231,7 +231,7 @@ class NBitDownCounter(Counter):
                     i + 1],
                 self.out[i],
                 self.outinv[i],
-                self.set,
+                self.inset,
                 self.reset)
 
 
@@ -244,13 +244,13 @@ class DecadeCounter(Counter):
     def __init__(
             self,
             clock_connector,
-            set=Connector(0),
+            inset=Connector(0),
             reset=Connector(0),
             data=0):
 
         # All the output bits are initialized to this data bit
 
-        Counter.__init__(self, 4, clock_connector, set, reset, data)
+        Counter.__init__(self, 4, clock_connector, inset, reset, data)
         # Calling the super class constructor
 
         self.ff = [None] * 4
@@ -261,7 +261,7 @@ class DecadeCounter(Counter):
             self.clk,
             self.out[3],
             self.outinv[3],
-            self.set,
+            self.inset,
             self.reset)
         self.ff[2] = TFlipFlop(
             self.t,
@@ -269,7 +269,7 @@ class DecadeCounter(Counter):
             self.out[3],
             self.out[2],
             self.outinv[2],
-            self.set,
+            self.inset,
             self.reset)
         self.ff[1] = TFlipFlop(
             self.t,
@@ -277,7 +277,7 @@ class DecadeCounter(Counter):
             self.out[2],
             self.out[1],
             self.outinv[1],
-            self.set,
+            self.inset,
             self.reset)
         self.ff[0] = TFlipFlop(
             self.t,
@@ -285,7 +285,7 @@ class DecadeCounter(Counter):
             self.out[1],
             self.out[0],
             self.outinv[0],
-            self.set,
+            self.inset,
             self.reset)
 
         self.g1 = AND(self.out[0], self.out[2])
