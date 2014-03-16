@@ -323,7 +323,7 @@ class DFlipFlop(FlipFlop):
 
     def trigger(self):
 
-        if self.set.state == 1:
+        if self.inset.state == 1:
             return self.setff()
 
         elif self.reset.state == 1:
