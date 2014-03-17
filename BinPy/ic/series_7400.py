@@ -1059,7 +1059,7 @@ class IC_7424(Base_14pin):
 class IC_7425(Base_14pin):
 
     """
-    This is a Dual 4-Input NOR Gate with Strobe
+    This is a Dual 5-Input NOR Gate with Strobe
     """
 
     def __init__(self):
@@ -1691,7 +1691,7 @@ class IC_741G04(Base_5pin):
 class IC_741G05(Base_5pin):
 
     """
-    This is a single 2 input NAND gate IC
+    This is a single input NOT gate IC
     """
 
     def __init__(self):
@@ -2110,7 +2110,7 @@ class IC_7445(Base_16pin):
                          NOT(self.pins[13]).output(),
                          NOT(self.pins[12]).output()).output()
 
-        output[4] = NAND(NOT(self.pins[15]).output(),
+        output[4] = NAND(self.pins[15],
                          self.pins[14],
                          NOT(self.pins[13]).output(),
                          NOT(self.pins[12]).output()).output()
