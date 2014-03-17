@@ -21,6 +21,7 @@ script:
  - nosetests -v counters_tests.py
  - nosetests -v series_4000_test.py
  - nosetests -v source_tests.py
+ - nosetests -v sequential_ic_tests.py
  - nosetests3 -v gates_tests.py
  - nosetests3 -v ics_tests.py
  - nosetests3 -v combinational_tests.py
@@ -29,3 +30,4 @@ script:
  - nosetests3 -v counters_tests.py
  - nosetests3 -v series_4000_test.py
  - nosetests3 -v source_tests.py
+ - nosetests3 -v sequential_ic_tests.py
