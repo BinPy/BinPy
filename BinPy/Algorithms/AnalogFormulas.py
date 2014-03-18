@@ -80,6 +80,8 @@ class OhmsLaw_AC:
                 if not i:
                     i = float(v / z)
                     p = float((v ** 2 * c) / z)
+                if not c:
+                    raise Exception ('Enter value of \'c\' .Since \'p\' and \'c\' cant be unknowns at the same time. ')
             else:
                 if not v and not z:
                     v = float(p) / (i * c)
@@ -93,5 +95,11 @@ class OhmsLaw_AC:
                 if not c and not v:
                     c = float(p) / (i ** 2 * z)
                     v = float(i) * z
+                if not c and not i:
+                    i = float(v / z)
+                    c = float(p / (v * i)) 
+                if not c and not z:
+                    z = float(v / i)
+                    c = float(p / (v * i))
             print(values)
             return {'i': i, 'v': v, 'z': z, 'p': p, 'c': c}
