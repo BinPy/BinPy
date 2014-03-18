@@ -257,7 +257,7 @@ class DFlipFlop(FlipFlop):
         partial change in input [ D or enable alone ]
 
         Note:
-        1) When inputs are given as type-int - The S and R states alone are
+        1) When inputs are given as type-int - The D state alone is
         changed. The connections remain intact.
         2) Setting the inputs does not trigger the Latch.
         Use trigger separately to trigger any change.
@@ -398,7 +398,7 @@ class JKFlipFlop(FlipFlop):
         This is done to support partial change in input [ only J or K etc ]
 
         Note:
-        1) When inputs are given as type-int - The S and R states alone are
+        1) When inputs are given as type-int - The J and K states alone are
         changed. The connections remain intact.
         2) Setting the inputs does not trigger the Latch.
         Use trigger separately to trigger any change.
