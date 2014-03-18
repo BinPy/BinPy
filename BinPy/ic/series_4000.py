@@ -13,7 +13,7 @@ ICs in this module:
 from __future__ import print_function
 from BinPy.Gates import *
 from BinPy.ic import *
-from BinPy.Operations import *
+from BinPy.Combinational import *
 
 ######## IC's with 14 pins #################################
 
@@ -55,7 +55,6 @@ class IC_4000(Base_14pin):
                          self.pins[13].value).output()
         output[9] = NOT(self.pins[8].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
@@ -154,55 +153,6 @@ class IC_4002(Base_14pin):
             print ("Ground and VCC pins have not been configured correctly.")
 
 
-class IC_4008(Base_16pin):
-
-    """
-    4 Bit Binary Full Adder
-    """
-
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, None, None, None,
-                None, 0, 0]
-        self.pins = pinlist_quick(self.pins)
-        self.uses_pincls = True
-        self.setIC({1: {'desc': 'A3'},
-                    2: {'desc': 'B2'},
-                    3: {'desc': 'A2'},
-                    4: {'desc': 'B1'},
-                    5: {'desc': 'A1'},
-                    6: {'desc': 'B0'},
-                    7: {'desc': 'A0'},
-                    8: {'desc': 'VSS'},
-                    9: {'desc': 'C0'},
-                    10: {'desc': 'S0'},
-                    11: {'desc': 'S1'},
-                    12: {'desc': 'S2'},
-                    13: {'desc': 'S3'},
-                    14: {'desc': 'C4'},
-                    15: {'desc': 'B3'},
-                    16: {'desc': 'VDD'},
-                    })
-
-    def run(self):
-        output = {}
-        ff = FullAdder(self.pins[7], self.pins[6], self.pins[9]).output()
-        output[10] = ff[0]
-        ff = FullAdder(self.pins[5], self.pins[4], ff[1]).output()
-        output[11] = ff[0]
-        ff = FullAdder(self.pins[3], self.pins[2], ff[1]).output()
-        output[12] = ff[0]
-        ff = FullAdder(self.pins[1], self.pins[15], ff[1]).output()
-        output[13] = ff[0]
-        output[14] = ff[1]
-            
-        if self.pins[8].value == 0 and self.pins[16].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print ("Ground and VCC pins have not been configured correctly.")
-
 class IC_4011(Base_14pin):
 
     """
@@ -291,6 +241,72 @@ class IC_4012(Base_14pin):
             print ("Ground and VCC pins have not been configured correctly.")
 
 
+
+class IC_4013(Base_14pin):
+
+    """
+    CMOS Dual D type Flip Flop
+    """
+
+    def __init__(self):
+        self.pins = [None, None, None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = False
+        self.setIC({1: {'desc': 'Q1'},
+                    2: {'desc': '~Q1'},
+                    3: {'desc': 'CLK1'},
+                    4: {'desc': 'RST1'},
+                    5: {'desc': 'D1'},
+                    6: {'desc': 'SET1'},
+                    7: {'desc': 'GND'},
+                    8: {'desc': 'SET2'},
+                    9: {'desc': 'D2'},
+                    10: {'desc': 'RST2'},
+                    11: {'desc': 'CLK2'},
+                    12: {'desc': '~Q2'},
+                    13: {'desc': 'Q2'},
+                    14: {'desc': 'VCC'}
+                    })
+
+    def run(self):
+        output = {}
+        if not (isinstance(self.pins[3], Clock) and
+                isinstance(self.pins[11],
+            Clock)):
+            raise Exception("Error: Invalid Clock Input")
+        ff1 = DFlipFlop(self.pins[5], Connector(1), self.pins[3].A,
+                clear=self.pins[6], preset=self.pins[4])
+        while True:
+            if self.pins[3].A.state == 0:
+                ff1.trigger()
+                break
+        while True:
+            if self.pins[3].A.state == 1:
+                ff1.trigger()
+                break
+        output[1] = ff1.state()[0]
+        output[2] = ff1.state()[1]
+
+        ff2 = DFlipFlop(self.pins[9], Connector(1), self.pins[11].A,
+                clear=self.pins[8], preset=self.pins[10])
+        while True:
+            if self.pins[11].A.state == 0:
+                ff2.trigger()
+                break
+        while True:
+            if self.pins[11].A.state == 1:
+                ff2.trigger()
+                break
+        output[13] = ff2.state()[0]
+        output[12] = ff2.state()[1]
+
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print ("Ground and VCC pins have not been configured correctly.")
 
 class IC_4023(Base_14pin):
 
@@ -873,4 +889,56 @@ class IC_4082(Base_14pin):
             return output
         else:
 
+            print ("Ground and VCC pins have not been configured correctly.")
+
+######## IC's with 14 pins #################################
+
+class IC_4008(Base_16pin):
+
+    """
+    4 Bit Binary Full Adder
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, None, None, None,
+                None, 0, 0]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = True
+        self.setIC({1: {'desc': 'A3'},
+                    2: {'desc': 'B2'},
+                    3: {'desc': 'A2'},
+                    4: {'desc': 'B1'},
+                    5: {'desc': 'A1'},
+                    6: {'desc': 'B0'},
+                    7: {'desc': 'A0'},
+                    8: {'desc': 'VSS'},
+                    9: {'desc': 'C0'},
+                    10: {'desc': 'S0'},
+                    11: {'desc': 'S1'},
+                    12: {'desc': 'S2'},
+                    13: {'desc': 'S3'},
+                    14: {'desc': 'C4'},
+                    15: {'desc': 'B3'},
+                    16: {'desc': 'VDD'},
+                    })
+
+    def run(self):
+        output = {}
+        ff = FullAdder(self.pins[7].value, self.pins[6].value,
+                self.pins[9].value).output()
+        output[10] = ff[0]
+        ff = FullAdder(self.pins[5].value, self.pins[4].value, ff[1]).output()
+        output[11] = ff[0]
+        ff = FullAdder(self.pins[3].value, self.pins[2].value, ff[1]).output()
+        output[12] = ff[0]
+        ff = FullAdder(self.pins[1].value, self.pins[15].value, ff[1]).output()
+        output[13] = ff[0]
+        output[14] = ff[1]
+            
+        if self.pins[8].value == 0 and self.pins[16].value == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
             print ("Ground and VCC pins have not been configured correctly.")
