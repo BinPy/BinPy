@@ -11,8 +11,9 @@ ICs in this module:
 """
 
 from __future__ import print_function
-from BinPy.Gates.gates import *
-from BinPy.ic.base import *
+from BinPy.Gates import *
+from BinPy.ic import *
+from BinPy.Operations import *
 
 ######## IC's with 14 pins #################################
 
@@ -153,6 +154,55 @@ class IC_4002(Base_14pin):
             print ("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_4008(Base_16pin):
+
+    """
+    4 Bit Binary Full Adder
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, None, None, None,
+                None, 0, 0]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = True
+        self.setIC({1: {'desc': 'A3'},
+                    2: {'desc': 'B2'},
+                    3: {'desc': 'A2'},
+                    4: {'desc': 'B1'},
+                    5: {'desc': 'A1'},
+                    6: {'desc': 'B0'},
+                    7: {'desc': 'A0'},
+                    8: {'desc': 'VSS'},
+                    9: {'desc': 'C0'},
+                    10: {'desc': 'S0'},
+                    11: {'desc': 'S1'},
+                    12: {'desc': 'S2'},
+                    13: {'desc': 'S3'},
+                    14: {'desc': 'C4'},
+                    15: {'desc': 'B3'},
+                    16: {'desc': 'VDD'},
+                    })
+
+    def run(self):
+        output = {}
+        ff = FullAdder(self.pins[7], self.pins[6], self.pins[9]).output()
+        output[10] = ff[0]
+        ff = FullAdder(self.pins[5], self.pins[4], ff[1]).output()
+        output[11] = ff[0]
+        ff = FullAdder(self.pins[3], self.pins[2], ff[1]).output()
+        output[12] = ff[0]
+        ff = FullAdder(self.pins[1], self.pins[15], ff[1]).output()
+        output[13] = ff[0]
+        output[14] = ff[1]
+            
+        if self.pins[8].value == 0 and self.pins[16].value == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print ("Ground and VCC pins have not been configured correctly.")
+
 class IC_4011(Base_14pin):
 
     """
@@ -239,6 +289,7 @@ class IC_4012(Base_14pin):
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
+
 
 
 class IC_4023(Base_14pin):
