@@ -19,7 +19,7 @@ clk_conn = clock.A
 enable = Connector(1)
 
 # Initialize the T-FlipFlop
-tff = TFlipFlop(toggle, enable, clk_conn, p, q)
+tff = TFlipFlop(toggle, enable, clk_conn, a=p, b=q)
 
 # To connect different set of connectors use :
 # tff.setInputs(conn1,enab,clk)
