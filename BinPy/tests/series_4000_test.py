@@ -48,6 +48,25 @@ def test_IC_4012():
     if q != testIC.run():
         assert False
 
+def test_IC_4013():
+    testIC = IC_4013()
+    p = {1:1, 2: 0, 3: 1, 4: 0, 5: 1, 6:1, 7: 0, 8: 0, 9: 1, 10: 1, 11: 1, 12: 1, 13: 0, 14: 1}
+    c1 = Clock(1,500)
+    c1.start()
+    c2 = Clock(1,500)
+    c2.start()
+    p[3] = c1
+    p[11] = c2
+    
+    testIC.setIC(p)
+    assert testIC.run() == {1: 1, 2: 0, 12: 1, 13: 0}
+    p[8] = 1
+    testIC.setIC(p)
+    assert testIC.run() == {1: 1, 2: 0, 12: 0, 13: 1}
+
+    c1.kill()
+    c2.kill()
+
 
 def test_IC_4023():
     testIC = IC_4023()
@@ -162,5 +181,16 @@ def test_IC_4082():
     p = {2: 0, 3: 1, 4: 0, 5: 1, 7: 0, 9: 1, 10: 1, 11: 1, 12: 1, 14: 1}
     testIC.setIC(p)
     q = {1: 0, 13: 1}
+    if q != testIC.run():
+        assert False
+
+######## IC's with 16 pins #################################
+
+def test_IC_4008():
+    testIC = IC_4008()
+    p = {1:1, 2: 0, 3: 1, 4: 0, 5: 1, 6:1, 7: 0, 8: 0, 9: 1, 10: 1, 11: 1, 12:
+            1, 13: 0, 14: 1, 15:0, 16: 1}
+    testIC.setIC(p)
+    q = {10: 0, 11: 0, 12: 0, 13: 0, 14: 1} 
     if q != testIC.run():
         assert False
