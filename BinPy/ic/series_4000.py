@@ -6,7 +6,7 @@ actual pins. This is so because pin0 is not used as a general term referring
 to the first pin of the IC. Zeroth index of the self.pins is not being used.
 
 ICs in this module:
-[4000, 4001, 4002, 4011, 4012, 4023, 4025, 4068, 4069, 4070, 4071, 4072, 4073
+[4000, 4001, 4002, 4008, 4011, 4012, 4013, 4023, 4025, 4068, 4069, 4070, 4071, 4072, 4073
  4075, 4077, 4078, 4081, 4082]
 """
 
@@ -942,3 +942,143 @@ class IC_4008(Base_16pin):
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
+
+class IC_4015(Base_16pin):
+
+    """
+    Dual 4 Stage static shift Register
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, None, None, None, None, 0, 0, 0, 0, None, None,
+                None, None, 0, 0, 0]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = False
+        self.setIC({1: {'desc': 'CLKB'},
+                    2: {'desc': 'Q4'},
+                    3: {'desc': 'Q3'},
+                    4: {'desc': 'Q2'},
+                    5: {'desc': 'Q1'},
+                    6: {'desc': 'RST1'},
+                    7: {'desc': 'DA'},
+                    8: {'desc': 'VSS'},
+                    9: {'desc': 'CLKA'},
+                    10: {'desc': 'Q4'},
+                    11: {'desc': 'Q3'},
+                    12: {'desc': 'Q2'},
+                    13: {'desc': 'Q1'},
+                    14: {'desc': 'RSTB'},
+                    15: {'desc': 'DB'},
+                    16: {'desc': 'VDD'}
+
+                    })
+
+    def run(self):
+        output = {}
+        if not (isinstance(self.pins[1], Clock) and
+                isinstance(self.pins[9], Clock)):
+            raise Exception("Error: Invalid Clock Input")
+        sr1 = ShiftRegister(self.pins[7], self.pins[4], self.pins[3],
+                self.pins[2], self.pins[1], NOT(self.pins[6]).output())
+        sr2 = ShiftRegister(self.pins[15], self.pins[12], self.pins[11],
+                self.pins[10], self.pins[9], NOT(self.pins[14]).output())
+        sr1 = sr1.output()
+        output[5] = sr1[0]
+        output[4] = sr1[1]
+        output[3] = sr1[2]
+        output[2] = sr1[3]
+        sr2 = sr2.output()
+        output[13] = sr2[0]
+        output[12] = sr2[1]
+        output[11] = sr2[2]
+        output[10] = sr2[3]
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print ("Ground and VCC pins have not been configured correctly.")
+
+class IC_4017(Base_16pin):
+
+    """
+    CMOS Counters
+    """
+
+    def __init__(self):
+        self.pins = [None, None, None, None, None, None, None, None, 0, None,
+                None, None, None, 0, 0, 0, 1]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = False
+        self.setIC({1: {'desc': '5'},
+                    2: {'desc': '1'},
+                    3: {'desc': '0'},
+                    4: {'desc': '2'},
+                    5: {'desc': '6'},
+                    6: {'desc': '7'},
+                    7: {'desc': '3'},
+                    8: {'desc': 'VSS'},
+                    9: {'desc': '8'},
+                    10: {'desc': '4'},
+                    11: {'desc': '9'},
+                    12: {'desc': 'carry'},
+                    13: {'desc': 'CLKI'},
+                    14: {'desc': 'CLK'},
+                    15: {'desc': 'RST'},
+                    16: {'desc': 'VDD'}
+
+                    })
+        self.step=0
+    def run(self):
+        output = {}
+        if not (isinstance(self.pins[13], Clock) and
+                isinstance(self.pins[14], Clock)):
+            raise Exception("Error: Invalid Clock Input")
+        counter = DecadeCounter(self.pins[14].A,
+                clear=Connector(NOT(self.pins[15]).output()))
+        for i in range(self.step):
+            counter.trigger()
+        self.step += 1
+        out = list(map(str, counter.state()))
+        out = ''.join(out)
+        out = int(out, 2)
+        if out <= 4 :
+            output[12] = 1
+        else:
+            output[12] = 0
+        for i in range(1,12):
+            output[i] = 0
+        
+        if out == 5:
+            output[1] = 1
+        elif out == 1:
+            output[2] = 1
+        elif out == 0:
+            output[3] = 1
+        elif out == 2:
+            output[4] = 1
+        elif out == 6:
+            output[5] = 1
+        elif out == 7:
+            output[6] = 1
+        elif out == 3:
+            output[7] = 1
+        elif out == 8:
+            output[9] = 1
+        elif out == 4:
+            output[10] = 1
+        elif out == 9:
+            output[11] = 1
+
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print ("Ground and VCC pins have not been configured correctly.")
+
+
