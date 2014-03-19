@@ -386,6 +386,15 @@ def test_IC_74260():
     q = {5: 1, 6: 0}
     if q != testIC.run():
         assert False
+        
+def test_IC_74152():
+    testIC = IC_74152()
+    m = {1:1 ,2:0 ,3:1 ,4:0 ,5:1 ,7:0 ,8:0 ,9:0 ,10:1 ,11:1 ,12:0 ,13:0 ,14:1}
+    testIC.setIC(m)
+    n = {6: 1}
+    if n != testIC.run():
+        assert False        
+        
 
 ######## IC's with 5 pins #################################
 
@@ -628,3 +637,21 @@ def test_IC_7483():
     q = {9: 1, 2: 1, 14: 1, 6: 0, 15: 0}
     if q != testIC.run():
         assert False
+        
+        
+        
+def test_IC_74151A():
+    testIC = IC_74151A()
+    m = {1:1 ,2:0 ,4:1 ,3:1 ,7:0 ,8:0 ,9:0 ,10:0 ,11:0 ,12:0 ,13:0 ,14:1 ,15:1 ,16:1}
+    testIC.setIC(m)
+    n = {5:1 , 6: 0}
+    if n != testIC.run():
+        assert False
+
+def test_IC_74153():
+    testIC = IC_74153()
+    m = {1:1, 2:1, 3:1, 4:0, 5:0, 6:0, 8:0, 10:0, 11:1, 12:0, 13:0, 14:0, 15:0, 16:1}
+    testIC.setIC(m)
+    n = {7:0 , 9:0}
+    if n != testIC.run():
+        assert False        
