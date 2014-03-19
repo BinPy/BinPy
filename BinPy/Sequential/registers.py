@@ -181,8 +181,8 @@ class ShiftRegister(Register):
 
     """
 
-    def __init__(self, A0, A1, A2, A3, clock):
-        Register.__init__(self, [A0, A1, A2, A3], clock, clear=Connector(1))
+    def __init__(self, A0, A1, A2, A3, clock, clear=Connector(1)):
+        Register.__init__(self, [A0, A1, A2, A3], clock, clear)
     
     def trigger(self):
         a0 = self.inputs[0]
