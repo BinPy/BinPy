@@ -103,3 +103,34 @@ class OhmsLaw_AC:
                     c = float(p / (v * i))
             print(values)
             return {'i': i, 'v': v, 'z': z, 'p': p, 'c': c}
+
+# Handy Functions to calculate the net total series and parallel resistance and capacitance of two 
+# individual resistances and capacitances			
+def SeriesR(a,b):
+	try:
+		total=float(a)+ float(b)
+		return total
+	except ValueError:
+		print "Error: Please enter numeric values"
+		
+def ParallelR(a,b):
+	try:
+		total=(float(a)*float(b))/(float(a)+ float(b))
+		return total
+	except ValueError:
+		print "Error: Please enter numeric values"
+			
+def ParallelC(a,b):
+	try:
+		total=float(a)+ float(b)
+		return total
+	except ValueError:
+		print "Error: Please enter numeric values"			
+
+def SeriesC(a,b):
+	try:
+		total=(float(a)*float(b))/(float(a)+ float(b))
+		return total
+	except ValueError:
+		print "Error: Please enter numeric values"		
+		

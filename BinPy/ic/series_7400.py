@@ -44,7 +44,7 @@ class IC_7400(Base_14pin):
 
         >>> ic = IC_7400()
         >>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
-        >>> ic.setIC(pin_cofig)
+        >>> ic.setIC(pin_config)
         >>> ic.drawIC()
         >>> ic.run()
         >>> ic.setIC(ic.run())
@@ -2184,6 +2184,10 @@ class IC_74133(Base_16pin):
 
 class IC_7483(Base_16pin):
 
+
+
+
+
     """
     This is a 4-bit full adder with fast carry
     """
@@ -2237,6 +2241,65 @@ class IC_7483(Base_16pin):
             self.pins[1], self.pins[16]).output()).output()
 
         if self.pins[12] == 0 and self.pins[5] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+
+
+
+#	IC 7485 4-Bit Magnitude Comparator
+#	Alpha Stage : Not fully working
+
+class IC_7485(Base_16pin):
+
+    """
+    This is a 4-Bit Magnitude Comparator
+	Its logic is all correct but only problem lies in OR operation (don't know why)
+    """
+
+
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        xnorOutput0= XNOR(self.pins[10], self.pins[9]).output()
+        xnorOutput1= XNOR(self.pins[12], self.pins[11]).output()
+        xnorOutput2= XNOR(self.pins[13], self.pins[14]).output()
+        xnorOutput3= XNOR(self.pins[15], self.pins[1]).output()
+        output[6] = AND(xnorOutput0, xnorOutput1, xnorOutput2, xnorOutput3).output()
+        output[5] = OR(AND(self.pins[15],NOT(self.pins[1]).output()).output(),
+			AND(self.pins[13],NOT(self.pins[14]).output(),xnorOutput3).output(),
+				AND(self.pins[12], NOT(self.pins[11]).output(), xnorOutput3, xnorOutput2).output(),
+					AND(self.pins[10], NOT(self.pins[9]).output(), xnorOutput3, xnorOutput2, xnorOutput1).output())
+
+        output[7] = OR(AND(self.pins[1],NOT(self.pins[15]).output()).output(),
+			AND(self.pins[14],NOT(self.pins[13]).output(),xnorOutput3).output(),
+				AND(self.pins[11], NOT(self.pins[12]).output(), xnorOutput3, xnorOutput2).output(),
+					AND(self.pins[9], NOT(self.pins[10]).output(), xnorOutput3, xnorOutput2, xnorOutput1).output())
+        if self.pins[16] == 1 and self.pins[8] == 0:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
