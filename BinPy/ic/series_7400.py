@@ -7,6 +7,7 @@ is not used as a general term referring to the first pin of the IC. Zeroth index
 from __future__ import print_function
 from BinPy.Gates.gates import *
 from BinPy.ic.base import *
+from BinPy.Combinational.combinational import *
 
 ######## IC's with 14 pins #################################
 
