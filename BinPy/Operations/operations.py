@@ -111,14 +111,14 @@ class Operations:
             return (len(input1) - len(temp)) * temp[0] + temp
 
 @staticmethod
-
+		
+        #This function converts binary number into decimal number
+        #How to use:
+        #   >>> Operations.binToDec('1001.1')
+        #    >>> 9.5
+        
 def  binToDec(number):
-"""
-        This function converts binary number into decimal number
-        How to use:
-            >>> Operations.binToDec('1001.1')
-            >>> 9.5
-        """
+
 	i=0
 	j=1
 	length=len(number)
@@ -135,12 +135,12 @@ def  binToDec(number):
 	return num
 	
 @staticmethod
-"""
-        This function converts positive decimal number into binary number
-        How to use:
-            >>> Operations.decToBin(12.5)
-            >>> 1100.1
-        """
+
+        #This function converts positive decimal number into binary number
+        #How to use:
+        #    >>> Operations.decToBin(12.5)
+        #    >>> 1100.1
+        
 def DecTobin(number):
 	x=number
 	number=int(number)
