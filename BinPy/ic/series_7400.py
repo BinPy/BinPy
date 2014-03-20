@@ -2242,3 +2242,83 @@ class IC_7483(Base_16pin):
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
+
+class IC_7459(Base_14pin):
+
+    """
+    This is a 2-input and 3-input AND-OR inverter gate
+    """
+    # Datasheet here, http://www.unitechelectronics.com/7451-7497data.htm and http://en.wikipedia.org/wiki/List_of_7400_series_integrated_circuits
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
+
+    def run(self):
+        temp = []
+        output = {}
+        temp.append(AND(self.pins[2], self.pins[3]).output())
+        temp.append(AND(self.pins[4], self.pins[5]).output())
+        temp.append(AND(self.pins[1],
+                        self.pins[13],
+                        self.pins[12]).output())
+        temp.append(AND(self.pins[11],
+                        self.pins[10],
+                        self.pins[9]).output())
+        output[6] = NOR(temp[0],temp[1]).output()
+        output[8] = NOR(temp[2],temp[3]).output()
+        
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+class IC_74138(Base_16pin):
+
+    """
+    3-to-8 line decoder/demultiplexer.
+    """
+    #datasheet here, http://www.skot9000.com/ttl/datasheets/138.pdf
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0]
+
+    def run(self):
+        output = {}
+        temp=[]
+        temp.append(NOT(self.pins[4]).output())
+        temp.append(NOT(self.pins[5]).output())
+        temp.append(AND(temp[0], temp[1],self.pins[6]).output())
+        output[7] = NAND(temp[3], self.pins[3], self.pins[2], self.pins[1])
+        output[9] = NAND(temp[3], self.pins[2], NOT(self.pins[1]).output, self.pins[3])
+        output[10] = NAND(temp[3], self.pins[3], NOT(self.pins[2]).output, self.pins[1])
+        output[11] = NAND(temp[3], self.pins[3], NOT(self.pins[2]).output, NOT(self.pins[1]).output())
+        output[12] = NAND(temp[3], self.pins[1], self.pins[2], NOT(self.pins[3]).output())
+        output[13] = NAND(temp[3], self.pins[2], NOT(self.pins[3]).output, NOT(self.pins[1]).output())
+        output[14] = NAND(temp[3], self.pins[1], NOT(self.pins[2]).output, NOT(self.pins[3]).output())
+        output[15] = NAND(temp[3], NOT(self.pins[3]).output(), NOT(self.pins[2]).output, NOT(self.pins[1]).output())
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
