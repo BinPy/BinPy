@@ -1,1 +1,1 @@
-from BinPy.Shell import *
+from Shell import *
