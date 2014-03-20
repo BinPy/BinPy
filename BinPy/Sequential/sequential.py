@@ -35,6 +35,39 @@ class FlipFlop:
         self.b.state = 1
         return [self.a(), self.b()]
 
+class FlipFlop1:
+
+    """
+    Super Class for Earle FlipFlops
+    """
+
+    def __init__(self, enable_L, enable_H, clk, a, set, reset):
+        self.a = a
+        self.clk = clk
+        self.clkoldval = 1
+        self.enable_H = enable_H
+        self.enable_L = enable_L
+        self.set = set
+        self.reset = reset
+
+    def Enable(self):
+        self.enable_H.state = 1
+        self.enable_L.state = 0
+
+    def Disable(self):
+        self.enable_H.state = 0
+        self.enable_L.state = 1
+
+    def setff(self):
+        # Sets the FlipFlop
+        self.a.state = 1
+        return [self.a()]
+
+    def resetff(self):
+        # Resets the FlipFlop
+        self.a.state = 0
+        return [self.a()]
+
 
 class SRLatch(FlipFlop):
 
@@ -210,6 +243,181 @@ class SRLatch(FlipFlop):
     def state(self):
         """Returns the current state of the SRLatch"""
         return [self.a(), self.b()]
+
+class EarleLatch(FlipFlop1):
+
+    """
+    D is primary input.
+    Earle latch uses complementary enable inputs: enable active low (E_L) and enable active high (E_H)
+    Clock is used to trigger the Latch.
+
+    Ouputs are a ( q ) 
+
+    To Use :
+    Set the inputs of EarleLatch and to trigger any change in input use\
+    trigger() method.
+    """
+
+    def __init__(
+            self,
+            D,
+            enable_L,
+            enable_H,
+            clk,
+            a=Connector(0),
+            set=Connector(0),
+            reset=Connector(0)):
+
+        FlipFlop.__init__(self, enable_L, enable_H, clk, a, set, reset)
+
+        # Initiated to support numerical inputs --> See trigger method's doc
+        self.D = Connector(0)
+        
+
+        # Initiated to initiate the gates
+        self.enabledD1 = Connector(1)
+        self.enabledD2 = Connector(1)
+        self.enabledD3 = Connector(1)
+
+        # Initiating the gates with inputs - Will be overwritten when the
+        # self.setInputs() is called 4 lines hence.
+
+        # This is just to initiate the gates.
+        self.g1 = NAND(D, enable_H)
+        self.g2 = NAND(D, a)
+        self.g3 = NAND(a, enable_L)
+        self.g4 = NAND(self.enabledD1, self.enabledD2, self.enabledD3)
+        
+
+        self.setInputs(D=D, enable_L=enable_L, enable_H=enable_H)
+        self.setOutputs(A=a)
+
+    def setInputs(self, **inputs):
+        """
+        Sets the input connectors of EarleLatch.
+        Give input parameters as a dictionary
+
+        Ex.: sr1.setInputs(D=D)
+        
+        Note:
+        1) When inputs are given as type-int - The D states alone are
+        changed. The connections remain intact.
+        2) Setting the inputs does not trigger the Latch.
+        Use trigger separately to trigger any change.
+        """
+
+        # To support both upper and lower case
+        for key in inputs:
+            if key.lower() == 'd':
+                # To support both numerical values or Connector instances
+                if isinstance(inputs[key], Connector):
+                    self.D = inputs[key]
+                else:
+                    self.D.state = int(inputs[key])
+
+           
+            elif key.lower() == 'enable_l':
+                if isinstance(inputs[key], Connector):
+                    self.enable = inputs[key]
+                else:
+                    self.enable.state = int(inputs[key])
+            elif key.lower() == 'enable_h':
+                if isinstance(inputs[key], Connector):
+                    self.enable = inputs[key]
+                else:
+                    self.enable.state = int(inputs[key])
+
+            elif key.lower() == 'clk':
+                if isinstance(inputs[key], Connector):
+                    self.clk = inputs[key]
+                else:
+                    self.clk.state = int(inputs[key])
+            elif key.lower() == "set":
+                if isinstance(inputs[key], Connector):
+                    self.set = inputs[key]
+                else:
+                    self.set.state = int(inputs[key])
+                self.trigger()
+            elif key.lower() == "reset":
+                if isinstance(inputs[key], Connector):
+                    self.reset = inputs[key]
+                else:
+                    self.reset.state = int(inputs[key])
+                self.trigger()
+
+            else:
+                print("ERROR: Unknow parameter passed" + str(key))
+
+        if not (bool(self.D) ):
+            print("ERROR: Invalid State - Resetting the Latch")
+            self.D.state = 0
+           
+
+        self.g1.setInput(0, self.D)
+        self.g1.setInput(1, self.enable_H)
+        self.g1.setOutput(self.enabledD1)
+        
+        self.g2.setInput(0, self.D)
+        self.g2.setInput(1, self.a)
+
+        self.g3.setInput(0, self.enable_L)
+        self.g3.setInput(1, self.a)
+
+        
+
+    def setOutputs(self, **outputs):
+
+        for key in outputs:
+            if not isinstance(outputs[key], Connector):
+                raise Exception("ERROR: Output not a connector instance")
+            if key.lower() == 'a':
+                self.a = outputs[key]
+            
+            else:
+                print("ERROR: Unknown parameter passed" + str(key))
+
+        
+        self.g2.setInput(1, self.a)
+        self.g2.setOutput(self.enabledD2)
+
+        self.g3.setInput(1, self.a)
+        self.g3.setOutput(self.enabledD3)
+       
+        self.g4.setInput(1,self.enabledD1)
+        self.g4.setInput(1,self.enabledD2)
+        self.g4.setInput(1,self.enabledD3)
+
+        self.g4.setOutput(self.a)
+        
+
+    def trigger(self):
+
+        if self.set.state == 1:
+            return self.setff()
+
+        elif self.reset.state == 1:
+            return self.resetff()
+
+        if self.clkoldval == 1 and self.clk.state == 0:
+            if bool(self.D) :
+                print("ERROR: Invalid State - Resetting the Latch")
+                self.D.state = 0
+                
+
+            self.enable.trigger()
+            # This will trigger the gates which will trigger the a 
+
+        self.clkoldval = self.clk.state
+        # stores the current clock state
+
+        return [self.a()]
+
+    def __call__(self):
+        return self.trigger()
+
+    def state(self):
+        """Returns the current state of the EarleLatch"""
+        return [self.a()]
 
 
 class DFlipFlop(FlipFlop):
