@@ -18,6 +18,11 @@ class Connector:
 
     def __call__(self):
         return self.state
+		
+    def check_triggering(self)
+		for i in self.connections["input"]:
+			if(i.state!=self.state):
+				print("error\n")
 
     # Overloads the bool method
     # For python3
