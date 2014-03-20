@@ -2394,5 +2394,236 @@ class IC_74151A(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
             
             
+class IC_74138(Base_16pin):
+    """
+    This is a 1:8 demultiplexer(3:8 decoder) with output being inverted input
+    """
+    
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, 0, None, 0 ,None ,None ,None ,None ,None ,None ,None ,0  ]
+        
+    
+    def run(self):
+        
+        output = {}
+        
+        demux = DEMUX(1)
+        demux.selectLines(self.pins[3], self.pins[2], self.pins[1])
+        
+        if (self.pins[6] == 0 or (self.pins[4] == 1 and self.pins[5] == 1)):
+            output = {15:1, 14:1, 13:1, 12:1, 11:1, 10:1, 9:1, 7:1}
+            
+        elif (self.pins[6] == 1 and (self.pins[4] == 0 and self.pins[5] == 0)):
+            
+            output[15] = NOT(demux.output()[0]).output()         
+            output[14] = NOT(demux.output()[1]).output()
+            output[13] = NOT(demux.output()[2]).output()
+            output[12] = NOT(demux.output()[3]).output()
+            output[11] = NOT(demux.output()[4]).output()
+            output[10] = NOT(demux.output()[5]).output()
+            output[9] = NOT(demux.output()[6]).output()
+            output[7] = NOT(demux.output()[7]).output()
+            
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.") 
+            
+             
+class IC_74139(Base_16pin):
+    """
+    This is a dual 1:4 demultiplexer(2:4 decoder) with output being inverted input
+    """
+    
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, None, None, None, None, 0, None ,None ,None ,None ,0 ,0 ,0 ,0  ]
+        
+    
+    def run(self):
+        
+        output = {}
+        
+        demux1 = DEMUX(1)
+        demux1.selectLines(self.pins[3], self.pins[2])
+        
+        demux2 = DEMUX(1)
+        demux2.selectLines(self.pins[13], self.pins[14])
+       
+        if (self.pins[1] == 1 and self.pins[15] == 1):
+            output = { 12:1, 11:1, 10:1, 9:1, 7:1 ,6:1 ,5:1 ,4:1}
+            
+        elif (self.pins[1] == 0 and self.pins[15] == 1):
+            
+            output[12] = 1
+            output[11] = 1
+            output[10] = 1
+            output[9] = 1
+            output[4] = NOT(demux1.output()[0]).output()
+            output[5] = NOT(demux1.output()[1]).output()
+            output[6] = NOT(demux1.output()[2]).output()
+            output[7] = NOT(demux1.output()[3]).output()
+            
+        elif (self.pins[1] == 1 and self.pins[15] == 0):    
+            
+            output[7] = 1
+            output[6] = 1
+            output[5] = 1
+            output[4] = 1
+            output[12] = NOT(demux2.output()[0]).output()
+            output[11] = NOT(demux2.output()[1]).output()
+            output[10] = NOT(demux2.output()[2]).output()
+            output[9] = NOT(demux2.output()[3]).output()
+            
+        elif (self.pins[1] == 0 and self.pins[15] == 0):
+        
+            output[4] = NOT(demux1.output()[0]).output()
+            output[5] = NOT(demux1.output()[1]).output()
+            output[6] = NOT(demux1.output()[2]).output()
+            output[7] = NOT(demux1.output()[3]).output()
+            output[12] = NOT(demux2.output()[0]).output()
+            output[11] = NOT(demux2.output()[1]).output()
+            output[10] = NOT(demux2.output()[2]).output()
+            output[9] = NOT(demux2.output()[3]).output()
+                     
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.") 
+            
+
+
+class IC_74156(Base_16pin):
+    """
+    This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input
+    while the other same as the input with open collector
+    """
+    
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, None, None, None, None, 0, None ,None ,None ,None ,0 ,0 ,0 ,0  ]
+        
+    
+    def run(self):
+        
+        output = {}
+        
+        demux1 = DEMUX(self.pins[1])
+        demux1.selectLines(self.pins[3], self.pins[13])
+        
+        demux2 = DEMUX(NOT(self.pins[15]).output())
+        demux2.selectLines(self.pins[3], self.pins[13])
+       
+        if (self.pins[2] == 1 and self.pins[14] == 1):
+            output = { 12:1, 11:1, 10:1, 9:1, 7:1 ,6:1 ,5:1 ,4:1}
+            
+        elif (self.pins[2] == 0 and self.pins[14] == 1):
+            
+            output[12] = 1
+            output[11] = 1
+            output[10] = 1
+            output[9] = 1
+            output[4] = NOT(demux1.output()[3]).output()
+            output[5] = NOT(demux1.output()[2]).output()
+            output[6] = NOT(demux1.output()[1]).output()
+            output[7] = NOT(demux1.output()[0]).output()
+            
+        elif (self.pins[2] == 1 and self.pins[14] == 0):    
+            
+            output[7] = 1
+            output[6] = 1
+            output[5] = 1
+            output[4] = 1
+            output[12] = NOT(demux2.output()[3]).output()
+            output[11] = NOT(demux2.output()[2]).output()
+            output[10] = NOT(demux2.output()[1]).output()
+            output[9] = NOT(demux2.output()[0]).output()
+            
+        elif (self.pins[2] == 0 and self.pins[14] == 0):
+        
+            output[4] = NOT(demux1.output()[3]).output()
+            output[5] = NOT(demux1.output()[2]).output()
+            output[6] = NOT(demux1.output()[1]).output()
+            output[7] = NOT(demux1.output()[0]).output()
+            output[12] = NOT(demux2.output()[3]).output()
+            output[11] = NOT(demux2.output()[2]).output()
+            output[10] = NOT(demux2.output()[1]).output()
+            output[9] = NOT(demux2.output()[0]).output()      
+                     
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+
+class IC_74155(Base_16pin):
+    """
+    This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input
+    while the other same as the input
+    """
+    
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, None, None, None, None, 0, None ,None ,None ,None ,0 ,0 ,0 ,0  ]
+        
+    
+    def run(self):
+        
+        output = {}
+        
+        demux1 = DEMUX(self.pins[1])
+        demux1.selectLines(self.pins[3], self.pins[13])
+        
+        demux2 = DEMUX(NOT(self.pins[15]).output())
+        demux2.selectLines(self.pins[3], self.pins[13])
+       
+        if (self.pins[2] == 1 and self.pins[14] == 1):
+            output = { 12:1, 11:1, 10:1, 9:1, 7:1 ,6:1 ,5:1 ,4:1}
+            
+        elif (self.pins[2] == 0 and self.pins[14] == 1):
+            
+            output[12] = 1
+            output[11] = 1
+            output[10] = 1
+            output[9] = 1
+            output[4] = NOT(demux1.output()[3]).output()
+            output[5] = NOT(demux1.output()[2]).output()
+            output[6] = NOT(demux1.output()[1]).output()
+            output[7] = NOT(demux1.output()[0]).output()
+            
+        elif (self.pins[2] == 1 and self.pins[14] == 0):    
+            
+            output[7] = 1
+            output[6] = 1
+            output[5] = 1
+            output[4] = 1
+            output[12] = NOT(demux2.output()[3]).output()
+            output[11] = NOT(demux2.output()[2]).output()
+            output[10] = NOT(demux2.output()[1]).output()
+            output[9] = NOT(demux2.output()[0]).output()
+            
+        elif (self.pins[2] == 0 and self.pins[14] == 0):
+        
+            output[4] = NOT(demux1.output()[3]).output()
+            output[5] = NOT(demux1.output()[2]).output()
+            output[6] = NOT(demux1.output()[1]).output()
+            output[7] = NOT(demux1.output()[0]).output()
+            output[12] = NOT(demux2.output()[3]).output()
+            output[11] = NOT(demux2.output()[2]).output()
+            output[10] = NOT(demux2.output()[1]).output()
+            output[9] = NOT(demux2.output()[0]).output()      
+                     
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+            
+            
             
             
