@@ -110,24 +110,60 @@ class Operations:
         else:
             return (len(input1) - len(temp)) * temp[0] + temp
 
-    @staticmethod
-    def decToBin(number):
-        """
-        This function converts positive decimal number into binary number
-        How to use:
-            >>> Operations.decToBin(12)
-            >>> 1100
-        """
+@staticmethod
+		
+        #This function converts binary number into decimal number
+        #How to use:
+        #   >>> Operations.binToDec('1001.1')
+        #    >>> 9.5
+        
+def  binToDec(number):
 
-        return int(bin(number)[2:])
+	i=0
+	j=1
+	length=len(number)
+	num=0
+	while i<length and number[i]!='.' :
+		num=num*2 + int(number[i])
+		i+=1
+	if(number[i] == "."):
+		i+=1
+	while i<length:
+		num+=int(number[i])/((2**j)+0.0)
+		j+=1
+		i+=1
+	return num
+	
+@staticmethod
 
-    @staticmethod
-    def binToDec(number):
-        """
-        This function converts binary number into decimal number
-        How to use:
-            >>> Operations.binToDec('1001')
-            >>> 9
-        """
-
-        return int(number, 2)
+        #This function converts positive decimal number into binary number
+        #How to use:
+        #    >>> Operations.decToBin(12.5)
+        #    >>> 1100.1
+        
+def DecTobin(number):
+	x=number
+	number=int(number)
+	x=x-number
+	k=[]
+	string1=""
+	if(number==0):
+		string1+=str(0)
+	while (number>0):
+		a=int(float(number%2))
+		k.append(a)
+		number=(number-a)/2
+	for j in k[::-1]:
+		string1=string1+str(j)
+	j=1
+	string2=""
+	if x !=0.0:
+		string2+='.'
+	while x >0.0 and j<15:
+		if x>= 1/((2**j)+0.0):
+			string2+=str(1)
+			x-= 1/((2**j)+0.0)
+		else:
+			string2+=str(0)
+		j+=1
+	return string1+string2
