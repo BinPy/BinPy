@@ -7,7 +7,7 @@ is not used as a general term referring to the first pin of the IC. Zeroth index
 from __future__ import print_function
 from BinPy.Gates.gates import *
 from BinPy.ic.base import *
-
+from BinPy.Combinational.combinational import *
 ######## IC's with 14 pins #################################
 
 
@@ -2249,6 +2249,7 @@ class IC_7445_new(Base_16pin):
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
+
 
 
 class IC_74133(Base_16pin):
