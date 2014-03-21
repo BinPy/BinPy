@@ -1,5 +1,5 @@
-from BinPy.Sequential.sequential import *
-
+from BinPy.Sequential import *
+from BinPy.Sequential.registers import *
 
 class Counter(object):
 
@@ -421,7 +421,7 @@ class Stage14Counter(Counter):
         self.reset_once = True
 
 
-class RingCounter(object):
+class RingCounter(Counter):
 
     """
     An N-bit Ring Counter
@@ -431,70 +431,30 @@ class RingCounter(object):
             self,
             bits,
             clock_connector,
-            reset=Connector(0)):
-
-        self.bits = bits
-        self.clk = clock_connector
-        self.enable = Connector(1)
-        self.reset = reset
-        # Initializing list of connectors  for flip flops
-        self.connectors = [Connector(0) if i > 0 else Connector(1)
-                           for i in range(self.bits)]
-        # Initializing list of flip flops
-        self.ffs = [DFlipFlop(self.connectors[i],
-                    self.enable,
-                    self.clk,
-                    Connector(0),
-                    Connector(1))
-                    for i in range(self.bits)]
-        # Initializing state of the counter
-        self.initialState = [0 if i > 0 else 1 for i in range(self.bits)]
-        self.counterState = self.initialState
-
-    def _updateState(self):
-        """ Updates current state of the counter """
-        for i in range(self.bits):
-            self.counterState[i] = self.ffs[i].state()[0]
-
-    def resetCounter(self):
-        self.counterState = self.initialState
-
+            preset=Connector(1),
+            clear=Connector(1)):
+        
+        Counter.__init__(self, bits, clock_connector, data=None, preset=preset,
+                clear=clear)
+        arr = [0]* bits
+        arr[0] = 1
+        self.sr = ShiftRegister(arr, clock_connector, circular=1)
+        self.out = []
     def trigger(self):
-
-        # Update the connectors states by the current state before triggering
-        for i in range(self.bits):
-            self.connectors[i].state = self.counterState[i-1]
-            # Connects each flip flop with output of preceding one
-
-        # Sending a negative edge to ff
-        while True:
-            if self.clk.state == 0:
-                for i in range(self.bits):
-                    self.ffs[i-1].trigger()
-                break
-        # Sending a positive edge to ff
-        while True:
-            if self.clk.state == 1:
-                for i in range(self.bits):
-                    self.ffs[i].trigger()
-                break
-        # This completes one full pulse.
-
-        # Update state after triggering
-        self._updateState()
-
-        if self.reset.state == 1:
-            self.resetCounter()
+        self.out = self.sr.output()
+        return self.out
 
     def state(self):
-        """ Returns state of the counter """
-        return self.counterState
+        return self.out
 
-    def __call__(self):
-        self.trigger()
+    def reset(self):
+        self.__init__(self.bits, clock_connector, clear=Connector(0))
+
+    def set(self):
+        self.__init__(self.bits, clock_connector, preset=Connector(0))
 
 
-class JohnsonCounter(object):
+class JohnsonCounter(Counter):
 
     """
     An N-bit Johnson Counter
@@ -504,67 +464,29 @@ class JohnsonCounter(object):
             self,
             bits,
             clock_connector,
-            reset=Connector(0)):
-
-        self.bits = bits
-        self.clk = clock_connector
-        self.enable = Connector(1)
-        self.reset = reset
-        # Initializing list of connectors  for flip flops
-        self.connectors = [Connector(0) for i in range(self.bits)]
-        # Initializing list of flip flops
-        self.ffs = [DFlipFlop(self.connectors[i],
-                    self.enable,
-                    self.clk,
-                    Connector(0),
-                    Connector(1))
-                    for i in range(self.bits)]
-        # Initializing state of the counter
-        self.initialState = [0 for i in range(self.bits)]
-        self.counterState = self.initialState
-
-    def _updateState(self):
-        """ Updates current state of the counter """
-        for i in range(self.bits):
-            self.counterState[i] = self.ffs[i].state()[0]
-
-    def resetCounter(self):
-        self.counterState = self.initialState
-
+            preset=Connector(1),
+            clear=Connector(1)):
+        
+        Counter.__init__(self, bits, clock_connector, data=None, preset=preset,
+                clear=clear)
+        arr = [0]* bits
+        arr[0] = 1
+        self.sr = ShiftRegister(arr, clock_connector, circular=1)
+        self.out = []
+        self.tail = 1
     def trigger(self):
-
-        # Update the connectors states by the current state before triggering
-        for i in range(self.bits):
-            if i == 0:
-                self.connectors[i].state = NOT(self.counterState[i-1]).output()
-            else:
-                self.connectors[i].state = self.counterState[i-1]
-            # Connects each flip flop with output of preceding one
-            # except the first one is connected to complement of last one
-
-        # Sending a negative edge to ff
-        while True:
-            if self.clk.state == 0:
-                for i in range(self.bits):
-                    self.ffs[i-1].trigger()
-                break
-        # Sending a positive edge to ff
-        while True:
-            if self.clk.state == 1:
-                for i in range(self.bits):
-                    self.ffs[i].trigger()
-                break
-        # This completes one full pulse.
-
-        # Update state after triggering
-        self._updateState()
-
-        if self.reset.state == 1:
-            self.resetCounter()
+        self.out = self.sr.output()
+        self.out[0] = self.tail
+        self.tail = NOT(self.out[self.bits-1]).output()
+        return self.out
 
     def state(self):
-        """ Returns state of the counter """
-        return self.counterState
+        return self.out
 
-    def __call__(self):
-        self.trigger()
+    def reset(self):
+        self.__init__(self.bits, clock_connector, clear=Connector(0))
+
+    def set(self):
+        self.__init__(self.bits, clock_connector, preset=Connector(0))
+
+
