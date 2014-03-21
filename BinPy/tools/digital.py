@@ -6,7 +6,7 @@ from BinPy import Connector
 
 class Clock(threading.Thread):
 
-    """
+    r"""
     This class uses threading technique to create a clock with a certain time period.
     This is how you can create a clock with this class:
         >>> myClock = Clock(0,time_period=2,name="My First Clock")
@@ -19,17 +19,15 @@ class Clock(threading.Thread):
 
     Following are the parameters of the class
 
-        frequency:      It will decide time interval of the clock, use SI unit i.e. Hertz
-        time_period:    It will also decide time interval of the clock, use SI unit i.e. second
+        :param frequency:   It will decide time interval of the clock, use SI unit i.e. Hertz
+        :param time_period: It will also decide time interval of the clock, use SI unit i.e. second
+        :param init_state:  It is the initial state of the clock(1 by default)
+        :param name:        It is the name of the clock.(optional)
 
-        If time_period and frequency both have been provided, then time_period will override frequency
+        If time_period and frequency both have been provided, then time_period
+        will override frequency
         If nothing is provided, then it will set time_period = 1s by default
-
-        init_state:     It is the initial state of the clock(1 by default)
-        name:           It is the name of the clock.(optional)
-
     Methods :   start(), getState(), setState(value), getName(), getTimePeriod(), kill()
-
     """
 
     def __init__(
@@ -112,7 +110,7 @@ class Clock(threading.Thread):
 
 class DigitDisplay:
 
-    '''
+    r'''
     This class emulates a 7 segmented display(Common Cathode)
 
     Parameters:
@@ -127,9 +125,15 @@ class DigitDisplay:
         >>> print myDisplay.evaluate([1,1,1,1,1,1,1])
         8
     Note:
-        You can either pass complete list of 10 pins [pin1, pin2, pin3, pin4, pin5, pin6, pin7, pin8, pin9, pin10]
-        in standard order (see http://tronixstuff.files.wordpress.com/2010/05/7segpinout.jpg) or you can directly
-        pass the list of values corresponding to a, b, c, d, e, f and g in lexicographical order.
+        You can either pass complete list of 10 pins [pin1, pin2, pin3,
+        pin4, pin5, pin6, pin7, pin8, pin9, pin10] in standard order or
+        you can directly pass the list of values corresponding to a, b,
+        c, d, e, f and g in lexicographical order.
+
+    Reference
+    =========
+
+    http://tronixstuff.files.wordpress.com/2010/05/7segpinout.jpg
     '''
 
     def __init__(self, name=None):

@@ -1,32 +1,32 @@
-from __future__ import print_function
-import itertools
-from BinPy.Algorithms.QuineMcCluskey import QM
-import random
-import sys
-
 """
 This class implements a Moore state machine solver. Using the Quine-McCluskey
-algorithm it minimizes the necessary next state and output functions for a given
-state machine.
+algorithm it minimizes the necessary next state and output functions for a
+given state machine.
 """
+
+from __future__ import print_function
+import sys
+import random
+import itertools
+from BinPy.Algorithms.QuineMcCluskey import QM
 
 
 class StateMachineSolver:
 
     def __init__(self, state_tran, state_word_len, variables, outputs):
         """
-    Initialize the Moore state machine optimizer.
+        Initialize the Moore state machine optimizer.
 
-    state_tran: a dictionary; key denotes the target state and value is a lambda
-    expression that evaluates to True when the machine should move to this
-    target state.
-    state_word_len: an integer that holds the count of bits used for
-    representing the state
-    variables: a list containing the names of the input variables of the machine
-    outputs: a list containing lambda expressions for calculating the outputs of
-    the state machine
-    """
-
+        state_tran: a dictionary; key denotes the target state and value is a
+        lambda expression that evaluates to True when the machine should move
+        to this target state.
+        state_word_len: an integer that holds the count of bits used for
+        representing the state
+        variables: a list containing the names of the input variables of the
+        machine
+        outputs: a list containing lambda expressions for calculating the
+        outputs of the state machine
+        """
         self.state_tran = state_tran
         self.state_word_len = state_word_len
         self.outputs = outputs
@@ -35,16 +35,15 @@ class StateMachineSolver:
 
     def solve(self, state_map):
         """
-    Given a state map return the transition and output functions.
+        Given a state map return the transition and output functions.
 
-    state_map: a dictionary; key is the state and value is the value of the
-    state word that identifies this state
+        state_map: a dictionary; key is the state and value is the value of the
+        state word that identifies this state
 
-    returns: a tuple a,b,c; a is the sum of the functions' complexities, b is
-    the next state functions (one for each state word bit) and c is the output
-    functions
-    """
-
+        returns: a tuple a,b,c; a is the sum of the functions' complexities,
+        b is the next state functions (one for each state word bit) and c is
+        the output functions
+        """
         self.next_state.state_map = state_map
         self.output.state_map = state_map
 
@@ -108,17 +107,17 @@ class StateMachineSolver:
 
         def solve(self, f_on, f_off=None):
             """
-      Returns a function that satisfies the conditions given.
+            Returns a function that satisfies the conditions given.
 
-      f_on: a list of lambda expressions; if one of the lambda expressions
-      evaluates to True then the requested function should evaluate to True
-      f_off: a list of lambda expressions; if one of them evaluates to True
-      then the requested function whould evaluate to False
+            f_on: a list of lambda expressions; if one of the lambda
+            expressions evaluates to True then the requested function
+            should evaluate to True
+            f_off: a list of lambda expressions; if one of them evaluates
+            to True then the requested function whould evaluate to False
 
-      returns: a tuple a,b; a is the complexity of the function and b is the
-      function
-      """
-
+            returns: a tuple a,b; a is the complexity of the function and
+            b is the function
+            """
             self.state_env = self.State()
             self.variables_env = self.Variables(self.variables)
 
@@ -147,36 +146,32 @@ class StateMachineSolver:
 
         def evaluate(self, f_array):
             """
-      Evaluates a list of lambda expressions in the state and variables
-      environment. The lambda expressions are terms of an OR expression.
+            Evaluates a list of lambda expressions in the state and variables
+            environment. The lambda expressions are terms of an OR expression.
 
-      f_array: a list of lambda expressions
+            f_array: a list of lambda expressions
 
-      returns: the logical OR after evaluate the lambda expression in the setup
-      environment
-      """
-
+            returns: the logical OR after evaluate the lambda expression in the
+            setup environment
+            """
             for f in f_array:
                 if f(self.state_env, self.variables_env):
                     return True
             return False
 
-        """
-This class provides access to the state word from the lambda expressions.
-"""
-
         class State:
-
+            """
+            This class provides access to the state word from the lambda
+            expressions.
+            """
             def __getitem__(self, item):
                 return self.state == item
 
-        """
-This class provides access to the input variables from the lambda
-expressions.
-"""
-
         class Variables:
-
+            """
+            This class provides access to the input variables from the
+            lambda expressions.
+            """
             def __init__(self, variables):
                 self.variables = {}
                 for i in xrange(len(variables)):
@@ -190,11 +185,11 @@ expressions.
 
             return self.qm.get_function(minterms)
 
-""" This class is the base for creating a Moore state machine optimizer. """
-
 
 class StateMachineOptimizer:
-
+    """ This class is the base for creating a Moore state machine
+    optimizer.
+    """
     def __init__(
             self,
             state_tran,
@@ -202,8 +197,7 @@ class StateMachineOptimizer:
             variables,
             outputs,
             **kwargs):
-        """ Initialize the state machine optimizer. """
-
+        #Initialize the state machine optimizer.
         self.state_tran = state_tran
         self.state_word_len = state_word_len
         self.sms = StateMachineSolver(state_tran, state_word_len, variables,
@@ -214,9 +208,9 @@ class StateMachineOptimizer:
 
     def calc_total(self):
         """
-    Calculate the total count of possible permutations of state configurations.
-    """
-
+        Calculate the total count of possible permutations of state
+        configurations.
+        """
         total = 1
         begin = (1 << self.state_word_len) - len(self.state_tran) + 1
         end = (1 << self.state_word_len) + 1
@@ -224,17 +218,15 @@ class StateMachineOptimizer:
             total *= i
         return total
 
-"""
-This class implements a Moore state machine optimizer that tries all possible
-permutations for assignment of state word values to states.
-"""
-
 
 class StateMachineOptimizer_AllPermutations(StateMachineOptimizer):
-
+    """
+    This class implements a Moore state machine optimizer that tries
+    all possible permutations for assignment of state word values to
+    states.
+    """
     def optimize(self):
         total = self.calc_total()
-
         min_complexity = 99999999
         counter = 0
         elements = range(1 << self.state_word_len)
@@ -242,27 +234,23 @@ class StateMachineOptimizer_AllPermutations(StateMachineOptimizer):
             counter += 1
             if counter & 0xff == 0:
                 sys.stderr.write('%%%3.2f done\r' % (100.0 * counter / total))
-
             state_map = {}
             for i in xrange(len(self.state_tran)):
                 state_map[i] = permutation[i]
             solution = self.sms.solve(state_map)
             if self.print_all:
                 print ('%r' % ((state_map, solution),))
-
             if solution[0] < min_complexity:
                 min_complexity = solution[0]
                 if self.print_best:
                     self.sms.print_solution(state_map, solution)
 
-"""
-This class implements a Moore state machine optimizer that tries permutations at
-random.
-"""
-
 
 class StateMachineOptimizer_Random(StateMachineOptimizer):
-
+    """
+    This class implements a Moore state machine optimizer that tries
+    permutations at random.
+    """
     def optimize(self, tries=1000):
         total = self.calc_total()
 
@@ -288,13 +276,11 @@ class StateMachineOptimizer_Random(StateMachineOptimizer):
                 if self.print_best:
                     self.sms.print_solution(state_map, solution)
 
-"""
-This class is used for testing the state machine optimizer.
-"""
-
 
 class StateMachineOptimizer_FileAndVerify(StateMachineOptimizer):
-
+    """
+    This class is used for testing the state machine optimizer.
+    """
     def optimize(self, file):
         for line in open(file, 'r').readlines():
             input, expected_output = eval(line)

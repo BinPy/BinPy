@@ -2,11 +2,15 @@ from BinPy.Gates import *
 
 
 class PowerSource:
+    """
+    Models a Power Source from which various connectors can tap by connecting to it.
 
-    """Models a Power Source from which various connectors can tap by connecting to it.
     taps: The list of all connectors connected to this power source.
+
     connect(): Takes in one or more connectors as input and connects them to the power source.
-    disconnect(): Takes in one or more connectors as input and disconnects them from the power source."""
+
+    disconnect(): Takes in one or more connectors as input and disconnects them from the power source.
+    """
 
     def __init__(self):
         self.taps = []
@@ -26,9 +30,11 @@ class PowerSource:
                 connector.trigger()
 
     def disconnect(self, *connectors):
-        """Takes in one or more connectors as an input and disconnects them from the power source.
+        """
+        Takes in one or more connectors as an input and disconnects them from the power source.
         A floating connector has a value of None.
-        A message is printed if a specified connector is not already tapping from this source."""
+        A message is printed if a specified connector is not already tapping from this source.
+        """
 
         for connector in connectors:
             if isinstance(connector, Connector):
