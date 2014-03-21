@@ -305,7 +305,9 @@ class Decoder(GATES):
         for i in self.inputs:
             if isinstance(i, Connector):
                 bstr = bstr + str(i.state)
-            else:
+            elif type(i) == bool:
+                bstr = bstr + str(int(i))
+            elif type(i) == int:
                 bstr = bstr + str(i)
         out[int(bstr, 2)] = 1
         self._updateResult(out)
