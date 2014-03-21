@@ -41,7 +41,7 @@ class SRLatch(FlipFlop):
     They are enabled by the third input enable.
     Clock is used to trigger the Latch.
 
-    Ouputs are a ( q ) and b ( ~q )
+    Outputs are a ( q ) and b ( ~q )
 
     To Use :
     Set the inputs of SRLatch and to trigger any change in input use\
@@ -226,7 +226,7 @@ class DFlipFlop(FlipFlop):
     ( Negative edge triggered )
     Clock triggers the output
 
-    Ouputs are a ( q ) and b ( ~q )
+    Outputs are a ( q ) and b ( ~q )
 
     """
 
@@ -263,7 +263,7 @@ class DFlipFlop(FlipFlop):
         partial change in input [ D or enable alone ]
 
         Note:
-        1) When inputs are given as type-int - The S and R states alone are
+        1) When inputs are given as type-int - The D state alone is
         changed. The connections remain intact.
         2) Setting the inputs does not trigger the Latch.
         Use trigger separately to trigger any change.
@@ -363,7 +363,7 @@ class JKFlipFlop(FlipFlop):
     They are enabled by the third input enable.
     Clock triggers the Flip flop.
 
-    Ouputs are a ( q ) and b ( ~q )
+    Outputs are a ( q ) and b ( ~q )
 
     To Use :
     Set the inputs of JKFlipFlop and to trigger any change in input \
@@ -413,7 +413,7 @@ class JKFlipFlop(FlipFlop):
         This is done to support partial change in input [ only J or K etc ]
 
         Note:
-        1) When inputs are given as type-int - The S and R states alone are
+        1) When inputs are given as type-int - The J and K states alone are
         changed. The connections remain intact.
         2) Setting the inputs does not trigger the Latch.
         Use trigger separately to trigger any change.
@@ -523,7 +523,7 @@ class JKFlipFlop(FlipFlop):
         return [self.a(), self.b()]
 
 
-class TFlipFlop(FlipFlop):
+class TFlipFlop(JKFlipFlop):
 
     """
     Toggle Flip Flop. Negative edge triggered.
@@ -546,8 +546,9 @@ class TFlipFlop(FlipFlop):
             a=Connector(),
             b=Connector()):
 
-        FlipFlop.__init__(self, enable, clk, a, b)
-
+        JKFlipFlop.__init__(self, T, T, enable, clk, preset, clear, a, b)
+        #T Flip Flop is just a JK Flip Flop with T input on both J and K
+        
         self.T = Connector(0)
         self.preset = Connector(1)
         self.clear = Connector(1)
@@ -557,15 +558,17 @@ class TFlipFlop(FlipFlop):
         self.T.tap(self, "input")
         self.enable.tap(self, "input")
         self.clk.tap(self, "input")
+
     def setInputs(self, **inputs):
         for key in inputs:
             if key.lower() == "t":
                 # To support both numerical/boolean values or Connector
                 # instances
                 if isinstance(inputs[key], Connector):
-                    self.T = inputs[key]
+                    self.J = self.K = self.T = inputs[key]
                 else:
-                    self.T.state = int(inputs[key])
+                    self.J.state = self.K.state = self.T.state \
+                        = int(inputs[key])
             elif key.lower() == "enable":
                 if isinstance(inputs[key], Connector):
                     self.enable = inputs[key]
@@ -588,51 +591,17 @@ class TFlipFlop(FlipFlop):
                     self.clear.state = int(inputs[key])
             else:
                 print("ERROR: Unknow parameter passed" + str(key))
-
+        
         if not(self.preset.state or self.clear.state):
             print("ERROR : Invalid State - Resetting the Latch")
             self.preset.state = 1
             self.clear.state = 1
-
-        self.T.tap(self, "input")
-        self.enable.tap(self, "input")
-        self.clk.tap(self, "input")
-
+    
     def setOutputs(self, **outputs):
-        for key in outputs:
-            if not isinstance(outputs[key], Connector):
-                raise Exception("ERROR: Output not a connector instance")
-            if key.lower() == "a":
-                self.a = outputs[key]
-            elif key.lower() == "b":
-                self.b = outputs[key]
-            else:
-                print("ERROR: Unknow parameter passed" + str(key))
-
-        self.a.tap(self, "output")
-        self.b.tap(self, "output")
+        JKFlipFlop.setOutputs(self, **outputs)
 
     def trigger(self):
-
-        if self.clear.state == 1 and self.preset.state == 0:
-            return self.setff()
-        elif self.preset.state == 1 and self.clear.state == 0:
-            return self.resetff()
-        elif not(self.clear.state or self.preset.state):
-            print("Error: Invalid State - Resetting the Latch")
-            self.clear.state = 1
-            self.preset.state = 1
-        else:
-            if self.clkoldval == 1 and self.clk.state == 0:
-                if bool(self.T):
-                    self.a.state = 0 if bool(self.a) else 1
-                self.b.state = 0 if bool(self.a) else 1
-
-                self.a.trigger()
-                self.b.trigger()
-
-        self.clkoldval = self.clk.state
-        return [self.a(), self.b()]
+        JKFlipFlop.trigger(self)
 
     def state(self):
         return [self.a(), self.b()]

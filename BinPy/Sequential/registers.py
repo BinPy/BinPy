@@ -163,15 +163,15 @@ class FourBitRegister2(Register):
 class ShiftRegister(Register):
     
     """
-    Four Bit Shift Register
-    Inputs: A0, A1, A2, A3
+    Shift Register
+    Inputs: [A0, A1, A2, A3]
     Clock: clock
 
     Example:
         >>> from BinPy import *
         >>> c = Clock(1, 500)
         >>> c.start()
-        >>> fr = ShiftRegister(1, 0, 0, 0, c)
+        >>> fr = ShiftRegister([1, 0, 0, 0], c)
         >>> fr.output()
         [1, 1, 0, 0]
         >>> fr.output()
@@ -181,15 +181,19 @@ class ShiftRegister(Register):
 
     """
 
-    def __init__(self, A0, A1, A2, A3, clock, clear=Connector(1)):
-        Register.__init__(self, [A0, A1, A2, A3], clock, clear)
+    def __init__(self, inputs, clock, clear=Connector(1), circular=0):
+        self.circular = circular
+        Register.__init__(self, inputs, clock, clear)
     
     def trigger(self):
         a0 = self.inputs[0]
-        for i in range(0,4):
+        for i in range(0, len(self.inputs)):
             ff1 = DFlipFlop(self.inputs[i], Connector(1), self.clock.A,
                 clear=self.clear)
-            self.inputs[i] = a0
+            if self.circular and i==0:
+                self.inputs[i] = self.inputs[len(self.inputs)-1]
+            else:
+                self.inputs[i] = a0
             while True:
                 if self.clock.A.state == 1:
                     ff1.trigger()

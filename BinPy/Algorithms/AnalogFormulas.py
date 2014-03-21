@@ -4,10 +4,12 @@ class OhmsLaw:
     This class implements Ohm's law for circuit analysis
     It requires any two parameters and it will calculate the other two.
 
-    How to use:
-        >>> myCalc = OhmsLaw()
-        >>> myCalc.evaluate(p=1254.8,i=7.5)
-        >>> {'i': 7.5, 'p': 1254.8, 'r': 22.307555555555556, 'v': 167.30666666666667}
+    Example
+    =======
+
+    >>> myCalc = OhmsLaw()
+    >>> myCalc.evaluate(p=1254.8,i=7.5)
+    {'i': 7.5, 'p': 1254.8, 'r': 22.307555555555556, 'v': 167.30666666666667}
 
     Methods:
         evaluate(i=None,v=None,r=None,p=None)
@@ -15,7 +17,8 @@ class OhmsLaw:
 
     def evaluate(self, i=None, v=None, r=None, p=None):
         '''
-        This method returns a dictionary of current, voltage, power, and resistance
+        This method returns a dictionary of current, voltage, power,
+        and resistance
         DictKeys: 'i', 'v', 'r', 'p'
         '''
         values = [i, v, r, p]
@@ -61,9 +64,10 @@ class OhmsLaw_AC:
         evaluate(i=None,v=None,z=None,p=None,cos=None)
     '''
 
-    def evaluate(self, i=None, v=None, z=None, p=None, cos=None):
+    def evaluate(self, i=None, v=None, z=None, p=None, c=None):
         '''
-        This method returns a dictionary of current, voltage, power, resistance and cosine
+        This method returns a dictionary of current, voltage, power,
+        resistance and cosine
         DictKeys: 'i', 'v', 'z', 'p','c'
         '''
         values = [i, v, z, p, c]
@@ -80,6 +84,9 @@ class OhmsLaw_AC:
                 if not i:
                     i = float(v / z)
                     p = float((v ** 2 * c) / z)
+                if not c:
+                    raise Exception('Enter value of \'c\' .Since \'p\' \
+                        and \'c\' cant be unknowns at the same time. ')
             else:
                 if not v and not z:
                     v = float(p) / (i * c)
@@ -93,5 +100,11 @@ class OhmsLaw_AC:
                 if not c and not v:
                     c = float(p) / (i ** 2 * z)
                     v = float(i) * z
+                if not c and not i:
+                    i = float(v / z)
+                    c = float(p / (v * i))
+                if not c and not z:
+                    z = float(v / i)
+                    c = float(p / (v * i))
             print(values)
             return {'i': i, 'v': v, 'z': z, 'p': p, 'c': c}
