@@ -7,7 +7,7 @@ is not used as a general term referring to the first pin of the IC. Zeroth index
 from __future__ import print_function
 from BinPy.Gates.gates import *
 from BinPy.ic.base import *
-
+from BinPy.Combinational.combinational import *
 ######## IC's with 14 pins #################################
 
 
@@ -1504,6 +1504,36 @@ class IC_7458(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+class IC_7459(Base_14pin):
+
+    """
+    This is a 2-input and 3-input AND-OR inverter gate
+    """
+    # Datasheet here, http://www.unitechelectronics.com/7451-7497data.htm and http://en.wikipedia.org/wiki/List_of_7400_series_integrated_circuits
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
+
+    def run(self):
+        temp = []
+        output = {}
+        temp.append(AND(self.pins[2], self.pins[3]).output())
+        temp.append(AND(self.pins[4], self.pins[5]).output())
+        temp.append(AND(self.pins[1],
+                        self.pins[13],
+                        self.pins[12]).output())
+        temp.append(AND(self.pins[11],
+                        self.pins[10],
+                        self.pins[9]).output())
+        output[6] = NOR(temp[0],temp[1]).output()
+        output[8] = NOR(temp[2],temp[3]).output()
+        
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
 
 class IC_7464(Base_14pin):
 
@@ -2144,6 +2174,83 @@ class IC_7445(Base_16pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+class IC_7445_new(Base_16pin):
+
+    """
+    This is a Four-to-Ten (BCD to Decimal) DECODER using the DEMUX functionality from combinational.py
+    datasheet at http://www.skot9000.com/ttl/datasheets/45.pdf
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        inputlist = []
+        for i in range(12, 16, 1):
+            inputlist.append(self.pins[i])
+
+        invalidlist = [
+            [
+                1, 0, 1, 0], [
+                1, 0, 1, 1], [
+                1, 1, 0, 0], [
+                1, 1, 0, 1], [
+                1, 1, 1, 0], [
+                1, 1, 1, 1]]
+
+        if inputlist in invalidlist:
+            raise Exception("ERROR: Invalid Pin configuration")
+        
+        dem = DEMUX(1)
+        dem.selectLines(self.pins[12], self.pins[13], self.pins[14], self.pins[15])
+        ou = dem.output()
+
+        output[1] = ou[0]
+
+        output[2] = ou[1]
+
+        output[3] = ou[2]
+
+        output[4] = ou[3]
+
+        output[5] = ou[4]
+
+        output[6] = ou[5]
+
+        output[7] = ou[6]
+
+        output[9] = ou[7]
+
+        output[10] = ou[8]
+
+        output[11] = ou[9]
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
 
 class IC_74133(Base_16pin):
 
@@ -2242,3 +2349,104 @@ class IC_7483(Base_16pin):
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_74138(Base_16pin):
+
+    """
+    3-to-8 line decoder/demultiplexer.
+    """
+    #datasheet here, http://www.skot9000.com/ttl/datasheets/138.pdf
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0]
+
+    def run(self):
+        output = {}
+        temp=[]
+        temp.append(NOT(self.pins[4]).output())
+        temp.append(NOT(self.pins[5]).output())
+        temp.append(AND(temp[0], temp[1],self.pins[6]).output())
+        output[7] = NAND(temp[2], self.pins[3], self.pins[2], self.pins[1]).output()
+        output[9] = NAND(temp[2], self.pins[2], NOT(self.pins[1]).output, self.pins[3]).output()
+        output[10] = NAND(temp[2], self.pins[3], NOT(self.pins[2]).output, self.pins[1]).output()
+        output[11] = NAND(temp[2], self.pins[3], NOT(self.pins[2]).output, NOT(self.pins[1]).output()).output()
+        output[12] = NAND(temp[2], self.pins[1], self.pins[2], NOT(self.pins[3]).output()).output()
+        output[13] = NAND(temp[2], self.pins[2], NOT(self.pins[3]).output, NOT(self.pins[1]).output()).output()
+        output[14] = NAND(temp[2], self.pins[1], NOT(self.pins[2]).output, NOT(self.pins[3]).output()).output()
+        output[15] = NAND(temp[2], NOT(self.pins[3]).output(), NOT(self.pins[2]).output, NOT(self.pins[1]).output()).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+class IC_74138_new(Base_16pin):
+
+    """
+    3-to-8 line decoder/demultiplexer using the DEMUX functionality from combinational.py
+    """
+    #datasheet here, http://www.skot9000.com/ttl/datasheets/138.pdf
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0]
+
+    def run(self):
+        output = {}
+        temp=[]
+        temp.append(NOT(self.pins[4]).output())
+        temp.append(NOT(self.pins[5]).output())
+        temp.append(AND(temp[0], temp[1], self.pins[6]).output())
+        dem = DEMUX(temp[2])
+        dem.selectLines(self.pins[1], self.pins[2], self.pins[3])
+        ou = dem.output()
+        output[7] = ou[0]
+        output[9] = ou[1]
+        output[10] = ou[2]
+        output[11] = ou[3]
+        output[12] = ou[4]
+        output[13] = ou[5]
+        output[14] = ou[6]
+        output[15] = ou[7]
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
