@@ -29,11 +29,16 @@ def test_ShiftRegister():
 
     clock = Clock(1, 50000)
     clock.start()
-    test_ffr = ShiftRegister(1, 0, 0, 0, clock)
+    test_ffr = ShiftRegister([1, 0, 0, 0], clock)
     
     assert test_ffr.output() == [1, 1, 0, 0]
     assert test_ffr.output() == [1, 1, 1, 0]
     assert test_ffr.output() == [1, 1, 1, 1]
 
+    test_ffr = ShiftRegister([1, 0, 0, 0], clock, circular=1)
+    
+    assert test_ffr.output() == [0, 1, 0, 0]
+    assert test_ffr.output() == [0, 0, 1, 0]
+    assert test_ffr.output() == [0, 0, 0, 1]
     clock.kill()
 
