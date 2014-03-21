@@ -8,8 +8,6 @@ from BinPy.Gates import Connector
 # Initialize the clock
 clock = Clock(1, 10)
 clock.start()
-# A clock of 10 hertz frequency
-clk_conn = clock.A
 
 print ("Setting No of Bits to 8")
 print ("Clock frequency is 10 Hz")
