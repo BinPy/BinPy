@@ -29,7 +29,7 @@ class Multivibrator(threading.Thread):
                         2 --> Astable
                         3 --> Bistable
 
-    Methods :   trigger(),setMode(), getState(), setState(value), getTimePeriod(), kill()
+    Methods :   trigger(),setMode(), getState(), setState(value), getTimePeriod(), kill(), stop(), setOutput()
     """
 
     def __init__(
@@ -46,7 +46,7 @@ class Multivibrator(threading.Thread):
         if time_period is not None:
             self.time_period = time_period
         if time_period is None and frequency is None:
-            self.time_period = 1
+            self.time_period = 10
         self.mode = mode
 
         self.init_state = init_state
