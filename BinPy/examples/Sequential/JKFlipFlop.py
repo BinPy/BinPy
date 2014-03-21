@@ -19,7 +19,7 @@ clk_conn = clock.A
 
 enable = Connector(1)
 
-jkff = JKFlipFlop(j, k, enable, clk_conn, enable)
+jkff = JKFlipFlop(j, k, enable, clk_conn, clear=enable)
 
 # To connect outputs use s.setOutputs(op1,op2)
 jkff.setOutputs(A=p, B=q)

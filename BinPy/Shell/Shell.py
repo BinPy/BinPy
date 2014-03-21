@@ -3,7 +3,7 @@ import subprocess
 import platform
 import os
 
-from BinPy.Shell import *
+from BinPy.__init__ import *
 try:
     from BinPy import __version__ as BINPY_VERSION
 except ImportError:

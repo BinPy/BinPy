@@ -19,7 +19,7 @@ clk_conn = clock.A
 enable = Connector(1)
 
 # Initialize the D-FlipFlop
-dff = DFlipFlop(data, enable, clk_conn, p, q)
+dff = DFlipFlop(data, enable, clk_conn, a=p, b=q)
 # To connect different set of connectors use :
 # dff.setInputs(conn1,enab,clk)
 # To connect different outputs use s.setOutputs(op1,op2)
