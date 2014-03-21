@@ -15,17 +15,19 @@ class Connector:
             self.connections[mode].append(
                 element)  # Add an element to the connections list
 
-    def untap(self,element, mode):
+    def untap(self, element, mode):
         if element in self.connections[mode]:
             self.connections[mode].remove(
                 element)  # Delete an element from the connections list
         else:
-            raise Exception("ERROR:Connector is not the %s of the passed element"%mode)
+            raise Exception(
+                "ERROR:Connector is not the %s of the passed element" %
+                mode)
 
-    def isInputof(self,element):
+    def isInputof(self, element):
         return element in self.connections["input"]
-    
-    def isOutputof(self,element):
+
+    def isOutputof(self, element):
         return element in self.connections["output"]
 
     # This function is called when the value of the connection changes
@@ -47,7 +49,7 @@ class Connector:
     # Overloads the int() method
     def __int__(self):
         return 1 if self.state == 1 else 0
-    
+
     def __repr__(self):
         return str(self.state)
 
