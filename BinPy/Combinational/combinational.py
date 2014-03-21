@@ -162,6 +162,8 @@ class MUX(GATES):
         if self.outputType:
             self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("MUX")
 
 class DEMUX(GATES):
 
@@ -263,6 +265,8 @@ class DEMUX(GATES):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
 
+    def __str__(self):
+        return self.buildStr("DEMUX")
 
 class Decoder(GATES):
 
@@ -342,6 +346,8 @@ class Decoder(GATES):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
 
+    def __str__(self):
+        return self.buildStr("Decoder")
 
 class Encoder(GATES):
 
@@ -435,3 +441,7 @@ class Encoder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+
+    def __str__(self):
+        return self.buildStr("Encoder")
+

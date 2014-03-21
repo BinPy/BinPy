@@ -99,6 +99,23 @@ class GATES:
         self.trigger()
         return self.result
 
+    def __repr__(self):
+        '''
+        Simple way to do 'print g', where g would be an instance of any gate
+        class. Functions returns the result of self.output() as a string.
+        '''
+
+        return str(self.output())
+
+    def buildStr(self, gate_name):
+        '''
+        Returns a string representation of a gate, where gate_name is the class
+        name For example, for an AND gate with two inputs the resulting string
+        would be: 'AND Gate; Output: 0; Inputs: [0, 1];'
+        '''
+
+        return gate_name + " Gate; Output: " + str(self.output()) + "; Inputs: " + str(self.getInputStates()) + ";"
+
     def _compareHistory(self):
         if self.history_active == 1:  # Only check history if it is active
             for i in range(len(self.inputs)):
@@ -139,6 +156,8 @@ class AND(MIGATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("AND")
 
 class OR(MIGATES):
 
@@ -158,6 +177,8 @@ class OR(MIGATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("OR")
 
 class NOT(GATES):
 
@@ -193,6 +214,8 @@ class NOT(GATES):
             if self.outputType == 1:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("NOT")
 
 class XOR(MIGATES):
 
@@ -216,6 +239,8 @@ class XOR(MIGATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("XOR")
 
 class XNOR(MIGATES):
 
@@ -239,6 +264,8 @@ class XNOR(MIGATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("XNOR")
 
 class NAND(MIGATES):
 
@@ -257,6 +284,8 @@ class NAND(MIGATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("NAND")
 
 class NOR(MIGATES):
 
@@ -274,3 +303,6 @@ class NOR(MIGATES):
 
             if self.outputType:
                 self.outputConnector.trigger()
+
+    def __str__(self):
+        return self.buildStr("NOR")
