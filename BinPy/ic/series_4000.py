@@ -1071,10 +1071,10 @@ class IC_4015(Base_16pin):
         if not (isinstance(self.pins[1], Clock) and
                 isinstance(self.pins[9], Clock)):
             raise Exception("Error: Invalid Clock Input")
-        sr1 = ShiftRegister(self.pins[7], self.pins[4], self.pins[3],
-                self.pins[2], self.pins[1], NOT(self.pins[6]).output())
-        sr2 = ShiftRegister(self.pins[15], self.pins[12], self.pins[11],
-                self.pins[10], self.pins[9], NOT(self.pins[14]).output())
+        sr1 = ShiftRegister([self.pins[7], self.pins[4], self.pins[3],
+                self.pins[2]], self.pins[1], NOT(self.pins[6]).output())
+        sr2 = ShiftRegister([self.pins[15], self.pins[12], self.pins[11],
+                self.pins[10]], self.pins[9], NOT(self.pins[14]).output())
         sr1 = sr1.output()
         output[5] = sr1[0]
         output[4] = sr1[1]
