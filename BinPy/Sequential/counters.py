@@ -297,3 +297,125 @@ class DecadeCounter(Counter):
 
         self.bits_fixed = True
         self.reset_once = True
+
+class OctalCounter(Counter):
+
+    """
+    A 4-Bit Octal Counter
+    """
+
+    def __init__(
+            self,
+            clock_connector,
+            data=0,
+            preset=Connector(1),
+            clear=Connector(1)):
+
+        # All the output bits are initialized to this data bit
+
+        Counter.__init__(self, 4, clock_connector, data, preset,
+                clear)
+        # Calling the super class constructor
+
+        self.ff = [None] * 4
+
+        self.ff[3] = TFlipFlop(
+            self.t,
+            self.enable,
+            self.clk,
+            self.preset,
+            self.clear,
+            self.out[3],
+            self.outinv[3])
+        self.ff[2] = TFlipFlop(
+            self.t,
+            self.enable,
+            self.out[3],
+            self.preset,
+            self.clear,
+            self.out[2],
+            self.outinv[2])
+        self.ff[1] = TFlipFlop(
+            self.t,
+            self.enable,
+            self.out[2],
+            self.preset,
+            self.clear,
+            self.out[1],
+            self.outinv[1])
+        self.ff[0] = TFlipFlop(
+            self.t,
+            self.enable,
+            self.out[1],
+            self.preset,
+            self.clear,
+            self.out[0],
+            self.outinv[0])
+
+        self.g1 = NOT(self.out[0])
+        self.g1.setOutput(self.clear)
+        
+
+        self.bits_fixed = True
+        self.reset_once = True
+
+class Stage14Counter(Counter):
+
+    """
+    A 14-Bit Counter
+    """
+
+    def __init__(
+            self,
+            clock_connector,
+            data=0,
+            preset=Connector(1),
+            clear=Connector(1)):
+
+        # All the output bits are initialized to this data bit
+
+        Counter.__init__(self, 4, clock_connector, data, preset,
+                clear)
+        # Calling the super class constructor
+
+        self.ff = [None] * 4
+
+        self.ff[3] = TFlipFlop(
+            self.t,
+            self.enable,
+            self.clk,
+            self.preset,
+            self.clear,
+            self.out[3],
+            self.outinv[3])
+        self.ff[2] = TFlipFlop(
+            self.t,
+            self.enable,
+            self.out[3],
+            self.preset,
+            self.clear,
+            self.out[2],
+            self.outinv[2])
+        self.ff[1] = TFlipFlop(
+            self.t,
+            self.enable,
+            self.out[2],
+            self.preset,
+            self.clear,
+            self.out[1],
+            self.outinv[1])
+        self.ff[0] = TFlipFlop(
+            self.t,
+            self.enable,
+            self.out[1],
+            self.preset,
+            self.clear,
+            self.out[0],
+            self.outinv[0])
+
+        self.g1 = NAND(self.out[0], self.out[1], self.out[2])
+        self.g1.setOutput(self.clear)
+        
+
+        self.bits_fixed = True
+        self.reset_once = True
