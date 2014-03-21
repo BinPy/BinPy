@@ -15,6 +15,13 @@ class Connector:
             self.connections[mode].append(
                 element)  # Add an element to the connections list
 
+    def untap(self,element, mode):
+        if element in self.connections[mode]:
+            self.connections[mode].remove(
+                element)  # Delete an element from the connections list
+        else:
+            raise Exception("ERROR:Connector is not the %s of the passed element"%mode)
+
     def isInputof(self,element):
         return element in self.connections["input"]
     
