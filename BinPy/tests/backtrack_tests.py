@@ -161,12 +161,12 @@ def backtrack_combinational_test():
 
     final_a = AND(a1, a2, a3)
 
-    print backtrack(final_a, 0)
-    print backtrack(final_a, 1)
-    print backtrack(final_a, 2)
-    print backtrack(final_a, 3)
-    print backtrack(final_a, 4)
-    print backtrack(final_a, 5)
+    #print backtrack(final_a, 0)
+    #print backtrack(final_a, 1)
+    #print backtrack(final_a, 2)
+    #print backtrack(final_a, 3)
+    #print backtrack(final_a, 4)
+    #print backtrack(final_a, 5)
 
     if not backtrack(final_a, 4) == (final_a, [(a1, [(c0, [(demux, [True])]), (c1, [(demux, [True])])]), (a2, [(c2, [(dec, [False, True])]), (c3, [(dec, [False, True])])]), (a3, [(c4, [(enc, [False, False, True, False])]), (c5, [(enc, [False, False, True, False])])])]):
         assert False
