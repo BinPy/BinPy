@@ -97,7 +97,7 @@ def printBacktrackTree(tree_node, space=0):
     if type(tree_node) == tuple:
         printSpaces(space)
         stdout.write("|- ")
-        print tree_node[0]
+        print(tree_node[0])
 
         for i in tree_node[1]:
             printBacktrackTree(i, space+1)
@@ -105,5 +105,5 @@ def printBacktrackTree(tree_node, space=0):
     else:
         printSpaces(space)
         stdout.write("|- ")
-        print tree_node
+        print(tree_node)
 
