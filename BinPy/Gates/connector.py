@@ -15,6 +15,12 @@ class Connector:
             self.connections[mode].append(
                 element)  # Add an element to the connections list
 
+    def isInputof(self,element):
+        return element in self.connections["input"]
+    
+    def isOutputof(self,element):
+        return element in self.connections["output"]
+
     # This function is called when the value of the connection changes
     def trigger(self):
         for i in self.connections["input"]:
