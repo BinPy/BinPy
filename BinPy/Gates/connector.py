@@ -34,3 +34,10 @@ class Connector:
     # Overloads the int() method
     def __int__(self):
         return self.state
+
+    def __repr__(self):
+        return str(self.state)
+
+    def __str__(self):
+        return "Connector; State: " + str(self.state)
+
