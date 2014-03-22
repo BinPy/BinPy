@@ -56,6 +56,8 @@ class Multivibrator(threading.Thread):
             self.off_time = off_time
         else:
             self.on_time = self.time_period/2
+            self.off_time = self.time_period/2
+            
 
         self.init_state = init_state
         self.curr_state = init_state
@@ -114,7 +116,7 @@ class Multivibrator(threading.Thread):
                     self.update = False
                     
                 elif self.mode == 2:
-                    while self.update and not self.exitFlag:
+                    while (self.mode == 2) and (self.update) and (not self.exitFlag):
                         self._toggleState()
                         if self.A.state == 1:
                             time.sleep(self.on_time)
