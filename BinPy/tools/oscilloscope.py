@@ -5,13 +5,22 @@ from BinPy import Connector
 import threading
 import sys
 
-V = u"\u2502"
-H = u"\u2500"
-HVD = u"\u2510"
-HVU = u"\u2518"
-VHU = u"\u250c"
-VHD = u"\u2514"
-N = u"\u000A"
+try:
+    V = u"\u2502"
+    H = u"\u2500"
+    HVD = u"\u2510"
+    HVU = u"\u2518"
+    VHU = u"\u250c"
+    VHD = u"\u2514"
+    N = u"\u000A"
+except SyntaxError:
+    V = "\u2502"
+    H = "\u2500"
+    HVD = "\u2510"
+    HVU = "\u2518"
+    VHU = "\u250c"
+    VHD = "\u2514"
+    N = "\u000A"
 
 
 class Oscilloscope(threading.Thread):
