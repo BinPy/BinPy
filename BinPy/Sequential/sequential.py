@@ -561,7 +561,7 @@ class TFlipFlop(JKFlipFlop):
 
     def setInputs(self, **inputs):
         for key in inputs:
-            if key.lower() == "t":
+            if key.lower() == "t" or key.lower() == "k" or key.lower() == "j":
                 # To support both numerical/boolean values or Connector
                 # instances
                 if isinstance(inputs[key], Connector):
