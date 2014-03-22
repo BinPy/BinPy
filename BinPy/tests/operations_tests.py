@@ -1,5 +1,5 @@
 from BinPy.Operations import *
-from nose.tools import with_setup, nottest
+from nose.tools import with_setup, nottest, assert_raises
 
 op = Operations()
 
@@ -67,15 +67,19 @@ def COMP_test():
 
 
 def decToBin_test():
-    if Operations.decToBin(10) != 1010:
+    if Operations.decToBin(10) != '1010':
         assert False
-    if Operations.decToBin(11) != 1011:
+    if Operations.decToBin(11) != '1011':
         assert False
-    if Operations.decToBin(15) != 1111:
+    if Operations.decToBin(15) != '1111':
         assert False
-    if Operations.decToBin(1234) != 10011010010:
+    if Operations.decToBin(1234) != '10011010010':
         assert False
-    if Operations.decToBin(56789) != 1101110111010101:
+    if Operations.decToBin(56789) != '1101110111010101':
+        assert False
+    if Operations.decToBin(13.9876) != '1101.1111110011010011010110101000010110000111100101':
+        assert False
+    if Operations.decToBin(13.00) != '1101':
         assert False
 
 
@@ -90,3 +94,8 @@ def binToDec_test():
         assert False
     if Operations.binToDec('1010101') != 85:
         assert False
+    if Operations.binToDec('1010101.1010101') != 85.6640625:
+        assert False
+    #if Operations.binToDec('1010101.10101012') != 85.6640625:
+    #    raises(Exception)
+    assert_raises(Exception, Operations.binToDec,'1010101.10101012')
