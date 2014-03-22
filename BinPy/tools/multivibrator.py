@@ -78,7 +78,8 @@ class Multivibrator(threading.Thread):
         Sets the mode of the Multivibrator
         """
         self.mode = mode        
-
+        self.update = False
+        
     def getState(self):
         """
         Returns the current state
