@@ -3,6 +3,7 @@ import time
 import threading
 from BinPy import Connector
 
+
 class Multivibrator(threading.Thread):
 
     """
@@ -23,7 +24,7 @@ class Multivibrator(threading.Thread):
         If nothing is provided, then it will set time_period = 1s by default
 
         init_state:     It is the initial state of the multivibrator(1 by default)
-        
+
         mode:           It is the mode of operation.
                         1 --> Monostable
                         2 --> Astable
@@ -38,11 +39,11 @@ class Multivibrator(threading.Thread):
             mode=1,
             frequency=None,
             time_period=None,
-            on_time = None,
-            off_time = None):
-        
+            on_time=None,
+            off_time=None):
+
         threading.Thread.__init__(self)
-        
+
         if frequency is not None:
             self.time_period = 1.0 / frequency
         if time_period is not None:
@@ -50,14 +51,13 @@ class Multivibrator(threading.Thread):
         if time_period is None and frequency is None:
             self.time_period = 10
         self.mode = mode
-        
+
         if on_time is not None and off_time is not None:
             self.on_time = on_time
             self.off_time = off_time
         else:
-            self.on_time = self.time_period/2
-            self.off_time = self.time_period/2
-            
+            self.on_time = self.time_period / 2
+            self.off_time = self.time_period / 2
 
         self.init_state = init_state
         self.curr_state = init_state
@@ -72,14 +72,14 @@ class Multivibrator(threading.Thread):
         """
         self.A.state = 0 if self.A.state else 1
         self.A.trigger()
-        
-    def setMode(self,mode):
+
+    def setMode(self, mode):
         """
         Sets the mode of the Multivibrator
         """
-        self.mode = mode        
+        self.mode = mode
         self.update = False
-        
+
     def getState(self):
         """
         Returns the current state
@@ -110,12 +110,12 @@ class Multivibrator(threading.Thread):
                 sys.exit()
             if self.update is True:
                 if self.mode == 1:
-                    self.A.state = 1            
+                    self.A.state = 1
                     self.A.trigger()
-                    time.sleep(self.time_period)            
+                    time.sleep(self.time_period)
                     self._toggleState()
                     self.update = False
-                    
+
                 elif self.mode == 2:
                     while (self.mode == 2) and (self.update) and (not self.exitFlag):
                         self._toggleState()
@@ -123,23 +123,23 @@ class Multivibrator(threading.Thread):
                             time.sleep(self.on_time)
                         else:
                             time.sleep(self.off_time)
-                        
+
                 elif self.mode == 3:
                     self._toggleState()
                     self.update = False
 
     def __call__(self):
         self.update = True
-    
+
     trigger = __call__
-    
-    def setOutput(self,conn):
+
+    def setOutput(self, conn):
         a = self.A
-        self.A = conn if isinstance(conn,Connector) else a
-        
+        self.A = conn if isinstance(conn, Connector) else a
+
     def stop(self):
-        #For stopping the multivibrator in astable mode.
+        # For stopping the multivibrator in astable mode.
         self.update = False
-        
+
     def run(self):
         self._updater()

@@ -22,10 +22,11 @@ print ("Clock frequency is 10 Hz")
 # Initializing the counter
 b = NBitRippleCounter(4, clk_conn)
 
-#Initiating the oscilloscope
-o = Oscilloscope((clk_conn,'CLK'),(b.out[0],'BIT3'),(b.out[1],'BIT2'),(b.out[2],'BIT1'),(b.out[3],'BIT0'),(enable,'EN1'))
+# Initiating the oscilloscope
+o = Oscilloscope((clk_conn, 'CLK'), (b.out[0], 'BIT3'), (b.out[1], 'BIT2'), (
+    b.out[2], 'BIT1'), (b.out[3], 'BIT0'), (enable, 'EN1'))
 o.start()
-o.setScale(0.0005) #Set scale by trial and error.
+o.setScale(0.0005)  # Set scale by trial and error.
 o.unhold()
 
 

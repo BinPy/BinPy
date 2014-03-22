@@ -2345,6 +2345,7 @@ class IC_7483(Base_16pin):
 ################## Base_14 Pin ##############################################
 
 class IC_7470(Base_14pin):
+
     "AND gated JK Positive Edge triggered Flip Flop with preset and clear"
 
     def __init__(self):
@@ -2372,7 +2373,7 @@ class IC_7470(Base_14pin):
         if not isinstance(self.pins[12], Clock):
             raise Exception("Error: Invalid Clock Input")
         ff = JKFlipFlop(J, K, Connector(1), self.pins[12].A,
-                self.pins[13],self.pins[2])
+                        self.pins[13], self.pins[2])
         while True:
             if self.pins[12].A.state == 0:
                 ff.trigger()
@@ -2391,7 +2392,9 @@ class IC_7470(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_7472(Base_14pin):
+
     "AND gated JK Master-Slave Flip Flop with preset and clear"
 
     def __init__(self):
@@ -2419,7 +2422,7 @@ class IC_7472(Base_14pin):
         if not isinstance(self.pins[12], Clock):
             raise Exception("Error: Invalid Clock Input")
         ff = JKFlipFlop(J, K, Connector(1), self.pins[12].A,
-                self.pins[13], self.pins[2])
+                        self.pins[13], self.pins[2])
         while True:
             if self.pins[12].A.state == 0:
                 ff.trigger()
@@ -2438,9 +2441,11 @@ class IC_7472(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_7473(Base_14pin):
+
     "DUAL JK Flip Flops with clear"
-    
+
     def __init__(self):
         self.pins = [
             None,
@@ -2462,10 +2467,15 @@ class IC_7473(Base_14pin):
     def run(self):
         output = {}
         if not (isinstance(self.pins[1], Clock) and
-                isinstance(self.pins[5],Clock)):
+                isinstance(self.pins[5], Clock)):
             raise Exception("Error: Invalid Clock Input")
-        ff1 = JKFlipFlop(self.pins[14], self.pins[3], Connector(1), self.pins[1].A,
-                Connector(1),self.pins[2])
+        ff1 = JKFlipFlop(
+            self.pins[14],
+            self.pins[3],
+            Connector(1),
+            self.pins[1].A,
+            Connector(1),
+            self.pins[2])
         while True:
             if self.pins[1].A.state == 0:
                 ff1.trigger()
@@ -2477,9 +2487,13 @@ class IC_7473(Base_14pin):
         output[12] = ff1.state()[0]
         output[13] = ff1.state()[1]
 
-
-        ff2 = JKFlipFlop(self.pins[7], self.pins[10], Connector(1), self.pins[5].A,
-                Connector(1),self.pins[6])
+        ff2 = JKFlipFlop(
+            self.pins[7],
+            self.pins[10],
+            Connector(1),
+            self.pins[5].A,
+            Connector(1),
+            self.pins[6])
         while True:
             if self.pins[5].A.state == 0:
                 ff2.trigger()
@@ -2498,9 +2512,11 @@ class IC_7473(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_7474(Base_14pin):
+
     "Dual D-Type Positive-Edge-Triggered Flip-Flops with preset and clear"
-    
+
     def __init__(self):
         self.pins = [
             None,
@@ -2522,10 +2538,10 @@ class IC_7474(Base_14pin):
     def run(self):
         output = {}
         if not (isinstance(self.pins[3], Clock) and
-                isinstance(self.pins[11],Clock)):
+                isinstance(self.pins[11], Clock)):
             raise Exception("Error: Invalid Clock Input")
         ff1 = DFlipFlop(self.pins[2], Connector(1), self.pins[3].A,
-                self.pins[4],self.pins[1])
+                        self.pins[4], self.pins[1])
         while True:
             if self.pins[3].A.state == 0:
                 ff1.trigger()
@@ -2537,9 +2553,8 @@ class IC_7474(Base_14pin):
         output[5] = ff1.state()[0]
         output[6] = ff1.state()[1]
 
-
         ff2 = DFlipFlop(self.pins[12], Connector(1), self.pins[11].A,
-                self.pins[10],self.pins[13])
+                        self.pins[10], self.pins[13])
         while True:
             if self.pins[11].A.state == 0:
                 ff2.trigger()
@@ -2562,8 +2577,9 @@ class IC_7474(Base_14pin):
 ###################### Base_16 Pins ##########################################
 
 class IC_7475(Base_16pin):
+
     "4-Bit Bistable Latches"
-    
+
     def __init__(self):
         self.pins = [
             None,
@@ -2588,10 +2604,10 @@ class IC_7475(Base_16pin):
     def run(self):
         output = {}
         if not (isinstance(self.pins[4], Clock) and
-                isinstance(self.pins[13],Clock)):
+                isinstance(self.pins[13], Clock)):
             raise Exception("Error: Invalid Clock Input")
         ff1 = DFlipFlop(self.pins[2], Connector(1),
-                self.pins[13].A,Connector(1), Connector(1))
+                        self.pins[13].A, Connector(1), Connector(1))
         while True:
             if self.pins[13].A.state == 0:
                 ff1.trigger()
@@ -2603,9 +2619,8 @@ class IC_7475(Base_16pin):
         output[16] = ff1.state()[0]
         output[1] = ff1.state()[1]
 
-
         ff2 = DFlipFlop(self.pins[3], Connector(1),
-                self.pins[13].A,Connector(1), Connector(1))
+                        self.pins[13].A, Connector(1), Connector(1))
         while True:
             if self.pins[13].A.state == 0:
                 ff2.trigger()
@@ -2618,7 +2633,7 @@ class IC_7475(Base_16pin):
         output[14] = ff2.state()[1]
 
         ff3 = DFlipFlop(self.pins[6], Connector(1),
-                self.pins[4].A,Connector(1), Connector(1))
+                        self.pins[4].A, Connector(1), Connector(1))
         while True:
             if self.pins[4].A.state == 0:
                 ff3.trigger()
@@ -2631,7 +2646,7 @@ class IC_7475(Base_16pin):
         output[11] = ff3.state()[1]
 
         ff4 = DFlipFlop(self.pins[7], Connector(1),
-                self.pins[4].A,Connector(1), Connector(1))
+                        self.pins[4].A, Connector(1), Connector(1))
         while True:
             if self.pins[4].A.state == 0:
                 ff4.trigger()
@@ -2652,8 +2667,9 @@ class IC_7475(Base_16pin):
 
 
 class IC_7476(Base_16pin):
+
     "Dual JK Flip Flop with preset and clear"
-    
+
     def __init__(self):
         self.pins = [
             None,
@@ -2677,10 +2693,15 @@ class IC_7476(Base_16pin):
     def run(self):
         output = {}
         if not (isinstance(self.pins[1], Clock) and
-                isinstance(self.pins[6],Clock)):
+                isinstance(self.pins[6], Clock)):
             raise Exception("Error: Invalid Clock Input")
-        ff1 = JKFlipFlop(self.pins[4], self.pins[16],Connector(1), self.pins[1].A,
-                self.pins[2],self.pins[3])
+        ff1 = JKFlipFlop(
+            self.pins[4],
+            self.pins[16],
+            Connector(1),
+            self.pins[1].A,
+            self.pins[2],
+            self.pins[3])
         while True:
             if self.pins[1].A.state == 0:
                 ff1.trigger()
@@ -2692,9 +2713,13 @@ class IC_7476(Base_16pin):
         output[15] = ff1.state()[0]
         output[14] = ff1.state()[1]
 
-
-        ff2 = JKFlipFlop(self.pins[9], self.pins[12], Connector(1), self.pins[6].A,
-                self.pins[7],self.pins[8])
+        ff2 = JKFlipFlop(
+            self.pins[9],
+            self.pins[12],
+            Connector(1),
+            self.pins[6].A,
+            self.pins[7],
+            self.pins[8])
         while True:
             if self.pins[6].A.state == 0:
                 ff2.trigger()

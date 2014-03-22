@@ -15,10 +15,10 @@ clk_conn = clock.A
 
 b = BinaryCounter(clk_conn)
 
-#Initiating the oscilloscope
-o = Oscilloscope((clk_conn,'CLK'),(b.out[0],'MSB'),(b.out[1],'LSB'))
+# Initiating the oscilloscope
+o = Oscilloscope((clk_conn, 'CLK'), (b.out[0], 'MSB'), (b.out[1], 'LSB'))
 o.start()
-o.setScale(0.05) #Set scale by trial and error.
+o.setScale(0.05)  # Set scale by trial and error.
 o.unhold()
 
 print ('INITIAL STATE')

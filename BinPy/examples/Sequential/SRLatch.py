@@ -26,9 +26,10 @@ srff = SRLatch(s, r, enable, clk_conn)
 # To connect outputs use s.setOutputs(op1,op2)
 srff.setOutputs(A=p, B=q)
 
-o = Oscilloscope((clk_conn,'CLK'),(s,'S'),(r,'R'),(p,'OUT'),(q,'OUT!'),(enable,'ENABLE'))
+o = Oscilloscope((clk_conn, 'CLK'), (s, 'S'), (
+    r, 'R'), (p, 'OUT'), (q, 'OUT!'), (enable, 'ENABLE'))
 o.start()
-o.setScale(0.01) #Set scale by trial and error.
+o.setScale(0.01)  # Set scale by trial and error.
 o.unhold()
 
 print ("SET STATE - S = 1, R = 0")

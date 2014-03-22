@@ -26,10 +26,11 @@ dff = DFlipFlop(data, enable, clk_conn, a=p, b=q)
 # To connect different outputs use s.setOutputs(op1,op2)
 dff.setOutputs(A=p, B=q)
 
-#Initiating the oscilloscope
-o = Oscilloscope((clk_conn,'CLK'),(data,'DATA'),(p,'OUT'),(q,'OUT!'),(enable,'ENABLE'))
+# Initiating the oscilloscope
+o = Oscilloscope((clk_conn, 'CLK'), (data, 'DATA'), (
+    p, 'OUT'), (q, 'OUT!'), (enable, 'ENABLE'))
 o.start()
-o.setScale(0.01) #Set scale by trial and error.
+o.setScale(0.01)  # Set scale by trial and error.
 o.unhold()
 
 

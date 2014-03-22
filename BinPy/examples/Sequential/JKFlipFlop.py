@@ -25,9 +25,10 @@ jkff = JKFlipFlop(j, k, enable, clk_conn, clear=enable)
 # To connect outputs use s.setOutputs(op1,op2)
 jkff.setOutputs(A=p, B=q)
 
-o = Oscilloscope((clk_conn,'CLK'),(j,'J'),(k,'k'),(p,'OUT'),(q,'OUT!'),(enable,'ENABLE'))
+o = Oscilloscope((clk_conn, 'CLK'), (j, 'J'), (
+    k, 'k'), (p, 'OUT'), (q, 'OUT!'), (enable, 'ENABLE'))
 o.start()
-o.setScale(0.01) #Set scale by trial and error.
+o.setScale(0.01)  # Set scale by trial and error.
 o.unhold()
 
 print ("SET STATE - J = 1, K = 0")

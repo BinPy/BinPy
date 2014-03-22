@@ -27,9 +27,10 @@ tff = TFlipFlop(toggle, enable, clk_conn, a=p, b=q)
 # To connect different outputs use:
 tff.setOutputs(A=p, B=q)
 
-o = Oscilloscope((clk_conn,'CLK'),(toggle,'TOGGLE'),(p,'OUT'),(q,'OUT!'),(enable,'ENABLE'))
+o = Oscilloscope((clk_conn, 'CLK'), (toggle, 'TOGGLE'), (
+    p, 'OUT'), (q, 'OUT!'), (enable, 'ENABLE'))
 o.start()
-o.setScale(0.01) #Set scale by trial and error.
+o.setScale(0.01)  # Set scale by trial and error.
 o.unhold()
 
 print ("Toggle is 1")

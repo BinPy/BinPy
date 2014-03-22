@@ -14,19 +14,30 @@ import time
 
 out = Connector()
 
-# MODE 1
+# MODE 3
 
-m = Multivibrator(0, mode=1, time_period=1)
+m = Multivibrator(0, mode=3)
+
 m.start()
 m.setOutput(out)
+m.trigger()
 
-o = Oscilloscope((out, 'OUT'))
+o = Oscilloscope((m.A, 'OUT'))
 o.start()
-o.setScale(0.005)  # Set scale by trial and error.
+o.setScale(0.01)
 o.unhold()
-time.sleep(0.1)
-m.trigger()  # Also works with m()
-time.sleep(0.1)
+
+m.trigger()
+print (m.A())
+time.sleep(0.3)
+m.trigger()
+print (m.A())
+time.sleep(0.5)
+m.trigger()
+print (m.A())
+time.sleep(0.5)
+m.trigger()
+print (m.A())
 o.display()
-m.kill()
 o.kill()
+m.kill()
