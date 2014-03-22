@@ -6,21 +6,21 @@ import threading
 import sys
 
 try:
+    V = chr(9474)
+    H = chr(9472)
+    HVD = chr(9488)
+    HVU = chr(9496)
+    VHU = chr(9484)
+    VHD = chr(9492)
+    N = chr(10)
+except:
     V = u"\u2502"
     H = u"\u2500"
     HVD = u"\u2510"
     HVU = u"\u2518"
     VHU = u"\u250c"
     VHD = u"\u2514"
-    N = u"\u000A"
-except SyntaxError:
-    V = "\u2502"
-    H = "\u2500"
-    HVD = "\u2510"
-    HVU = "\u2518"
-    VHU = "\u250c"
-    VHD = "\u2514"
-    N = "\u000A"
+    N = chr(10)
 
 
 class Oscilloscope(threading.Thread):
