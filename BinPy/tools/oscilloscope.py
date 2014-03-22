@@ -14,14 +14,13 @@ try:
     VHD = chr(9492)
     N = chr(10)
 except:
-    V = u"\u2502"
-    H = u"\u2500"
-    HVD = u"\u2510"
-    HVU = u"\u2518"
-    VHU = u"\u250c"
-    VHD = u"\u2514"
-    N = chr(10)
-
+    V = unichr(9474)
+    H = unichr(9472)
+    HVD = unichr(9488)
+    HVU = unichr(9496)
+    VHU = unichr(9484)
+    VHD = unichr(9492)
+    N = unichr(10)
 
 class Oscilloscope(threading.Thread):
 
