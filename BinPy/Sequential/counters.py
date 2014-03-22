@@ -71,9 +71,17 @@ class Counter(object):
             self.setCounter()
         elif self.preset.state == 1 and self.clear.state == 0:
             self.resetCounter()
-
+            
+        self._triggerOutputs()
+        
         return self.state()
-
+    
+    def _triggerOutputs(self):
+        for i in self.out:
+            i.trigger()
+        for i in self.outinv:
+            i.trigger()
+    
     def __call__(self):
         self.trigger()
 
