@@ -72,7 +72,7 @@ class Counter(object):
         elif self.preset.state == 1 and self.clear.state == 0:
             self.resetCounter()
             
-        self._triggerOutputs()
+        #self._triggerOutputs()
         
         return self.state()
     
