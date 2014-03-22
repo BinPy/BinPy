@@ -37,7 +37,9 @@ class Multivibrator(threading.Thread):
             init_state=1,
             mode=1,
             frequency=None,
-            time_period=None):
+            time_period=None,
+            on_time = None,
+            off_time = None):
         
         threading.Thread.__init__(self)
         
@@ -48,6 +50,12 @@ class Multivibrator(threading.Thread):
         if time_period is None and frequency is None:
             self.time_period = 10
         self.mode = mode
+        
+        if on_time is not None and off_time is not None:
+            self.on_time = on_time
+            self.off_time = off_time
+        else:
+            self.on_time = self.time_period/2
 
         self.init_state = init_state
         self.curr_state = init_state
@@ -108,7 +116,10 @@ class Multivibrator(threading.Thread):
                 elif self.mode == 2:
                     while self.update and not self.exitFlag:
                         self._toggleState()
-                        time.sleep(self.time_period)
+                        if self.A.state == 1:
+                            time.sleep(self.on_time)
+                        else:
+                            time.sleep(self.off_time)
                         
                 elif self.mode == 3:
                     self._toggleState()
