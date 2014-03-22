@@ -602,8 +602,7 @@ class TFlipFlop(JKFlipFlop):
 
     def trigger(self):
         JKFlipFlop.trigger(self)
-        self.a.trigger()
-        self.b.trigger()
+        #Triggering of the outputs is done by the JKFlipFlop Module.
 
     def state(self):
         return [self.a(), self.b()]
