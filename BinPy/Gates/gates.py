@@ -150,11 +150,16 @@ class AND(MIGATES):
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
+            val = True
             for i in self.inputs:
-                if (isinstance(i, Connector) and not i.state) or\
-                        (isinstance(i, GATES) and not i.output()) or not i:
-                    self._updateResult(False)
-                    break
+                if (isinstance(i, Connector)):
+                    val = val & i.state
+                elif (isinstance(i, GATES)):
+                    val = val & i.output()
+                else:
+                    val = val & i
+
+            self._updateResult(val)
             if self.outputType:
                 self.outputConnector.trigger()
 
@@ -172,11 +177,16 @@ class OR(MIGATES):
             self.history_active = 1
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
-
+            val = False
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state) or i:
-                    self._updateResult(True)
-                    break
+                if (isinstance(i, Connector)):
+                    val = val | i.state
+                elif (isinstance(i, GATES)):
+                    val = val | i.output()
+                else:
+                    val = val | i
+
+            self._updateResult(val)
             if self.outputType:
                 self.outputConnector.trigger()
 
@@ -213,6 +223,8 @@ class NOT(GATES):
             self._updateHistory()  # Update the inputs after a computation
             if (isinstance(self.inputs[0], Connector)):
                 self._updateResult(not self.inputs[0].state)
+            elif (isinstance(self.inputs[0], GATES)):
+                self._updateResult(not self.inputs[0].output())
             else:
                 self._updateResult(not self.inputs[0])
             if self.outputType == 1:
@@ -236,6 +248,8 @@ class XOR(MIGATES):
             for i in self.inputs:
                 if isinstance(i, Connector):
                     val = i.state
+                elif isinstance(i, GATES):
+                    val = i.output()
                 else:
                     val = i
                 temp = temp ^ val
@@ -262,6 +276,8 @@ class XNOR(MIGATES):
             for i in self.inputs:
                 if (isinstance(i, Connector)):
                     val = i.state
+                elif isinstance(i, GATES):
+                    val = i.output()
                 else:
                     val = i
                 temp = temp ^ val
@@ -284,10 +300,17 @@ class NAND(MIGATES):
             self.history_active = 1
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
+            val = True
             for i in self.inputs:
-                if (isinstance(i, Connector) and not i.state) or not i:
-                    self._updateResult(True)
-                    break
+                if (isinstance(i, Connector)):
+                    val = val & i.state
+
+                elif (isinstance(i, GATES)):
+                    val = val & i.output()
+                else:
+                    val = val & i
+
+            self._updateResult(not val)
             if self.outputType:
                 self.outputConnector.trigger()
 
@@ -305,9 +328,16 @@ class NOR(MIGATES):
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
+            val = False
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state) or i:
-                    self._updateResult(False)
+                if (isinstance(i, Connector)):
+                    val = val | i.state
+                elif (isinstance(i, GATES)):
+                    val = val | i.output()
+                else:
+                    val = val | i
+
+            self._updateResult(not val)
 
             if self.outputType:
                 self.outputConnector.trigger()
