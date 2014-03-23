@@ -42,9 +42,9 @@ class IC:
 
             if (self.total_pins in [14, 16]):
 
-                top     =  """\n\n               _________ ________  \n"""
-                top     +=  """              |         U       |\n"""
-                bottom  =   """              |_________________|  """
+                top = """\n\n               _________ ________  \n"""
+                top += """              |         U       |\n"""
+                bottom = """              |_________________|  """
                 diag = top
 
                 ic_number = str(self.__class__.__name__.split('_')[-1])

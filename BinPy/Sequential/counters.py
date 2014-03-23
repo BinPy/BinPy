@@ -1,13 +1,14 @@
 from BinPy.Sequential import *
 from BinPy.Sequential.registers import *
 
+
 class Counter(object):
 
     """
     Base class for all counters
     """
 
-    def __init__(self, bits, clock_connector,data, preset, clear):
+    def __init__(self, bits, clock_connector, data, preset, clear):
 
         self.bits = bits
         self.out = []
@@ -118,7 +119,7 @@ class BinaryCounter(Counter):
     """
 
     def __init__(self, clk, data=0,
-            preset=Connector(1), clear=Connector(1)):
+                 preset=Connector(1), clear=Connector(1)):
         Counter.__init__(self, 2, clk, data, preset, clear)
         # Calling the super class constructor
 
@@ -161,7 +162,7 @@ class NBitRippleCounter(Counter):
         # All the output bits are initialized to this data bit
 
         Counter.__init__(self, bits, clock_connector, data,
-                preset, clear)
+                         preset, clear)
         # Calling the super class constructor
 
         self.ff[
@@ -207,7 +208,7 @@ class NBitDownCounter(Counter):
 
         # All the output bits are initialized to this data bit
         Counter.__init__(self, bits, clock_connector, data,
-                preset, clear)
+                         preset, clear)
         # Calling the super class constructor
 
         self.ff[
@@ -253,7 +254,7 @@ class DecadeCounter(Counter):
         # All the output bits are initialized to this data bit
 
         Counter.__init__(self, 4, clock_connector, data, preset,
-                clear)
+                         clear)
         # Calling the super class constructor
 
         self.ff = [None] * 4
@@ -293,10 +294,10 @@ class DecadeCounter(Counter):
 
         self.g1 = NAND(self.out[0], self.out[2])
         self.g1.setOutput(self.clear)
-        
 
         self.bits_fixed = True
         self.reset_once = True
+
 
 class OctalCounter(Counter):
 
@@ -314,7 +315,7 @@ class OctalCounter(Counter):
         # All the output bits are initialized to this data bit
 
         Counter.__init__(self, 4, clock_connector, data, preset,
-                clear)
+                         clear)
         # Calling the super class constructor
 
         self.ff = [None] * 4
@@ -354,10 +355,10 @@ class OctalCounter(Counter):
 
         self.g1 = NOT(self.out[0])
         self.g1.setOutput(self.clear)
-        
 
         self.bits_fixed = True
         self.reset_once = True
+
 
 class Stage14Counter(Counter):
 
@@ -375,7 +376,7 @@ class Stage14Counter(Counter):
         # All the output bits are initialized to this data bit
 
         Counter.__init__(self, 4, clock_connector, data, preset,
-                clear)
+                         clear)
         # Calling the super class constructor
 
         self.ff = [None] * 4
@@ -415,7 +416,6 @@ class Stage14Counter(Counter):
 
         self.g1 = NAND(self.out[0], self.out[1], self.out[2])
         self.g1.setOutput(self.clear)
-        
 
         self.bits_fixed = True
         self.reset_once = True
@@ -433,13 +433,14 @@ class RingCounter(Counter):
             clock_connector,
             preset=Connector(1),
             clear=Connector(1)):
-        
+
         Counter.__init__(self, bits, clock_connector, data=None, preset=preset,
-                clear=clear)
-        arr = [0]* bits
+                         clear=clear)
+        arr = [0] * bits
         arr[0] = 1
         self.sr = ShiftRegister(arr, clock_connector, circular=1)
         self.out = []
+
     def trigger(self):
         self.out = self.sr.output()
         return self.out
@@ -466,18 +467,19 @@ class JohnsonCounter(Counter):
             clock_connector,
             preset=Connector(1),
             clear=Connector(1)):
-        
+
         Counter.__init__(self, bits, clock_connector, data=None, preset=preset,
-                clear=clear)
-        arr = [0]* bits
+                         clear=clear)
+        arr = [0] * bits
         arr[0] = 1
         self.sr = ShiftRegister(arr, clock_connector, circular=1)
         self.out = []
         self.tail = 1
+
     def trigger(self):
         self.out = self.sr.output()
         self.out[0] = self.tail
-        self.tail = NOT(self.out[self.bits-1]).output()
+        self.tail = NOT(self.out[self.bits - 1]).output()
         return self.out
 
     def state(self):
@@ -488,5 +490,3 @@ class JohnsonCounter(Counter):
 
     def set(self):
         self.__init__(self.bits, clock_connector, preset=Connector(0))
-
-

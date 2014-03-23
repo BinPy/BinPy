@@ -279,13 +279,15 @@ def test_IC_7437():
     if q != testIC.run():
         assert False
 
-def test_IC_7438():        
+
+def test_IC_7438():
     testIC = IC_7438()
-    m = {1:1 ,2:1 ,4:0 ,5:0 ,7:0 ,9:0 ,10:0 ,12:0 ,13:1 ,14:1}        
+    m = {1: 1, 2: 1, 4: 0, 5: 0, 7: 0, 9: 0, 10: 0, 12: 0, 13: 1, 14: 1}
     testIC.setIC(m)
-    n = { 3:0 ,6:1 ,8:1 ,11:1 }
+    n = {3: 0, 6: 1, 8: 1, 11: 1}
     if n != testIC.run():
-        assert False  
+        assert False
+
 
 def test_IC_7440():
     testIC = IC_7440()

@@ -2,6 +2,7 @@ from BinPy.Gates import *
 
 
 class PowerSource:
+
     """
     Models a Power Source from which various connectors can tap by connecting to it.
 

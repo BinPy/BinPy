@@ -114,7 +114,8 @@ class GATES:
         would be: 'AND Gate; Output: 0; Inputs: [0, 1];'
         '''
 
-        return gate_name + " Gate; Output: " + str(self.output()) + "; Inputs: " + str(self.getInputStates()) + ";"
+        return gate_name + " Gate; Output: " + \
+            str(self.output()) + "; Inputs: " + str(self.getInputStates()) + ";"
 
     def _compareHistory(self):
         if self.history_active == 1:  # Only check history if it is active
@@ -150,7 +151,8 @@ class AND(MIGATES):
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == False) or (isinstance(i, GATES) and i.output() == False) or i == False:
+                if (isinstance(i, Connector) and i.state is False) or
+                (isinstance(i, GATES) and i.output() is False) or i is False:
                     self._updateResult(False)
                     break
             if self.outputType:
@@ -158,6 +160,7 @@ class AND(MIGATES):
 
     def __str__(self):
         return self.buildStr("AND")
+
 
 class OR(MIGATES):
 
@@ -179,6 +182,7 @@ class OR(MIGATES):
 
     def __str__(self):
         return self.buildStr("OR")
+
 
 class NOT(GATES):
 
@@ -217,6 +221,7 @@ class NOT(GATES):
     def __str__(self):
         return self.buildStr("NOT")
 
+
 class XOR(MIGATES):
 
     def __init__(self, *inputs):
@@ -241,6 +246,7 @@ class XOR(MIGATES):
 
     def __str__(self):
         return self.buildStr("XOR")
+
 
 class XNOR(MIGATES):
 
@@ -267,6 +273,7 @@ class XNOR(MIGATES):
     def __str__(self):
         return self.buildStr("XNOR")
 
+
 class NAND(MIGATES):
 
     def __init__(self, *inputs):
@@ -278,7 +285,7 @@ class NAND(MIGATES):
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == False) or i == False:
+                if (isinstance(i, Connector) and i.state is False) or i is False:
                     self._updateResult(True)
                     break
             if self.outputType:
@@ -286,6 +293,7 @@ class NAND(MIGATES):
 
     def __str__(self):
         return self.buildStr("NAND")
+
 
 class NOR(MIGATES):
 
