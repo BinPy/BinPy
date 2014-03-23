@@ -6,21 +6,21 @@ import threading
 import sys
 
 try:
-    V = chr(9474)
-    H = chr(9472)
-    HVD = chr(9488)
-    HVU = chr(9496)
-    VHU = chr(9484)
-    VHD = chr(9492)
-    N = chr(10)
+    _V = chr(9474)
+    _H = chr(9472)
+    _HVD = chr(9488)
+    _HVU = chr(9496)
+    _VHU = chr(9484)
+    _VHD = chr(9492)
+    _N = chr(10)
 except:
-    V = unichr(9474)
-    H = unichr(9472)
-    HVD = unichr(9488)
-    HVU = unichr(9496)
-    VHU = unichr(9484)
-    VHD = unichr(9492)
-    N = unichr(10)
+    _V = unichr(9474)
+    _H = unichr(9472)
+    _HVD = unichr(9488)
+    _HVU = unichr(9496)
+    _VHU = unichr(9484)
+    _VHD = unichr(9492)
+    _N = unichr(10)
 
 class Oscilloscope(threading.Thread):
 
@@ -183,54 +183,54 @@ class Oscilloscope(threading.Thread):
             llen = (self.WID + 15)
             disp = self.C + "=" * llen + \
                 "\nBinPy - Oscilloscope\n" + "=" * llen
-            disp += sclstr.rjust(llen + 20, " ") + N + "=" * llen + N
+            disp += sclstr.rjust(llen + 20, " ") + _N + "=" * llen + _N
 
             j = 0
             for i in self.orderedInputs:
                 d = self.inputDict[i]
 
                 lA = [0] + d["logicArray"] + [0]
-                disp += " " * 10 + V + N
-                disp += " " * 10 + V + N
-                disp += " " * 10 + V + " "
+                disp += " " * 10 + _V + _N
+                disp += " " * 10 + _V + _N
+                disp += " " * 10 + _V + " "
                 for i in range(1, len(lA) - 1):
                     cmpstr = (lA[i - 1], lA[i])
                     if cmpstr == (1, 0):
-                        disp += HVD
+                        disp += _HVD
                     elif cmpstr == (1, 1):
-                        disp += H
+                        disp += _H
                     elif cmpstr == (0, 0):
                         disp += " "
                     elif cmpstr == (0, 1):
-                        disp += VHU
+                        disp += _VHU
 
-                disp += N + " " * 3 + d["label"] + "  " + V + " "
+                disp += _N + " " * 3 + d["label"] + "  " + _V + " "
 
                 for i in range(1, len(lA) - 1):
                     cmpstr = lA[i - 1], lA[i]
                     if cmpstr == (1, 0):
-                        disp += V
+                        disp += _V
                     elif cmpstr == (0, 1):
-                        disp += V
+                        disp += _V
                     else:
                         disp += " "
 
-                disp += N + " " * 10 + H + " "
+                disp += _N + " " * 10 + _H + " "
 
                 for i in range(1, len(lA) - 1):
                     cmpstr = lA[i - 1], lA[i]
                     if cmpstr == (1, 0):
-                        disp += VHD
+                        disp += _VHD
                     elif cmpstr == (1, 1):
                         disp += " "
                     elif cmpstr == (0, 0):
-                        disp += H
+                        disp += _H
                     elif cmpstr == (0, 1):
-                        disp += HVU
-                disp += N + " " * 10 + V + N
-                disp += " " * 10 + V + N
-            disp += V * llen + N
-            disp += H * llen + N + "\x1b[0m"
+                        disp += _HVU
+                disp += _N + " " * 10 + _V + _N
+                disp += " " * 10 + _V + _N
+            disp += _V * llen + _N
+            disp += _H * llen + _N + "\x1b[0m"
             print(disp)
         except:
             print("\x1b[0mERROR: Display error.")
