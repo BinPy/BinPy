@@ -3,6 +3,7 @@ This module includes all the base classes for different ICs.
 """
 from __future__ import print_function
 from BinPy import *
+import sys
 
 
 class IC:
@@ -50,23 +51,9 @@ class IC:
                 ic_number = str(self.__class__.__name__.split('_')[-1])
                 ic_name = ' ' * 2 + ic_number + ' ' * 10
 
-                # IC number is obtained by the __class__.__name__ parameter assuming the naming of the class is such
-                # that last 4 digits correspond to the IC Number.
-                # Stores the IC NO value in the ic_name list from a position of
-                # 3 [ visualize vertically ]
-
-                #   ______________
-                #   |             |
-                #   |             |
-                #          .
-                #          .
-                #          .
-                #   |       7     |
-                #   |       4     |
-                #   |       0     |
-                #   |       0     |  <-- 7
-                #   |             |
-                #   |_____________|
+                # IC number is obtained by the __class__.__name__ parameter
+                # assuming the naming of the class is such that last 4 digits
+                # correspond to the IC Number.
 
                 for i in range(1, (self.total_pins // 2) + 1):
 
@@ -99,8 +86,8 @@ class IC:
 
             else:
                 raise Exception("ERROR: IC not supported")
-        except (Exception, e):
-            print("ERROR: Draw Failed - " + str(e))
+        except:
+            print("ERROR: Draw Failed - " + sys.exc_info()[1].args[0])
 
 
 class Base_5pin(IC):
