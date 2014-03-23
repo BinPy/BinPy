@@ -12,7 +12,7 @@ import time
 #   2          Astable
 #   3          Bistable
 
-out = Connector()
+out = Connector(0)
 
 # MODE 3
 
@@ -20,22 +20,22 @@ m = Multivibrator(0, mode=3)
 
 m.start()
 m.setOutput(out)
-m.trigger()
 
 o = Oscilloscope((m.A, 'OUT'))
 o.start()
-o.setScale(0.01)
+o.setScale(0.05)
 o.unhold()
 
-m.trigger()
-print (m.A())
-time.sleep(0.3)
-m.trigger()
-print (m.A())
-time.sleep(0.5)
+time.sleep(0.1)
 m.trigger()
 print (m.A())
 time.sleep(0.5)
+m.trigger()
+print (m.A())
+time.sleep(1)
+m.trigger()
+print (m.A())
+time.sleep(2)
 m.trigger()
 print (m.A())
 o.display()
