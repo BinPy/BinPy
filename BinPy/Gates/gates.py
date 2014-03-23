@@ -151,8 +151,8 @@ class AND(MIGATES):
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state is False) or
-                (isinstance(i, GATES) and i.output() is False) or i is False:
+                if (isinstance(i, Connector) and not i.state) or\
+                        (isinstance(i, GATES) and not i.output()) or not i:
                     self._updateResult(False)
                     break
             if self.outputType:
@@ -285,7 +285,7 @@ class NAND(MIGATES):
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state is False) or i is False:
+                if (isinstance(i, Connector) and not i.state) or not i:
                     self._updateResult(True)
                     break
             if self.outputType:
