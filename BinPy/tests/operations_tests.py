@@ -96,6 +96,6 @@ def binToDec_test():
         assert False
     if Operations.binToDec('1010101.1010101') != 85.6640625:
         assert False
-    #if Operations.binToDec('1010101.10101012') != 85.6640625:
-    #    raises(Exception)
+    if Operations.binToDec([1,0,1,0,1,0,1]) != 85:
+        assert False
     assert_raises(Exception, Operations.binToDec,'1010101.10101012')
