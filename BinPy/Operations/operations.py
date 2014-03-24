@@ -139,19 +139,19 @@ class Operations:
             >>> Operations.binToDec('1001')
             >>> 9
         """
-
+        if type(number)==list:
+            number=''.join([str(i) for i in number])
         if "." in number:
             [x,y]=number.split(".")
-            bin_x=int(str(x),2)
+            bin_x=int(x,2)
             a=-1
             bin_y=0
             for i in list(y):
-                #print i
+                if i!="0" and i!="1":
+                    raise Exception("Invalid Input")
                 bin_y=bin_y+(int(i)*(2**a))
                 a=a-1
-            #print bin_x, bin_y
             flt=bin_x+bin_y
             return flt
-        else:
-            flt=int(str(number),2)
-            return flt
+        flt=int(number,2)
+        return flt
