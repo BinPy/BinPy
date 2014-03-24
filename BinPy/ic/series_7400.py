@@ -9,6 +9,8 @@ from BinPy.Gates import *
 from BinPy.Sequential import *
 from BinPy.ic.base import *
 from BinPy.tools import *
+from BinPy.Combinational.combinational import *
+
 ######## IC's with 14 pins #################################
 
 class IC_74152(Base_14pin):
