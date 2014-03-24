@@ -11,6 +11,49 @@ from BinPy.ic.base import *
 from BinPy.tools import *
 ######## IC's with 14 pins #################################
 
+class IC_74152(Base_14pin):
+
+    """
+    This is 14-pin 8:1 multiplexer with inverted input.
+    
+    Pin Number	Description
+        1	D4
+        2	D3
+        3	D2
+        4	D1
+        5	D0
+        6	Output W
+        7	Ground
+        8	select line C
+        9	select line B
+        10	select line A
+        11	D7
+        12	D6
+        13     D5
+        14	Positive Supply 
+        
+        Selectlines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7     
+    """
+    
+    def __init__(self):
+        self.pins = [None,0 ,0 ,0 ,0 ,0 ,None ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ]
+        
+    def run(self):
+        
+        output = {}
+      
+        mux = MUX(self.pins[5], self.pins[4], self.pins[3], self.pins[2], self.pins[1], self.pins[13], self.pins[12], self.pins[11] )
+        mux.selectLines(self.pins[8], self.pins[9], self.pins[10] )
+       
+        output[6] = NOT(mux.output()).output()
+        
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
 
 class IC_7400(Base_14pin):
 
@@ -2662,6 +2705,106 @@ class IC_7476(Base_16pin):
         output[10] = ff2.state()[1]
         if self.pins[12] == 0 and self.pins[5] == 1:
             self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+            
+class IC_74153(Base_16pin):
+
+    """
+    This is 16-pin dual 4:1 multiplexer with output same as the input.
+    
+        Pin Number	Description
+        1	Strobe1
+        2	Select line B
+        3	1C3
+        4	1C2
+        5	1C1
+        6	1C0
+        7	1Y - OUTPUT1
+        8	Ground
+        9	2Y - OUTPUT2
+        10	2C0
+        11	2C1
+        12	2C2
+        13	2C3
+        14     Select line A
+        15     Strobe2
+        16	Positive Supply 
+        
+        Selectlines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3 
+    """
+    
+    def __init__(self):
+        self.pins = [None,0 ,0 ,0 ,0 ,0 ,0 ,None ,0 ,None ,0 ,0 ,0 ,0 ,0 ,0 ,0 ]
+        
+    def run(self):
+        
+        output = {}
+          
+        if (self.pins[1] == 1 and self.pins[15] == 1):
+            output = {7: 0,9: 0}
+            
+        elif (self.pins[1] == 0 and self.pins[15] == 1):
+            
+            mux = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
+            mux.selectLines(self.pins[2], self.pins[14] )
+            
+            output[9] = 0
+            output[7] = mux.output()
+            
+        elif (self.pins[1] == 1 and self.pins[15] == 0):
+            
+            mux = MUX(self.pins[10], self.pins[11], self.pins[12], self.pins[13])
+            mux.selectLines(self.pins[2], self.pins[14] )
+            
+            output[7] = 0
+            output[9] = mux.output()
+                        
+        elif (self.pins[1] == 0 and self.pins[15] == 0):
+        
+            mux1 = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
+            mux1.selectLines(self.pins[2], self.pins[14] )
+            
+            mux2 = MUX(self.pins[10], self.pins[11], self.pins[12], self.pins[13])
+            mux2.selectLines(self.pins[2], self.pins[14] )
+            
+            output[7] = mux1.output()
+            output[9] = mux2.output()
+           
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+            
+            
+class IC_74151A(Base_16pin):
+
+    """
+    This is 16-pin 8:1 multiplexer featuring complementary W and Y outputs 
+    """
+    
+    def __init__(self):
+        self.pins = [None,0 ,0 ,0 ,0 ,None ,None ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ]
+        
+    def run(self):
+        
+        output = {}
+        
+        mux = MUX(self.pins[4], self.pins[3], self.pins[2], self.pins[1], self.pins[15], self.pins[14], self.pins[13], self.pins[12] )
+        mux.selectLines(self.pins[9], self.pins[10], self.pins[11] )
+            
+        if self.pins[7] == 1:
+            output = {5: 0,6: 1}
+        else:
+            output[5] = mux.output()
+            output[6] = NOT(output[5]).output()
+            
+        if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
