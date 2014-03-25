@@ -1428,6 +1428,7 @@ class IC_4022(Base_16pin):
         else:
             print ("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_4027(Base_16pin):
 
     """
