@@ -5,7 +5,19 @@ print ('Usage of IC 74153:\n')
 ic = IC_74153()
 print ("""This is 16-pin dual 4:1 multiplexer with output same as the input."""")
 print ('\nThe Pin configuration is:\n')
-p = {1:1, 2:1, 3:1, 4:0, 5:0, 6:0, 10:0, 11:1, 12:0, 13:0, 14:0, 15:0}
+p = {
+    1: 1,
+    2: 1,
+    3: 1,
+    4: 0,
+    5: 0,
+    6: 0,
+    10: 0,
+    11: 1,
+    12: 0,
+    13: 0,
+    14: 0,
+    15: 0}
 print (p)
 print ('\nPin initialization -using -- ic.setIC(p) --\n')
 ic.setIC(p)
