@@ -121,6 +121,7 @@ class BinaryCounter(Counter):
     def __init__(self, bits, clk, data=0,
                  preset=Connector(1), clear=Connector(1)):
         Counter.__init__(self, bits, clk, data, preset, clear)
+
         # Calling the super class constructor
         self.ff[self.bits - 1] = TFlipFlop(
             self.t,

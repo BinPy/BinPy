@@ -13,7 +13,7 @@ print ("Setting No of Bits to 8")
 print ("Clock frequency is 10 Hz")
 
 # Initializing the counter
-b = JohnsonCounter(8, clk_conn)
+b = JohnsonCounter(8, clock)
 
 print ("INITIAL STATE")
 print (b.state())

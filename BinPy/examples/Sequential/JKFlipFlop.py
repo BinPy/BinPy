@@ -4,6 +4,7 @@ from __future__ import print_function
 from BinPy.Sequential.sequential import JKFlipFlop
 from BinPy.tools.digital import Clock
 from BinPy.Gates import Connector
+from BinPy.tools.oscilloscope import Oscilloscope
 
 j = Connector(1)
 k = Connector(0)
@@ -12,7 +13,7 @@ p = Connector(0)
 q = Connector(1)
 
 # Initialize the clock
-clock = Clock(1, 1)
+clock = Clock(1, 4)
 clock.start()
 # A clock of 1 hertz frequency
 clk_conn = clock.A
@@ -23,6 +24,12 @@ jkff = JKFlipFlop(j, k, enable, clk_conn, clear=enable)
 
 # To connect outputs use s.setOutputs(op1,op2)
 jkff.setOutputs(A=p, B=q)
+
+o = Oscilloscope((clk_conn, 'CLK'), (j, 'J'), (
+    k, 'k'), (p, 'OUT'), (q, 'OUT!'), (enable, 'ENABLE'))
+o.start()
+o.setScale(0.01)  # Set scale by trial and error.
+o.unhold()
 
 print ("SET STATE - J = 1, K = 0")
 # Set State
@@ -104,3 +111,6 @@ while True:
         break
 
 # To connect different set of connectors use s.setInputs(conn1,conn2,enab)
+o.display()
+o.kill()
+clock.kill()
