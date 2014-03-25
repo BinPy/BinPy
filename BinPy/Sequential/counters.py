@@ -96,11 +96,11 @@ class Counter(object):
         if not self.reset_once:
             self.preset.state = reset
 
-    def Enable(self):
+    def enable(self):
         # Enables counting on trigger
         self.enable.state = 1
 
-    def Disable(self):
+    def disable(self):
         # Disables counter
         self.enable.state = 0
 
