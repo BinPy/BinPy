@@ -5,7 +5,7 @@ print ('Usage of IC 74138:\n')
 ic = IC_74138()
 print (""""This is a 1:8 demultiplexer(3:8 decoder) with output being inverted input"""")
 print ('\nThe Pin configuration is:\n')
-p = {1:1 ,2:0 ,3:1 ,4:0 ,5:0 ,6:1}
+p = {1: 1, 2: 0, 3: 1, 4: 0, 5: 0, 6: 1}
 print (p)
 print ('\nPin initialization -using -- ic.setIC(p) --\n')
 ic.setIC(p)
