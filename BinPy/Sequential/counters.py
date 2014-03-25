@@ -114,35 +114,34 @@ class Counter(object):
 class BinaryCounter(Counter):
 
     """
-    A 2 Bit Binary Counter
+    A n Bit Binary Counter
     Output connectors can be referenced by --> BinaryCounter_instance_name.out
     """
 
-    def __init__(self, clk, data=0,
+    def __init__(self, bits, clk, data=0,
                  preset=Connector(1), clear=Connector(1)):
-        Counter.__init__(self, 2, clk, data, preset, clear)
+        Counter.__init__(self, bits, clk, data, preset, clear)
         # Calling the super class constructor
-
-        self.ff[1] = TFlipFlop(
+        self.ff[self.bits - 1] = TFlipFlop(
             self.t,
             self.enable,
             self.clk,
             self.preset,
             self.clear,
-            self.out[1],
-            self.outinv[1])
-        self.ff[0] = TFlipFlop(
-            self.t,
-            self.enable,
-            self.out[1],
-            self.preset,
-            self.clear,
-            self.out[0],
-            self.outinv[0])
+            self.out[self.bits - 1],
+            self.outinv[self.bits - 1])
+        for i in range(self.bits - 2, -1, -1):
+            self.ff[i] = TFlipFlop(
+                self.t,
+                self.enable,
+                self.out[i + 1],
+                self.preset,
+                self.clear,
+                self.out[i],
+                self.outinv[i])
 
         #<self.bit> nos of TFlipFlop instances are appended in the ff array
         # output of previous stage becomes the input clock for next flip flop
-        self.bits_fixed = True
 
 
 class NBitRippleCounter(Counter):
