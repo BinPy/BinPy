@@ -1,8 +1,9 @@
 from BinPy.Gates.gates import *
 import math
 
+
 class HalfAdder(GATES):
-    
+
     """This Class implements Half Adder, Arithmetic sum of two bits and return its
     Sum and Carry
     Output: [SUM, CARRY]
@@ -10,9 +11,9 @@ class HalfAdder(GATES):
         >>> from BinPy import *
         >>> ha = HalfAdder(0, 1)
         >>> ha.output()
-        [1, 0]              
+        [1, 0]
 
-    """    
+    """
 
     def __init__(self, input1, input2):
         GATES.__init__(self, [input1, input2])
@@ -26,7 +27,7 @@ class HalfAdder(GATES):
         S = XOR(self.inputs[0], self.inputs[1]).output()
         C = AND(self.inputs[0], self.inputs[1]).output()
         self._updateResult([S, C])
-    
+
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
@@ -40,7 +41,8 @@ class HalfAdder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
-        
+
+
 class FullAdder(GATES):
 
     """This Class implements Full Adder, Arithmetic sum of three bits and
@@ -50,7 +52,7 @@ class FullAdder(GATES):
         >>> from BinPy import *
         >>> fa = FullAdder(0, 1, 1)
         >>> fa.output()
-        [0, 1]              
+        [0, 1]
     """
 
     def __init__(self, input1, input2, carry):
@@ -67,7 +69,7 @@ class FullAdder(GATES):
         S = ha2[0]
         C = OR(ha2[1], ha1[1]).output()
         self._updateResult([S, C])
-    
+
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
@@ -81,6 +83,7 @@ class FullAdder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+
 
 class MUX(GATES):
 
@@ -164,6 +167,7 @@ class MUX(GATES):
 
     def __str__(self):
         return self.buildStr("MUX")
+
 
 class DEMUX(GATES):
 
@@ -268,6 +272,7 @@ class DEMUX(GATES):
     def __str__(self):
         return self.buildStr("DEMUX")
 
+
 class Decoder(GATES):
 
     """
@@ -348,6 +353,7 @@ class Decoder(GATES):
 
     def __str__(self):
         return self.buildStr("Decoder")
+
 
 class Encoder(GATES):
 
@@ -444,4 +450,3 @@ class Encoder(GATES):
 
     def __str__(self):
         return self.buildStr("Encoder")
-

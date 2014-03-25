@@ -3,6 +3,7 @@ from sys import stdout
 from BinPy.Gates.gates import *
 from BinPy.Gates.connector import *
 
+
 def backtrack(element, depth):
     '''
     This function returns a tree representation of a digital element, such as a
@@ -35,7 +36,7 @@ def backtrack(element, depth):
                 equal to 0")
 
     # Check if the element is a gate, connector or a final value, bool or int
-    if not (isinstance(element, GATES) or isinstance(element, Connector)\
+    if not (isinstance(element, GATES) or isinstance(element, Connector)
             or type(element) in [bool, int]):
         raise Exception("ERROR: Element must be either a Gate or Connector")
 
@@ -50,7 +51,7 @@ def backtrack(element, depth):
         else:
             ret_value_list = []
             for i in element.inputs:
-                ret_value_list.append(backtrack(i, depth-1))
+                ret_value_list.append(backtrack(i, depth - 1))
             ret_value = (element, ret_value_list)
 
     # If the element is a connector
@@ -61,7 +62,7 @@ def backtrack(element, depth):
         else:
             ret_value_list = []
             for i in element.connections["output"]:
-                ret_value_list.append(backtrack(i, depth-1))
+                ret_value_list.append(backtrack(i, depth - 1))
             ret_value = (element, ret_value_list)
 
     # If it is none of the above
@@ -69,6 +70,7 @@ def backtrack(element, depth):
         ret_value = element
 
     return ret_value
+
 
 def printBacktrackTree(tree_node, space=0):
     '''
@@ -92,18 +94,18 @@ def printBacktrackTree(tree_node, space=0):
     '''
 
     def printSpaces(space):
-        for i in range(space): stdout.write("   ")
+        for i in range(space):
+            stdout.write("   ")
 
-    if type(tree_node) == tuple:
+    if isinstance(tree_node, tuple):
         printSpaces(space)
         stdout.write("|- ")
         print(tree_node[0])
 
         for i in tree_node[1]:
-            printBacktrackTree(i, space+1)
+            printBacktrackTree(i, space + 1)
 
     else:
         printSpaces(space)
         stdout.write("|- ")
         print(tree_node)
-

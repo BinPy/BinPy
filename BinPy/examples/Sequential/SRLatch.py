@@ -4,6 +4,7 @@ from __future__ import print_function
 from BinPy.Sequential.sequential import SRLatch
 from BinPy.tools.digital import Clock
 from BinPy.Gates import Connector
+from BinPy.tools.oscilloscope import Oscilloscope
 
 s = Connector(1)
 r = Connector(0)
@@ -12,7 +13,7 @@ p = Connector(0)
 q = Connector(1)
 
 # Initialize the clock
-clock = Clock(1, 1)
+clock = Clock(1, 4)
 clock.start()
 # A clock of 1 hertz frequency
 clk_conn = clock.A
@@ -24,6 +25,12 @@ srff = SRLatch(s, r, enable, clk_conn)
 
 # To connect outputs use s.setOutputs(op1,op2)
 srff.setOutputs(A=p, B=q)
+
+o = Oscilloscope((clk_conn, 'CLK'), (s, 'S'), (
+    r, 'R'), (p, 'OUT'), (q, 'OUT!'), (enable, 'ENABLE'))
+o.start()
+o.setScale(0.01)  # Set scale by trial and error.
+o.unhold()
 
 print ("SET STATE - S = 1, R = 0")
 # Set State
@@ -103,3 +110,6 @@ while True:
         # Falling edge will trigger the FF
         srff.trigger()
         break
+o.display()
+o.kill()
+clock.kill()

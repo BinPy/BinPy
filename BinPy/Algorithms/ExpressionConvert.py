@@ -207,7 +207,8 @@ def convertExpression(expr, two_input=0, only_nand=0,
                         (only_nand == 0 and only_nor == 0 and only_and_or_not == 0):
                     if (gate == previous_gate) and (gate == next_gate.upper()):
                         new_element = gate + \
-                            '(' + op1[len(gate) + 1:-1] + ', ' + op2[len(gate) + 1:-1] + ')'
+                            '(' + op1[len(gate) + 1:-1] + \
+                            ', ' + op2[len(gate) + 1:-1] + ')'
                     elif (gate == previous_gate) and (gate != next_gate.upper()):
                         new_element = gate + \
                             '(' + op1[len(gate) + 1:-1] + ', ' + op2 + ')'

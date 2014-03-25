@@ -3,6 +3,30 @@ This module includes all the base classes for different ICs.
 """
 from __future__ import print_function
 from BinPy import *
+import sys
+
+try:
+    _V = chr(9474)
+    _H = chr(9472)
+    _HVD = chr(9488)
+    _HVU = chr(9496)
+    _VHU = chr(9484)
+    _VHD = chr(9492)
+    _N = chr(10)
+    _U = chr(9697)
+    _LT = chr(9508)
+    _RT = chr(9500)
+except:
+    _V = unichr(9474)
+    _H = unichr(9472)
+    _HVD = unichr(9488)
+    _HVU = unichr(9496)
+    _VHU = unichr(9484)
+    _VHD = unichr(9492)
+    _N = unichr(10)
+    _U = unichr(9697)
+    _LT = unichr(9508)
+    _RT = unichr(9500)
 
 
 class IC:
@@ -42,31 +66,17 @@ class IC:
 
             if (self.total_pins in [14, 16]):
 
-                top     =  """\n\n               _________ ________  \n"""
-                top     +=  """              |         U       |\n"""
-                bottom  =   """              |_________________|  """
+                top = "\n\n              " + _VHU + \
+                    _H * 9 + _U + _H * 9 + _HVD + _N
+                bottom = "              " + _VHD + _H * 19 + _HVU + "  "
                 diag = top
 
                 ic_number = str(self.__class__.__name__.split('_')[-1])
                 ic_name = ' ' * 2 + ic_number + ' ' * 10
 
-                # IC number is obtained by the __class__.__name__ parameter assuming the naming of the class is such
-                # that last 4 digits correspond to the IC Number.
-                # Stores the IC NO value in the ic_name list from a position of
-                # 3 [ visualize vertically ]
-
-                #   ______________
-                #   |             |
-                #   |             |
-                #          .
-                #          .
-                #          .
-                #   |       7     |
-                #   |       4     |
-                #   |       0     |
-                #   |       0     |  <-- 7
-                #   |             |
-                #   |_____________|
+                # IC number is obtained by the __class__.__name__ parameter
+                # assuming the naming of the class is such that last 4 digits
+                # correspond to the IC Number.
 
                 for i in range(1, (self.total_pins // 2) + 1):
 
@@ -91,16 +101,28 @@ class IC:
                         v2 = 'Z' if self.pins[j] is None else str(self.pins[j])
 
                         f = ('   ', v1, str(i), ic_name[i], str(j), v2, '   ')
-                    diag += "              |                 |\n"
-                    diag += " %3s [%1s]   ---| %2s     %1s     %2s |---   [%1s] %3s\n" % f
-                    diag += "              |                 |\n"
+                    diag += "              |                   |\n"
+                    diag += " %3s [%1s]    ---| %2s      %1s     %2s  |---    [%1s] %3s\n" % f
+                    diag += "              |                   |\n"
+
                 diag += bottom
+                diag = diag.replace(
+                    "---|",
+                    _H *
+                    2 +
+                    _LT).replace(
+                    "|---",
+                    _RT +
+                    _H *
+                    2).replace(
+                    '|',
+                    _V)
                 print(diag)
 
             else:
                 raise Exception("ERROR: IC not supported")
-        except (Exception, e):
-            print("ERROR: Draw Failed - " + str(e))
+        except:
+            print("ERROR: Draw Failed - " + sys.exc_info()[1].args[0])
 
 
 class Base_5pin(IC):

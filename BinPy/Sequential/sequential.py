@@ -193,7 +193,7 @@ class SRLatch(FlipFlop):
             print("Error: Invalid State - Resetting the Latch")
             self.clear.state = 1
             self.preset.state = 1
-        else :
+        else:
             if self.clkoldval == 1 and self.clk.state == 0:
                 if bool(self.S) and bool(self.R):
                     print("ERROR: Invalid State - Resetting the Latch")
@@ -392,7 +392,6 @@ class JKFlipFlop(FlipFlop):
         self.setInputs(J=J, K=K, enable=enable, preset=preset, clear=clear)
         self.setOutputs(A=a, B=b)
 
-
         self.J.tap(self, "input")
         self.K.tap(self, "input")
         self.enable.tap(self, "input")
@@ -400,6 +399,7 @@ class JKFlipFlop(FlipFlop):
 
         self.a.tap(self, "output")
         self.b.tap(self, "output")
+
     def setInputs(self, **inputs):
         """
         Sets the input connectors of Jk Flip flop.
@@ -547,8 +547,8 @@ class TFlipFlop(JKFlipFlop):
             b=Connector()):
 
         JKFlipFlop.__init__(self, T, T, enable, clk, preset, clear, a, b)
-        #T Flip Flop is just a JK Flip Flop with T input on both J and K
-        
+        # T Flip Flop is just a JK Flip Flop with T input on both J and K
+
         self.T = Connector(0)
         self.preset = Connector(1)
         self.clear = Connector(1)
@@ -561,7 +561,7 @@ class TFlipFlop(JKFlipFlop):
 
     def setInputs(self, **inputs):
         for key in inputs:
-            if key.lower() == "t":
+            if key.lower() == "t" or key.lower() == "k" or key.lower() == "j":
                 # To support both numerical/boolean values or Connector
                 # instances
                 if isinstance(inputs[key], Connector):
@@ -591,17 +591,18 @@ class TFlipFlop(JKFlipFlop):
                     self.clear.state = int(inputs[key])
             else:
                 print("ERROR: Unknow parameter passed" + str(key))
-        
+
         if not(self.preset.state or self.clear.state):
             print("ERROR : Invalid State - Resetting the Latch")
             self.preset.state = 1
             self.clear.state = 1
-    
+
     def setOutputs(self, **outputs):
         JKFlipFlop.setOutputs(self, **outputs)
 
     def trigger(self):
         JKFlipFlop.trigger(self)
+        # Triggering of the outputs is done by the JKFlipFlop Module.
 
     def state(self):
         return [self.a(), self.b()]

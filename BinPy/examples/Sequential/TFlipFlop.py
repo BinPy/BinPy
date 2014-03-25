@@ -4,6 +4,7 @@ from __future__ import print_function
 from BinPy.Sequential.sequential import TFlipFlop
 from BinPy.tools.digital import Clock
 from BinPy.Gates import Connector
+from BinPy.tools.oscilloscope import Oscilloscope
 
 toggle = Connector(1)
 
@@ -11,9 +12,9 @@ p = Connector(0)
 q = Connector(1)
 
 # Initialize the clock
-clock = Clock(1, 1)
+clock = Clock(1, 4)
 clock.start()
-# A clock of 1 hertz frequency
+# A clock of 4 hertz frequency
 clk_conn = clock.A
 
 enable = Connector(1)
@@ -25,6 +26,12 @@ tff = TFlipFlop(toggle, enable, clk_conn, a=p, b=q)
 # tff.setInputs(conn1,enab,clk)
 # To connect different outputs use:
 tff.setOutputs(A=p, B=q)
+
+o = Oscilloscope((clk_conn, 'CLK'), (toggle, 'TOGGLE'), (
+    p, 'OUT'), (q, 'OUT!'), (enable, 'ENABLE'))
+o.start()
+o.setScale(0.01)  # Set scale by trial and error.
+o.unhold()
 
 print ("Toggle is 1")
 toggle.state = 1
@@ -102,3 +109,6 @@ while True:
         # Falling edge will trigger the FF
         tff.trigger()
         break
+o.display()
+o.kill()
+clock.kill()

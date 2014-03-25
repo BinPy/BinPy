@@ -13,11 +13,12 @@ from BinPy.Combinational.combinational import *
 
 ######## IC's with 14 pins #################################
 
+
 class IC_74152(Base_14pin):
 
     """
     This is 14-pin 8:1 multiplexer with inverted input.
-    
+
     Pin Number	Description
         1	D4
         2	D3
@@ -32,23 +33,31 @@ class IC_74152(Base_14pin):
         11	D7
         12	D6
         13     D5
-        14	Positive Supply 
-        
-        Selectlines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7     
+        14	Positive Supply
+
+        Selectlines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7
     """
-    
+
     def __init__(self):
-        self.pins = [None,0 ,0 ,0 ,0 ,0 ,None ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ]
-        
+        self.pins = [None, 0, 0, 0, 0, 0, None, 0, 0, 0, 0, 0, 0, 0, 0]
+
     def run(self):
-        
+
         output = {}
-      
-        mux = MUX(self.pins[5], self.pins[4], self.pins[3], self.pins[2], self.pins[1], self.pins[13], self.pins[12], self.pins[11] )
-        mux.selectLines(self.pins[8], self.pins[9], self.pins[10] )
-       
+
+        mux = MUX(
+            self.pins[5],
+            self.pins[4],
+            self.pins[3],
+            self.pins[2],
+            self.pins[1],
+            self.pins[13],
+            self.pins[12],
+            self.pins[11])
+        mux.selectLines(self.pins[8], self.pins[9], self.pins[10])
+
         output[6] = NOT(mux.output()).output()
-        
+
         if self.pins[7] == 0 and self.pins[14] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
@@ -2345,6 +2354,7 @@ class IC_7483(Base_16pin):
 ################## Base_14 Pin ##############################################
 
 class IC_7470(Base_14pin):
+
     "AND gated JK Positive Edge triggered Flip Flop with preset and clear"
 
     def __init__(self):
@@ -2372,7 +2382,7 @@ class IC_7470(Base_14pin):
         if not isinstance(self.pins[12], Clock):
             raise Exception("Error: Invalid Clock Input")
         ff = JKFlipFlop(J, K, Connector(1), self.pins[12].A,
-                self.pins[13],self.pins[2])
+                        self.pins[13], self.pins[2])
         while True:
             if self.pins[12].A.state == 0:
                 ff.trigger()
@@ -2391,7 +2401,9 @@ class IC_7470(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_7472(Base_14pin):
+
     "AND gated JK Master-Slave Flip Flop with preset and clear"
 
     def __init__(self):
@@ -2419,7 +2431,7 @@ class IC_7472(Base_14pin):
         if not isinstance(self.pins[12], Clock):
             raise Exception("Error: Invalid Clock Input")
         ff = JKFlipFlop(J, K, Connector(1), self.pins[12].A,
-                self.pins[13], self.pins[2])
+                        self.pins[13], self.pins[2])
         while True:
             if self.pins[12].A.state == 0:
                 ff.trigger()
@@ -2438,9 +2450,11 @@ class IC_7472(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_7473(Base_14pin):
+
     "DUAL JK Flip Flops with clear"
-    
+
     def __init__(self):
         self.pins = [
             None,
@@ -2462,10 +2476,15 @@ class IC_7473(Base_14pin):
     def run(self):
         output = {}
         if not (isinstance(self.pins[1], Clock) and
-                isinstance(self.pins[5],Clock)):
+                isinstance(self.pins[5], Clock)):
             raise Exception("Error: Invalid Clock Input")
-        ff1 = JKFlipFlop(self.pins[14], self.pins[3], Connector(1), self.pins[1].A,
-                Connector(1),self.pins[2])
+        ff1 = JKFlipFlop(
+            self.pins[14],
+            self.pins[3],
+            Connector(1),
+            self.pins[1].A,
+            Connector(1),
+            self.pins[2])
         while True:
             if self.pins[1].A.state == 0:
                 ff1.trigger()
@@ -2477,9 +2496,13 @@ class IC_7473(Base_14pin):
         output[12] = ff1.state()[0]
         output[13] = ff1.state()[1]
 
-
-        ff2 = JKFlipFlop(self.pins[7], self.pins[10], Connector(1), self.pins[5].A,
-                Connector(1),self.pins[6])
+        ff2 = JKFlipFlop(
+            self.pins[7],
+            self.pins[10],
+            Connector(1),
+            self.pins[5].A,
+            Connector(1),
+            self.pins[6])
         while True:
             if self.pins[5].A.state == 0:
                 ff2.trigger()
@@ -2498,9 +2521,11 @@ class IC_7473(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_7474(Base_14pin):
+
     "Dual D-Type Positive-Edge-Triggered Flip-Flops with preset and clear"
-    
+
     def __init__(self):
         self.pins = [
             None,
@@ -2522,10 +2547,10 @@ class IC_7474(Base_14pin):
     def run(self):
         output = {}
         if not (isinstance(self.pins[3], Clock) and
-                isinstance(self.pins[11],Clock)):
+                isinstance(self.pins[11], Clock)):
             raise Exception("Error: Invalid Clock Input")
         ff1 = DFlipFlop(self.pins[2], Connector(1), self.pins[3].A,
-                self.pins[4],self.pins[1])
+                        self.pins[4], self.pins[1])
         while True:
             if self.pins[3].A.state == 0:
                 ff1.trigger()
@@ -2537,9 +2562,8 @@ class IC_7474(Base_14pin):
         output[5] = ff1.state()[0]
         output[6] = ff1.state()[1]
 
-
         ff2 = DFlipFlop(self.pins[12], Connector(1), self.pins[11].A,
-                self.pins[10],self.pins[13])
+                        self.pins[10], self.pins[13])
         while True:
             if self.pins[11].A.state == 0:
                 ff2.trigger()
@@ -2562,8 +2586,9 @@ class IC_7474(Base_14pin):
 ###################### Base_16 Pins ##########################################
 
 class IC_7475(Base_16pin):
+
     "4-Bit Bistable Latches"
-    
+
     def __init__(self):
         self.pins = [
             None,
@@ -2588,10 +2613,10 @@ class IC_7475(Base_16pin):
     def run(self):
         output = {}
         if not (isinstance(self.pins[4], Clock) and
-                isinstance(self.pins[13],Clock)):
+                isinstance(self.pins[13], Clock)):
             raise Exception("Error: Invalid Clock Input")
         ff1 = DFlipFlop(self.pins[2], Connector(1),
-                self.pins[13].A,Connector(1), Connector(1))
+                        self.pins[13].A, Connector(1), Connector(1))
         while True:
             if self.pins[13].A.state == 0:
                 ff1.trigger()
@@ -2603,9 +2628,8 @@ class IC_7475(Base_16pin):
         output[16] = ff1.state()[0]
         output[1] = ff1.state()[1]
 
-
         ff2 = DFlipFlop(self.pins[3], Connector(1),
-                self.pins[13].A,Connector(1), Connector(1))
+                        self.pins[13].A, Connector(1), Connector(1))
         while True:
             if self.pins[13].A.state == 0:
                 ff2.trigger()
@@ -2618,7 +2642,7 @@ class IC_7475(Base_16pin):
         output[14] = ff2.state()[1]
 
         ff3 = DFlipFlop(self.pins[6], Connector(1),
-                self.pins[4].A,Connector(1), Connector(1))
+                        self.pins[4].A, Connector(1), Connector(1))
         while True:
             if self.pins[4].A.state == 0:
                 ff3.trigger()
@@ -2631,7 +2655,7 @@ class IC_7475(Base_16pin):
         output[11] = ff3.state()[1]
 
         ff4 = DFlipFlop(self.pins[7], Connector(1),
-                self.pins[4].A,Connector(1), Connector(1))
+                        self.pins[4].A, Connector(1), Connector(1))
         while True:
             if self.pins[4].A.state == 0:
                 ff4.trigger()
@@ -2652,8 +2676,9 @@ class IC_7475(Base_16pin):
 
 
 class IC_7476(Base_16pin):
+
     "Dual JK Flip Flop with preset and clear"
-    
+
     def __init__(self):
         self.pins = [
             None,
@@ -2677,10 +2702,15 @@ class IC_7476(Base_16pin):
     def run(self):
         output = {}
         if not (isinstance(self.pins[1], Clock) and
-                isinstance(self.pins[6],Clock)):
+                isinstance(self.pins[6], Clock)):
             raise Exception("Error: Invalid Clock Input")
-        ff1 = JKFlipFlop(self.pins[4], self.pins[16],Connector(1), self.pins[1].A,
-                self.pins[2],self.pins[3])
+        ff1 = JKFlipFlop(
+            self.pins[4],
+            self.pins[16],
+            Connector(1),
+            self.pins[1].A,
+            self.pins[2],
+            self.pins[3])
         while True:
             if self.pins[1].A.state == 0:
                 ff1.trigger()
@@ -2692,9 +2722,13 @@ class IC_7476(Base_16pin):
         output[15] = ff1.state()[0]
         output[14] = ff1.state()[1]
 
-
-        ff2 = JKFlipFlop(self.pins[9], self.pins[12], Connector(1), self.pins[6].A,
-                self.pins[7],self.pins[8])
+        ff2 = JKFlipFlop(
+            self.pins[9],
+            self.pins[12],
+            Connector(1),
+            self.pins[6].A,
+            self.pins[7],
+            self.pins[8])
         while True:
             if self.pins[6].A.state == 0:
                 ff2.trigger()
@@ -2712,12 +2746,13 @@ class IC_7476(Base_16pin):
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
-            
+
+
 class IC_74153(Base_16pin):
 
     """
     This is 16-pin dual 4:1 multiplexer with output same as the input.
-    
+
         Pin Number	Description
         1	Strobe1
         2	Select line B
@@ -2734,108 +2769,175 @@ class IC_74153(Base_16pin):
         13	2C3
         14     Select line A
         15     Strobe2
-        16	Positive Supply 
-        
-        Selectlines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3 
+        16	Positive Supply
+
+        Selectlines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3
     """
-    
+
     def __init__(self):
-        self.pins = [None,0 ,0 ,0 ,0 ,0 ,0 ,None ,0 ,None ,0 ,0 ,0 ,0 ,0 ,0 ,0 ]
-        
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0]
+
     def run(self):
-        
+
         output = {}
-          
+
         if (self.pins[1] == 1 and self.pins[15] == 1):
-            output = {7: 0,9: 0}
-            
+            output = {7: 0, 9: 0}
+
         elif (self.pins[1] == 0 and self.pins[15] == 1):
-            
+
             mux = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
-            mux.selectLines(self.pins[2], self.pins[14] )
-            
+            mux.selectLines(self.pins[2], self.pins[14])
+
             output[9] = 0
             output[7] = mux.output()
-            
+
         elif (self.pins[1] == 1 and self.pins[15] == 0):
-            
-            mux = MUX(self.pins[10], self.pins[11], self.pins[12], self.pins[13])
-            mux.selectLines(self.pins[2], self.pins[14] )
-            
+
+            mux = MUX(
+                self.pins[10],
+                self.pins[11],
+                self.pins[12],
+                self.pins[13])
+            mux.selectLines(self.pins[2], self.pins[14])
+
             output[7] = 0
             output[9] = mux.output()
-                        
+
         elif (self.pins[1] == 0 and self.pins[15] == 0):
-        
+
             mux1 = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
-            mux1.selectLines(self.pins[2], self.pins[14] )
-            
-            mux2 = MUX(self.pins[10], self.pins[11], self.pins[12], self.pins[13])
-            mux2.selectLines(self.pins[2], self.pins[14] )
-            
+            mux1.selectLines(self.pins[2], self.pins[14])
+
+            mux2 = MUX(
+                self.pins[10],
+                self.pins[11],
+                self.pins[12],
+                self.pins[13])
+            mux2.selectLines(self.pins[2], self.pins[14])
+
             output[7] = mux1.output()
             output[9] = mux2.output()
-           
+
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
-            
-            
+
+
 class IC_74151A(Base_16pin):
 
     """
-    This is 16-pin 8:1 multiplexer featuring complementary W and Y outputs 
+    This is 16-pin 8:1 multiplexer featuring complementary W and Y outputs
     """
-    
+
     def __init__(self):
-        self.pins = [None,0 ,0 ,0 ,0 ,None ,None ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ]
-        
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0]
+
     def run(self):
-        
+
         output = {}
-        
-        mux = MUX(self.pins[4], self.pins[3], self.pins[2], self.pins[1], self.pins[15], self.pins[14], self.pins[13], self.pins[12] )
-        mux.selectLines(self.pins[9], self.pins[10], self.pins[11] )
-            
+
+        mux = MUX(
+            self.pins[4],
+            self.pins[3],
+            self.pins[2],
+            self.pins[1],
+            self.pins[15],
+            self.pins[14],
+            self.pins[13],
+            self.pins[12])
+        mux.selectLines(self.pins[9], self.pins[10], self.pins[11])
+
         if self.pins[7] == 1:
-            output = {5: 0,6: 1}
+            output = {5: 0, 6: 1}
         else:
             output[5] = mux.output()
             output[6] = NOT(output[5]).output()
-            
+
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
-            
-            
+
+
 class IC_74138(Base_16pin):
+
     """
     This is a 1:8 demultiplexer(3:8 decoder) with output being inverted input
     """
-    
+
     def __init__(self):
-        self.pins = [None, 0, 0, 0, 0, 0, 0, None, 0 ,None ,None ,None ,None ,None ,None ,None ,0  ]
-        
-    
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0]
+
     def run(self):
-        
+
         output = {}
-        
+
         demux = DEMUX(1)
         demux.selectLines(self.pins[3], self.pins[2], self.pins[1])
-        
+
         if (self.pins[6] == 0 or (self.pins[4] == 1 and self.pins[5] == 1)):
-            output = {15:1, 14:1, 13:1, 12:1, 11:1, 10:1, 9:1, 7:1}
-            
+            output = {15: 1, 14: 1, 13: 1, 12: 1, 11: 1, 10: 1, 9: 1, 7: 1}
+
         elif (self.pins[6] == 1 and (self.pins[4] == 0 and self.pins[5] == 0)):
-            
-            output[15] = NOT(demux.output()[0]).output()         
+
+            output[15] = NOT(demux.output()[0]).output()
             output[14] = NOT(demux.output()[1]).output()
             output[13] = NOT(demux.output()[2]).output()
             output[12] = NOT(demux.output()[3]).output()
@@ -2843,135 +2945,7 @@ class IC_74138(Base_16pin):
             output[10] = NOT(demux.output()[5]).output()
             output[9] = NOT(demux.output()[6]).output()
             output[7] = NOT(demux.output()[7]).output()
-            
-        if self.pins[8] == 0 and self.pins[16] == 1:
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.") 
-            
-             
-class IC_74139(Base_16pin):
-    """
-    This is a dual 1:4 demultiplexer(2:4 decoder) with output being inverted input
-    """
-    
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, None, None, None, None, 0, None ,None ,None ,None ,0 ,0 ,0 ,0  ]
-        
-    
-    def run(self):
-        
-        output = {}
-        
-        demux1 = DEMUX(1)
-        demux1.selectLines(self.pins[3], self.pins[2])
-        
-        demux2 = DEMUX(1)
-        demux2.selectLines(self.pins[13], self.pins[14])
-       
-        if (self.pins[1] == 1 and self.pins[15] == 1):
-            output = { 12:1, 11:1, 10:1, 9:1, 7:1 ,6:1 ,5:1 ,4:1}
-            
-        elif (self.pins[1] == 0 and self.pins[15] == 1):
-            
-            output[12] = 1
-            output[11] = 1
-            output[10] = 1
-            output[9] = 1
-            output[4] = NOT(demux1.output()[0]).output()
-            output[5] = NOT(demux1.output()[1]).output()
-            output[6] = NOT(demux1.output()[2]).output()
-            output[7] = NOT(demux1.output()[3]).output()
-            
-        elif (self.pins[1] == 1 and self.pins[15] == 0):    
-            
-            output[7] = 1
-            output[6] = 1
-            output[5] = 1
-            output[4] = 1
-            output[12] = NOT(demux2.output()[0]).output()
-            output[11] = NOT(demux2.output()[1]).output()
-            output[10] = NOT(demux2.output()[2]).output()
-            output[9] = NOT(demux2.output()[3]).output()
-            
-        elif (self.pins[1] == 0 and self.pins[15] == 0):
-        
-            output[4] = NOT(demux1.output()[0]).output()
-            output[5] = NOT(demux1.output()[1]).output()
-            output[6] = NOT(demux1.output()[2]).output()
-            output[7] = NOT(demux1.output()[3]).output()
-            output[12] = NOT(demux2.output()[0]).output()
-            output[11] = NOT(demux2.output()[1]).output()
-            output[10] = NOT(demux2.output()[2]).output()
-            output[9] = NOT(demux2.output()[3]).output()
-                     
-        if self.pins[8] == 0 and self.pins[16] == 1:
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.") 
-            
 
-
-class IC_74156(Base_16pin):
-    """
-    This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input
-    while the other same as the input with open collector
-    """
-    
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, None, None, None, None, 0, None ,None ,None ,None ,0 ,0 ,0 ,0  ]
-        
-    
-    def run(self):
-        
-        output = {}
-        
-        demux1 = DEMUX(self.pins[1])
-        demux1.selectLines(self.pins[3], self.pins[13])
-        
-        demux2 = DEMUX(NOT(self.pins[15]).output())
-        demux2.selectLines(self.pins[3], self.pins[13])
-       
-        if (self.pins[2] == 1 and self.pins[14] == 1):
-            output = { 12:1, 11:1, 10:1, 9:1, 7:1 ,6:1 ,5:1 ,4:1}
-            
-        elif (self.pins[2] == 0 and self.pins[14] == 1):
-            
-            output[12] = 1
-            output[11] = 1
-            output[10] = 1
-            output[9] = 1
-            output[4] = NOT(demux1.output()[3]).output()
-            output[5] = NOT(demux1.output()[2]).output()
-            output[6] = NOT(demux1.output()[1]).output()
-            output[7] = NOT(demux1.output()[0]).output()
-            
-        elif (self.pins[2] == 1 and self.pins[14] == 0):    
-            
-            output[7] = 1
-            output[6] = 1
-            output[5] = 1
-            output[4] = 1
-            output[12] = NOT(demux2.output()[3]).output()
-            output[11] = NOT(demux2.output()[2]).output()
-            output[10] = NOT(demux2.output()[1]).output()
-            output[9] = NOT(demux2.output()[0]).output()
-            
-        elif (self.pins[2] == 0 and self.pins[14] == 0):
-        
-            output[4] = NOT(demux1.output()[3]).output()
-            output[5] = NOT(demux1.output()[2]).output()
-            output[6] = NOT(demux1.output()[1]).output()
-            output[7] = NOT(demux1.output()[0]).output()
-            output[12] = NOT(demux2.output()[3]).output()
-            output[11] = NOT(demux2.output()[2]).output()
-            output[10] = NOT(demux2.output()[1]).output()
-            output[9] = NOT(demux2.output()[0]).output()      
-                     
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
@@ -2980,32 +2954,128 @@ class IC_74156(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_74139(Base_16pin):
 
-class IC_74155(Base_16pin):
+    """
+    This is a dual 1:4 demultiplexer(2:4 decoder) with output being inverted input
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            None,
+            None,
+            None,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+
+        output = {}
+
+        demux1 = DEMUX(1)
+        demux1.selectLines(self.pins[3], self.pins[2])
+
+        demux2 = DEMUX(1)
+        demux2.selectLines(self.pins[13], self.pins[14])
+
+        if (self.pins[1] == 1 and self.pins[15] == 1):
+            output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
+
+        elif (self.pins[1] == 0 and self.pins[15] == 1):
+
+            output[12] = 1
+            output[11] = 1
+            output[10] = 1
+            output[9] = 1
+            output[4] = NOT(demux1.output()[0]).output()
+            output[5] = NOT(demux1.output()[1]).output()
+            output[6] = NOT(demux1.output()[2]).output()
+            output[7] = NOT(demux1.output()[3]).output()
+
+        elif (self.pins[1] == 1 and self.pins[15] == 0):
+
+            output[7] = 1
+            output[6] = 1
+            output[5] = 1
+            output[4] = 1
+            output[12] = NOT(demux2.output()[0]).output()
+            output[11] = NOT(demux2.output()[1]).output()
+            output[10] = NOT(demux2.output()[2]).output()
+            output[9] = NOT(demux2.output()[3]).output()
+
+        elif (self.pins[1] == 0 and self.pins[15] == 0):
+
+            output[4] = NOT(demux1.output()[0]).output()
+            output[5] = NOT(demux1.output()[1]).output()
+            output[6] = NOT(demux1.output()[2]).output()
+            output[7] = NOT(demux1.output()[3]).output()
+            output[12] = NOT(demux2.output()[0]).output()
+            output[11] = NOT(demux2.output()[1]).output()
+            output[10] = NOT(demux2.output()[2]).output()
+            output[9] = NOT(demux2.output()[3]).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_74156(Base_16pin):
+
     """
     This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input
-    while the other same as the input
+    while the other same as the input with open collector
     """
-    
+
     def __init__(self):
-        self.pins = [None, 0, 0, 0, None, None, None, None, 0, None ,None ,None ,None ,0 ,0 ,0 ,0  ]
-        
-    
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            None,
+            None,
+            None,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0]
+
     def run(self):
-        
+
         output = {}
-        
+
         demux1 = DEMUX(self.pins[1])
         demux1.selectLines(self.pins[3], self.pins[13])
-        
+
         demux2 = DEMUX(NOT(self.pins[15]).output())
         demux2.selectLines(self.pins[3], self.pins[13])
-       
+
         if (self.pins[2] == 1 and self.pins[14] == 1):
-            output = { 12:1, 11:1, 10:1, 9:1, 7:1 ,6:1 ,5:1 ,4:1}
-            
+            output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
+
         elif (self.pins[2] == 0 and self.pins[14] == 1):
-            
+
             output[12] = 1
             output[11] = 1
             output[10] = 1
@@ -3014,9 +3084,9 @@ class IC_74155(Base_16pin):
             output[5] = NOT(demux1.output()[2]).output()
             output[6] = NOT(demux1.output()[1]).output()
             output[7] = NOT(demux1.output()[0]).output()
-            
-        elif (self.pins[2] == 1 and self.pins[14] == 0):    
-            
+
+        elif (self.pins[2] == 1 and self.pins[14] == 0):
+
             output[7] = 1
             output[6] = 1
             output[5] = 1
@@ -3025,9 +3095,9 @@ class IC_74155(Base_16pin):
             output[11] = NOT(demux2.output()[2]).output()
             output[10] = NOT(demux2.output()[1]).output()
             output[9] = NOT(demux2.output()[0]).output()
-            
+
         elif (self.pins[2] == 0 and self.pins[14] == 0):
-        
+
             output[4] = NOT(demux1.output()[3]).output()
             output[5] = NOT(demux1.output()[2]).output()
             output[6] = NOT(demux1.output()[1]).output()
@@ -3035,8 +3105,89 @@ class IC_74155(Base_16pin):
             output[12] = NOT(demux2.output()[3]).output()
             output[11] = NOT(demux2.output()[2]).output()
             output[10] = NOT(demux2.output()[1]).output()
-            output[9] = NOT(demux2.output()[0]).output()      
-                     
+            output[9] = NOT(demux2.output()[0]).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_74155(Base_16pin):
+
+    """
+    This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input
+    while the other same as the input
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            None,
+            None,
+            None,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+
+        output = {}
+
+        demux1 = DEMUX(self.pins[1])
+        demux1.selectLines(self.pins[3], self.pins[13])
+
+        demux2 = DEMUX(NOT(self.pins[15]).output())
+        demux2.selectLines(self.pins[3], self.pins[13])
+
+        if (self.pins[2] == 1 and self.pins[14] == 1):
+            output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
+
+        elif (self.pins[2] == 0 and self.pins[14] == 1):
+
+            output[12] = 1
+            output[11] = 1
+            output[10] = 1
+            output[9] = 1
+            output[4] = NOT(demux1.output()[3]).output()
+            output[5] = NOT(demux1.output()[2]).output()
+            output[6] = NOT(demux1.output()[1]).output()
+            output[7] = NOT(demux1.output()[0]).output()
+
+        elif (self.pins[2] == 1 and self.pins[14] == 0):
+
+            output[7] = 1
+            output[6] = 1
+            output[5] = 1
+            output[4] = 1
+            output[12] = NOT(demux2.output()[3]).output()
+            output[11] = NOT(demux2.output()[2]).output()
+            output[10] = NOT(demux2.output()[1]).output()
+            output[9] = NOT(demux2.output()[0]).output()
+
+        elif (self.pins[2] == 0 and self.pins[14] == 0):
+
+            output[4] = NOT(demux1.output()[3]).output()
+            output[5] = NOT(demux1.output()[2]).output()
+            output[6] = NOT(demux1.output()[1]).output()
+            output[7] = NOT(demux1.output()[0]).output()
+            output[12] = NOT(demux2.output()[3]).output()
+            output[11] = NOT(demux2.output()[2]).output()
+            output[10] = NOT(demux2.output()[1]).output()
+            output[9] = NOT(demux2.output()[0]).output()
+
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]

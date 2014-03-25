@@ -9,6 +9,7 @@ from nose.tools import with_setup, nottest
 Testing backtrack function for depth 0 to 4
 '''
 
+
 def backtrack_depth_0_test():
     c1 = Connector()
     g1 = AND(True, True)
@@ -22,6 +23,7 @@ def backtrack_depth_0_test():
 
     if not backtrack(g3, 0) == (g3, False):
         assert False
+
 
 def backtrack_depth_1_test():
     c1 = Connector()
@@ -37,6 +39,7 @@ def backtrack_depth_1_test():
     if not backtrack(g3, 1) == (g3, [(c1, True), (c2, False)]):
         assert False
 
+
 def backtrack_depth_2_test():
     c1 = Connector()
     g1 = AND(True, True)
@@ -51,6 +54,7 @@ def backtrack_depth_2_test():
     if not backtrack(g3, 2) == (g3, [(c1, [(g1, True)]), (c2, [(g2, False)])]):
         assert False
 
+
 def backtrack_depth_3_test():
     c1 = Connector()
     g1 = AND(True, True)
@@ -64,6 +68,7 @@ def backtrack_depth_3_test():
 
     if not backtrack(g3, 3) == (g3, [(c1, [(g1, [True, True])]), (c2, [(g2, [False, False])])]):
         assert False
+
 
 def backtrack_depth_4_test():
     c1 = Connector()
@@ -83,6 +88,7 @@ def backtrack_depth_4_test():
 Testing backtrack with all gates
 '''
 
+
 def backtrack_all_gates_depth_0_test():
     g1 = OR(False, True)
     g2 = NOT(True)
@@ -94,6 +100,7 @@ def backtrack_all_gates_depth_0_test():
 
     if not backtrack(final, 0) == (final, False):
         assert False
+
 
 def backtrack_all_gates_depth_1_test():
     g1 = OR(False, True)
@@ -107,6 +114,7 @@ def backtrack_all_gates_depth_1_test():
     if not backtrack(final, 1) == (final, [(g1, True), (g2, False), (g3, True), (g4, False), (g5, True), (g6, False)]):
         assert False
 
+
 def backtrack_all_gates_depth_2_test():
     g1 = OR(False, True)
     g2 = NOT(True)
@@ -118,6 +126,7 @@ def backtrack_all_gates_depth_2_test():
 
     if not backtrack(final, 2) == (final, [(g1, [False, True]), (g2, [True]), (g3, [False, True]), (g4, [False, True]), (g5, [False, True]), (g6, [False, True])]):
         assert False
+
 
 def backtrack_all_gates_depth_4_test():
     g1 = OR(False, True)
@@ -134,6 +143,7 @@ def backtrack_all_gates_depth_4_test():
 '''
 Testing with Combinational (mux, demux, encoder and decoder)
 '''
+
 
 def backtrack_combinational_test():
     c0 = Connector()
@@ -161,13 +171,12 @@ def backtrack_combinational_test():
 
     final_a = AND(a1, a2, a3)
 
-    print backtrack(final_a, 0)
-    print backtrack(final_a, 1)
-    print backtrack(final_a, 2)
-    print backtrack(final_a, 3)
-    print backtrack(final_a, 4)
-    print backtrack(final_a, 5)
+    # print backtrack(final_a, 0)
+    # print backtrack(final_a, 1)
+    # print backtrack(final_a, 2)
+    # print backtrack(final_a, 3)
+    # print backtrack(final_a, 4)
+    # print backtrack(final_a, 5)
 
     if not backtrack(final_a, 4) == (final_a, [(a1, [(c0, [(demux, [True])]), (c1, [(demux, [True])])]), (a2, [(c2, [(dec, [False, True])]), (c3, [(dec, [False, True])])]), (a3, [(c4, [(enc, [False, False, True, False])]), (c5, [(enc, [False, False, True, False])])])]):
         assert False
-

@@ -114,7 +114,9 @@ class GATES:
         would be: 'AND Gate; Output: 0; Inputs: [0, 1];'
         '''
 
-        return gate_name + " Gate; Output: " + str(self.output()) + "; Inputs: " + str(self.getInputStates()) + ";"
+        return gate_name + " Gate; Output: " + \
+            str(self.output()) + "; Inputs: " + \
+            str(self.getInputStates()) + ";"
 
     def _compareHistory(self):
         if self.history_active == 1:  # Only check history if it is active
@@ -159,6 +161,7 @@ class AND(MIGATES):
     def __str__(self):
         return self.buildStr("AND")
 
+
 class OR(MIGATES):
 
     def __init__(self, *inputs):
@@ -179,6 +182,7 @@ class OR(MIGATES):
 
     def __str__(self):
         return self.buildStr("OR")
+
 
 class NOT(GATES):
 
@@ -217,6 +221,7 @@ class NOT(GATES):
     def __str__(self):
         return self.buildStr("NOT")
 
+
 class XOR(MIGATES):
 
     def __init__(self, *inputs):
@@ -241,6 +246,7 @@ class XOR(MIGATES):
 
     def __str__(self):
         return self.buildStr("XOR")
+
 
 class XNOR(MIGATES):
 
@@ -267,6 +273,7 @@ class XNOR(MIGATES):
     def __str__(self):
         return self.buildStr("XNOR")
 
+
 class NAND(MIGATES):
 
     def __init__(self, *inputs):
@@ -286,6 +293,7 @@ class NAND(MIGATES):
 
     def __str__(self):
         return self.buildStr("NAND")
+
 
 class NOR(MIGATES):
 

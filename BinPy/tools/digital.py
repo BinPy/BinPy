@@ -50,6 +50,7 @@ class Clock(threading.Thread):
         self.exitFlag = 0
         self.daemon = True
         self.A = Connector(0)
+        # self.A.trigger()
 
     def __toggleState(self):
         """
@@ -58,9 +59,11 @@ class Clock(threading.Thread):
         if self.curr_state == 1:
             self.curr_state = 0
             self.A.state = self.curr_state
+            # self.A.trigger()
         else:
             self.curr_state = 1
             self.A.state = self.curr_state
+            # self.A.trigger()
 
     def __main_func(self):
         while True:
@@ -85,6 +88,8 @@ class Clock(threading.Thread):
         if self.curr_state == value:
             return
         self.curr_state = value
+        self.A.state = self.curr_state
+        # self.A.trigger()
 
     def getTimePeriod(self):
         """
