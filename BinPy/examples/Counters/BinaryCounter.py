@@ -22,8 +22,8 @@ b = BinaryCounter(2, clk_conn)
 
 print("\n")
 print("Initializing the Oscillioscope")
-print("o = Oscilloscope((clk_conn, 'CLK'), (b.out[0], 'MSB'), (b.out[1],
-'LSB')')")
+print("o=Oscilloscope((clk_conn, 'CLK'), (b.out[0], 'MSB'), (b.out[1],
+                                                             'LSB')')")
 print("o.start() # starting the oscillioscope")
 print("o.setScale(0.05) # setting the scale")
 
@@ -39,9 +39,9 @@ print (b.state())
 print("\n")
 print ("Triggering the counter Sequentially")
 print ("
-for i in range(5):\
-    b.trigger()\
-    print (b.state())")
+       for i in range(5):
+       b.trigger()
+       print (b.state())")
 
 for i in range(5):
     b.trigger()
