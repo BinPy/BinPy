@@ -1465,7 +1465,7 @@ class IC_4027(Base_16pin):
                 isinstance(self.pins[3], Clock)):
             raise Exception("Error: Invalid Clock Input")
         ff1 = JKFlipFlop(self.pins[6], self.pins[5], Connector(1),
-                         self.pins[3].A, self.pins[4], self.pins[7]).output()
+                         self.pins[3].A, self.pins[4], self.pins[7])
 
         ff2 = JKFlipFlop(self.pins[10], self.pins[11], Connector(1),
                          self.pins[13].A, self.pins[12], self.pins[9])
@@ -1532,7 +1532,7 @@ class IC_4028(Base_16pin):
     def run(self):
         output = {}
         d = DEMUX(1)
-        d.selectLines(self.lines[10], self.pins[13], self.pins[12],
+        d.selectLines(self.pins[10], self.pins[13], self.pins[12],
                       self.pins[11])
         d = d.output()[:10]
         output[1] = d[4]
@@ -1553,3 +1553,102 @@ class IC_4028(Base_16pin):
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_4029(Base_16pin):
+
+    """
+    4-bit synchronous binary/decade up/down counter
+    """
+
+    def __init__(self):
+        self.pins = [0, 0, None, 0, 0, 0, None, 0, 0, None,
+                     0, None, 0, 0, None, 0, 1]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = False
+        """
+      self.setIC({1: {'desc': 'Y4'},
+                    2: {'desc': 'Y2'},
+                    3: {'desc': 'Y0'},
+                    4: {'desc': 'Y7'},
+                    5: {'desc': 'Y9'},
+                    6: {'desc': 'Y5'},
+                    7: {'desc': 'Y6'},
+                    8: {'desc': 'GND'},
+                    9: {'desc': 'Y8'},
+                    10: {'desc': 'S0'},
+                    11: {'desc': 'S3'},
+                    12: {'desc': 'S2'},
+                    13: {'desc': 'S1'},
+                    14: {'desc': 'Y1'},
+                    15: {'desc': 'Y3'},
+                    16: {'desc': 'VCC'}
+
+                    })
+        """
+        self.steps = 0
+        self.state = [0, 0, 0, 0]
+
+    def run(self):
+        output = {}
+
+        if not isinstance(self.pins[15], Clock):
+            raise Exception("Error: Invalid Clock Input")
+        c = BinaryCounter(4, self.pins[15].A)
+        while self.arraytoint(self.state) != self.arraytoint(c.trigger()):
+            pass
+
+        if self.pins[1] == 1:
+            preset = self.arraytoint(self.pins[4], self.pins[12],
+                                     self.pins[13], self.pins[3])
+            while preset != self.arraytoint(c.trigger()):
+                pass
+
+        if self.pins[10] == 1:
+            if self.pins[9] == 1:
+                output[6], output[11], output[14], output[2] = c.trigger()
+                self.state = c.state()
+                if self.arraytoint(self.state) == 15:
+                    output[7] = 1
+            elif self.pins[9] == 0:
+                arr = c.trigger()
+                output[6], output[11], output[14], output[2] = arr
+                self.state = arr
+                if self.arraytoint(arr) == 10:
+                    self.state = [0, 0, 0, 0]
+                    output[6], output[11], output[14], output[2] = [0, 0, 0, 0]
+
+        elif self.pins[10] == 0:
+            if self.pins[9] == 0:
+                d = NBitDownCounter(4, self.pins[15].A)
+                while self.arraytoint(self.state) != self.arraytoint(d.trigger()):
+                    pass
+                arr = d.trigger()
+                output[6], output[11], output[14], output[2] = arr
+                self.state = arr
+                if self.arraytoint(arr) > 10:
+                    self.state = [1, 0, 0, 1]
+                    output[6], output[11], output[14], output[2] = [1, 0, 0, 1]
+            elif self.pins[9] == 1:
+                d = NBitDownCounter(4, self.pins[15].A)
+                while self.arraytoint(self.state) != self.arraytoint(d.trigger()):
+                    pass
+                arr = d.trigger()
+                output[6], output[11], output[14], output[2] = arr
+                self.state = arr
+                if self.arraytoint(arr) == 0:
+                    output[7] = 0
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print ("Ground and VCC pins have not been configured correctly.")
+
+    def arraytoint(self, inputs):
+        inputs = list(map(str, inputs))
+        inputs = ''.join(inputs)
+        inputs = int(inputs, 2)
+        return inputs
