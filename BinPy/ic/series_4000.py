@@ -241,7 +241,6 @@ class IC_4012(Base_14pin):
             print ("Ground and VCC pins have not been configured correctly.")
 
 
-
 class IC_4013(Base_14pin):
 
     """
@@ -272,10 +271,10 @@ class IC_4013(Base_14pin):
         output = {}
         if not (isinstance(self.pins[3], Clock) and
                 isinstance(self.pins[11],
-            Clock)):
+                           Clock)):
             raise Exception("Error: Invalid Clock Input")
         ff1 = DFlipFlop(self.pins[5], Connector(1), self.pins[3].A,
-                clear=self.pins[6], preset=self.pins[4])
+                        clear=self.pins[6], preset=self.pins[4])
         while True:
             if self.pins[3].A.state == 0:
                 ff1.trigger()
@@ -288,7 +287,7 @@ class IC_4013(Base_14pin):
         output[2] = ff1.state()[1]
 
         ff2 = DFlipFlop(self.pins[9], Connector(1), self.pins[11].A,
-                clear=self.pins[8], preset=self.pins[10])
+                        clear=self.pins[8], preset=self.pins[10])
         while True:
             if self.pins[11].A.state == 0:
                 ff2.trigger()
@@ -307,6 +306,7 @@ class IC_4013(Base_14pin):
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
+
 
 class IC_4023(Base_14pin):
 
@@ -893,6 +893,7 @@ class IC_4082(Base_14pin):
 
 ######## IC's with 16 pins #################################
 
+
 class IC_4008(Base_16pin):
 
     """
@@ -901,7 +902,7 @@ class IC_4008(Base_16pin):
 
     def __init__(self):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, None, None, None,
-                None, 0, 0]
+                     None, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
         self.setIC({1: {'desc': 'A3'},
@@ -925,7 +926,7 @@ class IC_4008(Base_16pin):
     def run(self):
         output = {}
         ff = FullAdder(self.pins[7].value, self.pins[6].value,
-                self.pins[9].value).output()
+                       self.pins[9].value).output()
         output[10] = ff[0]
         ff = FullAdder(self.pins[5].value, self.pins[4].value, ff[1]).output()
         output[11] = ff[0]
@@ -934,7 +935,7 @@ class IC_4008(Base_16pin):
         ff = FullAdder(self.pins[1].value, self.pins[15].value, ff[1]).output()
         output[13] = ff[0]
         output[14] = ff[1]
-            
+
         if self.pins[8].value == 0 and self.pins[16].value == 1:
             self.setIC(output)
             for i in self.outputConnector:
@@ -943,6 +944,7 @@ class IC_4008(Base_16pin):
         else:
             print ("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_4009(Base_16pin):
 
     """
@@ -950,8 +952,24 @@ class IC_4009(Base_16pin):
     """
 
     def __init__(self):
-        self.pins = [None, 0, None, 0, None, 0, None, 0, 0, 0, None, 0, None, 0,
-                0, None, 1]
+        self.pins = [
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            None,
+            1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
         self.setIC({1: {'desc': 'VCC'},
@@ -997,8 +1015,24 @@ class IC_4010(Base_16pin):
     """
 
     def __init__(self):
-        self.pins = [None, 0, None, 0, None, 0, None, 0, 0, 0, None, 0, None, 0,
-                0, None, 1]
+        self.pins = [
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            None,
+            1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
         self.setIC({1: {'desc': 'VCC'},
@@ -1036,6 +1070,7 @@ class IC_4010(Base_16pin):
         else:
             print ("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_4015(Base_16pin):
 
     """
@@ -1044,7 +1079,7 @@ class IC_4015(Base_16pin):
 
     def __init__(self):
         self.pins = [None, 0, None, None, None, None, 0, 0, 0, 0, None, None,
-                None, None, 0, 0, 0]
+                     None, None, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
         self.setIC({1: {'desc': 'CLKB'},
@@ -1071,10 +1106,18 @@ class IC_4015(Base_16pin):
         if not (isinstance(self.pins[1], Clock) and
                 isinstance(self.pins[9], Clock)):
             raise Exception("Error: Invalid Clock Input")
-        sr1 = ShiftRegister([self.pins[7], self.pins[4], self.pins[3],
-                self.pins[2]], self.pins[1], NOT(self.pins[6]).output())
-        sr2 = ShiftRegister([self.pins[15], self.pins[12], self.pins[11],
-                self.pins[10]], self.pins[9], NOT(self.pins[14]).output())
+        sr1 = ShiftRegister([self.pins[7],
+                             self.pins[4],
+                             self.pins[3],
+                             self.pins[2]],
+                            self.pins[1],
+                            NOT(self.pins[6]).output())
+        sr2 = ShiftRegister([self.pins[15],
+                             self.pins[12],
+                             self.pins[11],
+                             self.pins[10]],
+                            self.pins[9],
+                            NOT(self.pins[14]).output())
         sr1 = sr1.output()
         output[5] = sr1[0]
         output[4] = sr1[1]
@@ -1094,6 +1137,7 @@ class IC_4015(Base_16pin):
         else:
             print ("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_4017(Base_16pin):
 
     """
@@ -1102,7 +1146,7 @@ class IC_4017(Base_16pin):
 
     def __init__(self):
         self.pins = [None, None, None, None, None, None, None, None, 0, None,
-                None, None, None, 0, 0, 0, 1]
+                     None, None, None, 0, 0, 0, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
         self.setIC({1: {'desc': '5'},
@@ -1123,27 +1167,28 @@ class IC_4017(Base_16pin):
                     16: {'desc': 'VDD'}
 
                     })
-        self.step=0
+        self.step = 0
+
     def run(self):
         output = {}
         if not (isinstance(self.pins[13], Clock) and
                 isinstance(self.pins[14], Clock)):
             raise Exception("Error: Invalid Clock Input")
         counter = DecadeCounter(self.pins[14].A,
-                clear=Connector(NOT(self.pins[15]).output()))
+                                clear=Connector(NOT(self.pins[15]).output()))
         for i in range(self.step):
             counter.trigger()
         self.step += 1
         out = list(map(str, counter.state()))
         out = ''.join(out)
         out = int(out, 2)
-        if out <= 4 :
+        if out <= 4:
             output[12] = 1
         else:
             output[12] = 0
-        for i in range(1,12):
+        for i in range(1, 12):
             output[i] = 0
-        
+
         if out == 5:
             output[1] = 1
         elif out == 1:
@@ -1165,7 +1210,6 @@ class IC_4017(Base_16pin):
         elif out == 9:
             output[11] = 1
 
-
         if self.pins[8] == 0 and self.pins[16] == 1:
             self.setIC(output)
             for i in self.outputConnector:
@@ -1183,7 +1227,7 @@ class IC_4019(Base_16pin):
 
     def __init__(self):
         self.pins = [None, None, None, None, None, None, None, None, 0, None,
-                None, None, None, 0, 0, 0, 1]
+                     None, None, None, 0, 0, 0, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
         self.setIC({1: {'desc': '4A1'},
@@ -1204,18 +1248,19 @@ class IC_4019(Base_16pin):
                     16: {'desc': 'VCC'}
 
                     })
+
     def run(self):
         output = {}
         output[10] = OR(AND(self.pins[9], self.pins[6]).output(),
-            AND(self.pins[14], self.pins[7]).output()).output()
+                        AND(self.pins[14], self.pins[7]).output()).output()
 
         output[11] = OR(AND(self.pins[9], self.pins[4]).output(),
-            AND(self.pins[14], self.pins[5]).output()).output()
+                        AND(self.pins[14], self.pins[5]).output()).output()
         output[12] = OR(AND(self.pins[9], self.pins[2]).output(),
-            AND(self.pins[14], self.pins[3]).output()).output()
+                        AND(self.pins[14], self.pins[3]).output()).output()
 
         output[13] = OR(AND(self.pins[9], self.pins[1]).output(),
-            AND(self.pins[14], self.pins[15]).output()).output()
+                        AND(self.pins[14], self.pins[15]).output()).output()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
             self.setIC(output)
@@ -1234,7 +1279,7 @@ class IC_4020(Base_16pin):
 
     def __init__(self):
         self.pins = [None, None, None, None, None, None, None, None, 0, None,
-                0, 0, None, None, None, None, 1]
+                     0, 0, None, None, None, None, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
         self.setIC({1: {'desc': 'Q11'},
@@ -1255,23 +1300,24 @@ class IC_4020(Base_16pin):
                     16: {'desc': 'VCC'}
 
                     })
-        self.step=0
+        self.step = 0
+
     def run(self):
         output = {}
         if not (isinstance(self.pins[10], Clock)):
             raise Exception("Error: Invalid Clock Input")
         counter = Stage14Counter(self.pins[10].A,
-                clear=Connector(NOT(self.pins[11]).output()))
+                                 clear=Connector(NOT(self.pins[11]).output()))
         for i in range(self.step):
             counter.trigger()
         self.step += 1
         out = list(map(str, counter.state()))
         out = ''.join(out)
         out = int(out, 2)
-        for i in range(1,16):
-            if i!= 10 and i!= 11:
+        for i in range(1, 16):
+            if i != 10 and i != 11:
                 output[i] = 0
-        
+
         if out == 11:
             output[1] = 1
         elif out == 12:
@@ -1314,7 +1360,7 @@ class IC_4022(Base_16pin):
 
     def __init__(self):
         self.pins = [None, None, None, None, None, None, None, None, 0, None,
-                None, None, None, 0, 0, 0, 1]
+                     None, None, None, 0, 0, 0, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
         self.setIC({1: {'desc': '1'},
@@ -1335,27 +1381,28 @@ class IC_4022(Base_16pin):
                     16: {'desc': 'VDD'}
 
                     })
-        self.step=0
+        self.step = 0
+
     def run(self):
         output = {}
         if not (isinstance(self.pins[13], Clock) and
                 isinstance(self.pins[14], Clock)):
             raise Exception("Error: Invalid Clock Input")
         counter = OctalCounter(self.pins[14].A,
-                clear=Connector(NOT(self.pins[15]).output()))
+                               clear=Connector(NOT(self.pins[15]).output()))
         for i in range(self.step):
             counter.trigger()
         self.step += 1
         out = list(map(str, counter.state()))
         out = ''.join(out)
         out = int(out, 2)
-        if out <= 3 :
+        if out <= 3:
             output[12] = 1
         else:
             output[12] = 0
-        for i in range(1,12):
+        for i in range(1, 12):
             output[i] = 0
-        
+
         if out == 5:
             output[4] = 1
         elif out == 1:
@@ -1382,3 +1429,127 @@ class IC_4022(Base_16pin):
             print ("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_4027(Base_16pin):
+
+    """
+    Dual JK flip flops with set and reset
+    """
+
+    def __init__(self):
+        self.pins = [None, None, None, 0, 0, 0, 0, 0, 0, 0, 0,
+                     0, 0, 0, None, None, 1]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = False
+        self.setIC({1: {'desc': 'Q1'},
+                    2: {'desc': '~Q1'},
+                    3: {'desc': 'CLK1'},
+                    4: {'desc': 'RST1'},
+                    5: {'desc': 'K1'},
+                    6: {'desc': 'J1'},
+                    7: {'desc': 'SET1'},
+                    8: {'desc': 'GND'},
+                    9: {'desc': 'SET2'},
+                    10: {'desc': 'J2'},
+                    11: {'desc': 'K2'},
+                    12: {'desc': 'RST2'},
+                    13: {'desc': 'CLK2'},
+                    14: {'desc': '~Q2'},
+                    15: {'desc': 'Q2'},
+                    16: {'desc': 'VCC'}
+
+                    })
+
+    def run(self):
+        output = {}
+        if not (isinstance(self.pins[13], Clock) and
+                isinstance(self.pins[3], Clock)):
+            raise Exception("Error: Invalid Clock Input")
+        ff1 = JKFlipFlop(self.pins[6], self.pins[5], Connector(1),
+                         self.pins[3].A, self.pins[4], self.pins[7]).output()
+
+        ff2 = JKFlipFlop(self.pins[10], self.pins[11], Connector(1),
+                         self.pins[13].A, self.pins[12], self.pins[9])
+        while True:
+            if self.pins[3].A.state == 1:
+                ff1.trigger()
+                break
+
+        while True:
+            if self.pins[3].A.state == 0:
+                ff1.trigger()
+                break
+        output[1], output[2] = ff1.state()
+        while True:
+            if self.pins[13].A.state == 1:
+                ff2.trigger()
+                break
+
+        while True:
+            if self.pins[13].A.state == 1:
+                ff2.trigger()
+                break
+        output[15], output[14] = ff2.state()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print ("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_4028(Base_16pin):
+
+    """
+    1-of-10 no-inverting decoder/demultiplexer
+    """
+
+    def __init__(self):
+        self.pins = [None, None, None, None, None, None, None, None, 0, None,
+                     0, 0, 0, 0, None, None, 1]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = False
+        self.setIC({1: {'desc': 'Y4'},
+                    2: {'desc': 'Y2'},
+                    3: {'desc': 'Y0'},
+                    4: {'desc': 'Y7'},
+                    5: {'desc': 'Y9'},
+                    6: {'desc': 'Y5'},
+                    7: {'desc': 'Y6'},
+                    8: {'desc': 'GND'},
+                    9: {'desc': 'Y8'},
+                    10: {'desc': 'S0'},
+                    11: {'desc': 'S3'},
+                    12: {'desc': 'S2'},
+                    13: {'desc': 'S1'},
+                    14: {'desc': 'Y1'},
+                    15: {'desc': 'Y3'},
+                    16: {'desc': 'VCC'}
+
+                    })
+
+    def run(self):
+        output = {}
+        d = DEMUX(1)
+        d.selectLines(self.lines[10], self.pins[13], self.pins[12],
+                      self.pins[11])
+        d = d.output()[:10]
+        output[1] = d[4]
+        output[2] = d[2]
+        output[3] = d[0]
+        output[4] = d[7]
+        output[5] = d[9]
+        output[6] = d[5]
+        output[7] = d[6]
+        output[9] = d[8]
+        output[14] = d[1]
+        output[15] = d[3]
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print ("Ground and VCC pins have not been configured correctly.")

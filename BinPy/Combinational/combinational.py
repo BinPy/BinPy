@@ -1,8 +1,9 @@
 from BinPy.Gates.gates import *
 import math
 
+
 class HalfAdder(GATES):
-    
+
     """This Class implements Half Adder, Arithmetic sum of two bits and return its
     Sum and Carry
     Output: [SUM, CARRY]
@@ -10,9 +11,9 @@ class HalfAdder(GATES):
         >>> from BinPy import *
         >>> ha = HalfAdder(0, 1)
         >>> ha.output()
-        [1, 0]              
+        [1, 0]
 
-    """    
+    """
 
     def __init__(self, input1, input2):
         GATES.__init__(self, [input1, input2])
@@ -26,7 +27,7 @@ class HalfAdder(GATES):
         S = XOR(self.inputs[0], self.inputs[1]).output()
         C = AND(self.inputs[0], self.inputs[1]).output()
         self._updateResult([S, C])
-    
+
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
@@ -40,7 +41,8 @@ class HalfAdder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
-        
+
+
 class FullAdder(GATES):
 
     """This Class implements Full Adder, Arithmetic sum of three bits and
@@ -50,7 +52,7 @@ class FullAdder(GATES):
         >>> from BinPy import *
         >>> fa = FullAdder(0, 1, 1)
         >>> fa.output()
-        [0, 1]              
+        [0, 1]
     """
 
     def __init__(self, input1, input2, carry):
@@ -67,7 +69,7 @@ class FullAdder(GATES):
         S = ha2[0]
         C = OR(ha2[1], ha1[1]).output()
         self._updateResult([S, C])
-    
+
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
@@ -81,6 +83,217 @@ class FullAdder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+
+
+class BinaryAdder(GATES):
+
+    """This Class implements Binary Adder, Arithmetic sum of two bit strings
+    and return its Sum and Carry
+    Output: [SUM, CARRY]
+    Example:
+        >>> from BinPy import *
+        >>> ba = BinaryAdder([0, 1], [1, 0], 0)
+        >>> ba.output()
+        [1, 1, 0]
+
+    """
+
+    def __init__(self, input1, input2, carry):
+        self.carry = carry
+        self.size = max(len(input1), len(input2))
+        input1 = self.fill(input1, self.size)
+        input2 = self.fill(input2, self.size)
+        GATES.__init__(self, [input1, input2])
+        self.outputType = [0] * (self.size + 1)
+        self.outputConnector = [None] * (self.size + 1)
+        self.trigger()
+
+    def fill(self, arr, size):
+        arr = list(map(str, arr))
+        arr = "".join(arr)
+        arr = str.zfill(arr, size)
+        arr = list(arr)
+        arr = list(map(int, arr))
+        return arr
+
+    def trigger(self):
+        if isinstance(self.outputType, int):
+            return
+        result = []
+        carry = self.carry
+        for i in range(self.size - 1, -1, -1):
+            S, carry = FullAdder(
+                self.inputs[0][i], self.inputs[1][i], carry).output()
+            result.append(S)
+        result.append(carry)
+        result.reverse()
+
+        self._updateResult(result)
+
+    def setOutput(self, index, value):
+        if not isinstance(value, Connector):
+            raise Exception("ERROR: Expecting a Connector Class Object")
+        value.tap(self, 'output')
+        self.outputType[index] = 1
+        self.outputConnector[index] = value
+        self.trigger()
+
+    def _updateResult(self, value):
+        self.result = value
+        for i in range(len(value)):
+            if self.outputType[i] == 1:
+                self.outputConnector[i].state = value[i]
+
+
+class HalfSubtractor(GATES):
+
+    """This Class implements Half Subtractor, Arithmetic difference of two bits and return its
+    Difference and Borrow output
+    Output: [Difference, Borrow]
+    Example:
+        >>> from BinPy import *
+        >>> hs = HalfSubtractor(0, 1)
+        >>> hs.output()
+        [1, 1]
+
+    """
+
+    def __init__(self, input1, input2):
+        GATES.__init__(self, [input1, input2])
+        self.outputType = [0, 0]
+        self.outputConnector = [None, None]
+        self.trigger()
+
+    def trigger(self):
+        if isinstance(self.outputType, int):
+            return
+        D = XOR(self.inputs[0], self.inputs[1]).output()
+        B = AND(NOT(self.inputs[0]), self.inputs[1]).output()
+        self._updateResult([D, B])
+
+    def setOutput(self, index, value):
+        if not isinstance(value, Connector):
+            raise Exception("ERROR: Expecting a Connector Class Object")
+        value.tap(self, 'output')
+        self.outputType[index] = 1
+        self.outputConnector[index] = value
+        self.trigger()
+
+    def _updateResult(self, value):
+        self.result = value
+        for i in range(len(value)):
+            if self.outputType[i] == 1:
+                self.outputConnector[i].state = value[i]
+
+
+class FullSubtractor(GATES):
+
+    """This Class implements Full Subtractor, Arithmetic difference of three bits and
+    return its Difference and Borrow
+    Output: [Difference, Borrow]
+    Example:
+        >>> from BinPy import *
+        >>> fs = FullSubtractor(0, 1, 1)
+        >>> fs.output()
+        [0, 1]
+    """
+
+    def __init__(self, input1, input2, borrow):
+        GATES.__init__(self, [input1, input2, borrow])
+        self.outputType = [0, 0, 0]
+        self.outputConnector = [None, None, None]
+        self.trigger()
+
+    def trigger(self):
+        if isinstance(self.outputType, int):
+            return
+        x = self.inputs[0]
+        y = self.inputs[1]
+        z = self.inputs[2]
+        D = OR(
+            AND(
+                NOT(x), NOT(y), z), AND(
+                NOT(x), y, NOT(z)), AND(
+                x, NOT(y), NOT(z)), AND(
+                x, y, z)).output()
+        B = OR(AND(NOT(x), z), AND(NOT(x), y), AND(y, z)).output()
+
+        self._updateResult([D, B])
+
+    def setOutput(self, index, value):
+        if not isinstance(value, Connector):
+            raise Exception("ERROR: Expecting a Connector Class Object")
+        value.tap(self, 'output')
+        self.outputType[index] = 1
+        self.outputConnector[index] = value
+        self.trigger()
+
+    def _updateResult(self, value):
+        self.result = value
+        for i in range(len(value)):
+            if self.outputType[i] == 1:
+                self.outputConnector[i].state = value[i]
+
+
+class BinarySubtractor(GATES):
+
+    """This Class implements Binary Subtractor, Arithmetic difference of two bit strings
+    and return its difference and borrow
+    Output: [difference, borrow]
+    Example:
+        >>> from BinPy import *
+        >>> bs = BinarySubtractor([0, 1], [1, 0], 1)
+        >>> bs.output()
+        [1, 1, 0]
+
+    """
+
+    def __init__(self, input1, input2, borrow):
+        self.borrow = borrow
+        self.size = max(len(input1), len(input2))
+        input1 = self.fill(input1, self.size)
+        input2 = self.fill(input2, self.size)
+        GATES.__init__(self, [input1, input2])
+        self.outputType = [0] * (self.size + 1)
+        self.outputConnector = [None] * (self.size + 1)
+        self.trigger()
+
+    def fill(self, arr, size):
+        arr = list(map(str, arr))
+        arr = "".join(arr)
+        arr = str.zfill(arr, size)
+        arr = list(arr)
+        arr = list(map(int, arr))
+        return arr
+
+    def trigger(self):
+        if isinstance(self.outputType, int):
+            return
+        result = []
+        borrow = self.borrow
+        for i in range(self.size - 1, -1, -1):
+            D, borrow = FullSubtractor(
+                self.inputs[0][i], self.inputs[1][i], borrow).output()
+            result.append(D)
+        result.append(borrow)
+        result.reverse()
+
+        self._updateResult(result)
+
+    def setOutput(self, index, value):
+        if not isinstance(value, Connector):
+            raise Exception("ERROR: Expecting a Connector Class Object")
+        value.tap(self, 'output')
+        self.outputType[index] = 1
+        self.outputConnector[index] = value
+        self.trigger()
+
+    def _updateResult(self, value):
+        self.result = value
+        for i in range(len(value)):
+            if self.outputType[i] == 1:
+                self.outputConnector[i].state = value[i]
+
 
 class MUX(GATES):
 
@@ -164,6 +377,7 @@ class MUX(GATES):
 
     def __str__(self):
         return self.buildStr("MUX")
+
 
 class DEMUX(GATES):
 
@@ -268,6 +482,7 @@ class DEMUX(GATES):
     def __str__(self):
         return self.buildStr("DEMUX")
 
+
 class Decoder(GATES):
 
     """
@@ -348,6 +563,7 @@ class Decoder(GATES):
 
     def __str__(self):
         return self.buildStr("Decoder")
+
 
 class Encoder(GATES):
 
@@ -444,4 +660,3 @@ class Encoder(GATES):
 
     def __str__(self):
         return self.buildStr("Encoder")
-

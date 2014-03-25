@@ -40,4 +40,3 @@ class Connector:
 
     def __str__(self):
         return "Connector; State: " + str(self.state)
-

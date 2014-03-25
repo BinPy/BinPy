@@ -2,6 +2,55 @@ from BinPy.Combinational.combinational import *
 from nose.tools import with_setup, nottest
 
 
+def HalfAdder_test():
+    ha = HalfAdder(0, 1)
+    assert ha.output() == [1, 0]
+
+    ha = HalfAdder(1, 1)
+    assert ha.output() == [0, 1]
+
+
+def FullAdder_test():
+    fa = FullAdder(0, 1, 0)
+    assert fa.output() == [1, 0]
+
+    fa = FullAdder(0, 1, 1)
+    assert fa.output() == [0, 1]
+
+
+def BinaryAdder_test():
+    ba = BinaryAdder([0, 1], [1], 0)
+    assert ba.output() == [0, 1, 0]
+
+    ba = BinaryAdder([0, 1], [1, 1], 1)
+    assert ba.output() == [1, 0, 1]
+
+
+def HalfSubtractor_test():
+    hs = HalfSubtractor(0, 1)
+    assert hs.output() == [1, 1]
+
+    hs = HalfSubtractor(1, 1)
+    assert hs.output() == [0, 0]
+
+
+def FullSubtractor_test():
+    fs = FullSubtractor(0, 1, 1)
+    assert fs.output() == [0, 1]
+    fs = FullSubtractor(1, 1, 0)
+    assert fs.output() == [0, 0]
+    fs = FullSubtractor(1, 1, 1)
+    assert fs.output() == [1, 1]
+
+
+def BinarySubtractor_test():
+    bs = BinarySubtractor([0, 1], [1], 0)
+    assert bs.output() == [0, 0, 0]
+
+    bs = BinarySubtractor([0, 1], [1, 1], 1)
+    assert bs.output() == [1, 0, 1]
+
+
 def MUX_test():
     mux = MUX(0, 1)
     mux.selectLines(0)

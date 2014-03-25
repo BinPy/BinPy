@@ -1,6 +1,7 @@
 from BinPy.Sequential.sequential import *
 from BinPy.tools import *
 
+
 class Register(object):
 
     """
@@ -17,7 +18,7 @@ class Register(object):
         self.outputType = {}
         self.outputConnector = {}
         self._updateConnections(self.inputs)
-    
+
     def _updateConnections(self, inputs):
         for i in inputs:
             if isinstance(i, Connector):
@@ -54,7 +55,7 @@ class Register(object):
             else:
                 input_states.append(i)
         return input_states
-    
+
     def _updateResult(self, value):
         self.result = value
         for i in self.outputType:
@@ -73,8 +74,9 @@ class Register(object):
         self.trigger()
         return self.result
 
+
 class FourBitRegister(Register):
-    
+
     """
     Four Bit Register
     Inputs: A0, A1, A2, A3
@@ -93,13 +95,13 @@ class FourBitRegister(Register):
 
     def __init__(self, A0, A1, A2, A3, clock, clear):
         Register.__init__(self, [A0, A1, A2, A3], clock, clear)
-    
+
     def trigger(self):
         out = []
-        for i in range(0,4):
+        for i in range(0, 4):
             ff1 = DFlipFlop(self.inputs[i], Connector(1), self.clock.A,
-                clear=self.clear)
-        
+                            clear=self.clear)
+
             while True:
                 if self.clock.A.state == 1:
                     ff1.trigger()
@@ -109,12 +111,12 @@ class FourBitRegister(Register):
                     ff1.trigger()
                     break
             out.append(ff1.state()[0])
-        
+
         self._updateResult(out)
 
 
 class FourBitRegister2(Register):
-    
+
     """
     Four Bit Register with Load
     Inputs: A0, A1, A2, A3
@@ -137,15 +139,15 @@ class FourBitRegister2(Register):
         self.old = [0, 0, 0, 0]             # Clear State
         self.load = load
         Register.__init__(self, [A0, A1, A2, A3], clock, clear)
-    
+
     def setLoad(self, load):
         self.load = load
 
     def trigger(self):
         out = []
-        for i in range(0,4):
+        for i in range(0, 4):
             ff1 = DFlipFlop(self.inputs[i], Connector(1), self.clock.A,
-                clear=self.clear)
+                            clear=self.clear)
             if self.load == 0:
                 ff1.setInputs(d=self.old[i])
             while True:
@@ -160,8 +162,9 @@ class FourBitRegister2(Register):
         self.old = out
         self._updateResult(out)
 
+
 class ShiftRegister(Register):
-    
+
     """
     Shift Register
     Inputs: [A0, A1, A2, A3]
@@ -184,14 +187,14 @@ class ShiftRegister(Register):
     def __init__(self, inputs, clock, clear=Connector(1), circular=0):
         self.circular = circular
         Register.__init__(self, inputs, clock, clear)
-    
+
     def trigger(self):
         a0 = self.inputs[0]
         for i in range(0, len(self.inputs)):
             ff1 = DFlipFlop(self.inputs[i], Connector(1), self.clock.A,
-                clear=self.clear)
-            if self.circular and i==0:
-                self.inputs[i] = self.inputs[len(self.inputs)-1]
+                            clear=self.clear)
+            if self.circular and i == 0:
+                self.inputs[i] = self.inputs[len(self.inputs) - 1]
             else:
                 self.inputs[i] = a0
             while True:
@@ -205,5 +208,3 @@ class ShiftRegister(Register):
             a0 = ff1.state()[0]
         out = self.inputs
         self._updateResult(out)
-
-

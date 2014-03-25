@@ -114,7 +114,8 @@ class GATES:
         would be: 'AND Gate; Output: 0; Inputs: [0, 1];'
         '''
 
-        return gate_name + " Gate; Output: " + str(self.output()) + "; Inputs: " + str(self.getInputStates()) + ";"
+        return gate_name + " Gate; Output: " + \
+            str(self.output()) + "; Inputs: " + str(self.getInputStates()) + ";"
 
     def _compareHistory(self):
         if self.history_active == 1:  # Only check history if it is active
@@ -149,15 +150,22 @@ class AND(MIGATES):
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
+            val = True
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == False) or (isinstance(i, GATES) and i.output() == False) or i == False:
-                    self._updateResult(False)
-                    break
+                if (isinstance(i, Connector)):
+                    val = val & i.state
+                elif (isinstance(i, GATES)):
+                    val = val & i.output()
+                else:
+                    val = val & i
+
+            self._updateResult(val)
             if self.outputType:
                 self.outputConnector.trigger()
 
     def __str__(self):
         return self.buildStr("AND")
+
 
 class OR(MIGATES):
 
@@ -169,16 +177,22 @@ class OR(MIGATES):
             self.history_active = 1
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
-
+            val = False
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state) or i:
-                    self._updateResult(True)
-                    break
+                if (isinstance(i, Connector)):
+                    val = val | i.state
+                elif (isinstance(i, GATES)):
+                    val = val | i.output()
+                else:
+                    val = val | i
+
+            self._updateResult(val)
             if self.outputType:
                 self.outputConnector.trigger()
 
     def __str__(self):
         return self.buildStr("OR")
+
 
 class NOT(GATES):
 
@@ -209,6 +223,8 @@ class NOT(GATES):
             self._updateHistory()  # Update the inputs after a computation
             if (isinstance(self.inputs[0], Connector)):
                 self._updateResult(not self.inputs[0].state)
+            elif (isinstance(self.inputs[0], GATES)):
+                self._updateResult(not self.inputs[0].output())
             else:
                 self._updateResult(not self.inputs[0])
             if self.outputType == 1:
@@ -216,6 +232,7 @@ class NOT(GATES):
 
     def __str__(self):
         return self.buildStr("NOT")
+
 
 class XOR(MIGATES):
 
@@ -231,6 +248,8 @@ class XOR(MIGATES):
             for i in self.inputs:
                 if isinstance(i, Connector):
                     val = i.state
+                elif isinstance(i, GATES):
+                    val = i.output()
                 else:
                     val = i
                 temp = temp ^ val
@@ -241,6 +260,7 @@ class XOR(MIGATES):
 
     def __str__(self):
         return self.buildStr("XOR")
+
 
 class XNOR(MIGATES):
 
@@ -256,6 +276,8 @@ class XNOR(MIGATES):
             for i in self.inputs:
                 if (isinstance(i, Connector)):
                     val = i.state
+                elif isinstance(i, GATES):
+                    val = i.output()
                 else:
                     val = i
                 temp = temp ^ val
@@ -267,6 +289,7 @@ class XNOR(MIGATES):
     def __str__(self):
         return self.buildStr("XNOR")
 
+
 class NAND(MIGATES):
 
     def __init__(self, *inputs):
@@ -277,15 +300,23 @@ class NAND(MIGATES):
             self.history_active = 1
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
+            val = True
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == False) or i == False:
-                    self._updateResult(True)
-                    break
+                if (isinstance(i, Connector)):
+                    val = val & i.state
+
+                elif (isinstance(i, GATES)):
+                    val = val & i.output()
+                else:
+                    val = val & i
+
+            self._updateResult(not val)
             if self.outputType:
                 self.outputConnector.trigger()
 
     def __str__(self):
         return self.buildStr("NAND")
+
 
 class NOR(MIGATES):
 
@@ -297,9 +328,16 @@ class NOR(MIGATES):
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
+            val = False
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state) or i:
-                    self._updateResult(False)
+                if (isinstance(i, Connector)):
+                    val = val | i.state
+                elif (isinstance(i, GATES)):
+                    val = val | i.output()
+                else:
+                    val = val | i
+
+            self._updateResult(not val)
 
             if self.outputType:
                 self.outputConnector.trigger()

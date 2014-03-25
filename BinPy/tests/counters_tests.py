@@ -70,37 +70,37 @@ def test_DecadeCounter():
 
 def test_RingCounter():
 
-	clock = Clock(1, 50000)
-	clock.start()
-	test_RingCounter = RingCounter(8, clock)
-	op = []
-	for i in range(8):
-		test_RingCounter.trigger()
-		op += test_RingCounter.state()
-		
-	assert op == [0, 1, 0, 0, 0, 0, 0, 0,
-		      0, 0, 1, 0, 0, 0, 0, 0,
-		      0, 0, 0, 1, 0, 0, 0, 0,
-		      0, 0, 0, 0, 1, 0, 0, 0,
-		      0, 0, 0, 0, 0, 1, 0, 0,
-		      0, 0, 0, 0, 0, 0, 1, 0,
-		      0, 0, 0, 0, 0, 0, 0, 1,
-		      1, 0, 0, 0, 0, 0, 0, 0]
-	clock.kill()
+    clock = Clock(1, 50000)
+    clock.start()
+    test_RingCounter = RingCounter(8, clock)
+    op = []
+    for i in range(8):
+        test_RingCounter.trigger()
+        op += test_RingCounter.state()
+
+    assert op == [0, 1, 0, 0, 0, 0, 0, 0,
+                  0, 0, 1, 0, 0, 0, 0, 0,
+                  0, 0, 0, 1, 0, 0, 0, 0,
+                  0, 0, 0, 0, 1, 0, 0, 0,
+                  0, 0, 0, 0, 0, 1, 0, 0,
+                  0, 0, 0, 0, 0, 0, 1, 0,
+                  0, 0, 0, 0, 0, 0, 0, 1,
+                  1, 0, 0, 0, 0, 0, 0, 0]
+    clock.kill()
 
 
 def test_JohnsonCounter():
 
-	clock = Clock(1, 50000)
-	clock.start()
-	test_JohnsonCounter = JohnsonCounter(4, clock)
-	op = []
-	for i in range(8):
-		test_JohnsonCounter.trigger()
-		op += test_JohnsonCounter.state()
+    clock = Clock(1, 50000)
+    clock.start()
+    test_JohnsonCounter = JohnsonCounter(4, clock)
+    op = []
+    for i in range(8):
+        test_JohnsonCounter.trigger()
+        op += test_JohnsonCounter.state()
 
-	assert op == [1, 1, 0, 0,1, 1, 1, 0, 
-                1, 1, 1, 1, 0, 1, 1, 1, 
-                0, 0, 1, 1, 0, 0, 0, 1, 
-                0, 0, 0, 0, 1, 0, 0, 0]
-	clock.kill()
+    assert op == [1, 1, 0, 0, 1, 1, 1, 0,
+                  1, 1, 1, 1, 0, 1, 1, 1,
+                  0, 0, 1, 1, 0, 0, 0, 1,
+                  0, 0, 0, 0, 1, 0, 0, 0]
+    clock.kill()

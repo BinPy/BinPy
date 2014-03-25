@@ -160,18 +160,22 @@ class StateMachineSolver:
             return False
 
         class State:
+
             """
             This class provides access to the state word from the lambda
             expressions.
             """
+
             def __getitem__(self, item):
                 return self.state == item
 
         class Variables:
+
             """
             This class provides access to the input variables from the
             lambda expressions.
             """
+
             def __init__(self, variables):
                 self.variables = {}
                 for i in xrange(len(variables)):
@@ -187,9 +191,11 @@ class StateMachineSolver:
 
 
 class StateMachineOptimizer:
+
     """ This class is the base for creating a Moore state machine
     optimizer.
     """
+
     def __init__(
             self,
             state_tran,
@@ -197,7 +203,7 @@ class StateMachineOptimizer:
             variables,
             outputs,
             **kwargs):
-        #Initialize the state machine optimizer.
+        # Initialize the state machine optimizer.
         self.state_tran = state_tran
         self.state_word_len = state_word_len
         self.sms = StateMachineSolver(state_tran, state_word_len, variables,
@@ -220,11 +226,13 @@ class StateMachineOptimizer:
 
 
 class StateMachineOptimizer_AllPermutations(StateMachineOptimizer):
+
     """
     This class implements a Moore state machine optimizer that tries
     all possible permutations for assignment of state word values to
     states.
     """
+
     def optimize(self):
         total = self.calc_total()
         min_complexity = 99999999
@@ -247,10 +255,12 @@ class StateMachineOptimizer_AllPermutations(StateMachineOptimizer):
 
 
 class StateMachineOptimizer_Random(StateMachineOptimizer):
+
     """
     This class implements a Moore state machine optimizer that tries
     permutations at random.
     """
+
     def optimize(self, tries=1000):
         total = self.calc_total()
 
@@ -278,9 +288,11 @@ class StateMachineOptimizer_Random(StateMachineOptimizer):
 
 
 class StateMachineOptimizer_FileAndVerify(StateMachineOptimizer):
+
     """
     This class is used for testing the state machine optimizer.
     """
+
     def optimize(self, file):
         for line in open(file, 'r').readlines():
             input, expected_output = eval(line)
