@@ -7,6 +7,10 @@ class Connector:
         self.oldstate = None
 
     def tap(self, element, mode):
+        # Can't serve output for multiple devices
+        if mode == "output":
+            self.connections["output"] = []
+
         if element not in self.connections[mode]:
             self.connections[mode].append(
                 element)  # Add an element to the connections list
@@ -30,3 +34,10 @@ class Connector:
     # Overloads the int() method
     def __int__(self):
         return self.state
+
+    def __repr__(self):
+        return str(self.state)
+
+    def __str__(self):
+        return "Connector; State: " + str(self.state)
+

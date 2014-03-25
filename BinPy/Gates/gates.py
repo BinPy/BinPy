@@ -41,9 +41,10 @@ class GATES:
 
     def setInput(self, index, value):
         if index >= len(self.inputs):
-            self.inputs.append(
-                value)  # If the index is more than the length then append to the list
-            self.history_active = 0  # Dont use history after a new input is added
+            # If the index is more than the length then append to the list
+            self.inputs.append(value)
+            # Dont use history after a new input is added
+            self.history_active = 0
             self._updateHistory()
                                 # because history_active is set to 0 trigger
                                 # will get called irrespective of the history.
@@ -98,6 +99,23 @@ class GATES:
         self.trigger()
         return self.result
 
+    def __repr__(self):
+        '''
+        Simple way to do 'print g', where g would be an instance of any gate
+        class. Functions returns the result of self.output() as a string.
+        '''
+
+        return str(self.output())
+
+    def buildStr(self, gate_name):
+        '''
+        Returns a string representation of a gate, where gate_name is the class
+        name For example, for an AND gate with two inputs the resulting string
+        would be: 'AND Gate; Output: 0; Inputs: [0, 1];'
+        '''
+
+        return gate_name + " Gate; Output: " + str(self.output()) + "; Inputs: " + str(self.getInputStates()) + ";"
+
     def _compareHistory(self):
         if self.history_active == 1:  # Only check history if it is active
             for i in range(len(self.inputs)):
@@ -127,17 +145,19 @@ class AND(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i,Connector) and i.state == False) or (isinstance(i, GATES) and i.output() == False) or i == False:
+                if (isinstance(i, Connector) and i.state == False) or (isinstance(i, GATES) and i.output() == False) or i == False:
                     self._updateResult(False)
                     break
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("AND")
 
 class OR(MIGATES):
 
@@ -145,18 +165,20 @@ class OR(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
 
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == True) or i == True:
+                if (isinstance(i, Connector) and i.state) or i:
                     self._updateResult(True)
                     break
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("OR")
 
 class NOT(GATES):
 
@@ -182,7 +204,7 @@ class NOT(GATES):
         self.setInputs(value)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateHistory()  # Update the inputs after a computation
             if (isinstance(self.inputs[0], Connector)):
@@ -192,6 +214,8 @@ class NOT(GATES):
             if self.outputType == 1:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("NOT")
 
 class XOR(MIGATES):
 
@@ -199,7 +223,7 @@ class XOR(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
@@ -215,6 +239,8 @@ class XOR(MIGATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("XOR")
 
 class XNOR(MIGATES):
 
@@ -222,7 +248,7 @@ class XNOR(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
@@ -238,6 +264,8 @@ class XNOR(MIGATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("XNOR")
 
 class NAND(MIGATES):
 
@@ -245,7 +273,7 @@ class NAND(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(False)
             self._updateHistory()  # Update the inputs after a computation
@@ -256,6 +284,8 @@ class NAND(MIGATES):
             if self.outputType:
                 self.outputConnector.trigger()
 
+    def __str__(self):
+        return self.buildStr("NAND")
 
 class NOR(MIGATES):
 
@@ -263,13 +293,16 @@ class NOR(MIGATES):
         MIGATES.__init__(self, *inputs)
 
     def trigger(self):
-        if self._compareHistory() == True:
+        if self._compareHistory():
             self.history_active = 1
             self._updateResult(True)
             self._updateHistory()  # Update the inputs after a computation
             for i in self.inputs:
-                if (isinstance(i, Connector) and i.state == True) or i == True:
+                if (isinstance(i, Connector) and i.state) or i:
                     self._updateResult(False)
 
             if self.outputType:
                 self.outputConnector.trigger()
+
+    def __str__(self):
+        return self.buildStr("NOR")

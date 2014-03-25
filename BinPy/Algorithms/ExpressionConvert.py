@@ -7,7 +7,7 @@ def makeCompatible(expr):
     expr = expr.replace('|', ' OR ')
     expr = expr.replace('~', ' NOT ')
     expr = expr.replace('^', ' XOR ')
-    return '(('+expr+'))'
+    return '((' + expr + '))'
 
 
 def createList(expr):
@@ -17,7 +17,7 @@ def createList(expr):
     list3 = []
     while ('' in list1):
         list1.remove('')
-    
+
     for string in list1:
         l = string.split()
         list2.extend(l)
@@ -28,8 +28,8 @@ def createList(expr):
             while ')' in string:
                 index = string.find(')')
                 sublist.append(string[:index])
-                sublist.append (')')
-                string = string[index+1:]
+                sublist.append(')')
+                string = string[index + 1:]
             sublist.append(string)
             list3.extend(sublist)
         else:
@@ -50,7 +50,7 @@ def mergeNot(case, expr):
         elif gate == 'AND' and case == 'general':
             return 'NAND' + expr[index:]
         elif gate == 'NOT':
-            return expr[index+1:-1]
+            return expr[index + 1:-1]
         elif gate == 'XOR'and case == 'general':
             return 'XNOR' + expr[index:]
         elif gate == 'XNOR'and case == 'general':
@@ -61,6 +61,7 @@ def mergeNot(case, expr):
             return 'OR' + expr[index:]
     return 'NOT(' + expr + ')'
 
+
 def to_and_or_not(gate, op1, op2):
     '''Converts a general two input gate and two of its operands to use only OR, NOT, or AND gates'''
     if gate == 'AND' or gate == 'OR':
@@ -70,46 +71,72 @@ def to_and_or_not(gate, op1, op2):
     elif gate == 'NOR':
         return 'NOT(OR(' + '(' + op1 + ', ' + op2 + ')'
     elif gate == 'XOR':
-        return ('OR(AND(' + op1 + ', '+ mergeNot('general', op2)
+        return ('OR(AND(' + op1 + ', ' + mergeNot('general', op2)
                 + '), AND(' + mergeNot('general', op1) + ', ' + op2 + '))')
     elif gate == 'XNOR':
-        return ('OR(AND(' + mergeNot('general', op1) + ', '
-                + mergeNot('general', op2) + '), AND(' + op1 + ', ' + op2 + '))')
+        return (
+            'OR(AND(' +
+            mergeNot(
+                'general',
+                op1) +
+            ', ' +
+            mergeNot(
+                'general',
+                op2) +
+            '), AND(' +
+            op1 +
+            ', ' +
+            op2 +
+            '))')
 
 
 def to_nand(gate, op1, op2):
     '''Converts a general two input gate and two of its operands to use only NAND gates'''
     if gate == 'AND':
-        return 'NOT(NAND('+ op1 + ', ' + op2 + '))'
+        return 'NOT(NAND(' + op1 + ', ' + op2 + '))'
     elif gate == 'OR':
         return ('NAND(' + mergeNot('special', op1) + ', '
-    + mergeNot('special', op2) + ')')
+                + mergeNot('special', op2) + ')')
     elif gate == 'NAND':
         return gate + '(' + op1 + ', ' + op2 + ')'
     elif gate == 'NOR':
         return 'NOT(' + to_nand('OR', op1, op2) + ')'
     elif gate == 'XOR':
-        return ('NAND(NAND(' + op1 + ', NAND(' + op1 + ', '
-    + op2 + ')), NAND(' + op2 + ', NAND(' + op1 + ', ' + op2 + ')))')
+        return (
+            'NAND(NAND(' +
+            op1 +
+            ', NAND(' +
+            op1 +
+            ', ' +
+            op2 +
+            ')), NAND(' +
+            op2 +
+            ', NAND(' +
+            op1 +
+            ', ' +
+            op2 +
+            ')))')
     elif gate == 'XNOR':
         return 'NOT(' + to_nand('XOR', op1, op2) + ')'
+
 
 def to_nor(gate, op1, op2):
     '''Converts a general two input gate and two of its operands to use only NOR gates'''
     if gate == 'OR':
-        return 'NOT(NOR('+ op1 + ', ' + op2 + '))'
+        return 'NOT(NOR(' + op1 + ', ' + op2 + '))'
     elif gate == 'AND':
         return ('NOR(' + mergeNot('special', op1) + ', '
-    + mergeNot('special', op2) + ')')
+                + mergeNot('special', op2) + ')')
     elif gate == 'NOR':
         return gate + '(' + op1 + ', ' + op2 + ')'
     elif gate == 'NAND':
         return 'NOT(' + to_nor('AND', op1, op2) + ')'
     elif gate == 'XNOR':
         return ('NOR(NOR(' + op1 + ', NOR(' + op1 + ', '
-    + op2 + ')), NOR(' + op2 + ', NOR(' + op1 + ', ' + op2 + ')))')
+                + op2 + ')), NOR(' + op2 + ', NOR(' + op1 + ', ' + op2 + ')))')
     elif gate == 'XOR':
         return 'NOT(' + to_nor('XNOR', op1, op2) + ')'
+
 
 def remove_not(gate, exp):
     '''Converts a NOT gate and its operand to use the specified gate only.
@@ -119,12 +146,12 @@ def remove_not(gate, exp):
         index2 = index
         index3 = exp.find('(', index)
         while True:
-            index2 = exp.find(')', index2+1)
-            index3 = exp.find('(', index3+1)
+            index2 = exp.find(')', index2 + 1)
+            index3 = exp.find('(', index3 + 1)
             if index3 == -1 or index3 > index2:
                 break
-        exp = exp[:index] + gate + '(' + exp[index+4:index2] + \
-        ', ' + exp[index+4:index2] + ')' + exp[index2+1:]
+        exp = exp[:index] + gate + '(' + exp[index + 4:index2] + \
+            ', ' + exp[index + 4:index2] + ')' + exp[index2 + 1:]
     return exp
 
 
@@ -157,33 +184,36 @@ def convertExpression(expr, two_input=0, only_nand=0,
     list1 = createList(expr)
     while ')' in list1:
         index = list1.index(')')
-        if index != len(list1)-1 and list1[index+1] == ')':
+        if index != len(list1) - 1 and list1[index + 1] == ')':
             last = 0
         else:
             last = 1
         if len(list1) > 1:
-            op2 = list1.pop(index-1)
-            gate = list1.pop(index-2)
+            op2 = list1.pop(index - 1)
+            gate = list1.pop(index - 2)
             gate = gate.upper()
             if gate != 'NOT':
                 try:
-                    op1 = list1.pop(index-3)
+                    op1 = list1.pop(index - 3)
                 except:
-                    list1.insert(index-1, gate)
-                    list1.insert(index-2, op2)
+                    list1.insert(index - 1, gate)
+                    list1.insert(index - 2, op2)
                     break
                 previous_gate = op1[:len(gate)]
                 previous_gate = previous_gate.upper()
                 next_gate = op2[:len(gate)]
                 next_gate = next_gate.upper()
                 if (two_input == 0 and gate != 'NAND'and gate != 'NOR')and \
-                (only_nand == 0 and only_nor == 0 and only_and_or_not == 0):
+                        (only_nand == 0 and only_nor == 0 and only_and_or_not == 0):
                     if (gate == previous_gate) and (gate == next_gate.upper()):
-                        new_element = gate + '(' + op1[len(gate)+1:-1] + ', ' + op2[len(gate)+1:-1] + ')'
+                        new_element = gate + \
+                            '(' + op1[len(gate) + 1:-1] + ', ' + op2[len(gate) + 1:-1] + ')'
                     elif (gate == previous_gate) and (gate != next_gate.upper()):
-                        new_element = gate + '(' + op1[len(gate)+1:-1] + ', ' + op2 + ')'
+                        new_element = gate + \
+                            '(' + op1[len(gate) + 1:-1] + ', ' + op2 + ')'
                     elif (gate != previous_gate) and (gate == next_gate.upper()):
-                        new_element = gate + '(' + op1 + ', ' + op2[len(gate)+1:-1] + ')'
+                        new_element = gate + \
+                            '(' + op1 + ', ' + op2[len(gate) + 1:-1] + ')'
                     else:
                         new_element = gate + '(' + op1 + ', ' + op2 + ')'
                 else:
@@ -193,23 +223,23 @@ def convertExpression(expr, two_input=0, only_nand=0,
                         new_element = to_nand(gate, op1, op2)
                     elif only_nand == 0 and only_nor == 1 and only_and_or_not == 0:
                         new_element = to_nor(gate, op1, op2)
-                    elif  only_nand == 0 and only_nor == 0 and only_and_or_not == 1:
+                    elif only_nand == 0 and only_nor == 0 and only_and_or_not == 1:
                         new_element = to_and_or_not(gate, op1, op2)
                     else:
                         raise Exception("Invalid Input")
-                list1.insert(index-3, new_element)
+                list1.insert(index - 3, new_element)
                 if (last != 1) or list1.index(')') == 1:
-                        temp1 = list1.index(')')
-                        temp2 = list1.pop(temp1)
+                    temp1 = list1.index(')')
+                    temp2 = list1.pop(temp1)
             else:
                 if only_nand == 0 and only_nor == 0 and only_and_or_not == 0:
-                    new_element = mergeNot('general',op2)
+                    new_element = mergeNot('general', op2)
                 else:
                     new_element = mergeNot('special', op2)
-                list1.insert(index-2,new_element)
+                list1.insert(index - 2, new_element)
                 temp1 = list1.index(')')
                 temp2 = list1.pop(temp1)
-            if list1.count(')') == len(list1)-1:
+            if list1.count(')') == len(list1) - 1:
                 break
     if only_nand == 1:
         return (remove_not('NAND', list1[0]))

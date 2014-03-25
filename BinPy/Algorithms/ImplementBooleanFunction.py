@@ -2,6 +2,7 @@ from ExpressionConvert import *
 from QuineMcCluskey import *
 import sys
 
+
 def ImplementBooleanFn():
     ''' An interactive function which takes in minterms/maxterms and
     prints the Boolean Function and implementable form.
@@ -19,7 +20,7 @@ def ImplementBooleanFn():
     The logical expression is (((NOT B) AND C) OR (A AND C) OR (A AND (NOT B)))
     Can be implemented as OR(AND(NOT(B), C), AND(A, C), AND(A, NOT(B)))
     '''
-    
+
     Ones = []
     dont_care = []
     variables = input("Enter the list of variables\n")
@@ -31,7 +32,7 @@ def ImplementBooleanFn():
             Ones = Ones.split(',')
             for i in range(len(Ones)):
                 Ones[i] = int(Ones[i])
-                if Ones[i] >= pow(2,len(variables)):
+                if Ones[i] >= pow(2, len(variables)):
                     raise Exception("Error: Invalid Minterm")
             break
         elif choice == 'M':
@@ -39,9 +40,9 @@ def ImplementBooleanFn():
             Zeros = Zeros.split(',')
             for i in range(len(Zeros)):
                 Zeros[i] = int(Zeros[i])
-                if Zeros[i] >= pow(2,len(variables)):
+                if Zeros[i] >= pow(2, len(variables)):
                     raise Exception("Error: Invalid Maxterm")
-            for i in range(pow(2,len(variables))):
+            for i in range(pow(2, len(variables))):
                 if i not in Zeros:
                     Ones.append(i)
             break
@@ -52,7 +53,8 @@ Enter either m or M to choose. Press X to exit\n''')
                 sys.exit()
             else:
                 continue
-    dont_care = input("Enter list of Don't Care terms\nEnter X if there are none\n")
+    dont_care = input(
+        "Enter list of Don't Care terms\nEnter X if there are none\n")
     if dont_care != 'X':
         dont_care = dont_care.split(',')
         for i in range(len(dont_care)):
@@ -62,11 +64,10 @@ Enter either m or M to choose. Press X to exit\n''')
 
     qm = QM(variables)
     if dont_care is not None:
-        LogicalExpression = qm.get_function(qm.solve(Ones,dont_care)[1])
+        LogicalExpression = qm.get_function(qm.solve(Ones, dont_care)[1])
     else:
         LogicalExpression = qm.get_function(qm.solve(Ones)[1])
     GateForm = convertExpression(LogicalExpression)
 
     print("The logical expression is " + LogicalExpression)
     print("Can be implemented as " + GateForm)
-    
