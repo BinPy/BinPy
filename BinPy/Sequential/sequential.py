@@ -547,55 +547,6 @@ class TFlipFlop(JKFlipFlop):
             b=Connector()):
 
         JKFlipFlop.__init__(self, T, T, enable, clk, preset, clear, a, b)
-        # T Flip Flop is just a JK Flip Flop with T input on both J and K
-
-        self.T = Connector(0)
-        self.preset = Connector(1)
-        self.clear = Connector(1)
-        self.setInputs(T=T, enable=enable, preset=preset, clear=clear)
-        self.setOutputs(A=a, B=b)
-
-        self.T.tap(self, "input")
-        self.enable.tap(self, "input")
-        self.clk.tap(self, "input")
-
-    def setInputs(self, **inputs):
-        for key in inputs:
-            if key.lower() == "t":
-                # To support both numerical/boolean values or Connector
-                # instances
-                if isinstance(inputs[key], Connector):
-                    self.J = self.K = self.T = inputs[key]
-                else:
-                    self.J.state = self.K.state = self.T.state \
-                        = int(inputs[key])
-            elif key.lower() == "enable":
-                if isinstance(inputs[key], Connector):
-                    self.enable = inputs[key]
-                else:
-                    self.enable.state = int(inputs[key])
-            elif key.lower() == "clk":
-                if isinstance(inputs[key], Connector):
-                    self.clk = inputs[key]
-                else:
-                    self.clk.state = int(inputs[key])
-            elif key.lower() == "preset":
-                if isinstance(inputs[key], Connector):
-                    self.preset = inputs[key]
-                else:
-                    self.preset.state = int(inputs[key])
-            elif key.lower() == "clear":
-                if isinstance(inputs[key], Connector):
-                    self.clear = inputs[key]
-                else:
-                    self.clear.state = int(inputs[key])
-            else:
-                print("ERROR: Unknow parameter passed" + str(key))
-
-        if not(self.preset.state or self.clear.state):
-            print("ERROR : Invalid State - Resetting the Latch")
-            self.preset.state = 1
-            self.clear.state = 1
 
     def setOutputs(self, **outputs):
         JKFlipFlop.setOutputs(self, **outputs)
