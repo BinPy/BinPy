@@ -3,9 +3,10 @@ from BinPy import *
 print ('Usage of IC 74156:\n')
 print ('Note: Usage of IC74155 is exactly same as IC74156')
 ic = IC_74156()
-print ("This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input while the other same as the input with open collector")
+print (
+    "This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input while the other same as the input with open collector")
 print ('\nThe Pin configuration is:\n')
-p = {1:1,2:0,3:0,13:1,8:0,16:1,15:1,14:0}
+p = {1: 1, 2: 0, 3: 0, 13: 1, 8: 0, 16: 1, 15: 1, 14: 0}
 print (p)
 print ('\nPin initialization -using -- ic.setIC(p) --\n')
 ic.setIC(p)

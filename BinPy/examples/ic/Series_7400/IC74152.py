@@ -5,7 +5,7 @@ print ('Usage of IC 74152:\n')
 ic = IC_74152()
 print ("""This is 14-pin 8:1 multiplexer with inverted input."""")
 print ('\nThe Pin configuration is:\n')
-p ={1:1 ,2:0 ,3:1 ,4:0 ,5:1 ,8:0 ,9:0 ,10:1 ,11:1 ,12:0 ,13:0 }
+p = {1: 1, 2: 0, 3: 1, 4: 0, 5: 1, 8: 0, 9: 0, 10: 1, 11: 1, 12: 0, 13: 0}
 print (p)
 print ('\nPin initialization -using -- ic.setIC(p) --\n')
 ic.setIC(p)

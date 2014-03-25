@@ -115,7 +115,8 @@ class GATES:
         '''
 
         return gate_name + " Gate; Output: " + \
-            str(self.output()) + "; Inputs: " + str(self.getInputStates()) + ";"
+            str(self.output()) + "; Inputs: " + \
+            str(self.getInputStates()) + ";"
 
     def _compareHistory(self):
         if self.history_active == 1:  # Only check history if it is active

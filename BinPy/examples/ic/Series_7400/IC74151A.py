@@ -5,7 +5,19 @@ print ('Usage of IC 74151A:\n')
 ic = IC_74151A()
 print ("""This is 16-pin 8:1 multiplexer featuring complementary W and Y outputs"""")
 print ('\nThe input Pin configuration is:\n')
-p = {1:1 ,2:0 ,4:1 ,3:1 ,7:0 ,9:0 ,10:0 ,11:0 ,12:0 ,13:0 ,14:1 ,15:1 }
+p = {
+    1: 1,
+    2: 0,
+    4: 1,
+    3: 1,
+    7: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 1,
+    15: 1}
 print (p)
 print ('\nPin initialization -using -- ic.setIC(p) --\n')
 ic.setIC(p)

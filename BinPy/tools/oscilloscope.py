@@ -22,6 +22,7 @@ except:
     _VHD = unichr(9492)
     _N = unichr(10)
 
+
 class Oscilloscope(threading.Thread):
 
     """
