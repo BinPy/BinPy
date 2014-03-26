@@ -1,6 +1,6 @@
 # [BinPy](http://binpy.github.io/)
 
-[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)[![Version](https://pypip.in/v/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3)[![Downloads](https://pypip.in/d/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3)
+[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy) [![Version](https://pypip.in/v/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3) [![Downloads](https://pypip.in/d/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3)
 
  * [About](#about)
  * [Installation](#installation)
