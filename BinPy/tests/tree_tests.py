@@ -1,5 +1,5 @@
 from __future__ import print_function
-from BinPy.Gates.backtrack import *
+from BinPy.Gates.tree import *
 from BinPy.Gates.gates import *
 from BinPy.Gates.connector import *
 from BinPy.Combinational.combinational import *
