@@ -26,6 +26,7 @@ script:
  - nosetests -v sequential_ic_tests.py
  - nosetests -v registers_tests.py
  - nosetests -v tree_tests.py
+ - nosetests -v print_tests.py
  - nosetests3 -v gates_tests.py
  - nosetests3 -v combinational_tests.py
  - nosetests3 -v operations_tests.py
@@ -37,3 +38,4 @@ script:
  - nosetests3 -v sequential_ic_tests.py
  - nosetests3 -v registers_tests.py
  - nosetests3 -v tree_tests.py
+ - nosetests3 -v print_tests.py
