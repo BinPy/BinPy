@@ -123,6 +123,57 @@ class IC:
                 raise Exception("ERROR: IC not supported")
         except:
             print("ERROR: Draw Failed - " + sys.exc_info()[1].args[0])
+    
+    def truthtable(self, pinConfig):
+
+        if isinstance(self, Base_14pin): a={1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:1}
+        elif isinstance(self, Base_16pin): a={1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:1, 15:0, 16:1}
+        elif isinstance(self, Base_5pin): a={1:0, 2:0, 3:0, 4:0, 5:1}
+        
+        i = pinConfig['i']
+        o = pinConfig['o']
+        
+        print ("   "+"INPUTS"+(" " * (5 * len(i) - 4))+"|"+"OUTPUTS")
+        print ("   "+"-" * (5 * len(i)+ 2)+ "|"+"-" * (5 * len(o)))
+        stdout.write("   ")
+        for j in range(len(i)):
+            if len(str(i[j])) == 1: print ("   "+ str(i[j]), end=" ")
+            elif len(str(i[j])) == 2: print ("  "+ str(i[j]), end=" ") 
+        stdout.write("  |")
+        for j in range(len(o)):
+            if len(str(o[j])) == 1: print ("   "+ str(o[j]), end=" ")
+            elif len(str(o[j])) == 2: print ("  "+ str(o[j]), end=" ")        
+        print ("\n   "+ "-" * (5 * len(i) + 2)+"|"+ "-" * (5 * len(o)))
+        
+        def f(l):
+        
+            if len(l) == 1:
+                for q in range(2):
+                    a[l[0]] = q
+                    inputlist = []
+                
+                    for u in range(len(i)):
+                        inputlist.append(a[i[u]])
+                    
+                    if hasattr(self,'invalidlist'):    
+                        if inputlist in self.invalidlist:
+                            break    
+                    
+                    
+                    self.setIC(a)
+                    outpins = self.run()
+                    
+                    stdout.write("   ")
+                    for u in range (len(i)): print ("   "+ str(a[i[u]]), end=" ")
+                    stdout.write("  |")
+                    for u in range(len(o)): print ("   "+ str(outpins[o[u]]), end=" ")
+                    print ("")    
+            
+            else:
+                for q in range(2):
+                    a[l[0]] = q
+                    f(l[1:])
+        f(i)
 
 
 class Base_5pin(IC):
