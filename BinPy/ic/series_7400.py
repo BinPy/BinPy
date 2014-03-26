@@ -1898,14 +1898,7 @@ class IC_7442(Base_16pin):
             0,
             0,
             0]
-
-    def run(self):
-        output = {}
-        inputlist = []
-        for i in range(12, 16, 1):
-            inputlist.append(self.pins[i])
-
-        invalidlist = [
+        self.invalidlist = [
             [
                 1, 0, 1, 0], [
                 1, 0, 1, 1], [
@@ -1913,8 +1906,16 @@ class IC_7442(Base_16pin):
                 1, 1, 0, 1], [
                 1, 1, 1, 0], [
                 1, 1, 1, 1]]
+            
 
-        if inputlist in invalidlist:
+    def run(self):
+        output = {}
+        inputlist = []
+        for i in range(12, 16, 1):
+            inputlist.append(self.pins[i])
+
+
+        if inputlist in self.invalidlist:
             raise Exception("ERROR: Invalid BCD number")
 
         output[1] = NAND(NOT(self.pins[15]).output(),
@@ -1995,6 +1996,14 @@ class IC_7443(Base_16pin):
             0,
             0,
             0]
+        self.invalidlist = [
+                [0, 0, 0, 0], 
+                [0, 0, 0, 1], [
+                0, 0, 1, 0], [
+                1, 1, 0, 1], [
+                1, 1, 1, 0], [
+                1, 1, 1, 1]]       
+            
 
     def run(self):
         output = {}
@@ -2002,16 +2011,8 @@ class IC_7443(Base_16pin):
         for i in range(12, 16, 1):
             inputlist.append(self.pins[i])
 
-        invalidlist = [
-            [
-                0, 0, 0, 0], [
-                0, 0, 0, 1], [
-                0, 0, 1, 0], [
-                1, 1, 0, 1], [
-                1, 1, 1, 0], [
-                1, 1, 1, 1]]
 
-        if inputlist in invalidlist:
+        if inputlist in self.invalidlist:
             raise Exception("ERROR: Invalid Pin configuration")
 
         output[1] = NAND(
@@ -2087,6 +2088,13 @@ class IC_7444(Base_16pin):
             0,
             0,
             0]
+        self.invalidlist = [ [0, 0, 0, 0],
+                             [0, 0, 0, 1],
+                             [0, 0, 1, 1],
+                             [1, 0, 0, 0],
+                             [1, 0, 0, 1],
+                             [1, 0, 1, 1]]
+            
 
     def run(self):
         output = {}
@@ -2094,16 +2102,7 @@ class IC_7444(Base_16pin):
         for i in range(12, 16, 1):
             inputlist.append(self.pins[i])
 
-        invalidlist = [
-            [
-                0, 0, 0, 0], [
-                0, 0, 0, 1], [
-                0, 0, 1, 1], [
-                1, 0, 0, 0], [
-                1, 0, 0, 1], [
-                1, 0, 1, 1]]
-
-        if inputlist in invalidlist:
+        if inputlist in self.invalidlist:
             raise Exception("ERROR: Invalid Pin configuration")
 
         output[1] = NAND(NOT(self.pins[15]).output(),
@@ -2177,6 +2176,14 @@ class IC_7445(Base_16pin):
             0,
             0,
             0]
+        
+        self.invalidlist = [
+                            [1, 0, 1, 0],
+                            [1, 0, 1, 1], 
+                            [1, 1, 0, 0],
+                            [1, 1, 0, 1],
+                            [1, 1, 1, 0],
+                            [1, 1, 1, 1]]            
 
     def run(self):
         output = {}
@@ -2184,16 +2191,7 @@ class IC_7445(Base_16pin):
         for i in range(12, 16, 1):
             inputlist.append(self.pins[i])
 
-        invalidlist = [
-            [
-                1, 0, 1, 0], [
-                1, 0, 1, 1], [
-                1, 1, 0, 0], [
-                1, 1, 0, 1], [
-                1, 1, 1, 0], [
-                1, 1, 1, 1]]
-
-        if inputlist in invalidlist:
+        if inputlist in self.invalidlist:
             raise Exception("ERROR: Invalid Pin configuration")
 
         output[1] = NAND(NOT(self.pins[15]).output(),
