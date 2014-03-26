@@ -129,6 +129,4 @@ class Operations:
             >>> Operations.binToDec('1001')
             >>> 9
         """
-        if type(number) == type([]):
-            number = ''.join(map(str,number))
         return int(number, 2)
