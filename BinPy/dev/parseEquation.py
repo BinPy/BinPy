@@ -7,7 +7,7 @@ class Expr:
 
     """
     This class is used to parse any expression which contain boolean variables.
-    Input String can be in the form og logical operators which can be parsed to
+    Input String can be in the form of logical operators which can be parsed to
     Gates by this class. This is also used to obtain the truth tables"
 
     Logical Operator form:  Function takes only equation as an input.
