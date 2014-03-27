@@ -1,10 +1,9 @@
 # [BinPy](http://binpy.github.io/)
 
-[![Build Status](https: // travis - ci.org / BinPy / BinPy.png?branch=develop)](https: // travis - ci.org / BinPy / BinPy)
+[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy) [![Version](https://pypip.in/v/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3) [![Downloads](https://pypip.in/d/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3)
 
  * [About](#about)
  * [Installation](#installation)
- * [Available Resources](#resources)
  * [Documentation](#documentation)
  * [Contribute](#contribute)
 
@@ -121,98 +120,8 @@ Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 BinPy also comes with a console that is a simple  wrapper around the classic python console from which you can directly use the BinPy Resources.
 
-To start it, simply issue:
-
-$ binpy
-
-if BinPy is installed in your path.
-
-<a id="resources"></a>
-Available Resources
--------------------
-* All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
-* Combinational logics
-	* MUX
-	* DEMUX
-    * Decoder
-	* Encoder
-	
-* IC-7400 Series
-
-	* 7400
-	* 7401
-	* 7402
-	* 7403
-	* 7404
-	* 7405
-	* 7408
-	* 7410
-	* 7411
-	* 7412
-	* 7413
-	* 7415
-	* 7416
-	* 7417
-	* 7418
-	* 7419
-	* 7420
-	* 7421
-	* 7422
-	* 7424
-	* 7425
-	* 7426
-	* 7427
-	* 7428
-	* 7430
-	* 7432
-	* 7433
-	* 7437
-	* 7440
-	* 7451
-	* 7454
-	* 7455
-	* 7458
-	* 7464
-	* 7486
-	* 741G00
-	* 741G02
-	* 741G03
-	* 741G04
-	* 741G05
-	* 741G08
-	* 7431
-	* 7442
-	* 7443
-	* 7444
-	* 7445
-	* 74133
-	* 74260
-
-* IC-4000 Series
-
-    * 4000
-    * 4001
-    * 4002
-    * 4011
-    * 4012
-    * 4023
-    * 4025
-    * 4068
-    * 4069
-    * 4070
-    * 4071
-    * 4072
-    * 4073
-    * 4075
-    * 4077
-    * 4078
-    * 4081
-    * 4082
-    
-
-* Algorithms
-	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
-	* Moore Machine Optimizer
+<<<<<<< HEAD
+To start it, simply issue ```$ binpy``` if BinPy is installed in your path.
 
 <a id="documentation"></a>
 Documentation
@@ -245,7 +154,6 @@ Future Work
 * Introduction of problem solving algorithms
 * Addition of Microprocessors and Analog Devices
 * Graphical representation of the circuit
-* ...
 
 <a id="contribute"></a>
 

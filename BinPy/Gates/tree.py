@@ -1,3 +1,11 @@
+"""
+Contains
+=======
+
+* Tree
+"""
+
+
 from __future__ import print_function
 from sys import stdout
 from BinPy.Gates.gates import *
@@ -9,8 +17,11 @@ class Tree:
     '''
     This class returns a tree representation of a digital element, such as a
     gate, and its inputs. The second argument specifies the depth to which the
-    representation shows digital elements instead of inputs. To illustrate a use
-    case, suppose the following code:
+    representation shows digital elements instead of inputs. To illustrate a
+    use case, suppose the following code:
+
+    Examples
+    ========
 
     >>> g1 = AND(True, False)
     >>> g2 = AND(True, False)
@@ -38,6 +49,7 @@ class Tree:
         '''
         Returns the backtrack hierarchy of the tree upto self.depth
         '''
+
         # Depth must be bigger than 0
         if self.depth < 0:
             raise Exception(
@@ -94,6 +106,9 @@ class Tree:
         The way a gate, or a mux or any other digital element gets
         represented depends on it's __str__() implementation.
 
+        Examples
+        ========
+
         >>> g1 = AND(True, False)
         >>> g2 = AND(True, False)
         >>> g3 = AND(g1, g2)
@@ -108,6 +123,7 @@ class Tree:
               |- True
               |- False
         '''
+
         if isinstance(tree_node, tuple):
             self.printSpaces(space)
             stdout.write("|- ")

@@ -139,6 +139,7 @@ class Operations:
             >>> Operations.binToDec('1001')
             >>> 9
         """
+
         if type(number)==list:
             number=''.join([str(i) for i in number])
         if "." in number:

@@ -1,4 +1,36 @@
+"""
+Contains
+========
+
+* Connector
+
+"""
+
+
 class Connector:
+    """
+    This class is the primary medium for data transfer. Objects of this
+    class can be connected to any digital object.
+
+    Example
+    =======
+
+    >>> from BinPy import *
+    >>> conn = Connector(1)  #Initializing connector with initial state = 1
+    >>> conn.state
+    1
+    >>> gate = OR(0, 1)
+    >>> conn.tap(gate, 'output')  #Tapping the connector
+
+    Methods
+    =======
+
+    * tap
+    * untap
+    * isInputof
+    * isOutputof
+    * trigger
+    """
 
     def __init__(self, state=None):
         self.connections = {"output": [], "input": []}

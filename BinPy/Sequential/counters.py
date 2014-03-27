@@ -114,8 +114,25 @@ class Counter(object):
 class BinaryCounter(Counter):
 
     """
-    A n Bit Binary Counter
+    An N-Bit Binary Counter
     Output connectors can be referenced by --> BinaryCounter_instance_name.out
+
+    Examples
+    ========
+
+    >>> From BinPy import *
+    >>> clock = Clock(0, 100)  #A clock with leading edge = 0 and frequency = 100Hz
+    >>> clock.start()
+    >>> clk_conn = clock.A
+    >>> b = BinaryCounter(2, clk_conn)
+    >>> for i in range(0, 5):
+    >>>     b.trigger()
+    >>>     print(b.state)
+    [0, 1]
+    [1, 0]
+    [1, 1]
+    [0, 0]
+    [0, 1]
     """
 
     def __init__(self, bits, clk, data=0,
@@ -149,6 +166,34 @@ class NBitRippleCounter(Counter):
 
     """
     An N-Bit Ripple Counter
+
+    Examples
+    ========
+
+    >>> From BinPy import *
+    >>> clock = Clock(0, 100)  #A clock with leading edge = 0 and frequency = 100Hz
+    >>> clock.start()
+    >>> clk_conn = clock.A
+    >>> counter = NBitRippleCounter(4, clk_conn)
+    >>> for i in range(0, 8):
+    >>>     counter.trigger()
+    >>>     print(counter.state)
+    [0, 0, 0, 1]
+    [0, 0, 1, 0]
+    [0, 0, 1, 1]
+    [0, 1, 0, 0]
+    [0, 1, 0, 1]
+    [0, 1, 1, 0]
+    [0, 1, 1, 1]
+    [1, 0, 0, 0]
+    [1, 0, 0, 1]
+    [1, 0, 1, 0]
+    [1, 0, 1, 1]
+    [1, 1, 0, 0]
+    [1, 1, 0, 1]
+    [1, 1, 1, 0]
+    [1, 1, 1, 1]
+    [0, 0, 0, 0]
     """
 
     def __init__(
@@ -196,6 +241,35 @@ class NBitDownCounter(Counter):
 
     """
     An N-Bit Down Counter
+
+    Examples
+    ========
+
+    >>> From BinPy import *
+    >>> clock = Clock(0, 100)  #A clock with leading edge = 0 and frequency = 100Hz
+    >>> clock.start()
+    >>> clk_conn = clock.A
+    >>> counter = NBitDownCounter(4, clk_conn)
+    >>> for i in range(0, 8):
+    >>>     counter.trigger()
+    >>>     print(counter.state)
+    [1, 1, 1, 1]
+    [1, 1, 1, 0]
+    [1, 1, 0, 1]
+    [1, 1, 0, 0]
+    [1, 0, 1, 1]
+    [1, 0, 1, 0]
+    [1, 0, 0, 1]
+    [1, 0, 0, 0]
+    [0, 1, 1, 1]
+    [0, 1, 1, 0]
+    [0, 1, 0, 1]
+    [0, 1, 0, 0]
+    [0, 0, 1, 1]
+    [0, 0, 1, 0]
+    [0, 0, 0, 1]
+    [0, 0, 0, 0]
+    [1, 1, 1, 1]
     """
 
     def __init__(
