@@ -1,3 +1,19 @@
+"""
+Contains
+========
+
+* GATES(Base class for all the gates)
+* MIGATES(Base class for multiple input gates inherits GATES)
+* AND
+* OR
+* NOT
+* XOR
+* XNOR
+* NAND
+* NOR
+"""
+
+
 from BinPy.Gates.connector import *
 
 
@@ -28,6 +44,12 @@ class GATES:
                 i.tap(self, 'input')
 
     def setInputs(self, *inputs):
+        """
+        This method sets multiple inputs of the gate at a time.
+        You can also use setInput() multiple times with different index
+        to add multiple inputs to the gate.
+        """
+
         # Clean Connections before updating new connections
         if len(inputs) < 2:
             raise Exception("ERROR: Too few inputs given")
@@ -40,6 +62,12 @@ class GATES:
                      # output
 
     def setInput(self, index, value):
+        """
+        This method is used to add input to a gate.
+        It requires an index and a value/connector object to add
+        an input to the gate.
+        """
+
         if index >= len(self.inputs):
             # If the index is more than the length then append to the list
             self.inputs.append(value)
@@ -48,7 +76,6 @@ class GATES:
             self._updateHistory()
                                 # because history_active is set to 0 trigger
                                 # will get called irrespective of the history.
-
         else:
             self.history_active = 1  # Use history before computing
             if isinstance(self.inputs[index], Connector):
@@ -62,6 +89,10 @@ class GATES:
         self.trigger()
 
     def getInputStates(self):
+        """
+        This method returns the input states of the gate
+        """
+
         input_states = []
         for i in self.inputs:
             if isinstance(i, Connector):
@@ -87,6 +118,11 @@ class GATES:
                 self.history_inputs[i] = val1
 
     def setOutput(self, connector):
+        """
+        This method sets the output of the gate. It connects
+        the passed connector to its output.
+        """
+
         if not isinstance(connector, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         connector.tap(self, 'output')
@@ -96,6 +132,10 @@ class GATES:
         self.trigger()
 
     def output(self):
+        """
+        This methods returns the output of the gate.
+        """
+
         self.trigger()
         return self.result
 
@@ -125,23 +165,47 @@ class GATES:
                     val1 = self.inputs[i].state
                 else:
                     val1 = self.inputs[i]
-                if i >= len(self.history_inputs) or self.history_inputs[i] != val1:
+                if i >= len(self.history_inputs) or self.history_inputs[i]
+                != val1:
                     return True
             return False
         return True
 
 
 class MIGATES(GATES):
+    """
+    This class makes GATES compatible with multiple inputs.
+    """
 
     def __init__(self, *inputs):
         if len(inputs) < 2:
             raise Exception(
-                "ERROR: Too few inputs given. Needs at least 2 or more inputs.")
+                "ERROR: Too few inputs given. Needs at least 2 or\
+                 more inputs.")
 
         GATES.__init__(self, list(inputs))
 
 
 class AND(MIGATES):
+    """
+    This class implements AND gate
+
+    Examples
+    ========
+
+    >>> from BinPy import *
+    >>> gate = AND(0, 1)
+    >>> gate.output()
+    0
+    >>> gate.setInputs(1, 1, 1, 1)
+    >>> gate.output()
+    1
+    >>> conn = Connector()
+    >>> gate.setOutput(conn)
+    >>> gate2 = AND(conn, 1)
+    >>> gate2.output()
+    1
+    """
 
     def __init__(self, *inputs):
         MIGATES.__init__(self, *inputs)
@@ -169,6 +233,25 @@ class AND(MIGATES):
 
 
 class OR(MIGATES):
+    """
+    This class implements OR gate
+
+    Examples
+    ========
+
+    >>> from BinPy import *
+    >>> gate = OR(0, 1)
+    >>> gate.output()
+    1
+    >>> gate.setInputs(0, 0, 0, 0)
+    >>> gate.output()
+    0
+    >>> conn = Connector()
+    >>> gate.setOutput(conn)
+    >>> gate2 = AND(conn, 1)
+    >>> gate2.output()
+    0
+    """
 
     def __init__(self, *inputs):
         MIGATES.__init__(self, *inputs)
@@ -196,6 +279,22 @@ class OR(MIGATES):
 
 
 class NOT(GATES):
+    """
+    This class implements NOT gate
+
+    Examples
+    ========
+
+    >>> from BinPy import *
+    >>> gate = NOT(0)
+    >>> gate.output()
+    1
+    >>> conn = Connector()
+    >>> gate.setOutput(conn)
+    >>> gate2 = AND(conn, 1)
+    >>> gate2.output()
+    1
+    """
 
     def __init__(self, *inputs):
         if len(inputs) != 1:
@@ -236,6 +335,25 @@ class NOT(GATES):
 
 
 class XOR(MIGATES):
+    """
+    This class implements XOR gate
+
+    Examples
+    ========
+
+    >>> from BinPy import *
+    >>> gate = XOR(0, 1)
+    >>> gate.output()
+    1
+    >>> gate.setInputs(1, 0, 1, 0)
+    >>> gate.output()
+    0
+    >>> conn = Connector()
+    >>> gate.setOutput(conn)
+    >>> gate2 = AND(conn, 1)
+    >>> gate2.output()
+    0
+    """
 
     def __init__(self, *inputs):
         MIGATES.__init__(self, *inputs)
@@ -264,6 +382,25 @@ class XOR(MIGATES):
 
 
 class XNOR(MIGATES):
+    """
+    This class implements XNOR gate
+
+    Examples
+    ========
+
+    >>> from BinPy import *
+    >>> gate = XNOR(0, 1)
+    >>> gate.output()
+    0
+    >>> gate.setInputs(1, 0, 1, 0)
+    >>> gate.output()
+    1
+    >>> conn = Connector()
+    >>> gate.setOutput(conn)
+    >>> gate2 = AND(conn, 1)
+    >>> gate2.output()
+    1
+    """
 
     def __init__(self, *inputs):
         MIGATES.__init__(self, *inputs)
@@ -292,6 +429,17 @@ class XNOR(MIGATES):
 
 
 class NAND(MIGATES):
+    """
+    This class implements NAND gate
+
+    Examples
+    ========
+
+    >>> from BinPy import *
+    >>> gate = NAND(0, 1)
+    >>> gate.output()
+    1
+    """
 
     def __init__(self, *inputs):
         MIGATES.__init__(self, *inputs)
@@ -320,6 +468,17 @@ class NAND(MIGATES):
 
 
 class NOR(MIGATES):
+    """
+    This class implements NOR gate
+
+    Examples
+    ========
+
+    >>> from BinPy import *
+    >>> gate = NOR(0, 1)
+    >>> gate.output()
+    0
+    """
 
     def __init__(self, *inputs):
         MIGATES.__init__(self, *inputs)
