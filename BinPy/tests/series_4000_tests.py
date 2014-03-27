@@ -425,3 +425,253 @@ def test_IC_4022():
                             0, 10: 1, 11: 0, 12: 0}
     assert testIC.run() == {1: 0, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9:
                             0, 10: 0, 11: 0, 12: 1}
+
+
+def test_IC_4027():
+    clk = Clock(1, 50000)
+    clk.start()
+    testIC = IC_4027()
+    p = {
+        1: 0,
+        2: 0,
+        3: clk,
+        4: 1,
+        5: 0,
+        6: 0,
+        7: 1,
+        8: 0,
+        9: 1,
+        10: 0,
+        11: 0,
+        12: 1,
+        13: clk,
+        14: 0,
+        15: 0,
+        16: 1}
+    testIC.setIC(p)
+    assert testIC.run() == {1: 0, 2: 1, 14: 1, 15: 0}
+    p = {
+        1: 0,
+        2: 0,
+        3: clk,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 1,
+        8: 0,
+        9: 1,
+        10: 0,
+        11: 0,
+        12: 0,
+        13: clk,
+        14: 0,
+        15: 0,
+        16: 1}
+    testIC.setIC(p)
+    assert testIC.run() == {1: 1, 2: 0, 14: 0, 15: 1}
+    p = {
+        1: 0,
+        2: 0,
+        3: clk,
+        4: 1,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+        11: 0,
+        12: 1,
+        13: clk,
+        14: 0,
+        15: 0,
+        16: 1}
+    testIC.setIC(p)
+    assert testIC.run() == {1: 0, 2: 1, 14: 1, 15: 0}
+
+
+def test_IC_2028():
+    testIC = IC_4028()
+    p = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 1,
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: 0,
+        16: 1}
+    testIC.setIC(p)
+    assert testIC.run() == {1: 0, 2: 0, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 9: 0, 14:
+                            0, 15: 0}
+    p[10] = 1
+    testIC.setIC(p)
+    assert testIC.run() == {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 9: 1, 14:
+                            0, 15: 0}
+    p[11] = 1
+    testIC.setIC(p)
+    assert testIC.run() == {1: 0, 2: 0, 3: 0, 4: 0, 5: 1, 6: 0, 7: 0, 9: 0,
+                            14: 0, 15: 0}
+
+    p[12] = 1
+    testIC.setIC(p)
+    assert testIC.run() == {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 9: 0,
+                            14: 0, 15: 0}
+
+    p[13] = 1
+    testIC.setIC(p)
+    assert testIC.run() == {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 9: 0,
+                            14: 0, 15: 0}
+
+
+def test_IC_4029():
+    clk = Clock(1, 5000)
+    clk.start()
+
+    p = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: clk,
+        16: 1}
+    testIC = IC_4029()
+    testIC.setIC(p)
+
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 1, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 1, 14: 0, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 0, 6: 0}
+    assert testIC.run() == {2: 1, 11: 0, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 0}
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 1, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 1, 14: 0, 6: 0}
+
+    p = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 1,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: clk,
+        16: 1}
+    testIC.setIC(p)
+    assert testIC.run() == {2: 0, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 0}
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 0, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 0, 6: 0}
+    assert testIC.run() == {2: 1, 11: 1, 14: 0, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 0}
+
+    p = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 1,
+        10: 1,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: clk,
+        16: 1}
+    testIC.setIC(p)
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 0, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 0, 6: 0}
+    assert testIC.run() == {2: 1, 11: 1, 14: 0, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 0, 11: 0, 14: 1, 6: 1}
+    assert testIC.run() == {2: 1, 11: 0, 14: 1, 6: 1}
+    assert testIC.run() == {2: 0, 11: 1, 14: 0, 6: 1}
+    assert testIC.run() == {2: 1, 11: 1, 14: 0, 6: 1}
+    assert testIC.run() == {2: 0, 11: 1, 14: 1, 6: 1}
+    assert testIC.run() == {2: 1, 11: 1, 14: 1, 6: 1, 7: 1}
+
+    p = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 1,
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: clk,
+        16: 1}
+    testIC.setIC(p)
+    assert testIC.run() == {2: 0, 11: 1, 14: 1, 6: 1}
+    assert testIC.run() == {2: 1, 11: 1, 14: 0, 6: 1}
+    assert testIC.run() == {2: 0, 11: 1, 14: 0, 6: 1}
+    assert testIC.run() == {2: 1, 11: 0, 14: 1, 6: 1}
+    assert testIC.run() == {2: 0, 11: 0, 14: 1, 6: 1}
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 1}
+    assert testIC.run() == {2: 1, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 1, 14: 0, 6: 0}
+    assert testIC.run() == {2: 0, 11: 1, 14: 0, 6: 0}
+    assert testIC.run() == {2: 1, 11: 0, 14: 1, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 1, 6: 0}
+    assert testIC.run() == {2: 1, 11: 0, 14: 0, 6: 0}
+    assert testIC.run() == {2: 0, 11: 0, 14: 0, 6: 0, 7: 0}
+
+    clk.kill()

@@ -29,9 +29,9 @@ print ("Clock frequency is 10 Hz")
 
 # Initializing the counter
 print("\n")
-print("Initializing DecadeCounter with 4 bits and clock_conn")
-print("b = DecadeCounter(clk_conn)")
-b = DecadeCounter(clk_conn)
+print("Initializing Stage14Counter with 4 bits and clock_conn")
+print("b = Stage14Counter(clk_conn)")
+b = Stage14Counter(clk_conn)
 
 # Initiating the oscilloscope
 print("\n")

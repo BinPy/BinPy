@@ -47,7 +47,7 @@ class Expr:
                 self.equation = equation
             else:
                 self.var = []
-                self.eqnParse(equation)
+                self.equation = self.eqnParse(equation)
         except:
             print("Invalid Arguments")
 
@@ -147,7 +147,7 @@ class Expr:
                     print ('ERROR: Equation error - Unmatched braces')
                     no_error = False
                     break
-                tmp = eqnParse(eqn[i + 1:pos])
+                tmp = self.eqnParse(eqn[i + 1:pos])
                 operands.append(tmp)
                 i = pos
             elif isOperandtype(eqn[i]):
@@ -161,7 +161,7 @@ class Expr:
                     # iteration.
             else:
                 print ('ERROR: Unrecognized characters in equation ' + eqn[i])
-                no_error = False
+                self.no_error = False
             i += 1
 
         if flag:
@@ -180,26 +180,25 @@ class Expr:
                 operands.append(
                     'AND(' +
                     operands.pop() +
-                    ',' +
+                    ', ' +
                     operands.pop() +
                     ')')
             elif operator == '|':
                 operands.append(
                     'OR(' +
                     operands.pop() +
-                    ',' +
+                    ', ' +
                     operands.pop() +
                     ')')
             elif operator == '^':
                 operands.append(
                     'XOR(' +
                     operands.pop() +
-                    ',' +
+                    ', ' +
                     operands.pop() +
                     ')')
 
         equation_final = operands.pop()
-        # print equation_final
 
         # Optimizing the final equation by clubbing the gates together:
 
@@ -294,9 +293,4 @@ class Expr:
                 equation_final = self.removeBraces(pos, equation_final)
                 # print equation_final
 
-        if self.no_error:
-            self.equation = equation_final
-        else:
-            None
-
-#print (eqnParse('~((((~A)&B&C)^(~A))&E&F&G)'))
+        return equation_final if self.no_error else None

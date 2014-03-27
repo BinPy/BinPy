@@ -6,7 +6,7 @@ def test_BinaryCounter():
 
     clock = Clock(1, 50000)
     clock.start()
-    test_BinaryCounter = BinaryCounter(clock.A)
+    test_BinaryCounter = BinaryCounter(2, clock.A)
     op = []
     for i in range(5):
         test_BinaryCounter.trigger()
