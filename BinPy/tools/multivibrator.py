@@ -10,11 +10,20 @@ class Multivibrator(threading.Thread):
     This class uses threading technique to create a multivibrator with a certain time period.
     USAGE:
         >>> m1 = Multivibrator()
-        >>> m1.trigger()   #or m1()
-        >>> m1.getState()  #or m1.A.state
+        >>> m1.start()     # Start this thread
+        >>> m1.trigger()   # or m1()
+        >>> m1.getState()  # or m1.A.state
         0
+        >>> m1.setMode(2)
+        >>> m1.trigger()
+        >>> m1.getstate()
+        >>> conn = Connector()
+        >>> m1.setOutput(conn) # To set the output to connector conn
+        >>> conn()             # Retrieves the current state
 
     Note: Once you are done with the multivibrator, use m1.kill() to kill the Multivibrators.
+        >>> m1.kill()
+
     Following are the parameters of the class
 
         frequency:      It will decide time interval of the Multivibrator, use SI unit i.e. Hertz
@@ -49,7 +58,7 @@ class Multivibrator(threading.Thread):
         if time_period is not None:
             self.time_period = time_period
         if time_period is None and frequency is None:
-            self.time_period = 10
+            self.time_period = 1
         self.mode = mode
 
         if on_time is not None and off_time is not None:
