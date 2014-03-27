@@ -165,7 +165,7 @@ class GATES:
                     val1 = self.inputs[i].state
                 else:
                     val1 = self.inputs[i]
-                if i >= len(self.history_inputs) or self.history_inputs[i]
+                if i >= len(self.history_inputs) or self.history_inputs[i]\
                 != val1:
                     return True
             return False
