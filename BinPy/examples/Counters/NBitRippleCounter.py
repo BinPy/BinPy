@@ -58,7 +58,6 @@ for i in range(1, 2 ** 4 + 1):
     print (b.state())
 o.display()
 o.kill()
-clock.kill()
 
 print("\n")
 print("Calling the instance will trigger")
@@ -96,3 +95,4 @@ b.enable()
 b.trigger()
 print("b.state()")
 print(b.state())
+clock.kill()
