@@ -119,17 +119,17 @@ class Operations:
             >>> 1100
         """
 
-        exponent=0
-        shifted_num=number
-        while shifted_num != int(shifted_num):        
-            shifted_num*=2
-            exponent+=1
-        if exponent==0:
+        exponent = 0
+        shifted_num = number
+        while shifted_num != int(shifted_num):
+            shifted_num *= 2
+            exponent += 1
+        if exponent == 0:
             return '{0:0b}'.format(int(shifted_num))
-        binary='{0:0{1}b}'.format(int(shifted_num),exponent+1)
-        integer_part=binary[:-exponent]
-        fractional_part=binary[-exponent:].rstrip('0')
-        return '{0}.{1}'.format(integer_part,fractional_part)
+        binary = '{0:0{1}b}'.format(int(shifted_num), exponent + 1)
+        integer_part = binary[:-exponent]
+        fractional_part = binary[-exponent:].rstrip('0')
+        return '{0}.{1}'.format(integer_part, fractional_part)
 
     @staticmethod
     def binToDec(number):
@@ -140,19 +140,19 @@ class Operations:
             >>> 9
         """
 
-        if type(number)==list:
-            number=''.join([str(i) for i in number])
+        if isinstance(number, list):
+            number = ''.join([str(i) for i in number])
         if "." in number:
-            [x,y]=number.split(".")
-            bin_x=int(x,2)
-            a=-1
-            bin_y=0
+            [x, y] = number.split(".")
+            bin_x = int(x, 2)
+            a = -1
+            bin_y = 0
             for i in list(y):
-                if i!="0" and i!="1":
+                if i != "0" and i != "1":
                     raise Exception("Invalid Input")
-                bin_y=bin_y+(int(i)*(2**a))
-                a=a-1
-            flt=bin_x+bin_y
+                bin_y = bin_y + (int(i) * (2 ** a))
+                a = a - 1
+            flt = bin_x + bin_y
             return flt
-        flt=int(number,2)
+        flt = int(number, 2)
         return flt

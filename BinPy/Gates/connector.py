@@ -8,6 +8,7 @@ Contains
 
 
 class Connector:
+
     """
     This class is the primary medium for data transfer. Objects of this
     class can be connected to any digital object.

@@ -166,13 +166,14 @@ class GATES:
                 else:
                     val1 = self.inputs[i]
                 if i >= len(self.history_inputs) or self.history_inputs[i]\
-                != val1:
+                        != val1:
                     return True
             return False
         return True
 
 
 class MIGATES(GATES):
+
     """
     This class makes GATES compatible with multiple inputs.
     """
@@ -187,6 +188,7 @@ class MIGATES(GATES):
 
 
 class AND(MIGATES):
+
     """
     This class implements AND gate
 
@@ -233,6 +235,7 @@ class AND(MIGATES):
 
 
 class OR(MIGATES):
+
     """
     This class implements OR gate
 
@@ -279,6 +282,7 @@ class OR(MIGATES):
 
 
 class NOT(GATES):
+
     """
     This class implements NOT gate
 
@@ -335,6 +339,7 @@ class NOT(GATES):
 
 
 class XOR(MIGATES):
+
     """
     This class implements XOR gate
 
@@ -382,6 +387,7 @@ class XOR(MIGATES):
 
 
 class XNOR(MIGATES):
+
     """
     This class implements XNOR gate
 
@@ -429,6 +435,7 @@ class XNOR(MIGATES):
 
 
 class NAND(MIGATES):
+
     """
     This class implements NAND gate
 
@@ -468,6 +475,7 @@ class NAND(MIGATES):
 
 
 class NOR(MIGATES):
+
     """
     This class implements NOR gate
 
