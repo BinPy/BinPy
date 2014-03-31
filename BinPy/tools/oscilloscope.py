@@ -14,6 +14,7 @@ try:
     _VHD = chr(9492)
     _N = chr(10)
 except:
+    range = xrange  # This is to make the sampler more efficient in python2
     _V = unichr(9474)
     _H = unichr(9472)
     _HVD = unichr(9488)
@@ -49,18 +50,27 @@ class Oscilloscope(threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
 
-        self.inputDict = {}
-        self.MAX_INP = 6
+        
+        self.MAX_INP = 15
         self.WID = 150
         self.LEN = 500
-        self.orderedInputs = []
+        
+        self.inputs = []
+        self.labels = {}
+        self.logicArray = [[]]
+        self.clearLA
+        self.leninputs = 0
+        
         self.active = False
         self.exitFlag = False
         self.C = "\x1b[0m"
 
         if len(inputs) > 0:
             self.updateInputs(*inputs)
-
+    
+    def clearLA(self):
+        self.logicArray = [[0 for x in range(self.WID)] for x in range(self.MAX_INP)]
+        
     def setWidth(self, w=150):
         """
         Set the maximum width of the oscilloscope.
@@ -90,10 +100,14 @@ class Oscilloscope(threading.Thread):
         For example:
         osc1.setInputs((conn1,"label") , (conn2,"label") ... )
         """
-        self.hold()
         self.clear(True)
+        
         if len(inputs) < 1:
             raise Exception("ERROR: Too few inputs given.")
+        
+        if  len(inputs) > self.MAX_INP - self.leninputs :
+            raise Exception("ERROR: Maximum inputs exceeded")
+            
         try:
             for i in inputs:
                 if not (isinstance(i, tuple) and isinstance(i[0], Connector) and isinstance(i[1], str)):
@@ -102,29 +116,33 @@ class Oscilloscope(threading.Thread):
             raise Exception("ERROR: Invalid input format")
 
         for i in inputs:
-            lbl = (i[1] + (5 - len(i[1])) * " " if len(i[1])
-                   <= 5 else i[1][:5]).rjust(5)
-            if i[0] in self.inputDict:
-                (self.inputDict[i[0]])["label"] = lbl
+            lbl = i[1][:5].rjust(5,' ')
+            
+            if i[0] in self.labels:
+                self.labels[i[0]] = lbl
             else:
-                self.orderedInputs.append(i[0])
-                self.inputDict[i[0]] = {"label": lbl,
-                                        "logicArray": [0] * self.WID}
-                self.changed = True
-
+                self.inputs.append(i[0])
+                self.labels[i[0]] = lbl
+        
+        self.leninputs = len(self.inputs)
+        
     def disconnect(self, conn):
         """
         Disconnects conn from the inputDict
         """
         self.hold()
         self.clear(True)
-        self.inputDict.pop(conn, None)
-        self.orderedInputs.remove(conn)
+        self.labels.pop(conn, None)
+        self.inputs.remove(conn)
+        self.leninputs = len(self.inputs)
 
     def sampler(self, trigPoint):
-        for j in self.orderedInputs:
-            self.inputDict[j]["logicArray"][trigPoint] = (int(j))
-
+        # DEV-note: This is critical part and needs to be highly efficient.
+        # Do not introduce any delay causing element
+        
+        for i in range(self.leninputs):
+            self.logicArray[i][trigPoint] = self.inputs[i].state
+            
     def unhold(self):
         self.clear(True)
         self.active = True
@@ -134,13 +152,16 @@ class Oscilloscope(threading.Thread):
 
     def clear(self, keepInputs=False):
         self.active = False
-        print("\x1b[0m")
-        if keepInputs:
-            for i in self.orderedInputs:
-                self.inputDict[i]["logicArray"] = [0] * self.WID
-        else:
-            self.inputDict = {}
-            self.orderedInputs = []
+        
+        try:
+            print("\x1b[0m")
+        except:
+            pass
+        
+        self.clearLA()
+        if not keepInputs:
+            self.inputs = []
+            self.leninputs = 0
 
     def _trigger(self):
         while True:
@@ -148,8 +169,10 @@ class Oscilloscope(threading.Thread):
                 sys.exit()
             while self.active:
                 for i in range(self.WID):
+                    if not self.active:
+                        break
                     time.sleep(self.scale)
-                    self.sampler(i)
+                    self.sampler(i)                    
                 self.hold()
 
     def run(self):
@@ -184,13 +207,16 @@ class Oscilloscope(threading.Thread):
             llen = (self.WID + 15)
             disp = self.C + "=" * llen + \
                 "\nBinPy - Oscilloscope\n" + "=" * llen
-            disp += sclstr.rjust(llen + 20, " ") + _N + "=" * llen + _N
+            disp += _N + sclstr.rjust(llen," ") + _N + "=" * llen + _N
 
             j = 0
-            for i in self.orderedInputs:
-                d = self.inputDict[i]
+            for i in range(self.leninputs):
+                
+                conn = self.inputs[i]
 
-                lA = [0] + d["logicArray"] + [0]
+                lA2 = [0] + self.logicArray[i] + [0]
+                lA = [ j if j is not None else 0 for j in lA2 ]
+                
                 disp += " " * 10 + _V + _N
                 disp += " " * 10 + _V + _N
                 disp += " " * 10 + _V + " "
@@ -205,7 +231,7 @@ class Oscilloscope(threading.Thread):
                     elif cmpstr == (0, 1):
                         disp += _VHU
 
-                disp += _N + " " * 3 + d["label"] + "  " + _V + " "
+                disp += _N + " " * 3 + self.labels[conn] + "  " + _V + " "
 
                 for i in range(1, len(lA) - 1):
                     cmpstr = lA[i - 1], lA[i]
@@ -234,4 +260,4 @@ class Oscilloscope(threading.Thread):
             disp += _H * llen + _N + "\x1b[0m"
             print(disp)
         except:
-            print("\x1b[0mERROR: Display error.")
+            print("\x1b[0mERROR: Display error: "+ sys.exc_info()[1].args[0])
