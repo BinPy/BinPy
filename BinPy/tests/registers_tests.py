@@ -13,11 +13,11 @@ def test_FourBitRegister():
     clock.kill()
 
 
-def test_FourBitRegister2():
+def test_FourBitLoadRegister():
 
     clock = Clock(1, 50000)
     clock.start()
-    test_ffr = FourBitRegister2(1, 0, 1, 0, clock, 1, 1)
+    test_ffr = FourBitLoadRegister(1, 0, 1, 0, clock, 1, 1)
 
     assert test_ffr.output() == [1, 0, 1, 0]
     test_ffr.setLoad(0)
