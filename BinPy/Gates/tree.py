@@ -3,6 +3,8 @@ Contains
 =======
 
 * Tree
+* CycleHist
+* CycleHistValue
 """
 
 
@@ -37,18 +39,26 @@ class Tree:
     or int value, meaning the maximum depth as been reached.
     '''
 
-    def __init__(self, element, depth):
+    def __init__(self, element, depth, cycles=True):
         self.element = element
         self.depth = depth
-        self.node = self.element
+        self.cycles = cycles
 
-    def depth(self, val):
-        self.depth = depth
+        self.sons = []
 
-    def backtrack(self):
+    def setDepth(self, val):
+        self.depth = val
+
+    def backtrack(self, hist=None):
         '''
-        Returns the backtrack hierarchy of the tree upto self.depth
+        Returns the backtrack hierarchy of the tree up to self.depth
         '''
+
+        # Store new history if available, or create new one
+        if hist != None:
+            self.hist = hist
+        else:
+            self.hist = CycleHist()
 
         # Depth must be bigger than 0
         if self.depth < 0:
@@ -63,43 +73,35 @@ class Tree:
             raise Exception(
                 "ERROR: Element must be either a Gate or Connector")
 
-        # Return value
-        ret_value = None
+        # If the algorithm is not following cycles and this element is not in
+        # the history, add it
+        if not self.cycles and type(self.element) not in [bool, int]:
+            self.hist.regOccurrence(self.element)
+
+            if self.hist.isRepeated(self.element):
+                return
 
         # If the element is a gate
         if isinstance(self.element, GATES):
-            if self.depth == 0:
-                ret_value = (self.element, bool(self.element.output()))
-
-            else:
-                ret_value_list = []
+            if self.depth != 0:
+                self.sons = []
                 for i in self.element.inputs:
-                    j = Tree(i, self.depth - 1)
-                    ret_value_list.append(j.backtrack())
-                ret_value = (self.element, ret_value_list)
+                    son = Tree(i, self.depth - 1, self.cycles)
+                    son.backtrack(self.hist)
+                    self.sons.append(son)
 
         # If the element is a connector
         elif isinstance(self.element, Connector):
-            if self.depth == 0:
-                ret_value = (self.element, self.element.state)
-
-            else:
-                ret_value_list = []
+            if self.depth != 0:
+                self.sons = []
                 for i in self.element.connections["output"]:
-                    j = Tree(i, self.depth - 1)
-                    ret_value_list.append(j.backtrack())
-                ret_value = (self.element, ret_value_list)
+                    son = Tree(i, self.depth - 1, self.cycles)
+                    son.backtrack(self.hist)
+                    self.sons.append(son)
 
-        # If it is none of the above
-        else:
-            ret_value = self.element
-
-        self.node = ret_value
-        return ret_value
-
-    def printTree(self):
+    def printTree(self, space=0):
         '''
-        This function takes a tree  and prints that tree in a readable way.
+        This function prints the tree in a readable way.
         The way a gate, or a mux or any other digital element gets
         represented depends on it's __str__() implementation.
 
@@ -124,25 +126,95 @@ class Tree:
 
     def printTuple(self, tree_node, space=0):
 
-        if isinstance(tree_node, tuple):
-            self.printSpaces(space)
-            stdout.write("|- ")
-            print(tree_node[0])
+        # Print a few spaces
+        self.printSpaces(space)
+        stdout.write("|- ")
 
-            for i in tree_node[1]:
-                self.printTuple(i, space + 1)
+        # Print the element
+        if not self.cycles:
+            if type(self.element) not in [int, bool] and\
+                    self.hist.isRepeated(self.element):
+                stdout.write("[" + str(self.hist.getIndex(self.element)) + "] ")
 
-        else:
-            self.printSpaces(space)
-            stdout.write("|- ")
-            print(tree_node)
+        print(self.element)
+
+        # Print the sons
+        for i in self.sons:
+            i.printTree(space + 1)
 
     def printSpaces(self, space):
         for i in range(space):
             stdout.write("   ")
 
-    def __repr__(self):
-        return str(self.node)
-
     def __call__(self):
-        return self.printTree()
+        self.printTree()
+
+
+class CycleHist:
+    """
+    This class helps to keep the cycle history of a circuit by registering
+    occurrences of a digital element. The class has a dictionary that stores
+    an instance of CycleHistValue for each key element.
+    """
+
+    def __init__(self):
+        self.hist = {}
+        self.current_index = 0
+
+    def regOccurrence(self, element):
+        """
+        Register an occurrence for an element. If the element has been seen
+        before, mark that element has a repeating element.
+        """
+
+        # If the element has been seen before
+        if element in self.hist.keys():
+            val = self.hist[element]
+
+            # If it has been seen before and this is the first repetition, mark
+            # it has repeating and give it an index
+            if not val.isRepeated():
+                val.setRepeated()
+                val.setIndex(self.current_index)
+                self.current_index += 1
+
+        # If not, create a CycleHistValue object for it
+        else:
+            self.hist[element] = CycleHistValue()
+
+    def getIndex(self, element):
+        """
+        Get the repetition index for the given element
+        """
+
+        return self.hist[element].getIndex()
+
+    def isRepeated(self, element):
+        """
+        heck if the given element is repeting or not
+        """
+
+        return self.hist[element].isRepeated()
+
+
+class CycleHistValue:
+    """
+    This class represents the value in the dictionary of the cycleHist class.
+    It has the index of the element and if it has been repeated or not.
+    """
+
+    def __init__(self):
+        self.repeated = False
+        self.index = 0
+
+    def setIndex(self, index):
+        self.index = index
+
+    def getIndex(self):
+        return self.index
+
+    def setRepeated(self):
+        self.repeated = True
+
+    def isRepeated(self):
+        return self.repeated
