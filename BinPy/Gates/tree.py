@@ -90,9 +90,6 @@ class Tree:
 
         self.sons = []
 
-        # Make an initial backtrack
-        self.backtrack()
-
     def setDepth(self, val):
         '''
         Sets depth until which the tree is constructed.
@@ -101,6 +98,12 @@ class Tree:
         '''
 
         self.depth = val
+        self.resetTree()
+
+    def resetTree(self):
+        self.sons = []
+        self.hist = None
+        self.backtrack()
 
     def backtrack(self, hist=None):
         '''
@@ -268,6 +271,7 @@ class CycleHistValue:
         Keyword arguments:
         index -- The index in question.
         '''
+
         self.index = index
 
     def getIndex(self):
