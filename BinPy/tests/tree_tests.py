@@ -7,11 +7,11 @@ from BinPy.Combinational.combinational import *
 from nose.tools import with_setup, nottest
 
 '''
-Testing backtrack() function for depths from 0 to 5.
+Testing backtrack() function for depths from 0 to 4.
 '''
 
-def backtrack_depth_0_test():
-    # Trees for different nodes in final tree
+def getTreeForDepthTesting(depth):
+    # Gates for depth test
     g1 = AND(True, False)
     g2 = AND(True, False)
     g3 = AND(g1, g2)
@@ -22,144 +22,54 @@ def backtrack_depth_0_test():
 
     g_final = AND(g3, g6)
 
-    tree = Tree(g_final, 0)
-    tree.backtrack()
+    # Instance of Tree
+    tree_inst = Tree(g_final, depth)
+    tree_inst.backtrack()
 
-    if not (tree.element == g_final and\
-            len(tree.sons) == 0):
-        assert False
+    # Testing tree
+    n1 = (g1, [True, False])
+    n2 = (g2, [True, False])
+    n4 = (g4, [True, False])
+    n5 = (g5, [True, False])
 
-def backtrack_depth_1_test():
-    # Trees for different nodes in final tree
-    g1 = AND(True, False)
-    g2 = AND(True, False)
-    g3 = AND(g1, g2)
+    n3 = (g3, [n1, n2])
+    n6 = (g6, [n4, n5])
+    tree_testing = (g_final, [n3, n6])
 
-    g4 = AND(True, False)
-    g5 = AND(True, False)
-    g6 = AND(g4, g5)
+    return tree_inst, tree_testing
 
-    g_final = AND(g3, g6)
+def compareTrees(tree_inst, tree_testing, depth):
+    if type(tree_testing) == tuple:
+        if not tree_testing[0] == tree_inst.element:
+            assert False
 
-    tree = Tree(g_final, 1)
-    tree.backtrack()
+        if depth == 0:
+            if len(tree_inst.sons) != 0:
+                assert False
+        else:
+            for i in range(len(tree_testing[1])):
+                compareTrees(tree_inst.sons[i], tree_testing[1][i], depth - 1)
 
-    if not (tree.element == g_final and\
-            len(tree.sons) == 2 and\
-            tree.sons[0].element == g3 and\
-            tree.sons[1].element == g6 and\
-            len(tree.sons[0].sons) == 0 and\
-            len(tree.sons[1].sons) == 0):
-        assert False
+    else:
+        if not tree_testing == tree_inst.element:
+            assert False
 
-def backtrack_depth_2_test():
-    # Trees for different nodes in final tree
-    g1 = AND(True, False)
-    g2 = AND(True, False)
-    g3 = AND(g1, g2)
+def backtrack_depth_test():
+    for i in range(6):
+        tree_inst, tree_testing = getTreeForDepthTesting(i)
+        compareTrees(tree_inst, tree_testing, i)
 
-    g4 = AND(True, False)
-    g5 = AND(True, False)
-    g6 = AND(g4, g5)
+'''
+Test to see if the setDepth method works
+'''
 
-    g_final = AND(g3, g6)
+def set_depth_test():
+    tree_inst, tree_testing = getTreeForDepthTesting(0)
 
-    tree = Tree(g_final, 2)
-    tree.backtrack()
-
-    if not (tree.element == g_final and\
-            len(tree.sons) == 2 and\
-            tree.sons[0].element == g3 and\
-            tree.sons[1].element == g6 and\
-            len(tree.sons[0].sons) == 2 and\
-            len(tree.sons[1].sons) == 2 and\
-            tree.sons[0].sons[0].element == g1 and\
-            tree.sons[0].sons[1].element == g2 and\
-            tree.sons[1].sons[0].element == g4 and\
-            tree.sons[1].sons[1].element == g5 and\
-            len(tree.sons[0].sons[0].sons) == 0 and\
-            len(tree.sons[0].sons[1].sons) == 0 and\
-            len(tree.sons[1].sons[0].sons) == 0 and\
-            len(tree.sons[1].sons[1].sons) == 0):
-        assert False
-
-def backtrack_depth_3_test():
-    # Trees for different nodes in final tree
-    g1 = AND(True, False)
-    g2 = AND(True, False)
-    g3 = AND(g1, g2)
-
-    g4 = AND(True, False)
-    g5 = AND(True, False)
-    g6 = AND(g4, g5)
-
-    g_final = AND(g3, g6)
-
-    tree = Tree(g_final, 3)
-    tree.backtrack()
-
-    if not (tree.element == g_final and\
-            len(tree.sons) == 2 and\
-            tree.sons[0].element == g3 and\
-            tree.sons[1].element == g6 and\
-            len(tree.sons[0].sons) == 2 and\
-            len(tree.sons[1].sons) == 2 and\
-            tree.sons[0].sons[0].element == g1 and\
-            tree.sons[0].sons[1].element == g2 and\
-            tree.sons[1].sons[0].element == g4 and\
-            tree.sons[1].sons[1].element == g5 and\
-            len(tree.sons[0].sons[0].sons) == 2 and\
-            len(tree.sons[0].sons[1].sons) == 2 and\
-            len(tree.sons[1].sons[0].sons) == 2 and\
-            len(tree.sons[1].sons[1].sons) == 2 and\
-            tree.sons[0].sons[0].sons[0].element == True and\
-            tree.sons[0].sons[0].sons[1].element == False and\
-            tree.sons[0].sons[1].sons[0].element == True and\
-            tree.sons[0].sons[1].sons[1].element == False and\
-            tree.sons[1].sons[0].sons[0].element == True and\
-            tree.sons[1].sons[0].sons[1].element == False and\
-            tree.sons[1].sons[1].sons[0].element == True and\
-            tree.sons[1].sons[1].sons[1].element == False):
-        assert False
-
-def backtrack_depth_4_test():
-    # Trees for different nodes in final tree
-    g1 = AND(True, False)
-    g2 = AND(True, False)
-    g3 = AND(g1, g2)
-
-    g4 = AND(True, False)
-    g5 = AND(True, False)
-    g6 = AND(g4, g5)
-
-    g_final = AND(g3, g6)
-
-    tree = Tree(g_final, 4)
-    tree.backtrack()
-
-    if not (tree.element == g_final and\
-            len(tree.sons) == 2 and\
-            tree.sons[0].element == g3 and\
-            tree.sons[1].element == g6 and\
-            len(tree.sons[0].sons) == 2 and\
-            len(tree.sons[1].sons) == 2 and\
-            tree.sons[0].sons[0].element == g1 and\
-            tree.sons[0].sons[1].element == g2 and\
-            tree.sons[1].sons[0].element == g4 and\
-            tree.sons[1].sons[1].element == g5 and\
-            len(tree.sons[0].sons[0].sons) == 2 and\
-            len(tree.sons[0].sons[1].sons) == 2 and\
-            len(tree.sons[1].sons[0].sons) == 2 and\
-            len(tree.sons[1].sons[1].sons) == 2 and\
-            tree.sons[0].sons[0].sons[0].element == True and\
-            tree.sons[0].sons[0].sons[1].element == False and\
-            tree.sons[0].sons[1].sons[0].element == True and\
-            tree.sons[0].sons[1].sons[1].element == False and\
-            tree.sons[1].sons[0].sons[0].element == True and\
-            tree.sons[1].sons[0].sons[1].element == False and\
-            tree.sons[1].sons[1].sons[0].element == True and\
-            tree.sons[1].sons[1].sons[1].element == False):
-        assert False
+    for i in range(1, 6):
+        tree_inst.setDepth(i)
+        tree_inst.backtrack()
+        compareTrees(tree_inst, tree_testing, i)
 
 '''
 Test not following Cycles functionality
@@ -177,41 +87,5 @@ def not_following_cycles_test():
     t_no_cycle.backtrack()
     t_cycle.backtrack()
 
-    if not (t_no_cycle.sons[0].sons[0].sons[0].sons == [] and\
-            t_cycle.sons[0].sons[0].sons[0].sons[0].element == g1):
-        assert False
-
-'''
-Test to see if the setDepth method works
-'''
-
-def set_depth_test():
-    # Trees for different nodes in final tree
-    g1 = AND(True, False)
-    g2 = AND(True, False)
-    g3 = AND(g1, g2)
-
-    g4 = AND(True, False)
-    g5 = AND(True, False)
-    g6 = AND(g4, g5)
-
-    g_final = AND(g3, g6)
-
-    tree = Tree(g_final, 0)
-    tree.backtrack()
-
-    if not (tree.element == g_final and\
-            len(tree.sons) == 0):
-        assert False
-
-    tree.setDepth(1)
-    tree.backtrack()
-
-    if not (tree.element == g_final and\
-            len(tree.sons) == 2 and\
-            tree.sons[0].element == g3 and\
-            tree.sons[1].element == g6 and\
-            len(tree.sons[0].sons) == 0 and\
-            len(tree.sons[1].sons) == 0):
-        assert False
-
+    assert t_no_cycle.sons[0].sons[0].sons[0].sons == []
+    assert t_cycle.sons[0].sons[0].sons[0].sons[0].element == g1
