@@ -205,6 +205,7 @@ def set_depth_test():
         assert False
 
     tree.setDepth(1)
+    tree.backtrack()
 
     if not (tree.element == g_final and\
             len(tree.sons) == 2 and\

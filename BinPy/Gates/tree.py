@@ -20,14 +20,12 @@ class Tree:
     This class is a tree representation of a digital element, such as a
     gate, and its inputs. The class uses the backtrack() function which follows
     the element and tracks the inputs, and inputs of inputs, and so on, thus
-    constructing the tree.
+    constructing the backtrack tree.
 
     The tree construction has the possibility to not follow cycles so the final
     output is simpler.
 
-    The backtrack() function is called in the constructor of the class.
-
-    The printTree() function can be used to print the Tree in a redable way.
+    The printTree() function can be used to print the Tree in a readable way.
     The following examples show two use cases, one of which shows what happens
     if cycles are not being followed.
 
@@ -74,14 +72,14 @@ class Tree:
        |- True
     '''
 
-    def __init__(self, element, depth=1, cycles=True):
+    def __init__(self, element, depth=0, cycles=True):
         '''
         Constructor for the tree class
 
         Keyword arguments:
-        element -- Any digital element, such as a gate. this gate will be
+        element -- Any digital element, such as a gate. This gate will be
                    the root of the tree. The inputs will be the sons.
-        depth   -- Depth until which the inputs are tracked. (default 1)
+        depth   -- Depth until which the inputs are tracked. (default 0)
         cycles  -- If the tree such track cycles in the circuits or not. (default True)
         '''
         self.element = element
@@ -103,7 +101,6 @@ class Tree:
     def resetTree(self):
         self.sons = []
         self.hist = None
-        self.backtrack()
 
     def backtrack(self, hist=None):
         '''
