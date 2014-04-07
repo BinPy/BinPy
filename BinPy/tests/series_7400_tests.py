@@ -486,6 +486,14 @@ def test_IC_741G08():
     if q != testIC.run():
         assert False
 
+def test_IC_741G86():
+    testIC = IC_741G86()
+    p = {1: 1, 2: 0, 3: 0, 5: 1}
+    testIC.setIC(p)
+    q = {4: 1}
+    if q != testIC.run():
+        assert False
+
 ######## IC's with 16 pins #################################
 
 

@@ -1825,6 +1825,28 @@ class IC_741G08(Base_5pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+class IC_741G86(Base_5pin):
+
+    """
+    This is a single 2 input XOR gate IC
+    """
+
+    # Datasheet here, http://www.ti.com/lit/ds/symlink/sn74ahc1g86.pdf
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, None, 0]
+
+    def run(self):
+        output = {}
+        output[4] = XOR(self.pins[1], self.pins[2]).output()
+        if self.pins[3] == 0 and self.pins[5] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
 
 ######## IC's with 16 pins #################################
 
