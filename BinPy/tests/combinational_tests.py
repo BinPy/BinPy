@@ -26,6 +26,14 @@ def BinaryAdder_test():
     assert ba.output() == [1, 0, 1]
 
 
+def BCDAdder_test():
+    ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 0)
+    assert ba.output() == [0, 1, 0, 0, 1]
+
+    ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 1)
+    assert ba.output() == [0, 0, 1, 1, 1]
+
+
 def HalfSubtractor_test():
     hs = HalfSubtractor(0, 1)
     assert hs.output() == [1, 1]
