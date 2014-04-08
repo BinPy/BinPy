@@ -1,7 +1,7 @@
 import sys
 import time
 import threading
-from BinPy import Connector, LC
+from BinPy import Connector
 
 class Clock(threading.Thread):
     """
@@ -43,7 +43,7 @@ class Clock(threading.Thread):
         self.curr_state = init_state
         self.exitFlag = 0
         self.daemon = True
-        self.A = Connector(self, 'A', activates=1, monitor=0)
+        self.A = Connector(0)
 
     def __toggleState(self):
         """
@@ -51,15 +51,15 @@ class Clock(threading.Thread):
         """
         if self.curr_state==1:
             self.curr_state = 0
-            self.A.set(self.curr_state)
+            self.A.state = self.curr_state
         else:
             self.curr_state = 1
-            self.A.set(self.curr_state)
+            self.A.state = self.curr_state
 
     def __main_func(self):
         while True:
             if self.exitFlag:
-                thread.exit()
+                sys.exit()
             time.sleep(self.time_period)
             try:
                 self.__toggleState()
@@ -152,8 +152,8 @@ class DigitDisplay:
             vcc=1           
         if vcc:
             test = [a, b, c, d, e, f, g]
-            data = {'0':[1,1,1,1,1,1,0],'1':[0,1,0,0,0,0,0],'2':[1,1,0,1,1,0,1],\
-            '3':[1,1,1,1,0,0,1],'4':[0,1,1,0,0,1,1],'5':[1,0,1,1,0,1,1],'6':[1,0,1,1,1,1,1],\
+            data = {'0':[1,1,1,1,1,1,0],'1':[0,1,1,0,0,0,0],'2':[1,1,0,1,1,0,1],
+            '3':[1,1,1,1,0,0,1],'4':[0,1,1,0,0,1,1],'5':[1,0,1,1,0,1,1],'6':[1,0,1,1,1,1,1],
             '7':[1,1,1,0,0,0,0],'8':[1,1,1,1,1,1,1],'9':[1,1,1,1,0,1,1]}
             for i in data:
                 if test==data[i]:

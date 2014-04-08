@@ -1,0 +1,27 @@
+language: python
+python:
+  - 2.7
+  - 3.3
+  - pypy
+
+before install:
+ - sudo apt-get update
+ - sudo apt-get install python-setuptools
+
+install:
+ - sudo apt-get install python3-nose
+
+script:
+ - cd BinPy/tests/
+ - nosetests -v gates_tests.py
+ - nosetests -v ics_tests.py
+ - nosetests -v combinational_tests.py
+ - nosetests -v operations_tests.py
+ - nosetests -v sequential_tests.py
+ - nosetests -v series_4000_test.py
+ - nosetests3 -v gates_tests.py
+ - nosetests3 -v ics_tests.py
+ - nosetests3 -v combinational_tests.py
+ - nosetests3 -v operations_tests.py
+ - nosetests3 -v sequential_tests.py
+ - nosetests3 -v series_4000_test.py

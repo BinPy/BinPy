@@ -1,18 +1,18 @@
------------
-# BinPy
------------
+# [BinPy](http://binpy.github.io/)
+
+[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
 
  * [About](#about)
  * [Installation](#installation)
  * [Available Resources](#resources)
+ * [Documentation](#documentation)
  * [Contribute](#contribute)
 
 
 <a id="about"></a>
 What is BinPy?
 ---------------
-This package will serve as a base to develop circuit based applications or logical games on top of it. 
-This package does not depend on any external library other than pure Python.
+It is a library which will serve as a base to develop circuit based applications and educational software on top of it. BinPy is a clear representation of fundamentals. Everything has been written from scratch such as gates, logical operations, etc. This package does not depend on any external library other than pure Python. It aims to extend the hardware programming concepts to Python.
 
 How to use
 ----------
@@ -21,6 +21,7 @@ Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
 ![SR latch | Source: Wikipedia](https://upload.wikimedia.org/wikipedia/commons/c/c6/R-S_mk2.gif)
 
 ```python
+
 from BinPy import *
 
 NOR1 = Nor('NOR1')  #First NOR gate
@@ -30,22 +31,23 @@ NOR2.C.connect(NOR1.B)  #Connecting output of second NOR with input of first NOR
 NOR1.C.connect(NOR2.A)  #Connecting output of first NOR with input of second NOR
 
 
-NOR1.A.set(1);NOR2.B.set(0)	#Set state
+NOR1.A.set(1);NOR2.B.set(0) #Set state
 print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
 
 
-NOR1.A.set(0);NOR2.B.set(1)	#Reset state
+NOR1.A.set(0);NOR2.B.set(1) #Reset state
 print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
 
 
-NOR1.A.set(0);NOR2.B.set(0)	#Hold state
+NOR1.A.set(0);NOR2.B.set(0) #Hold state
 print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
 
 
-NOR1.A.set(1);NOR2.B.set(1)	#Invalid state
+NOR1.A.set(1);NOR2.B.set(1) #Invalid state
 print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+
+
 ```
-
 <strong>Output</strong>
 ```python
 Q:  True 	Q':  False
@@ -53,25 +55,37 @@ Q:  False 	Q':  True
 Q:  False 	Q':  True
 Q:  False 	Q':  False	#Invalid State
 ```
+
 <strong>Operations, Combinatonal Logic and Algorithms</strong>
 
 ```python
 from BinPy import *
 
 #Operations
-operator = Operation()
-print operator.add([1,0,1,1],[1,1])
-print operator.subtract([1,0,1,1],[1,1])
+operator = Operations()
+operator.ADD(1011,11)
+operator.SUB(1011,11)
+operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
+
 
 #Combinational Logic
-myMUX = MUX()
-print "MUX Out: ", myMUX.run([1,0,0,0,1,1,1,1],[0,0,1])
+m = MUX(1,1,0,1)
+m.selectLines(0,1)
+print "MUX Out: ", m.output()
 
-#Algorithms 
-#Includes the Quine-McCluskey algorithm for solving K-Maps
-FinalEquation = QM(['A','B'])
-print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1,2],[])[1])
+d = DEMUX()
+d.selectLines(0,1)
+print "DEMUX Out: ", d.output()
 
+d = Decoder(0,1)
+print "Decoder Out: ", d.output()
+
+e = Encoder(0,1,0,0)
+print "Encoder Out: ", e.output()
+
+#Sequential Circuits
+a = DFlipFlop(1,0)
+print "DFlipFlop Out: ", a.output()
 
 #IC
 myIC = IC_7400()
@@ -83,55 +97,125 @@ myIC1 = IC_7401()
 p = {2:0,3:1,5:0,6:0,7:0,8:1,9:1,11:0,12:0,14:1}
 myIC1.setIC(p)
 print "IC_7401 Out: ", myIC1.run()
+
+#Algorithms 
+#Includes the Quine-McCluskey algorithm for solving K-Maps
+FinalEquation = QM(['A','B'])
+print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1,2],[])[1])
 ```
+
 <strong>Output</strong><br/>
 ```python
 {'carry': 0, 'sum': [1, 1, 1, 0]}
 {'carry': 1, 'difference': [1, 0, 0, 0]}
-MUX Out:  0
-Minimized Boolean Equation : ((NOT B) OR (NOT A))
+MUX Out: 1
+DEMUX Out: [0, 0, 0, 0]
+Decoder Out:  [0, 1, 0, 0]
+Encoder Out: [0, 1]
+DFlipFlop Out: [1,0]
 IC_7400 Out:  {8: 0, 11: 1, 3: 1, 6: 1}
 IC_7401 Out:  {1: 1, 10: 0, 4: 1, 13: 1}
+Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
+BinPy also comes with a console that is a simple  wrapper around the classic python console from which you can directly use the BinPy Resources.
+
+To start it, simply issue:
+
+$ binpy
+
+if BinPy is installed in your path.
 
 <a id="resources"></a>
 Available Resources
 -------------------
 * All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
 * Combinational logics
-	* Adder
-	* Subtractor
-	* Multiplier
-	* MUX (2:1, 4:1, 8:1, 16:1)
-	* DEMUX (1:2, 1:4, 1:8, 1:16)
+	* MUX 
+	* DEMUX 
+    * Decoder
 	* Encoder
 	
-* IC
+* IC-7400 Series
+
 	* 7400
-	* 741G00
 	* 7401
 	* 7402
-	* 741G02
 	* 7403
-	* 741G03
 	* 7404
-	* 741G04
 	* 7405
-	* 741G05
 	* 7408
-	* 741G08
 	* 7410
 	* 7411
-	* 7442
-	* 7443
-	* 7444
+	* 7412
+	* 7413
+	* 7415
+	* 7416
+	* 7417
+	* 7418
+	* 7419
+	* 7420
+	* 7421
+	* 7422
+	* 7424
+	* 7425
+	* 7426
+	* 7427
+	* 7428
+	* 7430
+	* 7432
+	* 7433
+	* 7437
+	* 7440
 	* 7451
 	* 7454
 	* 7455
 	* 7458
+	* 7464
+	* 7486
+	* 741G00
+	* 741G02
+	* 741G03
+	* 741G04
+	* 741G05
+	* 741G08
+	* 7431
+	* 7442
+	* 7443
+	* 7444
+	* 7445
+	* 74133
+	* 74260
+
+* IC-4000 Series
+
+    * 4000
+    * 4001
+    * 4002
+    * 4011
+    * 4012
+    * 4023
+    * 4025
+    * 4068
+    * 4069
+    * 4070
+    * 4071
+    * 4072
+    * 4073
+    * 4075
+    * 4077
+    * 4078
+    * 4081
+    * 4082
+    
+
 * Algorithms
 	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
 	* Moore Machine Optimizer
+
+<a id="documentation"></a>
+Documentation
+-------------
+Auto-generated documentation is available for reference at [BinPy docs](http://packages.python.org/BinPy/index.html)
 
 <a id="installation"></a>
 Installation
@@ -153,7 +237,7 @@ Install using **git**
 
     
 
-Future Works
+Future Work
 ------------
 * Introduction of all ICs
 * Introduction of problem solving algorithms

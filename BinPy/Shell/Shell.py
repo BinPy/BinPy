@@ -1,8 +1,9 @@
+from __future__ import print_function
 import subprocess
 import platform
 import os
 
-from BinPy.__init__ import *
+from BinPy.Shell import *
 try:
     from BinPy import __version__ as BINPY_VERSION
 except ImportError:
@@ -71,10 +72,10 @@ def shellMain(*args):
 
     if len(sys.argv) > 1 and len(sys.argv[1]) > 1:
         flag = sys.argv[1]
-        print flag
+        print (flag)
 
         if flag == 'update':
-            print "Updating BinPy..."
+            print ("Updating BinPy...")
             self_update()
 
         if flag in ['--nowarnings', 'nowarnings']:
@@ -85,5 +86,3 @@ def shellMain(*args):
     init_logging(log_level)
     shellclear()
     bpyShell = setupIpython()
-
-            
