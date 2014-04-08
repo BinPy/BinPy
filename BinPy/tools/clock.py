@@ -111,4 +111,3 @@ class Clock(threading.Thread):
 
     def run(self):
         self.__main_func()
-        
