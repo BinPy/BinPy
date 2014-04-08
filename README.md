@@ -1,10 +1,9 @@
 # [BinPy](http://binpy.github.io/)
 
-[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
+[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy) [![Version](https://pypip.in/v/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3) [![Downloads](https://pypip.in/d/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3)
 
  * [About](#about)
  * [Installation](#installation)
- * [Available Resources](#resources)
  * [Documentation](#documentation)
  * [Contribute](#contribute)
 
@@ -27,8 +26,10 @@ from BinPy import *
 NOR1 = Nor('NOR1')  #First NOR gate
 NOR2 = Nor('NOR2')  #Second NOR gate
 
-NOR2.C.connect(NOR1.B)  #Connecting output of second NOR with input of first NOR
-NOR1.C.connect(NOR2.A)  #Connecting output of first NOR with input of second NOR
+#Connecting output of second NOR with input of first NOR
+NOR2.C.connect(NOR1.B)
+#Connecting output of first NOR with input of second NOR
+NOR1.C.connect(NOR2.A)
 
 
 NOR1.A.set(1);NOR2.B.set(0) #Set state
@@ -61,14 +62,14 @@ Q:  False 	Q':  False	#Invalid State
 ```python
 from BinPy import *
 
-#Operations
+# Operations
 operator = Operations()
 operator.ADD(1011,11)
 operator.SUB(1011,11)
 operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
 
 
-#Combinational Logic
+# Combinational Logic
 m = MUX(1,1,0,1)
 m.selectLines(0,1)
 print "MUX Out: ", m.output()
@@ -83,11 +84,11 @@ print "Decoder Out: ", d.output()
 e = Encoder(0,1,0,0)
 print "Encoder Out: ", e.output()
 
-#Sequential Circuits
+# Sequential Circuits
 a = DFlipFlop(1,0)
 print "DFlipFlop Out: ", a.output()
 
-#IC
+# IC
 myIC = IC_7400()
 p = {1:1,2:0,4:0,5:0,7:0,10:1,9:1,13:0,12:0,14:1}
 myIC.setIC(p)
@@ -98,8 +99,8 @@ p = {2:0,3:1,5:0,6:0,7:0,8:1,9:1,11:0,12:0,14:1}
 myIC1.setIC(p)
 print "IC_7401 Out: ", myIC1.run()
 
-#Algorithms 
-#Includes the Quine-McCluskey algorithm for solving K-Maps
+# Algorithms
+# Includes the Quine-McCluskey algorithm for solving K-Maps
 FinalEquation = QM(['A','B'])
 print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1,2],[])[1])
 ```
@@ -119,98 +120,8 @@ Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 BinPy also comes with a console that is a simple  wrapper around the classic python console from which you can directly use the BinPy Resources.
 
-To start it, simply issue:
-
-$ binpy
-
-if BinPy is installed in your path.
-
-<a id="resources"></a>
-Available Resources
--------------------
-* All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
-* Combinational logics
-	* MUX 
-	* DEMUX 
-    * Decoder
-	* Encoder
-	
-* IC-7400 Series
-
-	* 7400
-	* 7401
-	* 7402
-	* 7403
-	* 7404
-	* 7405
-	* 7408
-	* 7410
-	* 7411
-	* 7412
-	* 7413
-	* 7415
-	* 7416
-	* 7417
-	* 7418
-	* 7419
-	* 7420
-	* 7421
-	* 7422
-	* 7424
-	* 7425
-	* 7426
-	* 7427
-	* 7428
-	* 7430
-	* 7432
-	* 7433
-	* 7437
-	* 7440
-	* 7451
-	* 7454
-	* 7455
-	* 7458
-	* 7464
-	* 7486
-	* 741G00
-	* 741G02
-	* 741G03
-	* 741G04
-	* 741G05
-	* 741G08
-	* 7431
-	* 7442
-	* 7443
-	* 7444
-	* 7445
-	* 74133
-	* 74260
-
-* IC-4000 Series
-
-    * 4000
-    * 4001
-    * 4002
-    * 4011
-    * 4012
-    * 4023
-    * 4025
-    * 4068
-    * 4069
-    * 4070
-    * 4071
-    * 4072
-    * 4073
-    * 4075
-    * 4077
-    * 4078
-    * 4081
-    * 4082
-    
-
-* Algorithms
-	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
-	* Moore Machine Optimizer
+<<<<<<< HEAD
+To start it, simply issue ```$ binpy``` if BinPy is installed in your path.
 
 <a id="documentation"></a>
 Documentation
@@ -221,7 +132,7 @@ Auto-generated documentation is available for reference at [BinPy docs](http://p
 Installation
 ------------
 
-### Linux
+# Linux
 
 Install with **pip**
 
@@ -243,7 +154,6 @@ Future Work
 * Introduction of problem solving algorithms
 * Addition of Microprocessors and Analog Devices
 * Graphical representation of the circuit
-* ...
 
 <a id="contribute"></a>
 

@@ -1,0 +1,22 @@
+from __future__ import print_function
+from BinPy.Gates import *
+""" Examples for Tree class """
+print ("\n---Initializing the Tree class--- ")
+print ("Initialize some gates to form a tree")
+print ("g1 = AND(0, 1)\ng2 = AND(1, 1)\ng3 = AND(g1, g2) ")
+print ("tree = Tree(g3, 2)")
+print ("Input is of the form Tree(root element, depth of treversal)")
+g1 = AND(0, 1)
+g2 = AND(1, 1)
+g3 = AND(g1, g2)
+tree = Tree(g3, 2)
+print ("\n---Backtrack traversal of tree upto a depth given----")
+print ("tree.backtrack()")
+print (tree.backtrack())
+print ("\n---Print tree traversed---")
+print ("tree.printTree()")
+print (tree.printTree())
+print ("tree()")
+print (tree())
+print ("tree")
+print (tree)
