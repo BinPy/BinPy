@@ -6,7 +6,7 @@ from BinPy import Connector
 
 class Clock(threading.Thread):
 
-    r"""
+    """
     This class uses threading technique to create a clock with a certain time period.
     This is how you can create a clock with this class:
         >>> myClock = Clock(0,time_period=2,name="My First Clock")
