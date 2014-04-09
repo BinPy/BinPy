@@ -1,3 +1,4 @@
+from __future__ import division
 """
 Contains
 ========
@@ -8,6 +9,7 @@ Contains
 
 
 class Connector:
+
     """
     This class is the primary medium for data transfer. Objects of this
     class can be connected to any digital object.
@@ -82,8 +84,23 @@ class Connector:
     def __int__(self):
         return 1 if self.state == 1 else 0
 
+    def __float__(self):
+        return float(self.state)
+
     def __repr__(self):
         return str(self.state)
 
     def __str__(self):
         return "Connector; State: " + str(self.state)
+
+    def __add__(self, other):
+        return self.state + other.state
+
+    def __sub__(self, other):
+        return self.state - other.state
+
+    def __mul__(self, other):
+        return self.state * other.state
+
+    def __truediv__(self, other):
+        return self.state / other.state
