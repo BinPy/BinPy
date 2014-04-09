@@ -149,7 +149,7 @@ class HalfSubtractor(GATES):
 
     """This Class implements Half Subtractor, Arithmetic difference of two bits and return its
     Difference and Borrow output
-    Output: [Difference, Borrow]
+    Output: [DIFFERENCE, BORROW]
     Example:
         >>> from BinPy import *
         >>> hs = HalfSubtractor(0, 1)
@@ -190,7 +190,7 @@ class FullSubtractor(GATES):
 
     """This Class implements Full Subtractor, Arithmetic difference of three bits and
     return its Difference and Borrow
-    Output: [Difference, Borrow]
+    Output: [DIFFERENCE, BORROW]
     Example:
         >>> from BinPy import *
         >>> fs = FullSubtractor(0, 1, 1)
@@ -239,7 +239,7 @@ class BinarySubtractor(GATES):
 
     """This Class implements Binary Subtractor, Arithmetic difference of two bit strings
     and return its difference and borrow
-    Output: [Borrow, Difference]
+    Output: [BORROW, DIFFERENCE]
     Example:
         >>> from BinPy import *
         >>> bs = BinarySubtractor([0, 1], [1, 0], 1)
