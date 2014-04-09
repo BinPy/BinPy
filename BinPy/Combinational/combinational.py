@@ -89,12 +89,12 @@ class BinaryAdder(GATES):
 
     """This Class implements Binary Adder, Arithmetic sum of two bit strings
     and return its Sum and Carry
-    Output: [SUM, CARRY]
+    Output: [CARRY, SUM]
     Example:
         >>> from BinPy import *
         >>> ba = BinaryAdder([0, 1], [1, 0], 0)
         >>> ba.output()
-        [1, 1, 0]
+        [0, 1, 1]
 
     """
 
@@ -239,7 +239,7 @@ class BinarySubtractor(GATES):
 
     """This Class implements Binary Subtractor, Arithmetic difference of two bit strings
     and return its difference and borrow
-    Output: [difference, borrow]
+    Output: [Borrow, Difference]
     Example:
         >>> from BinPy import *
         >>> bs = BinarySubtractor([0, 1], [1, 0], 1)
