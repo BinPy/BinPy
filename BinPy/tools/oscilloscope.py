@@ -50,27 +50,27 @@ class Oscilloscope(threading.Thread):
         threading.Thread.__init__(self)
         self.daemon = True
 
-        
         self.MAX_INP = 15
         self.WID = 150
         self.LEN = 500
-        
+
         self.inputs = []
         self.labels = {}
         self.logicArray = [[]]
         self.clearLA
         self.leninputs = 0
-        
+
         self.active = False
         self.exitFlag = False
         self.C = "\x1b[0m"
 
         if len(inputs) > 0:
             self.updateInputs(*inputs)
-    
+
     def clearLA(self):
-        self.logicArray = [[0 for x in range(self.WID)] for x in range(self.MAX_INP)]
-        
+        self.logicArray = [
+            [0 for x in range(self.WID)] for x in range(self.MAX_INP)]
+
     def setWidth(self, w=150):
         """
         Set the maximum width of the oscilloscope.
@@ -101,13 +101,13 @@ class Oscilloscope(threading.Thread):
         osc1.setInputs((conn1,"label") , (conn2,"label") ... )
         """
         self.clear(True)
-        
+
         if len(inputs) < 1:
             raise Exception("ERROR: Too few inputs given.")
-        
-        if  len(inputs) > self.MAX_INP - self.leninputs :
+
+        if len(inputs) > self.MAX_INP - self.leninputs:
             raise Exception("ERROR: Maximum inputs exceeded")
-            
+
         try:
             for i in inputs:
                 if not (isinstance(i, tuple) and isinstance(i[0], Connector) and isinstance(i[1], str)):
@@ -116,16 +116,16 @@ class Oscilloscope(threading.Thread):
             raise Exception("ERROR: Invalid input format")
 
         for i in inputs:
-            lbl = i[1][:5].rjust(5,' ')
-            
+            lbl = i[1][:5].rjust(5, ' ')
+
             if i[0] in self.labels:
                 self.labels[i[0]] = lbl
             else:
                 self.inputs.append(i[0])
                 self.labels[i[0]] = lbl
-        
+
         self.leninputs = len(self.inputs)
-        
+
     def disconnect(self, conn):
         """
         Disconnects conn from the inputDict
@@ -139,10 +139,10 @@ class Oscilloscope(threading.Thread):
     def sampler(self, trigPoint):
         # DEV-note: This is critical part and needs to be highly efficient.
         # Do not introduce any delay causing element
-        
+
         for i in range(self.leninputs):
             self.logicArray[i][trigPoint] = self.inputs[i].state
-            
+
     def unhold(self):
         self.clear(True)
         self.active = True
@@ -152,12 +152,12 @@ class Oscilloscope(threading.Thread):
 
     def clear(self, keepInputs=False):
         self.active = False
-        
+
         try:
             print("\x1b[0m")
         except:
             pass
-        
+
         self.clearLA()
         if not keepInputs:
             self.inputs = []
@@ -172,7 +172,7 @@ class Oscilloscope(threading.Thread):
                     if not self.active:
                         break
                     time.sleep(self.scale)
-                    self.sampler(i)                    
+                    self.sampler(i)
                 self.hold()
 
     def run(self):
@@ -207,16 +207,16 @@ class Oscilloscope(threading.Thread):
             llen = (self.WID + 15)
             disp = self.C + "=" * llen + \
                 "\nBinPy - Oscilloscope\n" + "=" * llen
-            disp += _N + sclstr.rjust(llen," ") + _N + "=" * llen + _N
+            disp += _N + sclstr.rjust(llen, " ") + _N + "=" * llen + _N
 
             j = 0
             for i in range(self.leninputs):
-                
+
                 conn = self.inputs[i]
 
                 lA2 = [0] + self.logicArray[i] + [0]
-                lA = [ j if j is not None else 0 for j in lA2 ]
-                
+                lA = [j if j is not None else 0 for j in lA2]
+
                 disp += " " * 10 + _V + _N
                 disp += " " * 10 + _V + _N
                 disp += " " * 10 + _V + " "
@@ -260,4 +260,4 @@ class Oscilloscope(threading.Thread):
             disp += _H * llen + _N + "\x1b[0m"
             print(disp)
         except:
-            print("\x1b[0mERROR: Display error: "+ sys.exc_info()[1].args[0])
+            print("\x1b[0mERROR: Display error: " + sys.exc_info()[1].args[0])
