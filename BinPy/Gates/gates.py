@@ -35,8 +35,8 @@ class GATES:
         self._updateConnections(self.inputs)
         self._updateHistory()
         self.trigger()
-                     # Any change in the input will trigger change in the
-                     # output
+        # Any change in the input will trigger change in the
+        # output
 
     def _updateConnections(self, inputs):
         for i in inputs:
@@ -58,8 +58,8 @@ class GATES:
             self.inputs = list(inputs)[:]  # Set the inputs
             self._updateConnections(self.inputs)
         self.trigger()
-                     # Any change in the input will trigger change in the
-                     # output
+        # Any change in the input will trigger change in the
+        # output
 
     def setInput(self, index, value):
         """
@@ -74,8 +74,8 @@ class GATES:
             # Dont use history after a new input is added
             self.history_active = 0
             self._updateHistory()
-                                # because history_active is set to 0 trigger
-                                # will get called irrespective of the history.
+        # because history_active is set to 0 trigger
+        # will get called irrespective of the history.
         else:
             self.history_active = 1  # Use history before computing
             if isinstance(self.inputs[index], Connector):
@@ -315,8 +315,8 @@ class NOT(GATES):
             self.inputs = list(inputs)[:]  # Set the inputs
             self._updateConnections(self.inputs)
         self.trigger()
-                     # Any change in the input will trigger change in the
-                     # output
+        # Any change in the input will trigger change in the
+        # output
 
     def setInput(self, value):
         self.setInputs(value)

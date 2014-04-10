@@ -1,7 +1,7 @@
 from BinPy.ic import *
 from nose.tools import with_setup, nottest
 
-######## IC's with 14 pins #################################
+# IC's with 14 pins #
 
 
 def test_IC_7470():
