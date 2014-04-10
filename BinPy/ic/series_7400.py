@@ -11,7 +11,9 @@ from BinPy.ic.base import *
 from BinPy.tools import *
 from BinPy.Combinational.combinational import *
 
-######## IC's with 14 pins #################################
+#################################
+# IC's with 14 pins
+#################################
 
 
 class IC_74152(Base_14pin):
@@ -1697,7 +1699,9 @@ class IC_74260(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
-######## IC's with 5 pins #################################
+#################################
+# IC's with 5 pins
+#################################
 
 
 class IC_741G00(Base_5pin):
@@ -1826,7 +1830,9 @@ class IC_741G08(Base_5pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-######## IC's with 16 pins #################################
+#################################
+# IC's with 16 pins
+#################################
 
 class IC_7431(Base_16pin):
 
@@ -2349,9 +2355,13 @@ class IC_7483(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-################## Sequential Circuits ######################################
+##############################################
+# Sequential Circuits
+##############################################
 
-################## Base_14 Pin ##############################################
+##############################################
+# Base_14 Pin
+##############################################
 
 class IC_7470(Base_14pin):
 
@@ -2583,7 +2593,9 @@ class IC_7474(Base_14pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-###################### Base_16 Pins ##########################################
+##########################################
+# Base_16 Pins
+##########################################
 
 class IC_7475(Base_16pin):
 
