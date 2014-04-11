@@ -120,7 +120,6 @@ Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 BinPy also comes with a console that is a simple  wrapper around the classic python console from which you can directly use the BinPy Resources.
 
-<<<<<<< HEAD
 To start it, simply issue ```$ binpy``` if BinPy is installed in your path.
 
 <a id="documentation"></a>
