@@ -1,6 +1,64 @@
 from BinPy.Combinational.combinational import *
 from nose.tools import with_setup, nottest
 
+
+def HalfAdder_test():
+    ha = HalfAdder(0, 1)
+    assert ha.output() == [1, 0]
+
+    ha = HalfAdder(1, 1)
+    assert ha.output() == [0, 1]
+
+
+def FullAdder_test():
+    fa = FullAdder(0, 1, 0)
+    assert fa.output() == [1, 0]
+
+    fa = FullAdder(0, 1, 1)
+    assert fa.output() == [0, 1]
+
+
+def BinaryAdder_test():
+    ba = BinaryAdder([0, 1], [1], 0)
+    assert ba.output() == [0, 1, 0]
+
+    ba = BinaryAdder([0, 1], [1, 1], 1)
+    assert ba.output() == [1, 0, 1]
+
+
+def BCDAdder_test():
+    ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 0)
+    assert ba.output() == [0, 1, 0, 0, 1]
+
+    ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 1)
+    assert ba.output() == [0, 0, 1, 1, 1]
+
+
+def HalfSubtractor_test():
+    hs = HalfSubtractor(0, 1)
+    assert hs.output() == [1, 1]
+
+    hs = HalfSubtractor(1, 1)
+    assert hs.output() == [0, 0]
+
+
+def FullSubtractor_test():
+    fs = FullSubtractor(0, 1, 1)
+    assert fs.output() == [0, 1]
+    fs = FullSubtractor(1, 1, 0)
+    assert fs.output() == [0, 0]
+    fs = FullSubtractor(1, 1, 1)
+    assert fs.output() == [1, 1]
+
+
+def BinarySubtractor_test():
+    bs = BinarySubtractor([0, 1], [1], 0)
+    assert bs.output() == [0, 0, 0]
+
+    bs = BinarySubtractor([0, 1], [1, 1], 1)
+    assert bs.output() == [1, 0, 1]
+
+
 def MUX_test():
     mux = MUX(0, 1)
     mux.selectLines(0)
@@ -36,8 +94,9 @@ def MUX_test():
     if mux.output() != 0:
         assert False
     mux.setInput(0, 1)
-    if mux.output() !=1:
+    if mux.output() != 1:
         assert False
+
 
 def DEMUX_test():
     demux = DEMUX(0)
@@ -86,10 +145,11 @@ def DEMUX_test():
     if demux.output() != q:
         assert False
     demux.setInputs(b)
-    demux.selectLine(1,b)
+    demux.selectLine(1, b)
     q = [0, 1, 0, 0]
     if demux.output() != q:
         assert False
+
 
 def Decoder_test():
     try:
@@ -143,6 +203,7 @@ def Decoder_test():
     q = [0, 1, 0, 0]
     if decoder.output() != q:
         assert False
+
 
 def Encoder_test():
     encoder = Encoder(0, 1)

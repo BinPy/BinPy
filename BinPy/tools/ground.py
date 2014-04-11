@@ -2,6 +2,7 @@ from BinPy.Gates import *
 
 
 class Ground:
+
     """Models a Ground from which various connectors can tap by connecting to it.
     taps: The list of all connectors connected to this ground.
     connect(): Takes in one or more connectors as input and connects them to the ground.
@@ -17,7 +18,8 @@ class Ground:
                 raise Exception("Error: Input given is not a connector")
             else:
                 if len(connector.connections['output']) != 0:
-                    raise Exception("ERROR: The connector is already an output of some other object")
+                    raise Exception(
+                        "ERROR: The connector is already an output of some other object")
                 self.taps.append(connector)
                 connector.state = 0
                 connector.tap(self, 'output')
@@ -36,6 +38,7 @@ class Ground:
                     connector.connections['output'].remove(self)
                     connector.trigger()
                 except:
-                    print ("The specified connector is not tapped to this ground")
+                    print (
+                        "The specified connector is not tapped to this ground")
             else:
                 raise Exception("Error: Input given is not a connector")
