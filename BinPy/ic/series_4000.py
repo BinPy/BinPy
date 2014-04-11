@@ -15,7 +15,9 @@ from BinPy.Gates import *
 from BinPy.ic import *
 from BinPy.Combinational import *
 
-######## IC's with 14 pins #################################
+#################################
+# IC's with 14 pins
+#################################
 
 
 class IC_4000(Base_14pin):
@@ -932,7 +934,9 @@ class IC_4082(Base_14pin):
 
             print ("Ground and VCC pins have not been configured correctly.")
 
-######## IC's with 16 pins #################################
+#################################
+# IC's with 16 pins
+#################################
 
 
 class IC_4008(Base_16pin):

@@ -10,8 +10,10 @@ before install:
 
 install:
  - sudo apt-get install python3-nose
+ - sudo pip install pep8
 
 script:
+ - pep8 --ignore=E501 ./
  - nosetests
  - nosetests3
  - cd BinPy/tests/

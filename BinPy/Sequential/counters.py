@@ -158,7 +158,7 @@ class BinaryCounter(Counter):
                 self.out[i],
                 self.outinv[i])
 
-        #<self.bit> nos of TFlipFlop instances are appended in the ff array
+        # <self.bit> nos of TFlipFlop instances are appended in the ff array
         # output of previous stage becomes the input clock for next flip flop
 
 

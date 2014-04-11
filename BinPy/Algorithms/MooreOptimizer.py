@@ -327,22 +327,22 @@ def main():
         print_best=True)
     opti.optimize()
 
-    #state_word_len = 3
-    #sms = StateMachineSolver(state_tran, state_word_len, variables, outputs)
-    #state_map = {0:0,1:1,2:2,3:3,4:4,5:5}
-    #solution = sms.solve(state_map)
+    # state_word_len = 3
+    # sms = StateMachineSolver(state_tran, state_word_len, variables, outputs)
+    # state_map = {0:0,1:1,2:2,3:3,4:4,5:5}
+    # solution = sms.solve(state_map)
     # sms.print_solution(state_map,solution)
 
-    #state_word_len = 3
-    #opti = StateMachineOptimizer_AllPermutations(state_tran, state_word_len, variables, outputs, print_best = True)
+    # state_word_len = 3
+    # opti = StateMachineOptimizer_AllPermutations(state_tran, state_word_len, variables, outputs, print_best = True)
     # opti.optimize()
 
-    #state_word_len = 4
-    #opti = StateMachineOptimizer_Random(state_tran, state_word_len, variables, outputs, print_best = True)
-    #opti.optimize(tries = 500)
+    # state_word_len = 4
+    # opti = StateMachineOptimizer_Random(state_tran, state_word_len, variables, outputs, print_best = True)
+    # opti.optimize(tries = 500)
 
-    #state_word_len = 3
-    #opti = StateMachineOptimizer_FileAndVerify(state_tran, state_word_len, variables, outputs)
+    # state_word_len = 3
+    # opti = StateMachineOptimizer_FileAndVerify(state_tran, state_word_len, variables, outputs)
     # opti.optimize('testdata.txt')
 
 if __name__ == '__main__':
