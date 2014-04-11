@@ -145,7 +145,9 @@ Install using **git**
     cd BinPy/
     sudo python setup.py install
 
-    
+Install `autopep8` Tool to ensure your contributions pass the `pep8` test.
+
+    sudo pip install --upgrade autopep8
 
 Future Work
 ------------
@@ -162,6 +164,23 @@ How To Contribute
  - [Report Bugs and Issues](https://github.com/BinPy/BinPy/issues)
  - [Solve Bugs and Issues](https://github.com/BinPy/BinPy/issues?page=1&state=open)
  - Write Tutorials, Examples and Documentation
+
+__DEV NOTE:__
+
+ - It is expected that your code must follow [pep8](https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CCkQFjAA&url=https%3A%2F%2Fwww.python.org%2Fdev%2Fpeps%2Fpep-0008&ei=4SxIU4LWJ4mzrAfEyoHgBg&usg=AFQjCNGUTp-Bavhz439Hr22L2HoxWDeNGg&sig2=dep_DZ8B918mWzzvX8KUYQ) standards. To conform to the same please install `autopep8` tool following the instructions in the [installation section](#installation).
+ 
+ - After installation is complete. Make the necessary changes and commit your changes. After Committing your changes, `cd` to the BinPy root directory and issue the following command
+
+   `autopep8 -r -i -a -a -v .`
+   
+   To learn more about the `autopep8` tool visit [here](https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CCkQFjAA&url=https%3A%2F%2Fpypi.python.org%2Fpypi%2Fautopep8%2F&ei=SjFIU7jkIcWKrQfE5oDgBQ&usg=AFQjCNGP0o38e1Ia6S7_TfsDIJrvgdGAug&sig2=Yp4VZe9UepdYtoCF_mcBFg).
+
+ - To check for the pep8 indentation status issue the following command
+ 
+   `pep8 ./ --ignore=E501`
+
+If all the tests pass successfully push your repo to the origin/branch and send us a Pull Request. We'll be happy to review the same and merge it with our codebase.
+
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mrsud/binpy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
