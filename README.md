@@ -127,6 +127,11 @@ Documentation
 -------------
 Auto-generated documentation is available for reference at [BinPy docs](http://packages.python.org/BinPy/index.html)
 
+<a id="wiki"></a>
+Wiki
+----
+Check out the BinPy [Wiki page](http://github.com/BinPy/BinPy/wiki) for a complete summary of BinPy, [The Development workflow](https://github.com/BinPy/BinPy/wiki/Development-workflow), [Downloading and Installation guide](https://github.com/BinPy/BinPy/wiki/Download-Installation), [Tutorials](https://github.com/BinPy/BinPy/wiki/tutorial), [Technical References](https://github.com/BinPy/BinPy/wiki/Technical-References) and Much more.
+
 <a id="installation"></a>
 Installation
 ------------
@@ -151,15 +156,21 @@ Install `autopep8` Tool to ensure your contributions pass the `pep8` test.
 
 Future Work
 ------------
+
 * Introduction of all ICs
 * Introduction of problem solving algorithms
 * Addition of Microprocessors and Analog Devices
 * Graphical representation of the circuit
 
+
+Visit our [roadmap](https://github.com/BinPy/BinPy/wiki/roadmap) and [ideas page](https://github.com/BinPy/BinPy/wiki/ideas) in [Wiki](http://github.com/BinPy/BinPy/wiki) to know more.
+
 <a id="contribute"></a>
 
 How To Contribute
 -----------------
+
+For a detailed summary of all the coding guidelines and [development workflow](https://github.com/BinPy/BinPy/wiki/Development-workflow), visit our [Wiki page](http://github.com/BinPy/BinPy/wiki).
 
  - [Report Bugs and Issues](https://github.com/BinPy/BinPy/issues)
  - [Solve Bugs and Issues](https://github.com/BinPy/BinPy/issues?page=1&state=open)
@@ -174,6 +185,8 @@ __DEV NOTE:__
    `autopep8 -r -i -a -a -v .`
    
    To learn more about the `autopep8` tool visit [here](https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CCkQFjAA&url=https%3A%2F%2Fpypi.python.org%2Fpypi%2Fautopep8%2F&ei=SjFIU7jkIcWKrQfE5oDgBQ&usg=AFQjCNGP0o38e1Ia6S7_TfsDIJrvgdGAug&sig2=Yp4VZe9UepdYtoCF_mcBFg).
+
+ - Ensure that all the tests pass by running `nosetests; nosetests3` in `BinPy\BinPy\tests` directory.
 
  - To check for the pep8 indentation status issue the following command
  
