@@ -89,12 +89,12 @@ class BinaryAdder(GATES):
 
     """This Class implements Binary Adder, Arithmetic sum of two bit strings
     and return its Sum and Carry
-    Output: [SUM, CARRY]
+    Output: [CARRY, SUM]
     Example:
         >>> from BinPy import *
         >>> ba = BinaryAdder([0, 1], [1, 0], 0)
         >>> ba.output()
-        [1, 1, 0]
+        [0, 1, 1]
 
     """
 
@@ -145,11 +145,78 @@ class BinaryAdder(GATES):
                 self.outputConnector[i].state = value[i]
 
 
+class BCDAdder(GATES):
+
+    """This Class implements 4 bit BCD Adder,
+    and return its BCD Sum and Carry
+    Output: [SUM, CARRY]
+    Example:
+        >>> from BinPy import *
+        >>> ba = BCDAdder([0, 1, 1, 0], [1, 0, 1, 0], 0)
+        >>> ba.output()
+        [0, 0, 0, 0, 1]
+    """
+
+    def __init__(self, input1, input2, carry):
+        self.carry = carry
+        self.size = max(len(input1), len(input2))
+        self.input1 = input1
+        self.input2 = input2
+        input3 = self.fill(self.input1, self.size)
+        input4 = self.fill(self.input2, self.size)
+        GATES.__init__(self, [input3, input4])
+        self.outputType = [0] * (self.size + 1)
+        self.outputConnector = [None] * (self.size + 1)
+        self.trigger()
+
+    def fill(self, arr, size):
+        arr = list(map(str, arr))
+        arr = "".join(arr)
+        arr = str.zfill(arr, size)
+        arr = list(arr)
+        arr = list(map(int, arr))
+        return arr
+
+    def trigger(self):
+        if isinstance(self.outputType, int):
+            return
+        result = BinaryAdder(self.input1, self.input2, self.carry).output()
+        temp = AND(result[1], result[2]).output()
+        temp1 = AND(result[1], result[3]).output()
+        temp = OR(temp1, temp).output()
+        temp = OR(result[0], temp).output()
+        self.input1[0] = 0
+        self.input1[1] = temp
+        self.input1[2] = temp
+        self.input1[3] = 0
+        self.input2[0] = result[1]
+        self.input2[1] = result[2]
+        self.input2[2] = result[3]
+        self.input2[3] = result[4]
+        self.carry = result[0]
+        result = BinaryAdder(self.input1, self.input2, self.carry).output()
+        self._updateResult(result)
+
+    def setOutput(self, index, value):
+        if not isinstance(value, Connector):
+            raise Exception("ERROR: Expecting a Connector Class Object")
+        value.tap(self, 'output')
+        self.outputType[index] = 1
+        self.outputConnector[index] = value
+        self.trigger()
+
+    def _updateResult(self, value):
+        self.result = value
+        for i in range(len(value)):
+            if self.outputType[i] == 1:
+                self.outputConnector[i].state = value[i]
+
+
 class HalfSubtractor(GATES):
 
     """This Class implements Half Subtractor, Arithmetic difference of two bits and return its
     Difference and Borrow output
-    Output: [Difference, Borrow]
+    Output: [DIFFERENCE, BORROW]
     Example:
         >>> from BinPy import *
         >>> hs = HalfSubtractor(0, 1)
@@ -190,7 +257,7 @@ class FullSubtractor(GATES):
 
     """This Class implements Full Subtractor, Arithmetic difference of three bits and
     return its Difference and Borrow
-    Output: [Difference, Borrow]
+    Output: [DIFFERENCE, BORROW]
     Example:
         >>> from BinPy import *
         >>> fs = FullSubtractor(0, 1, 1)
@@ -239,7 +306,7 @@ class BinarySubtractor(GATES):
 
     """This Class implements Binary Subtractor, Arithmetic difference of two bit strings
     and return its difference and borrow
-    Output: [difference, borrow]
+    Output: [BORROW, DIFFERENCE]
     Example:
         >>> from BinPy import *
         >>> bs = BinarySubtractor([0, 1], [1, 0], 1)
@@ -568,7 +635,9 @@ class Decoder(GATES):
 class Encoder(GATES):
 
     """
-    This class can be used to create encoder in your circuit. It converts the input BCD form to binary output. It works as the inverse of the decoder
+    This class can be used to create encoder in your circuit.
+    It converts the input BCD form to binary output.
+    It works as the inverse of the decoder
     INPUT:      Input in BCD form, length of input must me in power of 2
     OUTPUT:     Encoded Binary Form
 

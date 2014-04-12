@@ -98,9 +98,6 @@ class Tree:
         return ret_value
 
     def printTree(self):
-        self.printTuple(self.node)
-
-    def printTuple(self, tree_node, space=0):
         '''
         This function takes a tree  and prints that tree in a readable way.
         The way a gate, or a mux or any other digital element gets
@@ -113,7 +110,7 @@ class Tree:
         >>> g2 = AND(True, False)
         >>> g3 = AND(g1, g2)
         >>> tree = Tree(g3, 2)
-        >>> tree.backtrack(0
+        >>> tree.backtrack()
         >>> tree.printTree()
         |- AND Gate; Output: 0; Inputs: [0, 0];
            |- AND Gate; Output: 0; Inputs: [True, False];
@@ -123,6 +120,9 @@ class Tree:
               |- True
               |- False
         '''
+        self.printTuple(self.node)
+
+    def printTuple(self, tree_node, space=0):
 
         if isinstance(tree_node, tuple):
             self.printSpaces(space)
@@ -142,7 +142,7 @@ class Tree:
             stdout.write("   ")
 
     def __repr__(self):
-        self.printTree()
+        return str(self.node)
 
     def __call__(self):
-        self.printTree()
+        return self.printTree()

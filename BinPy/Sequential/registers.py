@@ -66,9 +66,10 @@ class Register(object):
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("Error: Expecting a Connector Class Object")
-        outputType[index] = 1
-        outputConnector[index] = value
+        self.outputType[index] = 1
+        self.outputConnector[index] = value
         value.tap(self, 'output')
+        self._updateResult(self.result)
 
     def output(self):
         self.trigger()
@@ -115,7 +116,7 @@ class FourBitRegister(Register):
         self._updateResult(out)
 
 
-class FourBitRegister2(Register):
+class FourBitLoadRegister(Register):
 
     """
     Four Bit Register with Load
@@ -129,9 +130,9 @@ class FourBitRegister2(Register):
         >>> from BinPy import *
         >>> c = Clock(1, 500)
         >>> c.start()
-        >>> fr = FourBitRegister2(1, 0, 1, 1, c, 1)
+        >>> fr = FourBitLoadRegister(1, 0, 1, 1, c, 1, 1)
         >>> fr.output()
-        [1, 0, 1, 1]
+        [1, 0, 1, 0]
 
     """
 

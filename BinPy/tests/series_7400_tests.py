@@ -1,7 +1,9 @@
 from BinPy.ic import *
 from nose.tools import with_setup, nottest
 
-######## IC's with 14 pins #################################
+#################################
+# IC's with 14 pins
+#################################
 
 
 def test_IC_7400():
@@ -430,7 +432,9 @@ def test_IC_74152():
     if n != testIC.run():
         assert False
 
-######## IC's with 5 pins #################################
+#################################
+# IC's with 5 pins
+#################################
 
 
 def test_IC_741G00():
@@ -486,7 +490,9 @@ def test_IC_741G08():
     if q != testIC.run():
         assert False
 
-######## IC's with 16 pins #################################
+#################################
+# IC's with 16 pins
+#################################
 
 
 def test_IC_7431():

@@ -15,7 +15,9 @@ from BinPy.Gates import *
 from BinPy.ic import *
 from BinPy.Combinational import *
 
-######## IC's with 14 pins #################################
+#################################
+# IC's with 14 pins
+#################################
 
 
 class IC_4000(Base_14pin):
@@ -391,6 +393,47 @@ class IC_4025(Base_14pin):
                         self.pins[8].value).output()
         output[10] = NOR(self.pins[11].value, self.pins[12].value,
                          self.pins[13].value).output()
+        if self.pins[7].value == 0 and self.pins[14].value == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print ("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_4030(Base_14pin):
+
+    """
+    Quad 2-input XOR gate
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = True
+        self.setIC({1: {'desc': '1A'},
+                    2: {'desc': '1B'},
+                    3: {'desc': '1Y'},
+                    4: {'desc': '2Y'},
+                    5: {'desc': '2A'},
+                    6: {'desc': '2B'},
+                    7: {'desc': 'GND'},
+                    8: {'desc': '3A'},
+                    9: {'desc': '3B'},
+                    10: {'desc': '3Y'},
+                    11: {'desc': '4Y'},
+                    12: {'desc': '4A'},
+                    13: {'desc': '4B'},
+                    14: {'desc': 'VCC'}
+                    })
+
+    def run(self):
+        output = {}
+        output[3] = XOR(self.pins[1].value, self.pins[2].value).output()
+        output[4] = XOR(self.pins[5].value, self.pins[6].value).output()
+        output[10] = XOR(self.pins[8].value, self.pins[9].value).output()
+        output[11] = XOR(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
             self.setIC(output)
             for i in self.outputConnector:
@@ -891,7 +934,9 @@ class IC_4082(Base_14pin):
 
             print ("Ground and VCC pins have not been configured correctly.")
 
-######## IC's with 16 pins #################################
+#################################
+# IC's with 16 pins
+#################################
 
 
 class IC_4008(Base_16pin):
