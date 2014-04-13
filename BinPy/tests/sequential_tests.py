@@ -6,7 +6,7 @@ def test_SRLatch():
 
     s = Connector(1)
     r = Connector(0)
-    clock = Clock(1, 50000)
+    clock = Clock(1, 500)
     clock.start()
     test_SRLatch = SRLatch(s, r, Connector(1), clock.A)
 
@@ -60,7 +60,7 @@ def test_SRLatch():
 def test_DFlipFlop():
 
     d = Connector(1)
-    clock = Clock(1, 50000)
+    clock = Clock(1, 500)
     clock.start()
     test_DFF = DFlipFlop(d, Connector(1), clock.A)
 
@@ -92,7 +92,7 @@ def test_JKFlipFlop():
 
     j, k = Connector(0), Connector(0)
 
-    clock = Clock(1, 50000)
+    clock = Clock(1, 500)
     clock.start()
     test_JKFF = JKFlipFlop(j, k, Connector(1), clock.A)
 
@@ -157,7 +157,7 @@ def test_JKFlipFlop():
 def test_TFlipFlop():
 
     t = Connector()
-    clock = Clock(1, 50000)
+    clock = Clock(1, 500)
     clock.start()
     test_TFF = TFlipFlop(t, Connector(1), clock.A)
 
