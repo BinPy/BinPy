@@ -91,17 +91,42 @@ def run_notebook(mainArgs):
         from IPython.frontend.html.notebook import notebookapp
         from IPython.frontend.html.notebook import kernelmanager
 
-    code = ""
-    code += "from BinPy import *;"
-    code += "init_options_handler.enable_notebook();"
-
     kernelmanager.MappingKernelManager.first_beat = 30.0
     app = notebookapp.NotebookApp.instance()
-    mainArgs += [
-        '--port', '5050',
-        '--c', code,
-    ]
-    app.initialize(mainArgs)
+    with open('BinPyNotebook0.ipynb', 'a') as new_ipynb:
+        if (new_ipynb.tell() == 0):
+            new_ipynb.write(
+                """
+                {
+                "metadata": {
+                "name": "",
+                "signature": ""
+                },
+                "nbformat": 3,
+                "nbformat_minor": 0,
+                "worksheets": [
+                {
+                "cells": [
+                    {
+                    "cell_type": "code",
+                    "collapsed": false,
+                    "input": [
+                    "from BinPy import *"
+                    ],
+                    "language": "python",
+                    "metadata": {},
+                    "outputs": [],
+                    "prompt_number": 1
+                    }
+                ],
+                "metadata": {}
+                }
+                ]
+                }
+            """
+            )
+
+    app.initialize(['BinPyNotebook0.ipynb'])
     app.start()
     sys.exit()
 
