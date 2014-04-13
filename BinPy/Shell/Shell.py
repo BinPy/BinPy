@@ -45,8 +45,13 @@ def self_update():
 
 
 def setupIpython():
+
     try:
         import IPython
+    except:
+        raise("ERROR: IPython Failed to load")
+
+    try:
         from IPython.config.loader import Config
         from IPython.frontend.terminal.embed import InteractiveShellEmbed
 
@@ -71,6 +76,36 @@ def setupIpython():
     return bpyShell()
 
 
+def run_notebook(mainArgs):
+    """Run the ipython notebook server"""
+
+    try:
+        import IPython
+    except:
+        raise("ERROR: IPython Failed to load")
+
+    try:
+        from IPython.html import notebookapp
+        from IPython.html.services.kernels import kernelmanager
+    except:
+        from IPython.frontend.html.notebook import notebookapp
+        from IPython.frontend.html.notebook import kernelmanager
+
+    code = ""
+    code += "from BinPy import *;"
+    code += "init_options_handler.enable_notebook();"
+
+    kernelmanager.MappingKernelManager.first_beat = 30.0
+    app = notebookapp.NotebookApp.instance()
+    mainArgs += [
+        '--port', '5050',
+        '--c', code,
+    ]
+    app.initialize(mainArgs)
+    app.start()
+    sys.exit()
+
+
 def shellMain(*args):
     log_level = logging.WARNING
     interface = None
@@ -82,6 +117,10 @@ def shellMain(*args):
         if flag == 'update':
             print ("Updating BinPy...")
             self_update()
+
+        elif flag == 'notebook':
+            run_notebook(['.'])
+            sys.exit()
 
         if flag in ['--nowarnings', 'nowarnings']:
             log_level = logging.INFO
