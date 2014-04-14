@@ -102,7 +102,10 @@ class GATES:
         return input_states
 
     def _updateResult(self, value):
-        self.result = int(value)  # Set True or False
+        if value is None:
+            self.result = None
+        else:
+            self.result = int(value)  # Set True or False
         if self.outputType == 1:
             self.outputConnector.state = self.result
 
@@ -220,11 +223,11 @@ class AND(MIGATES):
             val = True
             for i in self.inputs:
                 if (isinstance(i, Connector)):
-                    val = val & i.state
+                    val = val and i.state
                 elif (isinstance(i, GATES)):
-                    val = val & i.output()
+                    val = val and i.output()
                 else:
-                    val = val & i
+                    val = val and i
 
             self._updateResult(val)
             if self.outputType:
@@ -267,11 +270,11 @@ class OR(MIGATES):
             val = False
             for i in self.inputs:
                 if (isinstance(i, Connector)):
-                    val = val | i.state
+                    val = val or i.state
                 elif (isinstance(i, GATES)):
-                    val = val | i.output()
+                    val = val or i.output()
                 else:
-                    val = val | i
+                    val = val or i
 
             self._updateResult(val)
             if self.outputType:
@@ -376,8 +379,8 @@ class XOR(MIGATES):
                     val = i.output()
                 else:
                     val = i
-                temp = temp ^ val
-            temp = temp ^ 1
+                temp = (temp and not val) or (not temp and val)
+            temp = (temp and not 1) or (not temp and 1)
             self._updateResult(temp)
             if self.outputType:
                 self.outputConnector.trigger()
@@ -424,8 +427,8 @@ class XNOR(MIGATES):
                     val = i.output()
                 else:
                     val = i
-                temp = temp ^ val
-            temp = temp ^ 1
+                temp = (temp and not val) or (not temp and val)
+            temp = (temp and not 1) or (not temp and 1)
             self._updateResult(not temp)
             if self.outputType:
                 self.outputConnector.trigger()
@@ -459,12 +462,12 @@ class NAND(MIGATES):
             val = True
             for i in self.inputs:
                 if (isinstance(i, Connector)):
-                    val = val & i.state
+                    val = val and i.state
 
                 elif (isinstance(i, GATES)):
-                    val = val & i.output()
+                    val = val and i.output()
                 else:
-                    val = val & i
+                    val = val and i
 
             self._updateResult(not val)
             if self.outputType:
@@ -499,11 +502,11 @@ class NOR(MIGATES):
             val = False
             for i in self.inputs:
                 if (isinstance(i, Connector)):
-                    val = val | i.state
+                    val = val or i.state
                 elif (isinstance(i, GATES)):
-                    val = val | i.output()
+                    val = val or i.output()
                 else:
-                    val = val | i
+                    val = val or i
 
             self._updateResult(not val)
 
