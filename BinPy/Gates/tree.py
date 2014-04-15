@@ -113,7 +113,7 @@ class Tree:
         '''
 
         # Store new history if available, or create new one
-        if hist != None:
+        if hist is not None:
             self.hist = hist
         else:
             self.hist = CycleHist()
@@ -179,7 +179,8 @@ class Tree:
         if not self.cycles:
             if type(self.element) not in [int, bool] and\
                     self.hist.isRepeated(self.element):
-                stdout.write("[" + str(self.hist.getIndex(self.element)) + "] ")
+                stdout.write(
+                    "[" + str(self.hist.getIndex(self.element)) + "] ")
 
         print(self.element)
 
@@ -196,6 +197,7 @@ class Tree:
 
 
 class CycleHist:
+
     '''
     This class helps to keep the cycle history of a circuit by registering
     occurrences of a digital element. The class has a dictionary that stores
@@ -252,6 +254,7 @@ class CycleHist:
 
 
 class CycleHistValue:
+
     '''
     This class represents the value in the dictionary of the CycleHist class.
     It has the index of the element and if it has been repeated or not.
