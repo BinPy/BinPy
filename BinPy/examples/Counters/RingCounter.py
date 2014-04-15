@@ -1,7 +1,7 @@
 # Example for N Bit Ring Counter.
 
 from __future__ import print_function
-from BinPy.tools.digital import Clock
+from BinPy.tools import Clock
 from BinPy.Sequential.counters import RingCounter
 from BinPy.Gates import Connector
 

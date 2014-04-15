@@ -1,7 +1,7 @@
 # Example for Decade Counter.
 
 from __future__ import print_function
-from BinPy.tools.digital import Clock
+from BinPy.tools import Clock
 from BinPy.Sequential.counters import NBitDownCounter
 from BinPy.Gates import Connector
 from BinPy.tools.oscilloscope import Oscilloscope
