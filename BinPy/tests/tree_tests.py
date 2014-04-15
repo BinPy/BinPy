@@ -10,6 +10,7 @@ from nose.tools import with_setup, nottest
 Testing backtrack() function for depths from 0 to 4.
 '''
 
+
 def getTreeForDepthTesting(depth):
     # Gates for depth test
     g1 = AND(True, False)
@@ -38,8 +39,9 @@ def getTreeForDepthTesting(depth):
 
     return tree_inst, tree_testing
 
+
 def compareTrees(tree_inst, tree_testing, depth):
-    if type(tree_testing) == tuple:
+    if isinstance(tree_testing, tuple):
         if not tree_testing[0] == tree_inst.element:
             assert False
 
@@ -54,6 +56,7 @@ def compareTrees(tree_inst, tree_testing, depth):
         if not tree_testing == tree_inst.element:
             assert False
 
+
 def backtrack_depth_test():
     for i in range(6):
         tree_inst, tree_testing = getTreeForDepthTesting(i)
@@ -62,6 +65,7 @@ def backtrack_depth_test():
 '''
 Test to see if the setDepth method works
 '''
+
 
 def set_depth_test():
     tree_inst, tree_testing = getTreeForDepthTesting(0)
@@ -74,6 +78,7 @@ def set_depth_test():
 '''
 Test not following Cycles functionality
 '''
+
 
 def not_following_cycles_test():
     c1 = Connector(True)
