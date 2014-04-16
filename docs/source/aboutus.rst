@@ -7,6 +7,9 @@ BinPy Development Team
 It was started by two undergraduate college students. After that many people
 have contributed to this project. Here is a list of few of them.
 
+.. note::
+   All people who contributed to BinPy by sending at least a patch or more. 
+   (List is in the order of the date of their first contribution)
 
 #. Sudhanshu Mishra <mrsud94@gmail.com>
 #. Sarwar Chahal <chahal.sarwar98@gmail.com>
@@ -29,6 +32,8 @@ have contributed to this project. Here is a list of few of them.
 #. Shashank Garg <garg.shashank.5@gmail.com>
 #. Ahmed Hemdan <a.hemdan.alatif@gmail.com>
 
+
+`Prakhar Bharadwaj <https://github.com/prakhar625>`_ has contributed to BinPy by designing its logo.
 
 Support
 -------
