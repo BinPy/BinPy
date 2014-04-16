@@ -41,6 +41,7 @@ class HalfAdder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
 
 class FullAdder(GATES):
@@ -83,6 +84,7 @@ class FullAdder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
 
 class BinaryAdder(GATES):
@@ -143,6 +145,7 @@ class BinaryAdder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
 
 class BCDAdder(GATES):
@@ -210,6 +213,7 @@ class BCDAdder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
 
 class HalfSubtractor(GATES):
@@ -251,6 +255,7 @@ class HalfSubtractor(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
 
 class FullSubtractor(GATES):
@@ -300,6 +305,7 @@ class FullSubtractor(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
 
 class BinarySubtractor(GATES):
@@ -360,6 +366,7 @@ class BinarySubtractor(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
 
 class MUX(GATES):
@@ -545,6 +552,7 @@ class DEMUX(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
     def __str__(self):
         return self.buildStr("DEMUX")
@@ -627,6 +635,7 @@ class Decoder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
     def __str__(self):
         return self.buildStr("Decoder")
@@ -726,6 +735,7 @@ class Encoder(GATES):
         for i in range(len(value)):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
+                self.outputConnector[i].trigger()
 
     def __str__(self):
         return self.buildStr("Encoder")
