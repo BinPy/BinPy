@@ -186,7 +186,7 @@ __DEV NOTE:__
    
    To learn more about the `autopep8` tool visit [here](https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CCkQFjAA&url=https%3A%2F%2Fpypi.python.org%2Fpypi%2Fautopep8%2F&ei=SjFIU7jkIcWKrQfE5oDgBQ&usg=AFQjCNGP0o38e1Ia6S7_TfsDIJrvgdGAug&sig2=Yp4VZe9UepdYtoCF_mcBFg).
 
- - Ensure that all the tests pass by running `nosetests; nosetests3` in `BinPy\BinPy\tests` directory.
+ - Ensure that all the tests pass by running `nosetests; nosetests3` in `BinPy/BinPy/tests` directory.
 
  - To check for the pep8 indentation status issue the following command
  
