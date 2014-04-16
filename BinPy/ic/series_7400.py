@@ -63,6 +63,7 @@ class IC_74152(Base_14pin):
         if self.pins[7] == 0 and self.pins[14] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -141,6 +142,7 @@ class IC_7400(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -180,6 +182,7 @@ class IC_7401(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -259,6 +262,7 @@ class IC_7402(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -337,6 +341,7 @@ class IC_7403(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -415,6 +420,7 @@ class IC_7404(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -456,6 +462,7 @@ class IC_7405(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -533,6 +540,7 @@ class IC_7408(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -594,6 +602,7 @@ class IC_7410(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -656,6 +665,7 @@ class IC_7411(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -717,6 +727,7 @@ class IC_7412(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -785,6 +796,7 @@ class IC_7413(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -846,6 +858,7 @@ class IC_7415(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -887,6 +900,7 @@ class IC_7416(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -928,6 +942,7 @@ class IC_7417(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -958,6 +973,7 @@ class IC_7418(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -999,6 +1015,7 @@ class IC_7419(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1029,6 +1046,7 @@ class IC_7420(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1059,6 +1077,7 @@ class IC_7421(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1089,6 +1108,7 @@ class IC_7422(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1128,6 +1148,7 @@ class IC_7424(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1160,6 +1181,7 @@ class IC_7425(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1199,6 +1221,7 @@ class IC_7426(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1222,6 +1245,7 @@ class IC_7427(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1261,6 +1285,7 @@ class IC_7428(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1290,6 +1315,7 @@ class IC_7430(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1329,6 +1355,7 @@ class IC_7432(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1368,6 +1395,7 @@ class IC_7433(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1407,6 +1435,7 @@ class IC_7437(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1446,6 +1475,7 @@ class IC_7438(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1476,6 +1506,7 @@ class IC_7440(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1505,6 +1536,7 @@ class IC_7451(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1535,6 +1567,7 @@ class IC_7454(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1562,6 +1595,7 @@ class IC_7455(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1591,6 +1625,7 @@ class IC_7458(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1620,6 +1655,7 @@ class IC_7464(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1666,6 +1702,7 @@ class IC_7486(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1695,6 +1732,7 @@ class IC_74260(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1720,6 +1758,7 @@ class IC_741G00(Base_5pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1741,6 +1780,7 @@ class IC_741G02(Base_5pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1762,6 +1802,7 @@ class IC_741G03(Base_5pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1783,6 +1824,7 @@ class IC_741G04(Base_5pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1804,6 +1846,7 @@ class IC_741G05(Base_5pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1825,6 +1868,7 @@ class IC_741G08(Base_5pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1873,6 +1917,7 @@ class IC_7431(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -1970,6 +2015,7 @@ class IC_7442(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2062,6 +2108,7 @@ class IC_7443(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2152,6 +2199,7 @@ class IC_7444(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2249,6 +2297,7 @@ class IC_7445(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2287,6 +2336,7 @@ class IC_74133(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2350,6 +2400,7 @@ class IC_7483(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2407,6 +2458,7 @@ class IC_7470(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2456,6 +2508,7 @@ class IC_7472(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2527,6 +2580,7 @@ class IC_7473(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2588,6 +2642,7 @@ class IC_7474(Base_14pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2682,6 +2737,7 @@ class IC_7475(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2755,6 +2811,7 @@ class IC_7476(Base_16pin):
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2851,6 +2908,7 @@ class IC_74153(Base_16pin):
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2906,6 +2964,7 @@ class IC_74151A(Base_16pin):
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -2961,6 +3020,7 @@ class IC_74138(Base_16pin):
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -3041,6 +3101,7 @@ class IC_74139(Base_16pin):
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -3122,6 +3183,7 @@ class IC_74156(Base_16pin):
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
@@ -3203,6 +3265,7 @@ class IC_74155(Base_16pin):
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
+                self.outputConnector[i].trigger()
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
