@@ -9,9 +9,10 @@ Contents:
 
 .. toctree::
    :maxdepth: 4
-
+   
+   install
    modules/BinPy
-   aboutus.rst
+   aboutus
 
 Indices and tables
 ==================
