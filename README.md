@@ -140,12 +140,12 @@ Installation
 
 Install with **pip**
 
-    sudo apt-get install pip setuptools ipython
+    sudo apt-get install python-pip setuptools ipython-notebook
     sudo pip install https://github.com/BinPy/BinPy/zipball/master
 
 Install using **git**
 
-    sudo apt-get install git setuptools ipython
+    sudo apt-get install git setuptools ipython-notebook
     git clone https://github.com/BinPy/BinPy.git
     cd BinPy/
     sudo python setup.py install
