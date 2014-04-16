@@ -1,5 +1,5 @@
-Welcome to BinPy's documentation!
-=================================
+BinPy Documentation
+===================
 
 `BinPy <http://www.binpy.org>`_ is a Python library for simulation of circuit elements.
 It was started as a project to facilitate learning electronics. Now we've added few more
@@ -13,6 +13,7 @@ Contents:
    install
    modules/BinPy
    aboutus
+   license
 
 Indices and tables
 ==================

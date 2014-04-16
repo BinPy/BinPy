@@ -1,13 +1,15 @@
-BinPy.dev package
-=================
+Shell
+=====
 
 Submodules
 ----------
 
-BinPy.dev.parseEquation module
-------------------------------
+* Shell
 
-.. automodule:: BinPy.dev.parseEquation
+Shell
+-----
+
+.. automodule:: BinPy.Shell.Shell
     :members:
     :undoc-members:
     :show-inheritance:
@@ -16,7 +18,7 @@ BinPy.dev.parseEquation module
 Module contents
 ---------------
 
-.. automodule:: BinPy.dev
+.. automodule:: BinPy.Shell
     :members:
     :undoc-members:
     :show-inheritance:

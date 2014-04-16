@@ -1,10 +1,17 @@
-BinPy.Algorithms package
-========================
+Algorithms
+==========
 
 Submodules
 ----------
 
-BinPy.Algorithms.AnalogFormulas module
+* AnalogFormulas
+* ExpressionConvert
+* ImplementBooleanFunction
+* MooreOptimizer
+* QuineMcCluskey
+
+
+AnalogFormulas
 --------------------------------------
 
 .. automodule:: BinPy.Algorithms.AnalogFormulas
@@ -12,7 +19,7 @@ BinPy.Algorithms.AnalogFormulas module
     :undoc-members:
     :show-inheritance:
 
-BinPy.Algorithms.ExpressionConvert module
+ExpressionConvert
 -----------------------------------------
 
 .. automodule:: BinPy.Algorithms.ExpressionConvert
@@ -20,7 +27,7 @@ BinPy.Algorithms.ExpressionConvert module
     :undoc-members:
     :show-inheritance:
 
-BinPy.Algorithms.ImplementBooleanFunction module
+ImplementBooleanFunction
 ------------------------------------------------
 
 .. automodule:: BinPy.Algorithms.ImplementBooleanFunction
@@ -28,7 +35,7 @@ BinPy.Algorithms.ImplementBooleanFunction module
     :undoc-members:
     :show-inheritance:
 
-BinPy.Algorithms.MooreOptimizer module
+MooreOptimizer
 --------------------------------------
 
 .. automodule:: BinPy.Algorithms.MooreOptimizer
@@ -36,7 +43,7 @@ BinPy.Algorithms.MooreOptimizer module
     :undoc-members:
     :show-inheritance:
 
-BinPy.Algorithms.QuineMcCluskey module
+QuineMcCluskey
 --------------------------------------
 
 .. automodule:: BinPy.Algorithms.QuineMcCluskey

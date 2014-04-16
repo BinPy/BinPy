@@ -7,8 +7,9 @@ This is a guide on how to install BinPy on your computer.
 Linux
 -----
 
-We support python 2.6, 2.7, 3.2, 3.3 and pypy. If you have any of these
-versions of python you are good to go.
+.. note::
+   We support python 2.6, 2.7, 3.2, 3.3 and pypy. If you have any of these
+   versions of python you are good to go.
 
 **Dependencies**
 
@@ -87,11 +88,15 @@ To install dependencies(setuptools and ipython) you can check the following link
 
 To install BinPy on windows you can use our windows installer.
 
-We generate windows installer only for stable release. To get the development version, you'll have to use git.
+.. note::
 
-If you have the `git cygwin` or you have the `github for windows`
-,you can clone the development branch of our repository from
-https://github.com/BinPy/BinPy.
+   We generate windows installer only for stable release. To get the development version, you'll have to use git.
+
+.. hint::
+
+   If you have the `git cygwin` or you have the `github for windows`
+   , you can clone the development branch of our repository from
+   https://github.com/BinPy/BinPy.
 
 To install it you will have to run the following commands
 

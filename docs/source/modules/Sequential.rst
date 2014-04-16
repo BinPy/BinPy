@@ -1,27 +1,32 @@
-BinPy.Sequential package
-========================
+Sequential
+==========
 
 Submodules
 ----------
 
-BinPy.Sequential.counters module
---------------------------------
+* counters
+* registers
+* sequential
+
+
+counters
+--------
 
 .. automodule:: BinPy.Sequential.counters
     :members:
     :undoc-members:
     :show-inheritance:
 
-BinPy.Sequential.registers module
----------------------------------
+registers
+---------
 
 .. automodule:: BinPy.Sequential.registers
     :members:
     :undoc-members:
     :show-inheritance:
 
-BinPy.Sequential.sequential module
-----------------------------------
+sequential
+----------
 
 .. automodule:: BinPy.Sequential.sequential
     :members:

@@ -14,24 +14,12 @@
 
 import sys
 import os
-import BinPy
+
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path = ['../BinPy'] + sys.path
 
-"""
-sys.path.insert(0, os.path.abspath('../BinPy'))
-sys.path.insert(1, os.path.abspath('../BinPy/Algorithms'))
-sys.path.insert(2, os.path.abspath('../BinPy/Analog'))
-sys.path.insert(3, os.path.abspath('../BinPy/Combinational'))
-sys.path.insert(4, os.path.abspath('../BinPy/Gates'))
-sys.path.insert(5, os.path.abspath('../BinPy/Operations'))
-sys.path.insert(6, os.path.abspath('../BinPy/Sequential'))
-sys.path.insert(7, os.path.abspath('../BinPy/ic'))
-sys.path.insert(8, os.path.abspath('../BinPy/tools'))
-"""
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -118,7 +106,8 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'solar'  # You need to have this theme at your sphinx installation location
+                      # Courtesy https://github.com/vkvn/sphinx-themes
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -130,14 +119,14 @@ html_theme = 'default'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-# html_title = None
+html_title = "BinPy Documentation"
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
-# html_short_title = None
+html_short_title = "BinPy Docs"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-# html_logo = None
+html_logo = "_static/binpy-logo.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -147,7 +136,7 @@ html_theme = 'default'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['.static']
+html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -156,11 +145,11 @@ html_static_path = ['.static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
-# html_last_updated_fmt = '%b %d, %Y'
+html_last_updated_fmt = '%b %d, %Y'
 
 # If true, SmartyPants will be used to convert quotes and dashes to
 # typographically correct entities.
-# html_use_smartypants = True
+html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
 # html_sidebars = {}
@@ -173,7 +162,7 @@ html_static_path = ['.static']
 # html_domain_indices = True
 
 # If false, no index is generated.
-# html_use_index = True
+html_use_index = True
 
 # If true, the index is split into individual pages for each letter.
 # html_split_index = False
@@ -182,7 +171,7 @@ html_static_path = ['.static']
 # html_show_sourcelink = True
 
 # If true, "Created using Sphinx" is shown in the HTML footer. Default is True.
-# html_show_sphinx = True
+html_show_sphinx = False
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
 # html_show_copyright = True
@@ -203,10 +192,10 @@ htmlhelp_basename = 'BinPydoc'
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    # 'papersize': 'letterpaper',
+    'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
-    # 'pointsize': '10pt',
+    'pointsize': '10pt',
 
     # Additional stuff for the LaTeX preamble.
     # 'preamble': '',
@@ -222,7 +211,7 @@ latex_documents = [
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-# latex_logo = None
+latex_logo = "images/binpy-small.png"
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -279,4 +268,4 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'http://docs.python.org/': None}
+# intersphinx_mapping = {'http://docs.python.org/': None}

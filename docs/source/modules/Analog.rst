@@ -1,10 +1,14 @@
-BinPy.Analog package
-====================
+Analog
+======
 
 Submodules
 ----------
 
-BinPy.Analog.base module
+* base
+* source
+
+
+base
 ------------------------
 
 .. automodule:: BinPy.Analog.base
@@ -12,7 +16,7 @@ BinPy.Analog.base module
     :undoc-members:
     :show-inheritance:
 
-BinPy.Analog.source module
+source
 --------------------------
 
 .. automodule:: BinPy.Analog.source

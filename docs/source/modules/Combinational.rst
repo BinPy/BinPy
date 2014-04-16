@@ -1,10 +1,13 @@
-BinPy.Combinational package
-===========================
+Combinational
+=============
 
 Submodules
 ----------
 
-BinPy.Combinational.combinational module
+* combinational
+
+
+combinational
 ----------------------------------------
 
 .. automodule:: BinPy.Combinational.combinational

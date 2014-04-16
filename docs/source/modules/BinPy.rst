@@ -1,24 +1,22 @@
-BinPy package
-=============
+BinPy
+=====
 
 Subpackages
 -----------
 
 .. toctree::
 
-    BinPy.Algorithms
-    BinPy.Analog
-    BinPy.Combinational
-    BinPy.Gates
-    BinPy.Operations
-    BinPy.Sequential
-    BinPy.Shell
-    BinPy.dev
-    BinPy.ic
-    BinPy.tools
+    Algorithms
+    Analog
+    Combinational
+    Gates
+    Operations
+    Sequential
+    Shell
+    dev
+    ic
+    tools
 
-Submodules
-----------
 
 BinPy.base module
 -----------------

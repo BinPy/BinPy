@@ -1,27 +1,32 @@
-BinPy.Gates package
-===================
+Gates
+=====
 
 Submodules
 ----------
 
-BinPy.Gates.connector module
-----------------------------
+* connector
+* gates
+* tree
+
+
+connector
+---------
 
 .. automodule:: BinPy.Gates.connector
     :members:
     :undoc-members:
     :show-inheritance:
 
-BinPy.Gates.gates module
-------------------------
+gates
+-----
 
 .. automodule:: BinPy.Gates.gates
     :members:
     :undoc-members:
     :show-inheritance:
 
-BinPy.Gates.tree module
------------------------
+tree
+----
 
 .. automodule:: BinPy.Gates.tree
     :members:

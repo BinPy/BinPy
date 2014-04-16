@@ -1,13 +1,16 @@
-BinPy.Shell package
-===================
+Operations
+==========
 
 Submodules
 ----------
 
-BinPy.Shell.Shell module
-------------------------
+* operations
 
-.. automodule:: BinPy.Shell.Shell
+
+operations
+----------
+
+.. automodule:: BinPy.Operations.operations
     :members:
     :undoc-members:
     :show-inheritance:
@@ -16,7 +19,7 @@ BinPy.Shell.Shell module
 Module contents
 ---------------
 
-.. automodule:: BinPy.Shell
+.. automodule:: BinPy.Operations
     :members:
     :undoc-members:
     :show-inheritance:
