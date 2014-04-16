@@ -28,3 +28,10 @@ have contributed to this project. Here is a list of few of them.
 #. Pedro Melgueira <pedromelgueira@gmail.com>
 #. Shashank Garg <garg.shashank.5@gmail.com>
 #. Ahmed Hemdan <a.hemdan.alatif@gmail.com>
+
+
+Support
+-------
+
+`DigitalOcean <https://www.digitalocean.com>`_ is supporting us by providing infrastructural
+support to host our website on their servers. We are very thankful to them.
