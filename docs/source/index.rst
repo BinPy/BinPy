@@ -12,6 +12,7 @@ Contents:
    
    install
    modules/BinPy
+   development-workflow
    aboutus
    license
 
