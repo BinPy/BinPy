@@ -125,7 +125,7 @@ To start it, simply issue ```$ binpy``` if BinPy is installed in your path.
 <a id="documentation"></a>
 Documentation
 -------------
-Auto-generated documentation is available for reference at [BinPy docs](http://packages.python.org/BinPy/index.html)
+Auto-generated documentation is available for reference at [BinPy docs](http://docs.binpy.org)
 
 <a id="wiki"></a>
 Wiki
@@ -136,23 +136,80 @@ Check out the BinPy [Wiki page](http://github.com/BinPy/BinPy/wiki) for a comple
 Installation
 ------------
 
-# Linux
+## Linux
 
-Install with **pip**
+###Install with pip
 
-    sudo apt-get install pip setuptools ipython
-    sudo pip install https://github.com/BinPy/BinPy/zipball/master
+#####Python2
 
-Install using **git**
+######PIP and setuptools
 
-    sudo apt-get install git setuptools ipython
-    git clone https://github.com/BinPy/BinPy.git
-    cd BinPy/
-    sudo python setup.py install
+```sh
+sudo apt-get install python-pip
+sudo pip install --upgrade setuptools
+```
 
-Install `autopep8` Tool to ensure your contributions pass the `pep8` test.
+######BinPy
 
-    sudo pip install --upgrade autopep8
+```sh
+sudo pip install https://github.com/BinPy/BinPy/zipball/master
+```
+
+######IPython Notebook
+
+```sh
+sudo pip install --upgrade ipython[all]
+```
+
+#####Python3
+
+######PIP and setuptools
+
+```sh
+sudo apt-get install python3-pip
+sudo pip3 install --upgrade setuptools
+```
+
+######BinPy
+
+```sh
+sudo pip3 install https://github.com/BinPy/BinPy/zipball/master
+```
+
+######IPython Notebook
+
+```sh
+sudo pip3 install --upgrade ipython[all]
+```
+
+#####Install `autopep8` Tool to ensure your contributions pass the `pep8` test.
+
+```sh
+sudo pip install --upgrade autopep8
+```
+
+###Install BinPy using git
+
+#####Python2
+
+```sh
+sudo apt-get install git setuptools
+git clone https://github.com/BinPy/BinPy.git
+cd BinPy/
+sudo python setup.py install
+```
+
+#####Python3
+
+```sh
+sudo apt-get install git python3-pip
+sudo pip3 install --upgrade setuptools
+git clone https://github.com/BinPy/BinPy.git
+cd BinPy/
+sudo python3 setup.py install
+```
+
+####
 
 Future Work
 ------------
