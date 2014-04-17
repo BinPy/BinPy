@@ -136,19 +136,46 @@ Check out the BinPy [Wiki page](http://github.com/BinPy/BinPy/wiki) for a comple
 Installation
 ------------
 
-# Linux
+## Linux
 
-Install with **pip**
+###Install with pip
 
-    sudo apt-get install python-pip setuptools ipython-notebook
-    sudo pip install https://github.com/BinPy/BinPy/zipball/master
+#####Python2
 
-Install using **git**
+```sh
+sudo apt-get install python-pip setuptools ipython-notebook
+sudo pip install https://github.com/BinPy/BinPy/zipball/master
+```
 
-    sudo apt-get install git setuptools ipython-notebook
-    git clone https://github.com/BinPy/BinPy.git
-    cd BinPy/
-    sudo python setup.py install
+#####Python3
+
+```sh
+sudo apt-get install python3-pip ipython3-notebook
+sudo pip3 install --upgrade setuptools
+sudo pip3 install https://github.com/BinPy/BinPy/zipball/master
+  ```
+
+###Install using git
+
+#####Python2
+
+```sh
+sudo apt-get install git setuptools ipython-notebook
+git clone https://github.com/BinPy/BinPy.git
+cd BinPy/
+sudo python setup.py install
+```
+
+#####Python3
+
+```sh
+sudo apt-get install git python3-pip ipython3-notebook
+sudo pip3 install --upgrade setuptools
+git clone https://github.com/BinPy/BinPy.git
+cd BinPy/
+sudo python3 setup.py install
+```
+
 
 Install `autopep8` Tool to ensure your contributions pass the `pep8` test.
 
