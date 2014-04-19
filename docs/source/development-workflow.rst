@@ -6,7 +6,7 @@
 ..
     1  Introduction
     2  How to send a Pull Request
-    3  Coding conventions in Sympy
+    3  Coding conventions in BinPy
       3.1  Standard Python coding conventions
       3.2  Documentation strings
       3.3  Python 3
@@ -25,7 +25,7 @@
       4.6  Writing commit messages
       4.7  Create a patch file or pull request for GitHub
       4.8  Updating your pull request
-      4.9  Synchronization with master `sympy/sympy`.
+      4.9  Synchronization with master `BinPy/BinPy`.
         4.9.1  Merging
         4.9.2  Rebasing
         4.9.3  Changing of commit messages
@@ -631,7 +631,7 @@ The final aim, that we want to obtain is::
                  \
                   a---b     123_sequential
 
-The way to do it is first of all to merge local repository with the remote `sympy/sympy`::
+The way to do it is first of all to merge local repository with the remote `BinPy/BinPy`::
 
     $ git checkout master
     $ git pull
