@@ -4,4 +4,5 @@ Combinational
 
 .. toctree::
 
-   DeMUX
+   demux
+   decoder

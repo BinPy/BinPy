@@ -4,4 +4,4 @@ Algorithms
 
 .. toctree::
 
-   ExpressionConvert
+   expression-convert
