@@ -11,6 +11,7 @@ Contents:
    :maxdepth: 4
    
    install
+   examples/examples
    modules/BinPy
    development-workflow
    aboutus
