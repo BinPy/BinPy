@@ -6,3 +6,4 @@ Examples
 
     Algorithms/index
     Combinational/index
+    Sequential/index

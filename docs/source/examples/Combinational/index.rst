@@ -6,3 +6,4 @@ Combinational
 
    demux
    decoder
+   encoder
