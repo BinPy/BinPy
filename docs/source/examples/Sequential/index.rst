@@ -1,0 +1,7 @@
+Sequential
+==========
+
+
+.. toctree::
+
+   binary-counter
