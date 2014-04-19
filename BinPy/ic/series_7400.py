@@ -2384,13 +2384,13 @@ class IC_74138(Base_16pin):
         temp.append(NOT(self.pins[5]).output())
         temp.append(AND(temp[0], temp[1],self.pins[6]).output())
         output[7] = NAND(temp[2], self.pins[3], self.pins[2], self.pins[1]).output()
-        output[9] = NAND(temp[2], self.pins[2], NOT(self.pins[1]).output, self.pins[3]).output()
-        output[10] = NAND(temp[2], self.pins[3], NOT(self.pins[2]).output, self.pins[1]).output()
-        output[11] = NAND(temp[2], self.pins[3], NOT(self.pins[2]).output, NOT(self.pins[1]).output()).output()
+        output[9] = NAND(temp[2], self.pins[2], NOT(self.pins[1]).output(), self.pins[3]).output()
+        output[10] = NAND(temp[2], self.pins[3], NOT(self.pins[2]).output(), self.pins[1]).output()
+        output[11] = NAND(temp[2], self.pins[3], NOT(self.pins[2]).output(), NOT(self.pins[1]).output()).output()
         output[12] = NAND(temp[2], self.pins[1], self.pins[2], NOT(self.pins[3]).output()).output()
-        output[13] = NAND(temp[2], self.pins[2], NOT(self.pins[3]).output, NOT(self.pins[1]).output()).output()
-        output[14] = NAND(temp[2], self.pins[1], NOT(self.pins[2]).output, NOT(self.pins[3]).output()).output()
-        output[15] = NAND(temp[2], NOT(self.pins[3]).output(), NOT(self.pins[2]).output, NOT(self.pins[1]).output()).output()
+        output[13] = NAND(temp[2], self.pins[2], NOT(self.pins[3]).output(), NOT(self.pins[1]).output()).output()
+        output[14] = NAND(temp[2], self.pins[1], NOT(self.pins[2]).output(), NOT(self.pins[3]).output()).output()
+        output[15] = NAND(temp[2], NOT(self.pins[3]).output(), NOT(self.pins[2]).output(), NOT(self.pins[1]).output()).output()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
