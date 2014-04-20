@@ -539,6 +539,7 @@ def test_IC_7445():
     if q != testIC.run():
         assert False
 
+
 def test_IC_7445_new():
     testIC = IC_7445_new()
     p = {15: 0, 14: 0, 13: 1, 12: 0, 8: 0, 16: 1}
@@ -546,6 +547,7 @@ def test_IC_7445_new():
     q = {1: 1, 2: 1, 3: 1, 4: 1, 5: 0, 6: 1, 7: 1, 9: 1, 10: 1, 11: 1}
     if q != testIC.run():
         assert False
+
 
 def test_IC_7459():
     testIC = IC_7459()
@@ -566,6 +568,7 @@ def test_IC_7459():
     q = {6: 1, 8: 0}
     if q != testIC.run():
         assert False
+
 
 def test_IC_74133():
     testIC = IC_74133()
@@ -590,6 +593,7 @@ def test_IC_74133():
     if q != testIC.run():
         assert False
 
+
 def test_IC_74138():
     testIC = IC_74138()
     p = {
@@ -602,16 +606,17 @@ def test_IC_74138():
         8: 0,
         16: 1}
     testIC.setIC(p)
-    q = {7:1,
-         9:1,
-         10:1,
-         11:1,
-         12:1,
-         13:1,
-         14:1,
-         15:1}
+    q = {7: 1,
+         9: 1,
+         10: 1,
+         11: 1,
+         12: 1,
+         13: 1,
+         14: 1,
+         15: 1}
     if q != testIC.run():
         assert False
+
 
 def test_IC_74138_new():
     testIC = IC_74138_new()
@@ -625,16 +630,17 @@ def test_IC_74138_new():
         8: 0,
         16: 1}
     testIC.setIC(p)
-    q = {7:1,
-         9:1,
-         10:1,
-         11:1,
-         12:1,
-         13:1,
-         14:1,
-         15:1}
+    q = {7: 1,
+         9: 1,
+         10: 1,
+         11: 1,
+         12: 1,
+         13: 1,
+         14: 1,
+         15: 1}
     if q != testIC.run():
         assert False
+
 
 def test_IC_7483():
     testIC = IC_7483()
