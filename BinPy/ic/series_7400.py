@@ -2346,7 +2346,11 @@ class IC_7445_new(Base_16pin):
             raise Exception("ERROR: Invalid Pin configuration")
 
         dem = DEMUX(1)
-        dem.selectLines(self.pins[12], self.pins[13], self.pins[14], self.pins[15])
+        dem.selectLines(
+            self.pins[12],
+            self.pins[13],
+            self.pins[14],
+            self.pins[15])
         ou = dem.output()
 
         output[1] = ou[0]
@@ -3369,49 +3373,49 @@ class IC_74138(Base_16pin):
             self.pins[3],
             self.pins[2],
             self.pins[1]
-            ).output()
+        ).output()
         output[9] = NAND(
             temp[2],
             self.pins[2],
             NOT(self.pins[1]).output(),
             self.pins[3]
-            ).output()
+        ).output()
         output[10] = NAND(
             temp[2],
             self.pins[3],
             NOT(self.pins[2]).output(),
             self.pins[1]
-            ).output()
+        ).output()
         output[11] = NAND(
             temp[2],
             self.pins[3],
             NOT(self.pins[2]).output(),
             NOT(self.pins[1]).output()
-            ).output()
+        ).output()
         output[12] = NAND(
             temp[2],
             self.pins[1],
             self.pins[2],
             NOT(self.pins[3]).output()
-            ).output()
+        ).output()
         output[13] = NAND(
             temp[2],
             self.pins[2],
             NOT(self.pins[3]).output(),
             NOT(self.pins[1]).output()
-            ).output()
+        ).output()
         output[14] = NAND(
             temp[2],
             self.pins[1],
             NOT(self.pins[2]).output(),
             NOT(self.pins[3]).output()
-            ).output()
+        ).output()
         output[15] = NAND(
             temp[2],
             NOT(self.pins[3]).output(),
             NOT(self.pins[2]).output(),
             NOT(self.pins[1]).output()
-            ).output()
+        ).output()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
