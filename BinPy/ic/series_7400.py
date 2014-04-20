@@ -1,15 +1,18 @@
 """
 This module has all the classes of ICs belonging to 7400 series.
 
-Please note that the length of list self.pins is 1 more than the number of actual pins. This is so because pin0
-is not used as a general term referring to the first pin of the IC. Zeroth index of the self.pins is not being used.
+Please note that the length of list self.pins is 1 more than the number of
+actual pins. This is so because pin0 is not used as a general term referring
+to the first pin of the IC. Zeroth index of the self.pins is not being used.
 """
+
 from __future__ import print_function
 from BinPy.Gates import *
 from BinPy.Sequential import *
 from BinPy.ic.base import *
 from BinPy.tools import *
 from BinPy.Combinational.combinational import *
+
 
 #################################
 # IC's with 14 pins
@@ -90,8 +93,9 @@ class IC_7400(Base_14pin):
         13	A Input Gate 4
         14	Positive Supply
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7400:
         1. set pin 7:0
@@ -208,8 +212,9 @@ class IC_7402(Base_14pin):
         13	Y Output Gate 4
         14	Positive Supply
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7402:
         1. set pin 7:0
@@ -286,8 +291,9 @@ class IC_7403(Base_14pin):
         14	Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7403:
         1. set pin 7:0
@@ -363,8 +369,9 @@ class IC_7404(Base_14pin):
         13	A Input Gate 6
         14	Positive Supply
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7404:
         1. set pin 7:0
@@ -482,8 +489,9 @@ class IC_7408(Base_14pin):
         13	A Input Gate 4
         14	Positive Supply
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7408:
         1. set pin 7:0
@@ -560,8 +568,9 @@ class IC_7410(Base_14pin):
         14	Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7410:
         1. set pin 7:0
@@ -621,8 +630,9 @@ class IC_7411(Base_14pin):
         14	Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7411:
         1. set pin 7:0
@@ -683,8 +693,9 @@ class IC_7412(Base_14pin):
         14	Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7412:
         1. set pin 7:0
@@ -744,8 +755,9 @@ class IC_7413(Base_14pin):
         14	Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7413:
         1. set pin 7:0
@@ -812,8 +824,9 @@ class IC_7415(Base_14pin):
         14	Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
-    with pin number as the key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value.
+    The input has to be defined as a dictionary with pin number as the
+    key and its value being either 1 or 0
 
     To initialise the ic 7415:
         1. set pin 7:0
@@ -1596,6 +1609,39 @@ class IC_7458(Base_14pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_7459(Base_14pin):
+
+    """
+    This is a 2-input and 3-input AND-OR inverter gate
+    Datasheet here, http://www.unitechelectronics.com/7451-7497data.htm and
+    http://en.wikipedia.org/wiki/List_of_7400_series_integrated_circuits
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
+
+    def run(self):
+        temp = []
+        output = {}
+        temp.append(AND(self.pins[2], self.pins[3]).output())
+        temp.append(AND(self.pins[4], self.pins[5]).output())
+        temp.append(AND(self.pins[1],
+                        self.pins[13],
+                        self.pins[12]).output())
+        temp.append(AND(self.pins[11],
+                        self.pins[10],
+                        self.pins[9]).output())
+        output[6] = NOR(temp[0], temp[1]).output()
+        output[8] = NOR(temp[2], temp[3]).output()
+
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
 class IC_7464(Base_14pin):
 
     """
@@ -1629,9 +1675,8 @@ class IC_7486(Base_14pin):
 
     """
     This is a quad 2-input exclusive OR gate
+    Datasheet here, http://www.skot9000.com/ttl/datasheets/86.pdf
     """
-
-    # Datasheet here, http://www.skot9000.com/ttl/datasheets/86.pdf
 
     def __init__(self):
         self.pins = [
@@ -1675,9 +1720,8 @@ class IC_74260(Base_14pin):
 
     """
     This is a dual 5-input NOR gate
+    Datasheet here, http://www.skot9000.com/ttl/datasheets/260.pdf
     """
-
-    # Datasheet here, http://www.skot9000.com/ttl/datasheets/260.pdf
 
     def __init__(self):
         self.pins = [None, 0, 0, 0, 0, None, None, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -2247,6 +2291,85 @@ class IC_7445(Base_16pin):
 
         if self.pins[8] == 0 and self.pins[16] == 1:
             self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_7445_new(Base_16pin):
+
+    """
+    This is a Four-to-Ten (BCD to Decimal) DECODER using the DEMUX
+    functionality from combinational.py
+
+    Datasheet at http://www.skot9000.com/ttl/datasheets/45.pdf
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        inputlist = []
+        for i in range(12, 16, 1):
+            inputlist.append(self.pins[i])
+
+        invalidlist = [
+            [
+                1, 0, 1, 0], [
+                1, 0, 1, 1], [
+                1, 1, 0, 0], [
+                1, 1, 0, 1], [
+                1, 1, 1, 0], [
+                1, 1, 1, 1]]
+
+        if inputlist in invalidlist:
+            raise Exception("ERROR: Invalid Pin configuration")
+
+        dem = DEMUX(1)
+        dem.selectLines(self.pins[12], self.pins[13], self.pins[14], self.pins[15])
+        ou = dem.output()
+
+        output[1] = ou[0]
+
+        output[2] = ou[1]
+
+        output[3] = ou[2]
+
+        output[4] = ou[3]
+
+        output[5] = ou[4]
+
+        output[6] = ou[5]
+
+        output[7] = ou[6]
+
+        output[9] = ou[7]
+
+        output[10] = ou[8]
+
+        output[11] = ou[9]
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
@@ -3199,6 +3322,150 @@ class IC_74155(Base_16pin):
             output[11] = NOT(demux2.output()[2]).output()
             output[10] = NOT(demux2.output()[1]).output()
             output[9] = NOT(demux2.output()[0]).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_74138(Base_16pin):
+
+    """
+    3-to-8 line decoder/demultiplexer.
+    Datasheet here, http://www.skot9000.com/ttl/datasheets/138.pdf
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0]
+
+    def run(self):
+        output = {}
+        temp = []
+        temp.append(NOT(self.pins[4]).output())
+        temp.append(NOT(self.pins[5]).output())
+        temp.append(AND(temp[0], temp[1], self.pins[6]).output())
+        output[7] = NAND(
+            temp[2],
+            self.pins[3],
+            self.pins[2],
+            self.pins[1]
+            ).output()
+        output[9] = NAND(
+            temp[2],
+            self.pins[2],
+            NOT(self.pins[1]).output(),
+            self.pins[3]
+            ).output()
+        output[10] = NAND(
+            temp[2],
+            self.pins[3],
+            NOT(self.pins[2]).output(),
+            self.pins[1]
+            ).output()
+        output[11] = NAND(
+            temp[2],
+            self.pins[3],
+            NOT(self.pins[2]).output(),
+            NOT(self.pins[1]).output()
+            ).output()
+        output[12] = NAND(
+            temp[2],
+            self.pins[1],
+            self.pins[2],
+            NOT(self.pins[3]).output()
+            ).output()
+        output[13] = NAND(
+            temp[2],
+            self.pins[2],
+            NOT(self.pins[3]).output(),
+            NOT(self.pins[1]).output()
+            ).output()
+        output[14] = NAND(
+            temp[2],
+            self.pins[1],
+            NOT(self.pins[2]).output(),
+            NOT(self.pins[3]).output()
+            ).output()
+        output[15] = NAND(
+            temp[2],
+            NOT(self.pins[3]).output(),
+            NOT(self.pins[2]).output(),
+            NOT(self.pins[1]).output()
+            ).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_74138_new(Base_16pin):
+
+    """
+    3-to-8 line decoder/demultiplexer using the DEMUX functionality
+    from combinational.py
+    Datasheet here, http://www.skot9000.com/ttl/datasheets/138.pdf
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0]
+
+    def run(self):
+        output = {}
+        temp = []
+        temp.append(NOT(self.pins[4]).output())
+        temp.append(NOT(self.pins[5]).output())
+        temp.append(AND(temp[0], temp[1], self.pins[6]).output())
+        dem = DEMUX(temp[2])
+        dem.selectLines(self.pins[1], self.pins[2], self.pins[3])
+        ou = dem.output()
+        output[7] = ou[0]
+        output[9] = ou[1]
+        output[10] = ou[2]
+        output[11] = ou[3]
+        output[12] = ou[4]
+        output[13] = ou[5]
+        output[14] = ou[6]
+        output[15] = ou[7]
 
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
