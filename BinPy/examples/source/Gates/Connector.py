@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for Connector class
+# Examples for Connector class
 
 # In[1]:
 
@@ -88,4 +88,3 @@ print (gate1.output())
 # Information about conn instance
 
 print (conn)
-

@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for MUX class.
+# Example for MUX class.
 
 # In[1]:
 
@@ -99,4 +99,3 @@ print (mux.output())
 # Information about mux instance can be found by
 
 print (mux)
-

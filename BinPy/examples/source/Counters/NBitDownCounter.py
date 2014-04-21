@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for N Bit Binary Down Counter.
+# Example for N Bit Binary Down Counter.
 
 # In[1]:
 
@@ -137,4 +137,3 @@ print(b.state())
 o.kill()
 
 clock.kill()
-

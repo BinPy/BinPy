@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Stage14Counter.
+# Example for Stage14Counter.
 
 # In[1]:
 
@@ -129,4 +129,3 @@ print(b.state())
 # Kills the oscilloscope and the clock threads after use.
 o.kill()
 clock.kill()
-

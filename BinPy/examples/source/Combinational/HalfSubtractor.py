@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Half Subtractor class
+# Example for Half Subtractor class
 
 # In[1]:
 
@@ -84,4 +84,3 @@ print (gate1.output())
 # Information about hs instance can be found by
 
 print (hs)
-

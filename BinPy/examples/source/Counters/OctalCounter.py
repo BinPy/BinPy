@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Octal Counter.
+# Example for Octal Counter.
 
 # In[1]:
 
@@ -124,4 +124,3 @@ print(b.state())
 
 o.kill()
 clock.kill()
-

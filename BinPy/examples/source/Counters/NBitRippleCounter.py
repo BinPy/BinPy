@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for N Bit Binary Ripple Counter.
+# Example for N Bit Binary Ripple Counter.
 
 # In[1]:
 
@@ -120,4 +120,3 @@ print(b.state())
 
 o.kill()
 clock.kill()
-

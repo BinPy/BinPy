@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for NOT class
+# Examples for NOT class
 
 # In[1]:
 
@@ -65,4 +65,3 @@ print (gate1.output())
 # Information about gate instance
 
 print (gate)
-

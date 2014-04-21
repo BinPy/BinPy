@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for NOR class
+# Examples for NOR class
 
 # In[1]:
 
@@ -83,4 +83,3 @@ print (gate1.output())
 # Information about gate instance
 
 print (gate)
-

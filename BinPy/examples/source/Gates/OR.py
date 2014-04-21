@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for OR class
+# Examples for OR class
 
 # In[1]:
 
@@ -80,4 +80,3 @@ print (gate1.output())
 # Information about gate instance
 
 print (gate)
-

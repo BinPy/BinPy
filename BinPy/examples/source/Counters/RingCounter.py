@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for N Bit Ring Counter.
+# Example for N Bit Ring Counter.
 
 # In[1]:
 
@@ -103,4 +103,3 @@ print(b.state())
 # Kill the clock thread.
 
 clock.kill()
-

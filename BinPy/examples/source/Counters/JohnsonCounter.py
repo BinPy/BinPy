@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for N Bit Johnson Counter.
+# Example for N Bit Johnson Counter.
 
 # In[1]:
 
@@ -58,7 +58,7 @@ print(b.state())
 
 # Setting the Counter
 
-#b.setCounter()
+# b.setCounter()
 
 print(b.state())
 
@@ -99,4 +99,3 @@ print(b.state())
 # Kill the clock thread after use
 
 clock.kill()
-

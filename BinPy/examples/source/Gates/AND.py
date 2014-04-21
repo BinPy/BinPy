@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for AND class
+# Examples for AND class
 
 # In[1]:
 
@@ -85,4 +85,3 @@ print (gate1.output())
 # Information about gate instance
 
 print (gate)
-

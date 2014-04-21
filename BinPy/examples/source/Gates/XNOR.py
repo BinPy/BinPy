@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for XNOR class.
+# Examples for XNOR class.
 
 # In[1]:
 
@@ -97,4 +97,3 @@ print (gate1.output())
 # Information about gate instance
 
 print (gate)
-

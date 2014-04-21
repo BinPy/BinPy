@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for Tree class.
+# Examples for Tree class.
 
 # In[1]:
 
@@ -43,4 +43,3 @@ print (tree.backtrack())
 # In[5]:
 
 print (tree)
-

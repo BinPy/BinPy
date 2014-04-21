@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Decade Counter.
+# Example for Decade Counter.
 
 # In[27]:
 
@@ -65,7 +65,7 @@ o.start()
 o.setScale(0.05)  # Set scale by trial and error.
 
 # Set the width of the oscilloscope to fit the ipython notebook.
-    
+
 o.setWidth(100)
 
 
@@ -85,7 +85,8 @@ for i in range(1, 2 ** 4):
     b.trigger()
     print (b.state())
 
-# Display the oscilloscope - Implicitly the o.hold() will be called first to stop the recording.
+# Display the oscilloscope - Implicitly the o.hold() will be called first
+# to stop the recording.
 
 o.display()
 
@@ -148,4 +149,3 @@ o.kill()
 # Kill the clock thread
 
 clock.kill()
-

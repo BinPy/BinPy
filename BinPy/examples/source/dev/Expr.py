@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for Expr class
+# Examples for Expr class
 
 # In[1]:
 
@@ -37,4 +37,3 @@ print (expr.parse())
 # Printing the truth table
 
 print(expr.truthTable())
-

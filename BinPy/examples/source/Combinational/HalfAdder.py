@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Half Adder class.
+# Example for Half Adder class.
 
 # In[1]:
 
@@ -85,4 +85,3 @@ print (gate1.output())
 # Information about ha instance can be found by
 
 print (ha)
-

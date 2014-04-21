@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for DEMUX class.
+# Example for DEMUX class.
 
 # In[1]:
 
@@ -75,7 +75,7 @@ print (gate1.output())
 
 # Changing select lines
 
-#selects input line 2
+# selects input line 2
 
 demux.selectLine(0, 1)
 
@@ -89,4 +89,3 @@ print (demux.output())
 # Information about demux instance can be found by
 
 print (demux)
-

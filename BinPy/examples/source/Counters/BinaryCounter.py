@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Binary Counter [ A 2 bit Ripple Counter ]
+# Example for Binary Counter [ A 2 bit Ripple Counter ]
 
 # In[1]:
 
@@ -36,7 +36,7 @@ o = Oscilloscope((clk_conn, 'CLK'), (b.out[0], 'MSB'), (b.out[1], 'LSB'))
 o.start()
 
 # Set scale by trial and error.
-o.setScale(0.15)  
+o.setScale(0.15)
 
 # Set the width of the oscilloscope [ To fit the ipython Notebook ]
 o.setWidth(100)
@@ -112,4 +112,3 @@ print(b.state())
 
 # Kill the clock thread.
 clock.kill()
-
