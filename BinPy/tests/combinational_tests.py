@@ -25,6 +25,10 @@ def BinaryAdder_test():
     ba = BinaryAdder([0, 1], [1, 1], 1)
     assert ba.output() == [1, 0, 1]
 
+    ba = BinaryAdder([0, 1], [1, 0], 0)
+    ba.setInput(1, [0])
+    assert ba.output() == [0, 0, 1]
+
 
 def BCDAdder_test():
     ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 0)
