@@ -22,7 +22,19 @@ print(ic.__doc__)
 
 # The Pin configuration is:
 
-inp = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 12: 1, 13: 1, 14: 1}
+inp = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    7: 0,
+    9: 1,
+    10: 1,
+    11: 1,
+    12: 1,
+    13: 1,
+    14: 1}
 
 # Pin initinalization
 
@@ -40,15 +52,16 @@ ic.drawIC()
 
 # <codecell>
 
-# Run the IC with the current configuration using -- print ic.run() -- 
+# Run the IC with the current configuration using -- print ic.run() --
 
-# Note that the ic.run() returns a dict of pin configuration similar to 
+# Note that the ic.run() returns a dict of pin configuration similar to
 
 print (ic.run())
 
 # <codecell>
 
-# Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n
+# Seting the outputs to the current IC configuration using --
+# ic.setIC(ic.run()) --\n
 
 ic.setIC(ic.run())
 
@@ -58,7 +71,8 @@ ic.drawIC()
 
 # <codecell>
 
-# Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --
+# Seting the outputs to the current IC configuration using --
+# ic.setIC(ic.run()) --
 
 ic.setIC(ic.run())
 
@@ -79,4 +93,3 @@ c = Connector()
 ic.setOutput(8, c)
 
 print(c)
-

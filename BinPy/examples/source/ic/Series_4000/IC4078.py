@@ -41,15 +41,16 @@ ic.drawIC()
 
 # <codecell>
 
-# Run the IC with the current configuration using -- print ic.run() -- 
+# Run the IC with the current configuration using -- print ic.run() --
 
-# Note that the ic.run() returns a dict of pin configuration similar to 
+# Note that the ic.run() returns a dict of pin configuration similar to
 
 print (ic.run())
 
 # <codecell>
 
-# Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n
+# Seting the outputs to the current IC configuration using --
+# ic.setIC(ic.run()) --\n
 
 ic.setIC(ic.run())
 
@@ -59,7 +60,8 @@ ic.drawIC()
 
 # <codecell>
 
-# Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --
+# Seting the outputs to the current IC configuration using --
+# ic.setIC(ic.run()) --
 
 ic.setIC(ic.run())
 
@@ -80,4 +82,3 @@ c = Connector()
 ic.setOutput(13, c)
 
 print(c)
-
