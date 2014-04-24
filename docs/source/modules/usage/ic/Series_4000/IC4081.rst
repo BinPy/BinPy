@@ -1,0 +1,186 @@
+
+Usage of IC 4081
+----------------
+
+.. code:: python
+
+    from __future__ import print_function
+    from BinPy import *
+.. code:: python
+
+    # Usage of IC 4081:
+    
+    ic = IC_4081()
+    
+    print(ic.__doc__)
+
+.. parsed-literal::
+
+    
+        Quad 2 input AND gate
+        Pin_3 = AND(Pin_1, Pin_2)
+        Pin_4 = AND(Pin_5, Pin_6)
+        Pin_10 = AND(Pin_8, Pin_9)
+        Pin_11 = AND(Pin_12, Pin_13)
+        
+
+
+.. code:: python
+
+    # The Pin configuration is:
+    
+    inp = {1: 0, 2: 0, 5: 0, 6: 1, 7: 0, 8: 1, 9: 0, 12: 1, 13: 1, 14: 1}
+    
+    # Pin initinalization
+    
+    # Powering up the IC - using -- ic.setIC({14: 1, 7: 0}) -- \n
+    
+    ic.setIC({14: 1, 7: 0})
+    
+    # Setting the inputs of the ic
+    
+    ic.setIC(inp)
+    
+    # Draw the IC with the current configuration\n
+    
+    ic.drawIC()
+
+.. parsed-literal::
+
+    
+    
+                  ┌─────────◡─────────┐
+                  │                   │
+     A1: [0]    ──┤  1            14  ├──    [1] VCC
+                  │                   │
+                  │                   │
+     B1: [0]    ──┤  2      4     13  ├──    [1] A4:
+                  │                   │
+                  │                   │
+     Q1: [0]    ──┤  3      0     12  ├──    [1] B4:
+                  │                   │
+                  │                   │
+     Q2: [0]    ──┤  4      8     11  ├──    [0] Q4:
+                  │                   │
+                  │                   │
+     B2: [0]    ──┤  5      1     10  ├──    [0] Q3:
+                  │                   │
+                  │                   │
+     A2: [1]    ──┤  6             9  ├──    [0] B3:
+                  │                   │
+                  │                   │
+     GND [0]    ──┤  7             8  ├──    [1] A3:
+                  │                   │
+                  └───────────────────┘  
+
+
+.. code:: python
+
+    # Run the IC with the current configuration using -- print ic.run() -- 
+    
+    # Note that the ic.run() returns a dict of pin configuration similar to 
+    
+    print (ic.run())
+
+.. parsed-literal::
+
+    {11: 1, 10: 0, 3: 0, 4: 0}
+
+
+.. code:: python
+
+    # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n
+    
+    ic.setIC(ic.run())
+    
+    # Draw the final configuration
+    
+    ic.drawIC()
+
+.. parsed-literal::
+
+    
+    
+                  ┌─────────◡─────────┐
+                  │                   │
+     A1: [0]    ──┤  1            14  ├──    [1] VCC
+                  │                   │
+                  │                   │
+     B1: [0]    ──┤  2      4     13  ├──    [1] A4:
+                  │                   │
+                  │                   │
+     Q1: [0]    ──┤  3      0     12  ├──    [1] B4:
+                  │                   │
+                  │                   │
+     Q2: [0]    ──┤  4      8     11  ├──    [1] Q4:
+                  │                   │
+                  │                   │
+     B2: [0]    ──┤  5      1     10  ├──    [0] Q3:
+                  │                   │
+                  │                   │
+     A2: [1]    ──┤  6             9  ├──    [0] B3:
+                  │                   │
+                  │                   │
+     GND [0]    ──┤  7             8  ├──    [1] A3:
+                  │                   │
+                  └───────────────────┘  
+
+
+.. code:: python
+
+    # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --
+    
+    ic.setIC(ic.run())
+    
+    # Draw the final configuration
+    
+    ic.drawIC()
+    
+    # Run the IC
+    
+    print (ic.run())
+
+.. parsed-literal::
+
+    
+    
+                  ┌─────────◡─────────┐
+                  │                   │
+     A1: [0]    ──┤  1            14  ├──    [1] VCC
+                  │                   │
+                  │                   │
+     B1: [0]    ──┤  2      4     13  ├──    [1] A4:
+                  │                   │
+                  │                   │
+     Q1: [0]    ──┤  3      0     12  ├──    [1] B4:
+                  │                   │
+                  │                   │
+     Q2: [0]    ──┤  4      8     11  ├──    [1] Q4:
+                  │                   │
+                  │                   │
+     B2: [0]    ──┤  5      1     10  ├──    [0] Q3:
+                  │                   │
+                  │                   │
+     A2: [1]    ──┤  6             9  ├──    [0] B3:
+                  │                   │
+                  │                   │
+     GND [0]    ──┤  7             8  ├──    [1] A3:
+                  │                   │
+                  └───────────────────┘  
+    {11: 1, 10: 0, 3: 0, 4: 0}
+
+
+.. code:: python
+
+    # Connector Outputs
+    c = Connector()
+    
+    # Set the output -- ic.setOutput(8, c)
+    ic.setOutput(11, c)
+    
+    print(c)
+
+.. parsed-literal::
+
+    Connector; State: 1
+
