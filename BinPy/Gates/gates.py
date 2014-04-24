@@ -77,6 +77,11 @@ class GATES:
         # because history_active is set to 0 trigger
         # will get called irrespective of the history.
         else:
+            if(self.size>len(value)):
+                value.reverse()
+                for i in range(self.size-len(value),0,-1):
+                    value.append(0)
+                value.reverse()
             self.history_active = 1  # Use history before computing
             if isinstance(self.inputs[index], Connector):
                 self.history_inputs[index] = self.inputs[index].state

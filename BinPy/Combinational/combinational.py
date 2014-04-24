@@ -122,8 +122,14 @@ class BinaryAdder(GATES):
         result = []
         carry = self.carry
         for i in range(self.size - 1, -1, -1):
-            S, carry = FullAdder(
-                self.inputs[0][i], self.inputs[1][i], carry).output()
+            # whenever setInput() function is called and input's size is less than the self.size it raises IndexError hence try and exeption here
+            try:
+                S, carry = FullAdder(self.inputs[0][i], self.inputs[1][i], carry).output()
+            except IndexError:
+                try:
+                    S, carry = FullAdder(0, self.inputs[1][i], carry).output()
+                except IndexError:
+                    S, carry = FullAdder(self.inputs[0][i], 0, carry).output()
             result.append(S)
         result.append(carry)
         result.reverse()
