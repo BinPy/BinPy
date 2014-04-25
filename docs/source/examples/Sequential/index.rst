@@ -4,4 +4,6 @@ Sequential
 
 .. toctree::
 
-   binary-counter
+    Counters/index
+    FlipFlop/index
+    Registers/index

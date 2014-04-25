@@ -4,6 +4,13 @@ Combinational
 
 .. toctree::
 
-   demux
-   decoder
-   encoder
+    BinarySubtractor
+    decoder
+    Decoder
+    demux
+    DEMUX
+    encoder
+    Encoder
+    HalfAdder
+    HalfSubtractor
+    MUX
