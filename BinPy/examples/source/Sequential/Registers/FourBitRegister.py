@@ -75,4 +75,3 @@ gate1 = AND(conn, 0)
 # Output of the gate1
 
 print (gate1.output())
-

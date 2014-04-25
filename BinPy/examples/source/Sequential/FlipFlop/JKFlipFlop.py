@@ -87,7 +87,10 @@ while True:
         jkff.trigger()
         break
 
-        print ("[Printing the output using the output connectors:]\n", p(), q())
+        print (
+            "[Printing the output using the output connectors:]\n",
+            p(),
+            q())
 
 # Sending a positive edge to jkff
 while True:
@@ -150,4 +153,3 @@ o.display()
 # Kill the oscilloscope and clock threads
 o.kill()
 clock.kill()
-

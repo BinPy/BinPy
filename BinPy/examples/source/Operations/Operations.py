@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Examples for operations class
+# Examples for operations class
 
 # In[1]:
 
@@ -65,4 +65,3 @@ print (Operations.binToDec('111'))
 # Conversion from decimal to binary
 
 print (Operations.decToBin(12))
-

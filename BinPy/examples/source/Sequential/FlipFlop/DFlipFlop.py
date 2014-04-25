@@ -111,4 +111,3 @@ o.display()
 # Kill the oscilloscope and clock threads after usage
 o.kill()
 clock.kill()
-

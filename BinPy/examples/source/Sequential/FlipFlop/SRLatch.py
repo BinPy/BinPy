@@ -136,7 +136,7 @@ while True:
 
 # <codecell>
 
-# Display the oscilloscope     
+# Display the oscilloscope
 o.display()
 
 # <codecell>
@@ -144,4 +144,3 @@ o.display()
 # Kill the clock and the oscilloscope threads after use
 o.kill()
 clock.kill()
-
