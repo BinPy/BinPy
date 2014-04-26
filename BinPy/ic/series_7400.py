@@ -2343,8 +2343,11 @@ class IC_7483(Base_16pin):
 
         output[15] = XOR(self.pins[1], self.pins[16], carry).output()
 
-        output[14] = OR(AND(carry, XOR(self.pins[1], self.pins[16]).output()).output(), AND(
-            self.pins[1], self.pins[16]).output()).output()
+        output[14] = OR(AND(carry,
+                            XOR(self.pins[1],
+                                self.pins[16]).output()).output(),
+                        AND(self.pins[1],
+                            self.pins[16]).output()).output()
 
         if self.pins[12] == 0 and self.pins[5] == 1:
             self.setIC(output)

@@ -125,7 +125,8 @@ class BinaryAdder(GATES):
             # whenever setInput() function is called and input's size is less than the self.size
             # it raises IndexError hence try and exeption here
             try:
-                S, carry = FullAdder(self.inputs[0][i], self.inputs[1][i], carry).output()
+                S, carry = FullAdder(
+                    self.inputs[0][i], self.inputs[1][i], carry).output()
             except IndexError:
                 try:
                     S, carry = FullAdder(0, self.inputs[1][i], carry).output()
@@ -703,7 +704,7 @@ class Encoder(GATES):
         if index >= len(temp):
             temp.append(value)
             if not (temp.count(1) == 1 or list(x.state for x in
-                    filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
+                                               filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs.append(value)
             for i in range(len(self.outputType), int(math.log(len(self.inputs), 2))):
@@ -712,7 +713,7 @@ class Encoder(GATES):
         else:
             temp[index] = value
             if not (temp.count(1) == 1 or list(x.state for x in
-                    filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
+                                               filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs[index] = value
 
