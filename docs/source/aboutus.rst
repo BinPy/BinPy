@@ -31,6 +31,7 @@ have contributed to this project. Here is a list of few of them.
 #. Pedro Melgueira <pedromelgueira@gmail.com>
 #. Shashank Garg <garg.shashank.5@gmail.com>
 #. Ahmed Hemdan <a.hemdan.alatif@gmail.com>
+#. Vikas Mishra <vikasmishra95@gmail.com>
 
 
 `Prakhar Bharadwaj <https://github.com/prakhar625>`_ has contributed to BinPy by designing its logo.
