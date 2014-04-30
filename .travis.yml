@@ -55,10 +55,8 @@ install:
  - sudo make install --silent
  
 # For python3
- 
- - echo 'yes' | python3 configure.py  
- - make --silent
- - sudo make install --silent
+
+ - sudo apt-get install python3-pyqt4  
  
 # clean up sources so that they dont affect the pep8 test
 
