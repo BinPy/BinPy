@@ -1,11 +1,16 @@
 from __future__ import print_function
-from PyQt4 import QtGui, QtCore
+
 import os
 import sys
 import time
 import BinPy
 import threading
 from BinPy import *
+
+try:
+    from PyQt4 import QtGui, QtCore
+except ImportError:
+    raise ImportError("You need to install PyQt4 for GUI components")
 
 
 class StepperMotor(threading.Thread):
@@ -34,6 +39,7 @@ class StepperMotor(threading.Thread):
 
     >>> import time
     >>> from BinPy import *
+    >>> from BinPy.tools.steppermotor import StepperMotor
     >>> a = Connector(); b = Connector(); c = Connector(); d = Connector()
     >>> sm = StepperMotor("Main Motor",a,b,c,d)
     >>> for i in range(100):
