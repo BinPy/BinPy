@@ -10,6 +10,7 @@ Submodules
 * multivibrator
 * oscilloscope
 * powersource
+* steppermotor
 
 
 clock
@@ -60,6 +61,13 @@ powersource
     :undoc-members:
     :show-inheritance:
 
+steppermotor
+-----------
+
+.. automodule:: BinPy.tools.steppermotor
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Module contents
 ---------------
