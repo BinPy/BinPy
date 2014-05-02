@@ -1,11 +1,11 @@
 from __future__ import print_function
 from PyQt4 import QtGui, QtCore
+import os
+import sys
 import time
 import BinPy
-from BinPy import *
 import threading
-import sys
-import os
+from BinPy import *
 
 
 class StepperMotor(threading.Thread):
@@ -32,12 +32,13 @@ class StepperMotor(threading.Thread):
     Examples
     ========
 
+    >>> import time
     >>> from BinPy import *
     >>> a = Connector(); b = Connector(); c = Connector(); d = Connector()
     >>> sm = StepperMotor("Main Motor",a,b,c,d)
     >>> for i in range(100):
-    ... sm.rotate(0.5,1)
-    ... time.sleep(0.1)
+    ...     sm.rotate(0.5,1)
+    ...     time.sleep(0.1)
     >>> # To rotate through a certain angle
     >>> sm.move_to(-90, rpm = 60)
     >>> sm.move_to(90, rpm = 60, shortest_path = False)
