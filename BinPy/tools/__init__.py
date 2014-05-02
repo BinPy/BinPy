@@ -4,4 +4,4 @@ from BinPy.tools.ground import *
 from BinPy.tools.multivibrator import *
 from BinPy.tools.oscilloscope import *
 from BinPy.tools.clock import *
-from BinPy.tools.StepperMotor import StepperMotor
+from BinPy.tools.steppermotor import StepperMotor
