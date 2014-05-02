@@ -6,7 +6,7 @@ def test_SRLatch():
 
     s = Connector(1)
     r = Connector(0)
-    clock = Clock(1, 50000)
+    clock = Clock(1, 500)
     clock.start()
     test_SRLatch = SRLatch(s, r, Connector(1), clock.A)
 
@@ -60,7 +60,7 @@ def test_SRLatch():
 def test_DFlipFlop():
 
     d = Connector(1)
-    clock = Clock(1, 50000)
+    clock = Clock(1, 500)
     clock.start()
     test_DFF = DFlipFlop(d, Connector(1), clock.A)
 
@@ -92,7 +92,7 @@ def test_JKFlipFlop():
 
     j, k = Connector(0), Connector(0)
 
-    clock = Clock(1, 50000)
+    clock = Clock(1, 500)
     clock.start()
     test_JKFF = JKFlipFlop(j, k, Connector(1), clock.A)
 
@@ -157,7 +157,7 @@ def test_JKFlipFlop():
 def test_TFlipFlop():
 
     t = Connector()
-    clock = Clock(1, 50000)
+    clock = Clock(1, 500)
     clock.start()
     test_TFF = TFlipFlop(t, Connector(1), clock.A)
 
@@ -193,36 +193,5 @@ def test_TFlipFlop():
             test_TFF.trigger()
             break
     assert test_TFF.state() == [0, 1]
-
-    clock.kill()
-
-
-def test_BinaryCounter():
-
-    clock = Clock(1, 50000)
-    clock.start()
-    test_BinaryCounter = BinaryCounter(clock.A)
-    op = []
-    for i in range(5):
-        test_BinaryCounter.trigger()
-        op += test_BinaryCounter.state()
-
-    assert op == [0, 1, 1, 0, 1, 1, 0, 0, 0, 1]
-
-    clock.kill()
-
-
-def test_NBitRippleCounter():
-
-    clock = Clock(1, 50000)
-    clock.start()
-    test_NBitRippleCounter = NBitRippleCounter(3, clock.A)
-    op = []
-    for i in range(9):
-        test_NBitRippleCounter.trigger()
-        op += test_NBitRippleCounter.state()
-
-    assert op == [0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0,
-                  0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1]
 
     clock.kill()

@@ -1,0 +1,188 @@
+
+Usage of IC 4069
+----------------
+
+.. code:: python
+
+    from __future__ import print_function
+    from BinPy import *
+.. code:: python
+
+    # Usage of IC 4069:
+    
+    ic = IC_4069()
+    
+    print(ic.__doc__)
+
+.. parsed-literal::
+
+    
+        Hex NOT gate
+        Pin_2 = NOT(Pin_1)
+        Pin_4 = NOT(Pin_3)
+        Pin_6 = NOT(Pin_5)
+        Pin_8 = NOT(Pin_9)
+        Pin_10 = NOT(Pin_11)
+        Pin_12 = NOT(Pin_13)
+        
+
+
+.. code:: python
+
+    # The Pin configuration is:
+    
+    inp = {2: 0, 3: 1, 4: 0, 5: 1, 7: 0, 9: 1, 10: 1, 11: 1, 12: 1, 14: 1}
+    
+    # Pin initinalization
+    
+    # Powering up the IC - using -- ic.setIC({14: 1, 7: 0}) -- \n
+    
+    ic.setIC({14: 1, 7: 0})
+    
+    # Setting the inputs of the ic
+    
+    ic.setIC(inp)
+    
+    # Draw the IC with the current configuration\n
+    
+    ic.drawIC()
+
+.. parsed-literal::
+
+    
+    
+                  ┌─────────◡─────────┐
+                  │                   │
+     Inp [0]    ──┤  1            14  ├──    [1] VCC
+                  │                   │
+                  │                   │
+     Out [0]    ──┤  2      4     13  ├──    [0] Inp
+                  │                   │
+                  │                   │
+     Inp [1]    ──┤  3      0     12  ├──    [1] Out
+                  │                   │
+                  │                   │
+     Out [0]    ──┤  4      6     11  ├──    [1] Inp
+                  │                   │
+                  │                   │
+     Inp [1]    ──┤  5      9     10  ├──    [1] Out
+                  │                   │
+                  │                   │
+     Out [0]    ──┤  6             9  ├──    [1] Inp
+                  │                   │
+                  │                   │
+     GND [0]    ──┤  7             8  ├──    [0] Out
+                  │                   │
+                  └───────────────────┘  
+
+
+.. code:: python
+
+    # Run the IC with the current configuration using -- print ic.run() -- 
+    
+    # Note that the ic.run() returns a dict of pin configuration similar to 
+    
+    print (ic.run())
+
+.. parsed-literal::
+
+    {2: 1, 4: 0, 6: 0, 8: 0, 10: 0, 12: 1}
+
+
+.. code:: python
+
+    # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n
+    
+    ic.setIC(ic.run())
+    
+    # Draw the final configuration
+    
+    ic.drawIC()
+
+.. parsed-literal::
+
+    
+    
+                  ┌─────────◡─────────┐
+                  │                   │
+     Inp [0]    ──┤  1            14  ├──    [1] VCC
+                  │                   │
+                  │                   │
+     Out [1]    ──┤  2      4     13  ├──    [0] Inp
+                  │                   │
+                  │                   │
+     Inp [1]    ──┤  3      0     12  ├──    [1] Out
+                  │                   │
+                  │                   │
+     Out [0]    ──┤  4      6     11  ├──    [1] Inp
+                  │                   │
+                  │                   │
+     Inp [1]    ──┤  5      9     10  ├──    [0] Out
+                  │                   │
+                  │                   │
+     Out [0]    ──┤  6             9  ├──    [1] Inp
+                  │                   │
+                  │                   │
+     GND [0]    ──┤  7             8  ├──    [0] Out
+                  │                   │
+                  └───────────────────┘  
+
+
+.. code:: python
+
+    # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --
+    
+    ic.setIC(ic.run())
+    
+    # Draw the final configuration
+    
+    ic.drawIC()
+    
+    # Run the IC
+    
+    print (ic.run())
+
+.. parsed-literal::
+
+    
+    
+                  ┌─────────◡─────────┐
+                  │                   │
+     Inp [0]    ──┤  1            14  ├──    [1] VCC
+                  │                   │
+                  │                   │
+     Out [1]    ──┤  2      4     13  ├──    [0] Inp
+                  │                   │
+                  │                   │
+     Inp [1]    ──┤  3      0     12  ├──    [1] Out
+                  │                   │
+                  │                   │
+     Out [0]    ──┤  4      6     11  ├──    [1] Inp
+                  │                   │
+                  │                   │
+     Inp [1]    ──┤  5      9     10  ├──    [0] Out
+                  │                   │
+                  │                   │
+     Out [0]    ──┤  6             9  ├──    [1] Inp
+                  │                   │
+                  │                   │
+     GND [0]    ──┤  7             8  ├──    [0] Out
+                  │                   │
+                  └───────────────────┘  
+    {2: 1, 4: 0, 6: 0, 8: 0, 10: 0, 12: 1}
+
+
+.. code:: python
+
+    # Connector Outputs
+    c = Connector()
+    
+    # Set the output connector to a particular pin of the ic
+    ic.setOutput(2, c)
+    
+    print(c)
+
+.. parsed-literal::
+
+    Connector; State: 1
+

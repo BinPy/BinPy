@@ -1,10 +1,9 @@
 # [BinPy](http://binpy.github.io/)
 
-[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy)
+[![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy) [![Version](https://pypip.in/v/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3) [![Downloads](https://pypip.in/d/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3)
 
  * [About](#about)
  * [Installation](#installation)
- * [Available Resources](#resources)
  * [Documentation](#documentation)
  * [Contribute](#contribute)
 
@@ -27,8 +26,10 @@ from BinPy import *
 NOR1 = Nor('NOR1')  #First NOR gate
 NOR2 = Nor('NOR2')  #Second NOR gate
 
-NOR2.C.connect(NOR1.B)  #Connecting output of second NOR with input of first NOR
-NOR1.C.connect(NOR2.A)  #Connecting output of first NOR with input of second NOR
+#Connecting output of second NOR with input of first NOR
+NOR2.C.connect(NOR1.B)
+#Connecting output of first NOR with input of second NOR
+NOR1.C.connect(NOR2.A)
 
 
 NOR1.A.set(1);NOR2.B.set(0) #Set state
@@ -61,14 +62,14 @@ Q:  False 	Q':  False	#Invalid State
 ```python
 from BinPy import *
 
-#Operations
+# Operations
 operator = Operations()
 operator.ADD(1011,11)
 operator.SUB(1011,11)
 operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
 
 
-#Combinational Logic
+# Combinational Logic
 m = MUX(1,1,0,1)
 m.selectLines(0,1)
 print "MUX Out: ", m.output()
@@ -83,11 +84,11 @@ print "Decoder Out: ", d.output()
 e = Encoder(0,1,0,0)
 print "Encoder Out: ", e.output()
 
-#Sequential Circuits
+# Sequential Circuits
 a = DFlipFlop(1,0)
 print "DFlipFlop Out: ", a.output()
 
-#IC
+# IC
 myIC = IC_7400()
 p = {1:1,2:0,4:0,5:0,7:0,10:1,9:1,13:0,12:0,14:1}
 myIC.setIC(p)
@@ -98,8 +99,8 @@ p = {2:0,3:1,5:0,6:0,7:0,8:1,9:1,11:0,12:0,14:1}
 myIC1.setIC(p)
 print "IC_7401 Out: ", myIC1.run()
 
-#Algorithms 
-#Includes the Quine-McCluskey algorithm for solving K-Maps
+# Algorithms
+# Includes the Quine-McCluskey algorithm for solving K-Maps
 FinalEquation = QM(['A','B'])
 print "Minimized Boolean Equation : " , FinalEquation.get_function(qm.solve([0,1,2],[])[1])
 ```
@@ -119,140 +120,137 @@ Minimized Boolean Equation : ((NOT B) OR (NOT A))
 ```
 BinPy also comes with a console that is a simple  wrapper around the classic python console from which you can directly use the BinPy Resources.
 
-To start it, simply issue:
-
-$ binpy
-
-if BinPy is installed in your path.
-
-<a id="resources"></a>
-Available Resources
--------------------
-* All basic logic gates (NOT, OR, NOR, AND, NAND, XOR, XNOR)
-* Combinational logics
-	* MUX 
-	* DEMUX 
-    * Decoder
-	* Encoder
-	
-* IC-7400 Series
-
-	* 7400
-	* 7401
-	* 7402
-	* 7403
-	* 7404
-	* 7405
-	* 7408
-	* 7410
-	* 7411
-	* 7412
-	* 7413
-	* 7415
-	* 7416
-	* 7417
-	* 7418
-	* 7419
-	* 7420
-	* 7421
-	* 7422
-	* 7424
-	* 7425
-	* 7426
-	* 7427
-	* 7428
-	* 7430
-	* 7432
-	* 7433
-	* 7437
-	* 7440
-	* 7451
-	* 7454
-	* 7455
-	* 7458
-	* 7464
-	* 7486
-	* 741G00
-	* 741G02
-	* 741G03
-	* 741G04
-	* 741G05
-	* 741G08
-	* 7431
-	* 7442
-	* 7443
-	* 7444
-	* 7445
-	* 74133
-	* 74260
-
-* IC-4000 Series
-
-    * 4000
-    * 4001
-    * 4002
-    * 4011
-    * 4012
-    * 4023
-    * 4025
-    * 4068
-    * 4069
-    * 4070
-    * 4071
-    * 4072
-    * 4073
-    * 4075
-    * 4077
-    * 4078
-    * 4081
-    * 4082
-    
-
-* Algorithms
-	* Quine-McCluskey Algorithm (To find minimized Boolean Equation)
-	* Moore Machine Optimizer
+To start it, simply issue ```$ binpy``` if BinPy is installed in your path.
 
 <a id="documentation"></a>
 Documentation
 -------------
-Auto-generated documentation is available for reference at [BinPy docs](http://packages.python.org/BinPy/index.html)
+Auto-generated documentation is available for reference at [BinPy docs](http://docs.binpy.org)
+
+<a id="wiki"></a>
+Wiki
+----
+Check out the BinPy [Wiki page](http://github.com/BinPy/BinPy/wiki) for a complete summary of BinPy, [The Development workflow](https://github.com/BinPy/BinPy/wiki/Development-workflow), [Downloading and Installation guide](https://github.com/BinPy/BinPy/wiki/Download-Installation), [Tutorials](https://github.com/BinPy/BinPy/wiki/tutorial), [Technical References](https://github.com/BinPy/BinPy/wiki/Technical-References) and Much more.
 
 <a id="installation"></a>
 Installation
 ------------
 
-### Linux
+## Linux
 
-Install with **pip**
+###Install with pip
 
-    sudo apt-get install pip setuptools ipython
-    sudo pip install https://github.com/BinPy/BinPy/zipball/master
+#####Python2
 
-Install using **git**
+######PIP and setuptools
 
-    sudo apt-get install git setuptools ipython
-    git clone https://github.com/BinPy/BinPy.git
-    cd BinPy/
-    sudo python setup.py install
+```sh
+sudo apt-get install python-pip
+sudo pip install --upgrade setuptools
+```
 
-    
+######BinPy
+
+```sh
+sudo pip install https://github.com/BinPy/BinPy/zipball/master
+```
+
+######IPython Notebook
+
+```sh
+sudo pip install --upgrade ipython[all]
+```
+
+#####Python3
+
+######PIP and setuptools
+
+```sh
+sudo apt-get install python3-pip
+sudo pip3 install --upgrade setuptools
+```
+
+######BinPy
+
+```sh
+sudo pip3 install https://github.com/BinPy/BinPy/zipball/master
+```
+
+######IPython Notebook
+
+```sh
+sudo pip3 install --upgrade ipython[all]
+```
+
+#####Install `autopep8` Tool to ensure your contributions pass the `pep8` test.
+
+```sh
+sudo pip install --upgrade autopep8
+```
+
+###Install BinPy using git
+
+#####Python2
+
+```sh
+sudo apt-get install git setuptools
+git clone https://github.com/BinPy/BinPy.git
+cd BinPy/
+sudo python setup.py install
+```
+
+#####Python3
+
+```sh
+sudo apt-get install git python3-pip
+sudo pip3 install --upgrade setuptools
+git clone https://github.com/BinPy/BinPy.git
+cd BinPy/
+sudo python3 setup.py install
+```
+
+####
 
 Future Work
 ------------
+
 * Introduction of all ICs
 * Introduction of problem solving algorithms
 * Addition of Microprocessors and Analog Devices
 * Graphical representation of the circuit
-* ...
+
+
+Visit our [roadmap](https://github.com/BinPy/BinPy/wiki/roadmap) and [ideas page](https://github.com/BinPy/BinPy/wiki/ideas) in [Wiki](http://github.com/BinPy/BinPy/wiki) to know more.
 
 <a id="contribute"></a>
 
 How To Contribute
 -----------------
 
+For a detailed summary of all the coding guidelines and [development workflow](https://github.com/BinPy/BinPy/wiki/Development-workflow), visit our [Wiki page](http://github.com/BinPy/BinPy/wiki).
+
  - [Report Bugs and Issues](https://github.com/BinPy/BinPy/issues)
  - [Solve Bugs and Issues](https://github.com/BinPy/BinPy/issues?page=1&state=open)
  - Write Tutorials, Examples and Documentation
+
+__DEV NOTE:__
+
+ - It is expected that your code must follow [pep8](https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CCkQFjAA&url=https%3A%2F%2Fwww.python.org%2Fdev%2Fpeps%2Fpep-0008&ei=4SxIU4LWJ4mzrAfEyoHgBg&usg=AFQjCNGUTp-Bavhz439Hr22L2HoxWDeNGg&sig2=dep_DZ8B918mWzzvX8KUYQ) standards. To conform to the same please install `autopep8` tool following the instructions in the [installation section](#installation).
+ 
+ - After installation is complete. Make the necessary changes and commit your changes. After Committing your changes, `cd` to the BinPy root directory and issue the following command
+
+   `autopep8 -r -i -a -a -v .`
+   
+   To learn more about the `autopep8` tool visit [here](https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CCkQFjAA&url=https%3A%2F%2Fpypi.python.org%2Fpypi%2Fautopep8%2F&ei=SjFIU7jkIcWKrQfE5oDgBQ&usg=AFQjCNGP0o38e1Ia6S7_TfsDIJrvgdGAug&sig2=Yp4VZe9UepdYtoCF_mcBFg).
+
+ - Ensure that all the tests pass by running `nosetests; nosetests3` in `BinPy\BinPy\tests` directory.
+
+ - To check for the pep8 indentation status issue the following command
+ 
+   `pep8 ./ --ignore=E501`
+
+If all the tests pass successfully push your repo to the origin/branch and send us a Pull Request. We'll be happy to review the same and merge it with our codebase.
+
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mrsud/binpy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
