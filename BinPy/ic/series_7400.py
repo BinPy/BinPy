@@ -1,11 +1,9 @@
 """
 This module has all the classes of ICs belonging to 7400 series.
 
-Please note that the length of list self.pins is 1 more than the number of
-actual pins. This is so because pin0 is not used as a general term referring
-to the first pin of the IC. Zeroth index of the self.pins is not being used.
+Please note that the length of list self.pins is 1 more than the number of actual pins. This is so because pin0
+is not used as a general term referring to the first pin of the IC. Zeroth index of the self.pins is not being used.
 """
-
 from __future__ import print_function
 from BinPy.Gates import *
 from BinPy.Sequential import *
@@ -15,60 +13,139 @@ from BinPy.Combinational.combinational import *
 
 
 #################################
-# IC's with 14 pins
+# IC's with 5 pins
 #################################
 
 
-class IC_74152(Base_14pin):
+class IC_741G00(Base_5pin):
 
     """
-    This is 14-pin 8:1 multiplexer with inverted input.
-
-    Pin Number	Description
-        1	D4
-        2	D3
-        3	D2
-        4	D1
-        5	D0
-        6	Output W
-        7	Ground
-        8	select line C
-        9	select line B
-        10	select line A
-        11	D7
-        12	D6
-        13     D5
-        14	Positive Supply
-
-        Selectlines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7
+    This is a single 2 input NAND gate IC
     """
 
     def __init__(self):
-        self.pins = [None, 0, 0, 0, 0, 0, None, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.pins = [None, 0, 0, 0, None, 0]
 
     def run(self):
-
         output = {}
-
-        mux = MUX(
-            self.pins[5],
-            self.pins[4],
-            self.pins[3],
-            self.pins[2],
-            self.pins[1],
-            self.pins[13],
-            self.pins[12],
-            self.pins[11])
-        mux.selectLines(self.pins[8], self.pins[9], self.pins[10])
-
-        output[6] = NOT(mux.output()).output()
-
-        if self.pins[7] == 0 and self.pins[14] == 1:
+        output[4] = NAND(self.pins[1], self.pins[2]).output()
+        if self.pins[3] == 0 and self.pins[5] == 1:
+            self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_741G02(Base_5pin):
+
+    """
+    This is a single 2 input NOR gate IC
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, None, 0]
+
+    def run(self):
+        output = {}
+        output[4] = NOR(self.pins[1], self.pins[2]).output()
+        if self.pins[3] == 0 and self.pins[5] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_741G03(Base_5pin):
+
+    """
+    This is a single 2 input NAND gate IC
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, None, 0]
+
+    def run(self):
+        output = {}
+        output[4] = NAND(self.pins[1], self.pins[2]).output()
+        if self.pins[3] == 0 and self.pins[5] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_741G04(Base_5pin):
+
+    """
+    This is a single inverter IC
+    """
+
+    def __init__(self):
+        self.pins = [None, None, 0, 0, None, 0]
+
+    def run(self):
+        output = {}
+        output[4] = NOT(self.pins[2]).output()
+        if self.pins[3] == 0 and self.pins[5] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_741G05(Base_5pin):
+
+    """
+    This is a single input NOT gate IC
+    """
+
+    def __init__(self):
+        self.pins = [None, None, 0, 0, None, 0]
+
+    def run(self):
+        output = {}
+        output[4] = NOT(self.pins[2]).output()
+        if self.pins[3] == 0 and self.pins[5] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_741G08(Base_5pin):
+
+    """
+    This is a single 2 input AND gate IC
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, None, 0]
+
+    def run(self):
+        output = {}
+        output[4] = AND(self.pins[1], self.pins[2]).output()
+        if self.pins[3] == 0 and self.pins[5] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+#################################
+# IC's with 14 pins
+#################################
 
 
 class IC_7400(Base_14pin):
@@ -77,25 +154,24 @@ class IC_7400(Base_14pin):
     This is a QUAD 2 INPUT NAND gate IC
     Pin Configuration:
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	B Input Gate 1
-        3	Y Output Gate 1
-        4	A Input Gate 2
-        5	B Input Gate 2
-        6	Y Output Gate 2
-        7	Ground
-        8	Y Output Gate 3
-        9	B Input Gate 3
-        10	A Input Gate 3
-        11	Y Output Gate 4
-        12	B Input Gate 4
-        13	A Input Gate 4
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   Y Output Gate 1
+        4   A Input Gate 2
+        5   B Input Gate 2
+        6   Y Output Gate 2
+        7   Ground
+        8   Y Output Gate 3
+        9   B Input Gate 3
+        10  A Input Gate 3
+        11  Y Output Gate 4
+        12  B Input Gate 4
+        13  A Input Gate 4
+        14  Positive Supply
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7400:
         1. set pin 7:0
@@ -196,25 +272,24 @@ class IC_7402(Base_14pin):
 
     Pin Configuration:
 
-    Pin Number	Description
-        1	Y Output Gate 1
-        2	A Input Gate 1
-        3	B Input Gate 1
-        4	Y Output Gate 2
-        5	A Input Gate 2
-        6	B Input Gate 2
-        7	Ground
-        8	A Input Gate 3
-        9	B Input Gate 3
-        10	Y Output Gate 3
-        11	A Input Gate 4
-        12	B Input Gate 4
-        13	Y Output Gate 4
-        14	Positive Supply
+    Pin Number  Description
+        1   Y Output Gate 1
+        2   A Input Gate 1
+        3   B Input Gate 1
+        4   Y Output Gate 2
+        5   A Input Gate 2
+        6   B Input Gate 2
+        7   Ground
+        8   A Input Gate 3
+        9   B Input Gate 3
+        10  Y Output Gate 3
+        11  A Input Gate 4
+        12  B Input Gate 4
+        13  Y Output Gate 4
+        14  Positive Supply
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7402:
         1. set pin 7:0
@@ -274,26 +349,25 @@ class IC_7403(Base_14pin):
     """
     This is a Quad 2-input open-collector NAND gate IC
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	B Input Gate 1
-        3	Y Output Gate 1
-        4	A Input Gate 2
-        5	B Input Gate 2
-        6	Y Output Gate 2
-        7	Ground
-        8	Y Output Gate 3
-        9	B Input Gate 3
-        10	A Input Gate 3
-        11	Y Output Gate 4
-        12	B Input Gate 4
-        13	A Input Gate 4
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   Y Output Gate 1
+        4   A Input Gate 2
+        5   B Input Gate 2
+        6   Y Output Gate 2
+        7   Ground
+        8   Y Output Gate 3
+        9   B Input Gate 3
+        10  A Input Gate 3
+        11  Y Output Gate 4
+        12  B Input Gate 4
+        13  A Input Gate 4
+        14  Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7403:
         1. set pin 7:0
@@ -353,25 +427,24 @@ class IC_7404(Base_14pin):
     """
     This is a hex inverter IC
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	Y Output Gate 1
-        3	A Input Gate 2
-        4	Y Output Gate 2
-        5	A Input Gate 3
-        6	Y Output Gate 3
-        7	Ground
-        8	Y Output Gate 4
-        9	A Input Gate 4
-        10	Y Output Gate 5
-        11	A Input Gate 5
-        12	Y Output Gate 6
-        13	A Input Gate 6
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   Y Output Gate 1
+        3   A Input Gate 2
+        4   Y Output Gate 2
+        5   A Input Gate 3
+        6   Y Output Gate 3
+        7   Ground
+        8   Y Output Gate 4
+        9   A Input Gate 4
+        10  Y Output Gate 5
+        11  A Input Gate 5
+        12  Y Output Gate 6
+        13  A Input Gate 6
+        14  Positive Supply
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7404:
         1. set pin 7:0
@@ -473,25 +546,24 @@ class IC_7408(Base_14pin):
     """
     This is a Quad 2 input AND gate IC
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	B Input Gate 1
-        3	Y Output Gate 1
-        4	A Input Gate 2
-        5	B Input Gate 2
-        6	Y Output Gate 2
-        7	Ground
-        8	Y Output Gate 3
-        9	B Input Gate 3
-        10	A Input Gate 3
-        11	Y Output Gate 4
-        12	B Input Gate 4
-        13	A Input Gate 4
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   Y Output Gate 1
+        4   A Input Gate 2
+        5   B Input Gate 2
+        6   Y Output Gate 2
+        7   Ground
+        8   Y Output Gate 3
+        9   B Input Gate 3
+        10  A Input Gate 3
+        11  Y Output Gate 4
+        12  B Input Gate 4
+        13  A Input Gate 4
+        14  Positive Supply
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7408:
         1. set pin 7:0
@@ -551,26 +623,25 @@ class IC_7410(Base_14pin):
     """
     This is a Triple 3 input NAND gate IC
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	B Input Gate 1
-        3	A Input Gate 2
-        4	B Input Gate 2
-        5	C Input gate 2
-        6	Y Output Gate 2
-        7	Ground
-        8	Y Output Gate 3
-        9	A Input Case 3
-        10	B Input Case 3
-        11	C Input Case 3
-        12	Y Output Gate 1
-        13	C Input Gate 1
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   A Input Gate 2
+        4   B Input Gate 2
+        5   C Input gate 2
+        6   Y Output Gate 2
+        7   Ground
+        8   Y Output Gate 3
+        9   A Input Case 3
+        10  B Input Case 3
+        11  C Input Case 3
+        12  Y Output Gate 1
+        13  C Input Gate 1
+        14  Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7410:
         1. set pin 7:0
@@ -613,26 +684,25 @@ class IC_7411(Base_14pin):
     """
     This is a Triple 3 input AND gate IC
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	B Input Gate 1
-        3	A Input Gate 2
-        4	B Input Gate 2
-        5	C Input gate 2
-        6	Y Output Gate 2
-        7	Ground
-        8	Y Output Gate 3
-        9	A Input Case 3
-        10	B Input Case 3
-        11	C Input Case 3
-        12	Y Output Gate 1
-        13	C Input Gate 1
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   A Input Gate 2
+        4   B Input Gate 2
+        5   C Input gate 2
+        6   Y Output Gate 2
+        7   Ground
+        8   Y Output Gate 3
+        9   A Input Case 3
+        10  B Input Case 3
+        11  C Input Case 3
+        12  Y Output Gate 1
+        13  C Input Gate 1
+        14  Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7411:
         1. set pin 7:0
@@ -676,26 +746,25 @@ class IC_7412(Base_14pin):
     """
     This is a Triple 3 input NAND gate IC with open collector outputs
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	B Input Gate 1
-        3	A Input Gate 2
-        4	B Input Gate 2
-        5	C Input gate 2
-        6	Y Output Gate 2
-        7	Ground
-        8	Y Output Gate 3
-        9	A Input Case 3
-        10	B Input Case 3
-        11	C Input Case 3
-        12	Y Output Gate 1
-        13	C Input Gate 1
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   A Input Gate 2
+        4   B Input Gate 2
+        5   C Input gate 2
+        6   Y Output Gate 2
+        7   Ground
+        8   Y Output Gate 3
+        9   A Input Case 3
+        10  B Input Case 3
+        11  C Input Case 3
+        12  Y Output Gate 1
+        13  C Input Gate 1
+        14  Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7412:
         1. set pin 7:0
@@ -738,26 +807,25 @@ class IC_7413(Base_14pin):
     """
     This is a dual 4 input NAND gate IC
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	B Input Gate 1
-        3	Not Connected
-        4	C Input Gate 1
-        5	D Input Gate 1
-        6	Y Output Gate 1
-        7	Ground
-        8	Y Output Gate 2
-        9	A Input Gate 2
-        10	B Input Gate 2
-        11	Not Connected
-        12	C Input Gate 2
-        13	D Input Gate 2
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   Not Connected
+        4   C Input Gate 1
+        5   D Input Gate 1
+        6   Y Output Gate 1
+        7   Ground
+        8   Y Output Gate 2
+        9   A Input Gate 2
+        10  B Input Gate 2
+        11  Not Connected
+        12  C Input Gate 2
+        13  D Input Gate 2
+        14  Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7413:
         1. set pin 7:0
@@ -807,26 +875,25 @@ class IC_7415(Base_14pin):
     """
     This is a Triple 3 input AND gate IC with open collector outputs
 
-    Pin Number	Description
-        1	A Input Gate 1
-        2	B Input Gate 1
-        3	A Input Gate 2
-        4	B Input Gate 2
-        5	C Input Gate 2
-        6	Y Output Gate 2
-        7	Ground
-        8	Y Output Gate 3
-        9	A Input Gate 3
-        10	B Input Gate 3
-        11	C Input Gate 3
-        12	Y Output Gate 1
-        13	C Input Gate 1
-        14	Positive Supply
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   A Input Gate 2
+        4   B Input Gate 2
+        5   C Input Gate 2
+        6   Y Output Gate 2
+        7   Ground
+        8   Y Output Gate 3
+        9   A Input Gate 3
+        10  B Input Gate 3
+        11  C Input Gate 3
+        12  Y Output Gate 1
+        13  C Input Gate 1
+        14  Positive Supply
 
 
-    This class needs 14 parameters. Each parameter being the pin value.
-    The input has to be defined as a dictionary with pin number as the
-    key and its value being either 1 or 0
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
 
     To initialise the ic 7415:
         1. set pin 7:0
@@ -1609,39 +1676,6 @@ class IC_7458(Base_14pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-class IC_7459(Base_14pin):
-
-    """
-    This is a 2-input and 3-input AND-OR inverter gate
-    Datasheet here, http://www.unitechelectronics.com/7451-7497data.htm and
-    http://en.wikipedia.org/wiki/List_of_7400_series_integrated_circuits
-    """
-
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
-
-    def run(self):
-        temp = []
-        output = {}
-        temp.append(AND(self.pins[2], self.pins[3]).output())
-        temp.append(AND(self.pins[4], self.pins[5]).output())
-        temp.append(AND(self.pins[1],
-                        self.pins[13],
-                        self.pins[12]).output())
-        temp.append(AND(self.pins[11],
-                        self.pins[10],
-                        self.pins[9]).output())
-        output[6] = NOR(temp[0], temp[1]).output()
-        output[8] = NOR(temp[2], temp[3]).output()
-
-        if self.pins[7] == 0 and self.pins[14] == 1:
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
 class IC_7464(Base_14pin):
 
     """
@@ -1671,12 +1705,243 @@ class IC_7464(Base_14pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_7470(Base_14pin):
+
+    "AND gated JK Positive Edge triggered Flip Flop with preset and clear"
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        J = Connector(AND(self.pins[3], self.pins[4], self.pins[5]).output())
+        K = Connector(AND(self.pins[9], self.pins[10], self.pins[11]).output())
+        if not isinstance(self.pins[12], Clock):
+            raise Exception("Error: Invalid Clock Input")
+        ff = JKFlipFlop(J, K, Connector(1), self.pins[12].A,
+                        self.pins[13], self.pins[2])
+        while True:
+            if self.pins[12].A.state == 0:
+                ff.trigger()
+                break
+        while True:
+            if self.pins[12].A.state == 1:
+                ff.trigger()
+                break
+        output[8] = ff.state()[0]
+        output[10] = ff.state()[1]
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_7472(Base_14pin):
+
+    "AND gated JK Master-Slave Flip Flop with preset and clear"
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        J = Connector(AND(self.pins[3], self.pins[4], self.pins[5]).output())
+        K = Connector(AND(self.pins[9], self.pins[10], self.pins[11]).output())
+        if not isinstance(self.pins[12], Clock):
+            raise Exception("Error: Invalid Clock Input")
+        ff = JKFlipFlop(J, K, Connector(1), self.pins[12].A,
+                        self.pins[13], self.pins[2])
+        while True:
+            if self.pins[12].A.state == 0:
+                ff.trigger()
+                break
+        while True:
+            if self.pins[12].A.state == 1:
+                ff.trigger()
+                break
+        output[8] = ff.state()[0]
+        output[10] = ff.state()[1]
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_7473(Base_14pin):
+
+    "DUAL JK Flip Flops with clear"
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            0,
+            0,
+            None,
+            None,
+            0]
+
+    def run(self):
+        output = {}
+        if not (isinstance(self.pins[1], Clock) and
+                isinstance(self.pins[5], Clock)):
+            raise Exception("Error: Invalid Clock Input")
+        ff1 = JKFlipFlop(
+            self.pins[14],
+            self.pins[3],
+            Connector(1),
+            self.pins[1].A,
+            Connector(1),
+            self.pins[2])
+        while True:
+            if self.pins[1].A.state == 0:
+                ff1.trigger()
+                break
+        while True:
+            if self.pins[1].A.state == 1:
+                ff1.trigger()
+                break
+        output[12] = ff1.state()[0]
+        output[13] = ff1.state()[1]
+
+        ff2 = JKFlipFlop(
+            self.pins[7],
+            self.pins[10],
+            Connector(1),
+            self.pins[5].A,
+            Connector(1),
+            self.pins[6])
+        while True:
+            if self.pins[5].A.state == 0:
+                ff2.trigger()
+                break
+        while True:
+            if self.pins[5].A.state == 1:
+                ff2.trigger()
+                break
+        output[9] = ff2.state()[0]
+        output[8] = ff2.state()[1]
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_7474(Base_14pin):
+
+    "Dual D-Type Positive-Edge-Triggered Flip-Flops with preset and clear"
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            0,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        if not (isinstance(self.pins[3], Clock) and
+                isinstance(self.pins[11], Clock)):
+            raise Exception("Error: Invalid Clock Input")
+        ff1 = DFlipFlop(self.pins[2], Connector(1), self.pins[3].A,
+                        self.pins[4], self.pins[1])
+        while True:
+            if self.pins[3].A.state == 0:
+                ff1.trigger()
+                break
+        while True:
+            if self.pins[3].A.state == 1:
+                ff1.trigger()
+                break
+        output[5] = ff1.state()[0]
+        output[6] = ff1.state()[1]
+
+        ff2 = DFlipFlop(self.pins[12], Connector(1), self.pins[11].A,
+                        self.pins[10], self.pins[13])
+        while True:
+            if self.pins[11].A.state == 0:
+                ff2.trigger()
+                break
+        while True:
+            if self.pins[11].A.state == 1:
+                ff2.trigger()
+                break
+        output[9] = ff2.state()[0]
+        output[8] = ff2.state()[1]
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.setIC(output)
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
 class IC_7486(Base_14pin):
 
     """
     This is a quad 2-input exclusive OR gate
-    Datasheet here, http://www.skot9000.com/ttl/datasheets/86.pdf
     """
+
+    # Datasheet here, http://www.skot9000.com/ttl/datasheets/86.pdf
 
     def __init__(self):
         self.pins = [
@@ -1716,12 +1981,65 @@ class IC_7486(Base_14pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_74152(Base_14pin):
+
+    """
+    This is 14-pin 8:1 multiplexer with inverted input.
+
+    Pin Number  Description
+        1   D4
+        2   D3
+        3   D2
+        4   D1
+        5   D0
+        6   Output W
+        7   Ground
+        8   select line C
+        9   select line B
+        10  select line A
+        11  D7
+        12  D6
+        13     D5
+        14  Positive Supply
+
+        Selectlines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, None, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    def run(self):
+
+        output = {}
+
+        mux = MUX(
+            self.pins[5],
+            self.pins[4],
+            self.pins[3],
+            self.pins[2],
+            self.pins[1],
+            self.pins[13],
+            self.pins[12],
+            self.pins[11])
+        mux.selectLines(self.pins[8], self.pins[9], self.pins[10])
+
+        output[6] = NOT(mux.output()).output()
+
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
 class IC_74260(Base_14pin):
 
     """
     This is a dual 5-input NOR gate
-    Datasheet here, http://www.skot9000.com/ttl/datasheets/260.pdf
     """
+
+    # Datasheet here, http://www.skot9000.com/ttl/datasheets/260.pdf
 
     def __init__(self):
         self.pins = [None, 0, 0, 0, 0, None, None, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -1736,136 +2054,6 @@ class IC_74260(Base_14pin):
                         self.pins[10], self.pins[11]).output()
 
         if self.pins[7] == 0 and self.pins[14] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-#################################
-# IC's with 5 pins
-#################################
-
-
-class IC_741G00(Base_5pin):
-
-    """
-    This is a single 2 input NAND gate IC
-    """
-
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, None, 0]
-
-    def run(self):
-        output = {}
-        output[4] = NAND(self.pins[1], self.pins[2]).output()
-        if self.pins[3] == 0 and self.pins[5] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_741G02(Base_5pin):
-
-    """
-    This is a single 2 input NOR gate IC
-    """
-
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, None, 0]
-
-    def run(self):
-        output = {}
-        output[4] = NOR(self.pins[1], self.pins[2]).output()
-        if self.pins[3] == 0 and self.pins[5] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_741G03(Base_5pin):
-
-    """
-    This is a single 2 input NAND gate IC
-    """
-
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, None, 0]
-
-    def run(self):
-        output = {}
-        output[4] = NAND(self.pins[1], self.pins[2]).output()
-        if self.pins[3] == 0 and self.pins[5] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_741G04(Base_5pin):
-
-    """
-    This is a single inverter IC
-    """
-
-    def __init__(self):
-        self.pins = [None, None, 0, 0, None, 0]
-
-    def run(self):
-        output = {}
-        output[4] = NOT(self.pins[2]).output()
-        if self.pins[3] == 0 and self.pins[5] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_741G05(Base_5pin):
-
-    """
-    This is a single input NOT gate IC
-    """
-
-    def __init__(self):
-        self.pins = [None, None, 0, 0, None, 0]
-
-    def run(self):
-        output = {}
-        output[4] = NOT(self.pins[2]).output()
-        if self.pins[3] == 0 and self.pins[5] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_741G08(Base_5pin):
-
-    """
-    This is a single 2 input AND gate IC
-    """
-
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, None, 0]
-
-    def run(self):
-        output = {}
-        output[4] = AND(self.pins[1], self.pins[2]).output()
-        if self.pins[3] == 0 and self.pins[5] == 1:
             self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
@@ -2204,107 +2392,8 @@ class IC_7444(Base_16pin):
 class IC_7445(Base_16pin):
 
     """
-    This is a Four-to-Ten (BCD to Decimal) DECODER
+    This is a Four-to-Ten (BCD to Decimal) DECODER using the DEMUX functionality from combinational.py
     datasheet at http://www.skot9000.com/ttl/datasheets/45.pdf
-    """
-
-    def __init__(self):
-        self.pins = [
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            0,
-            None,
-            None,
-            None,
-            0,
-            0,
-            0,
-            0,
-            0]
-
-    def run(self):
-        output = {}
-        inputlist = []
-        for i in range(12, 16, 1):
-            inputlist.append(self.pins[i])
-
-        invalidlist = [
-            [
-                1, 0, 1, 0], [
-                1, 0, 1, 1], [
-                1, 1, 0, 0], [
-                1, 1, 0, 1], [
-                1, 1, 1, 0], [
-                1, 1, 1, 1]]
-
-        if inputlist in invalidlist:
-            raise Exception("ERROR: Invalid Pin configuration")
-
-        output[1] = NAND(NOT(self.pins[15]).output(),
-                         NOT(self.pins[14]).output(),
-                         NOT(self.pins[13]).output(),
-                         NOT(self.pins[12]).output()).output()
-
-        output[2] = NAND(
-            self.pins[15], NOT(
-                self.pins[14]).output(), NOT(
-                self.pins[13]).output(), NOT(
-                self.pins[12]).output()).output()
-
-        output[3] = NAND(NOT(self.pins[15]).output(),
-                         self.pins[14],
-                         NOT(self.pins[13]).output(),
-                         NOT(self.pins[12]).output()).output()
-
-        output[4] = NAND(self.pins[15],
-                         self.pins[14],
-                         NOT(self.pins[13]).output(),
-                         NOT(self.pins[12]).output()).output()
-
-        output[5] = NAND(NOT(self.pins[15]).output(),
-                         NOT(self.pins[14]).output(),
-                         self.pins[13],
-                         NOT(self.pins[12]).output()).output()
-
-        output[6] = NAND(self.pins[15], NOT(self.pins[14]).output(),
-                         self.pins[13], NOT(self.pins[12]).output()).output()
-
-        output[7] = NAND(NOT(self.pins[15]).output(), self.pins[14],
-                         self.pins[13], NOT(self.pins[12]).output()).output()
-
-        output[9] = NAND(self.pins[15], self.pins[14],
-                         self.pins[13], NOT(self.pins[12]).output()).output()
-
-        output[10] = NAND(NOT(self.pins[15]).output(),
-                          NOT(self.pins[14]).output(),
-                          NOT(self.pins[13]).output(),
-                          self.pins[12]).output()
-
-        output[11] = NAND(self.pins[15], NOT(self.pins[14]).output(),
-                          NOT(self.pins[13]).output(), self.pins[12]).output()
-
-        if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_7445_new(Base_16pin):
-
-    """
-    This is a Four-to-Ten (BCD to Decimal) DECODER using the DEMUX
-    functionality from combinational.py
-
-    Datasheet at http://www.skot9000.com/ttl/datasheets/45.pdf
     """
 
     def __init__(self):
@@ -2353,65 +2442,27 @@ class IC_7445_new(Base_16pin):
             self.pins[15])
         ou = dem.output()
 
-        output[1] = ou[0]
+        output[1] = NOT(ou[0]).output()
 
-        output[2] = ou[1]
+        output[2] = NOT(ou[1]).output()
 
-        output[3] = ou[2]
+        output[3] = NOT(ou[2]).output()
 
-        output[4] = ou[3]
+        output[4] = NOT(ou[3]).output()
 
-        output[5] = ou[4]
+        output[5] = NOT(ou[4]).output()
 
-        output[6] = ou[5]
+        output[6] = NOT(ou[5]).output()
 
-        output[7] = ou[6]
+        output[7] = NOT(ou[6]).output()
 
-        output[9] = ou[7]
+        output[9] = NOT(ou[7]).output()
 
-        output[10] = ou[8]
+        output[10] = NOT(ou[8]).output()
 
-        output[11] = ou[9]
-
-        if self.pins[8] == 0 and self.pins[16] == 1:
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_74133(Base_16pin):
-
-    """
-    This is a 13-input NAND gate
-    """
-
-    # Datasheet here, http://www.skot9000.com/ttl/datasheets/133.pdf
-
-    def __init__(self):
-        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, None, 0, 0, 0, 0, 0, 0, 0]
-
-    def run(self):
-        output = {}
-
-        output[9] = NAND(
-            self.pins[1],
-            self.pins[2],
-            self.pins[3],
-            self.pins[4],
-            self.pins[5],
-            self.pins[6],
-            self.pins[7],
-            self.pins[10],
-            self.pins[11],
-            self.pins[12],
-            self.pins[13],
-            self.pins[14],
-            self.pins[15]).output()
+        output[11] = NOT(ou[9]).output()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
@@ -2419,310 +2470,38 @@ class IC_74133(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-class IC_7483(Base_16pin):
+class IC_7459(Base_14pin):
 
     """
-    This is a 4-bit full adder with fast carry
+    This is a 2-input and 3-input AND-OR inverter gate
     """
-
-    # Datasheet here, http://www.skot9000.com/ttl/datasheets/83.pdf
-
-    def __init__(self):
-        self.pins = [
-            None,
-            0,
-            None,
-            0,
-            0,
-            0,
-            None,
-            0,
-            0,
-            None,
-            0,
-            0,
-            0,
-            0,
-            None,
-            None,
-            0]
-
-    def run(self):
-        output = {}
-
-        output[9] = XOR(self.pins[10], self.pins[11], self.pins[13]).output()
-
-        carry = OR(AND(self.pins[13],
-                       XOR(self.pins[10],
-                           self.pins[11]).output()).output(),
-                   AND(self.pins[10],
-                       self.pins[11]).output()).output()
-
-        output[6] = XOR(self.pins[8], self.pins[7], carry).output()
-
-        carry = OR(AND(carry, XOR(self.pins[8], self.pins[7]).output()).output(), AND(
-            self.pins[8], self.pins[7]).output()).output()
-
-        output[2] = XOR(self.pins[3], self.pins[4], carry).output()
-
-        carry = OR(AND(carry, XOR(self.pins[3], self.pins[4]).output()).output(), AND(
-            self.pins[3], self.pins[4]).output()).output()
-
-        output[15] = XOR(self.pins[1], self.pins[16], carry).output()
-
-        output[14] = OR(AND(carry, XOR(self.pins[1], self.pins[16]).output()).output(), AND(
-            self.pins[1], self.pins[16]).output()).output()
-
-        if self.pins[12] == 0 and self.pins[5] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-##############################################
-# Sequential Circuits
-##############################################
-
-##############################################
-# Base_14 Pin
-##############################################
-
-class IC_7470(Base_14pin):
-
-    "AND gated JK Positive Edge triggered Flip Flop with preset and clear"
+    # Datasheet here, http://www.unitechelectronics.com/7451-7497data.htm and
+    # http://en.wikipedia.org/wiki/List_of_7400_series_integrated_circuits
 
     def __init__(self):
-        self.pins = [
-            None,
-            0,
-            0,
-            0,
-            0,
-            0,
-            None,
-            0,
-            None,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0]
+        self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
 
     def run(self):
+        temp = []
         output = {}
-        J = Connector(AND(self.pins[3], self.pins[4], self.pins[5]).output())
-        K = Connector(AND(self.pins[9], self.pins[10], self.pins[11]).output())
-        if not isinstance(self.pins[12], Clock):
-            raise Exception("Error: Invalid Clock Input")
-        ff = JKFlipFlop(J, K, Connector(1), self.pins[12].A,
-                        self.pins[13], self.pins[2])
-        while True:
-            if self.pins[12].A.state == 0:
-                ff.trigger()
-                break
-        while True:
-            if self.pins[12].A.state == 1:
-                ff.trigger()
-                break
-        output[8] = ff.state()[0]
-        output[10] = ff.state()[1]
+        temp.append(AND(self.pins[2], self.pins[3]).output())
+        temp.append(AND(self.pins[4], self.pins[5]).output())
+        temp.append(AND(self.pins[1],
+                        self.pins[13],
+                        self.pins[12]).output())
+        temp.append(AND(self.pins[11],
+                        self.pins[10],
+                        self.pins[9]).output())
+        output[6] = NOR(temp[0], temp[1]).output()
+        output[8] = NOR(temp[2], temp[3]).output()
+
         if self.pins[7] == 0 and self.pins[14] == 1:
-            self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
-
-class IC_7472(Base_14pin):
-
-    "AND gated JK Master-Slave Flip Flop with preset and clear"
-
-    def __init__(self):
-        self.pins = [
-            None,
-            0,
-            0,
-            0,
-            0,
-            0,
-            None,
-            0,
-            None,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0]
-
-    def run(self):
-        output = {}
-        J = Connector(AND(self.pins[3], self.pins[4], self.pins[5]).output())
-        K = Connector(AND(self.pins[9], self.pins[10], self.pins[11]).output())
-        if not isinstance(self.pins[12], Clock):
-            raise Exception("Error: Invalid Clock Input")
-        ff = JKFlipFlop(J, K, Connector(1), self.pins[12].A,
-                        self.pins[13], self.pins[2])
-        while True:
-            if self.pins[12].A.state == 0:
-                ff.trigger()
-                break
-        while True:
-            if self.pins[12].A.state == 1:
-                ff.trigger()
-                break
-        output[8] = ff.state()[0]
-        output[10] = ff.state()[1]
-        if self.pins[7] == 0 and self.pins[14] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_7473(Base_14pin):
-
-    "DUAL JK Flip Flops with clear"
-
-    def __init__(self):
-        self.pins = [
-            None,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            None,
-            None,
-            0,
-            0,
-            None,
-            None,
-            0]
-
-    def run(self):
-        output = {}
-        if not (isinstance(self.pins[1], Clock) and
-                isinstance(self.pins[5], Clock)):
-            raise Exception("Error: Invalid Clock Input")
-        ff1 = JKFlipFlop(
-            self.pins[14],
-            self.pins[3],
-            Connector(1),
-            self.pins[1].A,
-            Connector(1),
-            self.pins[2])
-        while True:
-            if self.pins[1].A.state == 0:
-                ff1.trigger()
-                break
-        while True:
-            if self.pins[1].A.state == 1:
-                ff1.trigger()
-                break
-        output[12] = ff1.state()[0]
-        output[13] = ff1.state()[1]
-
-        ff2 = JKFlipFlop(
-            self.pins[7],
-            self.pins[10],
-            Connector(1),
-            self.pins[5].A,
-            Connector(1),
-            self.pins[6])
-        while True:
-            if self.pins[5].A.state == 0:
-                ff2.trigger()
-                break
-        while True:
-            if self.pins[5].A.state == 1:
-                ff2.trigger()
-                break
-        output[9] = ff2.state()[0]
-        output[8] = ff2.state()[1]
-        if self.pins[7] == 0 and self.pins[14] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_7474(Base_14pin):
-
-    "Dual D-Type Positive-Edge-Triggered Flip-Flops with preset and clear"
-
-    def __init__(self):
-        self.pins = [
-            None,
-            0,
-            0,
-            0,
-            0,
-            None,
-            None,
-            0,
-            None,
-            None,
-            0,
-            0,
-            0,
-            0,
-            0]
-
-    def run(self):
-        output = {}
-        if not (isinstance(self.pins[3], Clock) and
-                isinstance(self.pins[11], Clock)):
-            raise Exception("Error: Invalid Clock Input")
-        ff1 = DFlipFlop(self.pins[2], Connector(1), self.pins[3].A,
-                        self.pins[4], self.pins[1])
-        while True:
-            if self.pins[3].A.state == 0:
-                ff1.trigger()
-                break
-        while True:
-            if self.pins[3].A.state == 1:
-                ff1.trigger()
-                break
-        output[5] = ff1.state()[0]
-        output[6] = ff1.state()[1]
-
-        ff2 = DFlipFlop(self.pins[12], Connector(1), self.pins[11].A,
-                        self.pins[10], self.pins[13])
-        while True:
-            if self.pins[11].A.state == 0:
-                ff2.trigger()
-                break
-        while True:
-            if self.pins[11].A.state == 1:
-                ff2.trigger()
-                break
-        output[9] = ff2.state()[0]
-        output[8] = ff2.state()[1]
-        if self.pins[7] == 0 and self.pins[14] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-##########################################
-# Base_16 Pins
-##########################################
 
 class IC_7475(Base_16pin):
 
@@ -2887,95 +2666,65 @@ class IC_7476(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-class IC_74153(Base_16pin):
+class IC_7483(Base_16pin):
 
     """
-    This is 16-pin dual 4:1 multiplexer with output same as the input.
-
-        Pin Number	Description
-        1	Strobe1
-        2	Select line B
-        3	1C3
-        4	1C2
-        5	1C1
-        6	1C0
-        7	1Y - OUTPUT1
-        8	Ground
-        9	2Y - OUTPUT2
-        10	2C0
-        11	2C1
-        12	2C2
-        13	2C3
-        14     Select line A
-        15     Strobe2
-        16	Positive Supply
-
-        Selectlines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3
+    This is a 4-bit full adder with fast carry
     """
+
+    # Datasheet here, http://www.skot9000.com/ttl/datasheets/83.pdf
 
     def __init__(self):
         self.pins = [
             None,
             0,
-            0,
-            0,
+            None,
             0,
             0,
             0,
             None,
             0,
+            0,
             None,
             0,
             0,
             0,
             0,
-            0,
-            0,
+            None,
+            None,
             0]
 
     def run(self):
-
         output = {}
 
-        if (self.pins[1] == 1 and self.pins[15] == 1):
-            output = {7: 0, 9: 0}
+        output[9] = XOR(self.pins[10], self.pins[11], self.pins[13]).output()
 
-        elif (self.pins[1] == 0 and self.pins[15] == 1):
+        carry = OR(AND(self.pins[13],
+                       XOR(self.pins[10],
+                           self.pins[11]).output()).output(),
+                   AND(self.pins[10],
+                       self.pins[11]).output()).output()
 
-            mux = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
-            mux.selectLines(self.pins[2], self.pins[14])
+        output[6] = XOR(self.pins[8], self.pins[7], carry).output()
 
-            output[9] = 0
-            output[7] = mux.output()
+        carry = OR(AND(carry, XOR(self.pins[8], self.pins[7]).output()).output(), AND(
+            self.pins[8], self.pins[7]).output()).output()
 
-        elif (self.pins[1] == 1 and self.pins[15] == 0):
+        output[2] = XOR(self.pins[3], self.pins[4], carry).output()
 
-            mux = MUX(
-                self.pins[10],
-                self.pins[11],
-                self.pins[12],
-                self.pins[13])
-            mux.selectLines(self.pins[2], self.pins[14])
+        carry = OR(AND(carry, XOR(self.pins[3], self.pins[4]).output()).output(), AND(
+            self.pins[3], self.pins[4]).output()).output()
 
-            output[7] = 0
-            output[9] = mux.output()
+        output[15] = XOR(self.pins[1], self.pins[16], carry).output()
 
-        elif (self.pins[1] == 0 and self.pins[15] == 0):
+        output[14] = OR(AND(carry,
+                            XOR(self.pins[1],
+                                self.pins[16]).output()).output(),
+                        AND(self.pins[1],
+                            self.pins[16]).output()).output()
 
-            mux1 = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
-            mux1.selectLines(self.pins[2], self.pins[14])
-
-            mux2 = MUX(
-                self.pins[10],
-                self.pins[11],
-                self.pins[12],
-                self.pins[13])
-            mux2.selectLines(self.pins[2], self.pins[14])
-
-            output[7] = mux1.output()
-            output[9] = mux2.output()
-
-        if self.pins[8] == 0 and self.pins[16] == 1:
+        if self.pins[12] == 0 and self.pins[5] == 1:
+            self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
@@ -2983,54 +2732,37 @@ class IC_74153(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-class IC_74151A(Base_16pin):
+class IC_74133(Base_16pin):
 
     """
-    This is 16-pin 8:1 multiplexer featuring complementary W and Y outputs
+    This is a 13-input NAND gate
     """
+
+    # Datasheet here, http://www.skot9000.com/ttl/datasheets/133.pdf
 
     def __init__(self):
-        self.pins = [
-            None,
-            0,
-            0,
-            0,
-            0,
-            None,
-            None,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0]
+        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, None, 0, 0, 0, 0, 0, 0, 0]
 
     def run(self):
-
         output = {}
 
-        mux = MUX(
-            self.pins[4],
-            self.pins[3],
-            self.pins[2],
+        output[9] = NAND(
             self.pins[1],
-            self.pins[15],
-            self.pins[14],
+            self.pins[2],
+            self.pins[3],
+            self.pins[4],
+            self.pins[5],
+            self.pins[6],
+            self.pins[7],
+            self.pins[10],
+            self.pins[11],
+            self.pins[12],
             self.pins[13],
-            self.pins[12])
-        mux.selectLines(self.pins[9], self.pins[10], self.pins[11])
-
-        if self.pins[7] == 1:
-            output = {5: 0, 6: 1}
-        else:
-            output[5] = mux.output()
-            output[6] = NOT(output[5]).output()
+            self.pins[14],
+            self.pins[15]).output()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
+            self.setIC(output)
             for i in self.outputConnector:
                 self.outputConnector[i].state = output[i]
             return output
@@ -3173,11 +2905,10 @@ class IC_74139(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-class IC_74156(Base_16pin):
+class IC_74151A(Base_16pin):
 
     """
-    This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input
-    while the other same as the input with open collector
+    This is 16-pin 8:1 multiplexer featuring complementary W and Y outputs
     """
 
     def __init__(self):
@@ -3186,15 +2917,15 @@ class IC_74156(Base_16pin):
             0,
             0,
             0,
-            None,
-            None,
-            None,
-            None,
             0,
             None,
             None,
-            None,
-            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -3204,47 +2935,118 @@ class IC_74156(Base_16pin):
 
         output = {}
 
-        demux1 = DEMUX(self.pins[1])
-        demux1.selectLines(self.pins[3], self.pins[13])
+        mux = MUX(
+            self.pins[4],
+            self.pins[3],
+            self.pins[2],
+            self.pins[1],
+            self.pins[15],
+            self.pins[14],
+            self.pins[13],
+            self.pins[12])
+        mux.selectLines(self.pins[9], self.pins[10], self.pins[11])
 
-        demux2 = DEMUX(NOT(self.pins[15]).output())
-        demux2.selectLines(self.pins[3], self.pins[13])
+        if self.pins[7] == 1:
+            output = {5: 0, 6: 1}
+        else:
+            output[5] = mux.output()
+            output[6] = NOT(output[5]).output()
 
-        if (self.pins[2] == 1 and self.pins[14] == 1):
-            output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
 
-        elif (self.pins[2] == 0 and self.pins[14] == 1):
 
-            output[12] = 1
-            output[11] = 1
-            output[10] = 1
-            output[9] = 1
-            output[4] = NOT(demux1.output()[3]).output()
-            output[5] = NOT(demux1.output()[2]).output()
-            output[6] = NOT(demux1.output()[1]).output()
-            output[7] = NOT(demux1.output()[0]).output()
+class IC_74153(Base_16pin):
 
-        elif (self.pins[2] == 1 and self.pins[14] == 0):
+    """
+    This is 16-pin dual 4:1 multiplexer with output same as the input.
 
-            output[7] = 1
-            output[6] = 1
-            output[5] = 1
-            output[4] = 1
-            output[12] = NOT(demux2.output()[3]).output()
-            output[11] = NOT(demux2.output()[2]).output()
-            output[10] = NOT(demux2.output()[1]).output()
-            output[9] = NOT(demux2.output()[0]).output()
+        Pin Number  Description
+        1   Strobe1
+        2   Select line B
+        3   1C3
+        4   1C2
+        5   1C1
+        6   1C0
+        7   1Y - OUTPUT1
+        8   Ground
+        9   2Y - OUTPUT2
+        10  2C0
+        11  2C1
+        12  2C2
+        13  2C3
+        14     Select line A
+        15     Strobe2
+        16  Positive Supply
 
-        elif (self.pins[2] == 0 and self.pins[14] == 0):
+        Selectlines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3
+    """
 
-            output[4] = NOT(demux1.output()[3]).output()
-            output[5] = NOT(demux1.output()[2]).output()
-            output[6] = NOT(demux1.output()[1]).output()
-            output[7] = NOT(demux1.output()[0]).output()
-            output[12] = NOT(demux2.output()[3]).output()
-            output[11] = NOT(demux2.output()[2]).output()
-            output[10] = NOT(demux2.output()[1]).output()
-            output[9] = NOT(demux2.output()[0]).output()
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+
+        output = {}
+
+        if (self.pins[1] == 1 and self.pins[15] == 1):
+            output = {7: 0, 9: 0}
+
+        elif (self.pins[1] == 0 and self.pins[15] == 1):
+
+            mux = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
+            mux.selectLines(self.pins[2], self.pins[14])
+
+            output[9] = 0
+            output[7] = mux.output()
+
+        elif (self.pins[1] == 1 and self.pins[15] == 0):
+
+            mux = MUX(
+                self.pins[10],
+                self.pins[11],
+                self.pins[12],
+                self.pins[13])
+            mux.selectLines(self.pins[2], self.pins[14])
+
+            output[7] = 0
+            output[9] = mux.output()
+
+        elif (self.pins[1] == 0 and self.pins[15] == 0):
+
+            mux1 = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
+            mux1.selectLines(self.pins[2], self.pins[14])
+
+            mux2 = MUX(
+                self.pins[10],
+                self.pins[11],
+                self.pins[12],
+                self.pins[13])
+            mux2.selectLines(self.pins[2], self.pins[14])
+
+            output[7] = mux1.output()
+            output[9] = mux2.output()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
@@ -3335,102 +3137,11 @@ class IC_74155(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
-class IC_74138(Base_16pin):
+class IC_74156(Base_16pin):
 
     """
-    3-to-8 line decoder/demultiplexer.
-    Datasheet here, http://www.skot9000.com/ttl/datasheets/138.pdf
-    """
-
-    def __init__(self):
-        self.pins = [
-            None,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            None,
-            0,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            0]
-
-    def run(self):
-        output = {}
-        temp = []
-        temp.append(NOT(self.pins[4]).output())
-        temp.append(NOT(self.pins[5]).output())
-        temp.append(AND(temp[0], temp[1], self.pins[6]).output())
-        output[7] = NAND(
-            temp[2],
-            self.pins[3],
-            self.pins[2],
-            self.pins[1]
-        ).output()
-        output[9] = NAND(
-            temp[2],
-            self.pins[2],
-            NOT(self.pins[1]).output(),
-            self.pins[3]
-        ).output()
-        output[10] = NAND(
-            temp[2],
-            self.pins[3],
-            NOT(self.pins[2]).output(),
-            self.pins[1]
-        ).output()
-        output[11] = NAND(
-            temp[2],
-            self.pins[3],
-            NOT(self.pins[2]).output(),
-            NOT(self.pins[1]).output()
-        ).output()
-        output[12] = NAND(
-            temp[2],
-            self.pins[1],
-            self.pins[2],
-            NOT(self.pins[3]).output()
-        ).output()
-        output[13] = NAND(
-            temp[2],
-            self.pins[2],
-            NOT(self.pins[3]).output(),
-            NOT(self.pins[1]).output()
-        ).output()
-        output[14] = NAND(
-            temp[2],
-            self.pins[1],
-            NOT(self.pins[2]).output(),
-            NOT(self.pins[3]).output()
-        ).output()
-        output[15] = NAND(
-            temp[2],
-            NOT(self.pins[3]).output(),
-            NOT(self.pins[2]).output(),
-            NOT(self.pins[1]).output()
-        ).output()
-
-        if self.pins[8] == 0 and self.pins[16] == 1:
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print("Ground and VCC pins have not been configured correctly.")
-
-
-class IC_74138_new(Base_16pin):
-
-    """
-    3-to-8 line decoder/demultiplexer using the DEMUX functionality
-    from combinational.py
-    Datasheet here, http://www.skot9000.com/ttl/datasheets/138.pdf
+    This is a dual 1:4 demultiplexer(2:4 decoder) with one output being inverted input
+    while the other same as the input with open collector
     """
 
     def __init__(self):
@@ -3439,37 +3150,65 @@ class IC_74138_new(Base_16pin):
             0,
             0,
             0,
+            None,
+            None,
+            None,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
             0,
             0,
             0,
-            None,
-            0,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
             0]
 
     def run(self):
+
         output = {}
-        temp = []
-        temp.append(NOT(self.pins[4]).output())
-        temp.append(NOT(self.pins[5]).output())
-        temp.append(AND(temp[0], temp[1], self.pins[6]).output())
-        dem = DEMUX(temp[2])
-        dem.selectLines(self.pins[1], self.pins[2], self.pins[3])
-        ou = dem.output()
-        output[7] = ou[0]
-        output[9] = ou[1]
-        output[10] = ou[2]
-        output[11] = ou[3]
-        output[12] = ou[4]
-        output[13] = ou[5]
-        output[14] = ou[6]
-        output[15] = ou[7]
+
+        demux1 = DEMUX(self.pins[1])
+        demux1.selectLines(self.pins[3], self.pins[13])
+
+        demux2 = DEMUX(NOT(self.pins[15]).output())
+        demux2.selectLines(self.pins[3], self.pins[13])
+
+        if (self.pins[2] == 1 and self.pins[14] == 1):
+            output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
+
+        elif (self.pins[2] == 0 and self.pins[14] == 1):
+
+            output[12] = 1
+            output[11] = 1
+            output[10] = 1
+            output[9] = 1
+            output[4] = NOT(demux1.output()[3]).output()
+            output[5] = NOT(demux1.output()[2]).output()
+            output[6] = NOT(demux1.output()[1]).output()
+            output[7] = NOT(demux1.output()[0]).output()
+
+        elif (self.pins[2] == 1 and self.pins[14] == 0):
+
+            output[7] = 1
+            output[6] = 1
+            output[5] = 1
+            output[4] = 1
+            output[12] = NOT(demux2.output()[3]).output()
+            output[11] = NOT(demux2.output()[2]).output()
+            output[10] = NOT(demux2.output()[1]).output()
+            output[9] = NOT(demux2.output()[0]).output()
+
+        elif (self.pins[2] == 0 and self.pins[14] == 0):
+
+            output[4] = NOT(demux1.output()[3]).output()
+            output[5] = NOT(demux1.output()[2]).output()
+            output[6] = NOT(demux1.output()[1]).output()
+            output[7] = NOT(demux1.output()[0]).output()
+            output[12] = NOT(demux2.output()[3]).output()
+            output[11] = NOT(demux2.output()[2]).output()
+            output[10] = NOT(demux2.output()[1]).output()
+            output[9] = NOT(demux2.output()[0]).output()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.outputConnector:
