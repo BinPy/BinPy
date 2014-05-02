@@ -29,35 +29,28 @@ class StepperMotor(threading.Thread):
     Maximum RPM         : 1200
     Output Leads        : A   B   A!  B!
 
-    EXAMPLE
-    =======
+    Examples
+    ========
 
-    a = Connector(); b = Connector(); c = Connector(); d = Connector()
+    >>> from BinPy import *
+    >>> a = Connector(); b = Connector(); c = Connector(); d = Connector()
+    >>> sm = StepperMotor("Main Motor",a,b,c,d)
+    >>> for i in range(100):
+    ... sm.rotate(0.5,1)
+    ... time.sleep(0.1)
+    >>> # To rotate through a certain angle
+    >>> sm.move_to(-90, rpm = 60)
+    >>> sm.move_to(90, rpm = 60, shortest_path = False)
+    >>> # To rotate by a certain angle
+    >>> sm.move_by(90)
+    >>> sm.move_by(-60)
+    >>> # To update the leads externally
+    >>> a.state = 0; b.state = 0; c.state = 0; d.state = 1
+    >>> sm.trigger()
+    >>> a.state = 1; b.state = 0; c.state = 0; d.state = 1
+    >>> sm.trigger()
 
-    sm = StepperMotor("Main Motor",a,b,c,d)
-
-    for i in range(100):
-        sm.rotate(0.5,1)
-        time.sleep(0.1)
-
-    # To rotate through a certain angle
-    sm.move_to(-90, rpm = 60)
-
-    sm.move_to(90, rpm = 60, shortest_path = False)
-
-    # To rotate by a certain angle
-    sm.move_by(90)
-    sm.move_by(-60)
-
-    # To update the leads externally
-
-    a.state = 0; b.state = 0; c.state = 0; d.state = 1
-    sm.trigger()
-
-    a.state = 1; b.state = 0; c.state = 0; d.state = 1
-    sm.trigger()
-
-    METHODS
+    Methods
     =======
 
     rotate(steps, direction, rpm, step_type)
@@ -75,7 +68,7 @@ class StepperMotor(threading.Thread):
     reset()
     # To reset the StepperMotor
 
-    ATTRIBUTES
+    Attributes
     ==========
 
     ROTOR_POLES ; No of rotor poles.
