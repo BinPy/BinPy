@@ -33,3 +33,6 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# IPython Notebook Checkpoints
+.ipynb_checkpoints/

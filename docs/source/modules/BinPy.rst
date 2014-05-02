@@ -12,7 +12,6 @@ Subpackages
     Gates
     Operations
     Sequential
-    Shell
     dev
     ic
     tools
