@@ -2144,14 +2144,12 @@ class IC_7442(Base_16pin):
                 1, 1, 0, 1], [
                 1, 1, 1, 0], [
                 1, 1, 1, 1]]
-            
 
     def run(self):
         output = {}
         inputlist = []
         for i in range(12, 16, 1):
             inputlist.append(self.pins[i])
-
 
         if inputlist in self.invalidlist:
             raise Exception("ERROR: Invalid BCD number")
@@ -2235,20 +2233,18 @@ class IC_7443(Base_16pin):
             0,
             0]
         self.invalidlist = [
-                [0, 0, 0, 0], 
-                [0, 0, 0, 1], [
+            [0, 0, 0, 0],
+            [0, 0, 0, 1], [
                 0, 0, 1, 0], [
                 1, 1, 0, 1], [
                 1, 1, 1, 0], [
-                1, 1, 1, 1]]       
-            
+                1, 1, 1, 1]]
 
     def run(self):
         output = {}
         inputlist = []
         for i in range(12, 16, 1):
             inputlist.append(self.pins[i])
-
 
         if inputlist in self.invalidlist:
             raise Exception("ERROR: Invalid Pin configuration")
@@ -2326,13 +2322,12 @@ class IC_7444(Base_16pin):
             0,
             0,
             0]
-        self.invalidlist = [ [0, 0, 0, 0],
-                             [0, 0, 0, 1],
-                             [0, 0, 1, 1],
-                             [1, 0, 0, 0],
-                             [1, 0, 0, 1],
-                             [1, 0, 1, 1]]
-            
+        self.invalidlist = [[0, 0, 0, 0],
+                            [0, 0, 0, 1],
+                            [0, 0, 1, 1],
+                            [1, 0, 0, 0],
+                            [1, 0, 0, 1],
+                            [1, 0, 1, 1]]
 
     def run(self):
         output = {}
@@ -2414,14 +2409,14 @@ class IC_7445(Base_16pin):
             0,
             0,
             0]
-        
+
         self.invalidlist = [
-                            [1, 0, 1, 0],
-                            [1, 0, 1, 1], 
-                            [1, 1, 0, 0],
-                            [1, 1, 0, 1],
-                            [1, 1, 1, 0],
-                            [1, 1, 1, 1]]            
+            [1, 0, 1, 0],
+            [1, 0, 1, 1],
+            [1, 1, 0, 0],
+            [1, 1, 0, 1],
+            [1, 1, 1, 0],
+            [1, 1, 1, 1]]
 
     def run(self):
         output = {}
@@ -2805,6 +2800,7 @@ class IC_7474(Base_14pin):
 ##########################################
 
 class IC_7475(Base_16pin):
+
     "4-Bit Bistable Latches"
 
     def __init__(self):
