@@ -30,6 +30,7 @@ install:
  - sudo apt-get install libqt4-dev python-qt4 pyqt4-dev-tools qt4-designer
  - sudo apt-get install python3-nose python-nose
  - sudo apt-get install pep8
+ - pip install --use-mirrors coveralls
 
  # install SIP
 
@@ -81,3 +82,5 @@ script:
 
  - ./bin/test_travis.sh
 
+after_success:
+  coveralls
