@@ -175,22 +175,7 @@ class GATES:
         return True
 
 
-class MIGATES(GATES):
-
-    """
-    This class makes GATES compatible with multiple inputs.
-    """
-
-    def __init__(self, *inputs):
-        if len(inputs) < 2:
-            raise Exception(
-                "ERROR: Too few inputs given. Needs at least 2 or\
-                 more inputs.")
-
-        GATES.__init__(self, list(inputs))
-
-
-class AND(MIGATES):
+class AND(GATES):
 
     """
     This class implements AND gate
@@ -213,7 +198,7 @@ class AND(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compareHistory():
@@ -237,7 +222,7 @@ class AND(MIGATES):
         return self.buildStr("AND")
 
 
-class OR(MIGATES):
+class OR(GATES):
 
     """
     This class implements OR gate
@@ -260,7 +245,7 @@ class OR(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compareHistory():
@@ -341,7 +326,7 @@ class NOT(GATES):
         return self.buildStr("NOT")
 
 
-class XOR(MIGATES):
+class XOR(GATES):
 
     """
     This class implements XOR gate
@@ -364,7 +349,7 @@ class XOR(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compareHistory():
@@ -389,7 +374,7 @@ class XOR(MIGATES):
         return self.buildStr("XOR")
 
 
-class XNOR(MIGATES):
+class XNOR(GATES):
 
     """
     This class implements XNOR gate
@@ -412,7 +397,7 @@ class XNOR(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compareHistory():
@@ -437,7 +422,7 @@ class XNOR(MIGATES):
         return self.buildStr("XNOR")
 
 
-class NAND(MIGATES):
+class NAND(GATES):
 
     """
     This class implements NAND gate
@@ -452,7 +437,7 @@ class NAND(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compareHistory():
@@ -477,7 +462,7 @@ class NAND(MIGATES):
         return self.buildStr("NAND")
 
 
-class NOR(MIGATES):
+class NOR(GATES):
 
     """
     This class implements NOR gate
@@ -492,7 +477,7 @@ class NOR(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compareHistory():
