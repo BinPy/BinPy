@@ -1,6 +1,8 @@
 language: python
 
 notifications:
+  email: false
+
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/06cf2c44aa8e55ab06c8
@@ -19,18 +21,18 @@ python:
 before install:
 
  - sudo apt-get update
- - sudo apt-get install wget build-essential 
- - sudo apt-get install python3-setuptools python-setuptools 
+ - sudo apt-get install wget build-essential
+ - sudo apt-get install python3-setuptools python-setuptools
  - sudo apt-get install python3-dev python-dev
- 
+
 install:
 
  - sudo apt-get install libqt4-dev python-qt4 pyqt4-dev-tools qt4-designer
- - sudo apt-get install python3-nose python-nose 
+ - sudo apt-get install python3-nose python-nose
  - sudo apt-get install pep8
- 
+
  # install SIP
- 
+
  - wget http://jaist.dl.sourceforge.net/project/pyqt/sip/sip-4.15.5/sip-4.15.5.tar.gz
  - tar zxvf sip-4.15.5.tar.gz
  - cd sip-4.15.5
@@ -39,8 +41,8 @@ install:
  - sudo make install --silent
 
  # For python3
- 
- - python3 configure.py  
+
+ - python3 configure.py
  - make --silent
  - sudo make install --silent
 
@@ -54,19 +56,19 @@ install:
  - echo 'yes' | python configure.py
  - make --silent
  - sudo make install --silent
- 
+
 # For python3
 
- - sudo apt-get install python3-pyqt4  
- 
+ - sudo apt-get install python3-pyqt4
+
 # clean up sources so that they dont affect the pep8 test
 
  - cd ..
  - rm -R PyQt-x11-gpl-4.10.4/
  - rm -R sip-4.15.5
- 
+
 # try importing the newly installed packages
- 
+
  - python -c 'import sip'
  - python -c 'import PyQt4'
  - python -c 'import PyQt4.QtCore'
@@ -77,37 +79,5 @@ matrix:
 
 script:
 
- - pep8 --ignore=E501 ./
- - nosetests
- - nosetests3
- - cd BinPy/tests/
- - nosetests gates_tests.py
- - nosetests combinational_tests.py
- - nosetests operations_tests.py
- - nosetests sequential_tests.py
- - nosetests counters_tests.py
- - nosetests series_4000_tests.py
- - nosetests series_7400_tests.py
- - nosetests source_tests.py
- - nosetests sequential_ic_tests.py
- - nosetests registers_tests.py
- - nosetests tree_tests.py
- - nosetests print_tests.py
- - nosetests expr_tests.py
- - nosetests analog_devices_tests.py
- - nosetests analog_source_tests.py
- - nosetests3 gates_tests.py
- - nosetests3 combinational_tests.py
- - nosetests3 operations_tests.py
- - nosetests3 sequential_tests.py
- - nosetests3 counters_tests.py
- - nosetests3 series_4000_tests.py
- - nosetests3 series_7400_tests.py
- - nosetests3 source_tests.py
- - nosetests3 sequential_ic_tests.py
- - nosetests3 registers_tests.py
- - nosetests3 tree_tests.py
- - nosetests3 print_tests.py
- - nosetests3 expr_tests.py
- - nosetests3 analog_devices_tests.py
- - nosetests3 analog_source_tests.py
+ - ./bin/test_travis.sh
+
