@@ -34,6 +34,11 @@ class Source:
         self.val = eval(self.equation)
         return self.val
 
+    def setoutput(self, param, value):
+        if not isinstance(value, Connector):
+            raise Exception("Expecting a Connector Class Object")
+        self.params[param] = value
+
 
 class VoltageSource(Source):
 
@@ -45,11 +50,6 @@ class VoltageSource(Source):
     def trigger(self):
         self.params['H'].state = self.evaluate() + self.params['L'].state
 
-    def setOutput(self, param, value):
-        if not isinstance(value, Connector):
-            raise Exception("Expecting a Connector Class Object")
-        self.params[param] = value
-
 
 class CurrentSource(Source):
 
@@ -60,11 +60,6 @@ class CurrentSource(Source):
 
     def trigger(self):
         self.params['i'] = self.evaluate()
-
-    def setoutput(self, param, value):
-        if not isinstance(value, Connector):
-            raise Exception("Expecting a Connector Class Object")
-        self.params[param] = value
 
 
 class SinWaveVoltageSource(VoltageSource):
