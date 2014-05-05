@@ -23,7 +23,7 @@ class GATES:
     Base Class implementing all common functions used by Logic Gates
     '''
 
-    def __init__(self, inputs):
+    def __init__(self, *inputs):
 
         # Clean Connections before updating new connections
         self.history_active = 0  # Ignore history for first computation
