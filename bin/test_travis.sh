@@ -19,6 +19,7 @@ nosetests print_tests.py
 nosetests expr_tests.py
 nosetests analog_devices_tests.py
 nosetests analog_source_tests.py
+nosetests test_makebooleanfunction.py
 nosetests3 gates_tests.py
 nosetests3 combinational_tests.py
 nosetests3 operations_tests.py
@@ -34,3 +35,4 @@ nosetests3 print_tests.py
 nosetests3 expr_tests.py
 nosetests3 analog_devices_tests.py
 nosetests3 analog_source_tests.py
+nosetests3 test_makebooleanfunction.py
