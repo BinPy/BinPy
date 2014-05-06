@@ -35,3 +35,7 @@ nosetests.xml
 
 # IPython Notebook Checkpoints
 .ipynb_checkpoints/
+
+# Swap Files
+*.swp
+*~
