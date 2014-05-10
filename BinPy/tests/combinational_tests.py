@@ -4,35 +4,35 @@ from nose.tools import with_setup, nottest
 
 def HalfAdder_test():
     ha = HalfAdder(0, 1)
-    assert ha.output() == [1, 0]
+    assert ha.output() == [0, 1]
 
     ha.setInput(0, 1)
-    assert ha.output() == [0, 1]
+    assert ha.output() == [1, 0]
 
     ha.setInputs(0, 0)
     assert ha.output() == [0, 0]
 
     ha.setInputs(1, 1)
-    assert ha.output() == [0, 1]
+    assert ha.output() == [1, 0]
 
 
 def FullAdder_test():
     fa = FullAdder(0, 1, 0)
-    assert fa.output() == [1, 0]
+    assert fa.output() == [0, 1]
 
     fa.setInputs(1, 1, 1)
     assert fa.output() == [1, 1]
 
     fa.setInput(1, 0)
-    assert fa.output() == [0, 1]
+    assert fa.output() == [1, 0]
 
     con1 = Connector()
     con2 = Connector()
 
-    fa.setOutput(0, con1)
-    fa.setOutput(1, con2)
+    fa.setOutput(1, con1)
+    fa.setOutput(0, con2)
 
-    assert [con1.state, con2.state] == fa.output()
+    assert [con2.state, con1.state] == fa.output()
 
 
 def BinaryAdder_test():

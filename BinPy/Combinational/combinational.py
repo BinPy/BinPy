@@ -6,12 +6,12 @@ class HalfAdder():
 
     """This Class implements Half Adder, Arithmetic sum of two bits and return its
     Sum and Carry
-    Output: [SUM, CARRY]
+    Output: [CARRY, SUM]
     Example:
         >>> from BinPy import *
         >>> ha = HalfAdder(0, 1)
         >>> ha.output()
-        [1, 0]
+        [0, 1]
 
     """
 
@@ -44,24 +44,24 @@ class HalfAdder():
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         if index == 0:
-            self.S.setOutput(value)
-        elif index == 1:
             self.C.setOutput(value)
+        elif index == 1:
+            self.S.setOutput(value)
 
     def output(self):
-        return [self.S.output(), self.C.output()]
+        return [self.C.output(), self.S.output()]
 
 
 class FullAdder():
 
     """This Class implements Full Adder, Arithmetic sum of three bits and
     return its Sum and Carry
-    Output: [SUM, CARRY]
+    Output: [CARRY, SUM]
     Example:
         >>> from BinPy import *
         >>> fa = FullAdder(0, 1, 1)
         >>> fa.output()
-        [0, 1]
+        [1, 0]
     """
 
     def __init__(self, *inputs):
@@ -71,12 +71,12 @@ class FullAdder():
         self.inputs = list(inputs)[:]
         self.con1 = Connector()  # Connector Object to connect the two half adders
         self.ha1 = HalfAdder(self.inputs[0], self.inputs[1])
-        self.ha1.setOutput(0, self.con1)
+        self.ha1.setOutput(1, self.con1)
         self.ha2 = HalfAdder(self.con1, self.inputs[2])
         self.con2 = Connector()
         self.con3 = Connector()
-        self.ha1.setOutput(1, self.con2)
-        self.ha2.setOutput(1, self.con3)
+        self.ha1.setOutput(0, self.con2)
+        self.ha2.setOutput(0, self.con3)
         self.or1 = OR(self.con2, self.con3)
 
     def setInput(self, index, value):
@@ -100,15 +100,16 @@ class FullAdder():
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
+
         if index == 0:
-            self.ha2.setOutput(0, value)
-        elif index == 1:
             self.or1.setOutput(value)
+        elif index == 1:
+            self.ha2.setOutput(1, value)
         else:
             raise Exception("ERROR: Invalid index passed")
 
     def output(self):
-        return [self.ha2.output()[0], self.or1.output()]
+        return [self.or1.output(), self.ha2.output()[1]]
 
 
 class BinaryAdder(GATES):
