@@ -2,7 +2,7 @@ from BinPy.Gates.gates import *
 import math
 
 
-class HalfAdder(GATES):
+class HalfAdder():
 
     """This Class implements Half Adder, Arithmetic sum of two bits and return its
     Sum and Carry
@@ -15,13 +15,26 @@ class HalfAdder(GATES):
 
     """
 
-    def __init__(self, input1, input2):
-        GATES.__init__(self, [input1, input2])
-        self.outputType = [0, 0]
-        self.outputConnector = [None, None]
+    def __init__(self, *inputs):
+
+        self.inputs = inputs[:]
         self.S = XOR(self.inputs[0], self.inputs[1])
         self.C = AND(self.inputs[0], self.inputs[1])
 
+    def setInput(self, index, value):
+        if index > 1 or index < 0:
+            raise Exception("ERROR: Not a valid index value")
+        if index == 0:
+            self.S.setInput(self.inputs[0])
+            self.C.setInput(self.inputs[0])
+        elif index == 1:
+            self.S.setInput(self.inputs[1])
+            self.C.setInput(self.inputs[1])     
+
+    def setInputs(self, *inputs):
+        self.S.setInputs(inputs)
+        self.C.setInputs(inputs)
+        
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
