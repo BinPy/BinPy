@@ -52,7 +52,7 @@ class HalfAdder():
         return [self.S.output(), self.C.output()]
 
 
-class FullAdder(GATES):
+class FullAdder():
 
     """This Class implements Full Adder, Arithmetic sum of three bits and
     return its Sum and Carry
@@ -64,34 +64,51 @@ class FullAdder(GATES):
         [0, 1]
     """
 
-    def __init__(self, input1, input2, carry):
-        GATES.__init__(self, [input1, input2, carry])
-        self.outputType = [0, 0, 0]
-        self.outputConnector = [None, None, None]
-        self.trigger()
+    def __init__(self, *inputs):
+        if len(inputs) is not 3:
+            raise Exception("ERROR: Number of arguments are inconsistent")
 
-    def trigger(self):
-        if isinstance(self.outputType, int):
-            return
-        ha1 = HalfAdder(self.inputs[0], self.inputs[1]).output()
-        ha2 = HalfAdder(ha1[0], self.inputs[2]).output()
-        S = ha2[0]
-        C = OR(ha2[1], ha1[1]).output()
-        self._updateResult([S, C])
+        self.inputs = list(inputs)[:]
+        self.con1 = Connector()  # Connector Object to connect the two half adders
+        self.ha1 = HalfAdder(self.inputs[0], self.inputs[1])
+        self.ha1.setOutput(0, self.con1)
+        self.ha2 = HalfAdder(self.con1, self.inputs[2])
+        self.con2 = Connector()
+        self.con3 = Connector()
+        self.ha1.setOutput(1, self.con2)
+        self.ha2.setOutput(1, self.con3)
+        self.or1 = OR(self.con2, self.con3)
+
+    def setInput(self, index, value):
+        if index > 3 or index < 0:
+            raise Exception("ERROR: Not a valid index number")
+        self.inputs[index] = value
+        if index == 0:
+            self.ha1.setInput(0, self.inputs[0])
+        elif index == 1:
+            self.ha1.setInput(1, self.inputs[1])
+        elif index == 2:
+            self.ha2.setInput(1, self.inputs[2])
+
+    def setInputs(self, *inputs):
+        if len(inputs) is not 3:
+            raise Exception("ERROR: Number of arguments are inconsistent")
+        self.inputs = list(inputs)[:]
+        self.ha1.setInputs(self.inputs[0], self.inputs[1])
+        self.ha2.setInput(1, self.inputs[1])
 
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
-        value.tap(self, 'output')
-        self.outputType[index] = 1
-        self.outputConnector[index] = value
-        self.trigger()
+        if index == 0:
+            self.ha2.setOutput(0, value)
+        elif index == 1:
+            self.or1.setOutput(value)
+        else:
+            raise Exception("ERROR: Invalid index passed")
 
-    def _updateResult(self, value):
-        self.result = value
-        for i in range(len(value)):
-            if self.outputType[i] == 1:
-                self.outputConnector[i].state = value[i]
+    def output(self):
+        return [self.ha2.output()[0], self.or1.output()]
 
 
 class BinaryAdder(GATES):
