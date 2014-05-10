@@ -1,5 +1,5 @@
-from BinPy.Algorithms.ExpressionConvert import *
-from BinPy.Algorithms.QuineMcCluskey import *
+from BinPy.algorithms.ExpressionConvert import *
+from BinPy.algorithms.QuineMcCluskey import *
 import sys
 
 

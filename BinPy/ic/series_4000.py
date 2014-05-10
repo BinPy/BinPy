@@ -11,9 +11,13 @@ ICs in this module:
 """
 
 from __future__ import print_function
-from BinPy.Gates import *
-from BinPy.ic import *
+
+from BinPy.connectors import *
+from BinPy.gates import *
+from BinPy.ic.base import *
 from BinPy.Combinational import *
+from BinPy.sequential import *
+from BinPy.tools.clock import Clock
 
 #################################
 # IC's with 14 pins

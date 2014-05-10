@@ -1,4 +1,4 @@
-from BinPy.ic import *
+from BinPy import *
 from nose.tools import with_setup, nottest
 
 #################################

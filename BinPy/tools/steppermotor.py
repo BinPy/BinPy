@@ -494,7 +494,7 @@ class _SMDisplay(QtGui.QMainWindow):
         self.name = name
         self.index = index
 
-        # Configuring the window:
+        # Configuring the window
         self.setGeometry(0, 0, 600, 600)
         self.setStyleSheet("QWidget{background-color: #FFFFFF;}")
         self.setWindowTitle("BinPy : StepperMotor - " +

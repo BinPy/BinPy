@@ -1,4 +1,4 @@
-from BinPy.Operations import *
+from BinPy.operations import *
 from nose.tools import with_setup, nottest, assert_raises
 
 op = Operations()

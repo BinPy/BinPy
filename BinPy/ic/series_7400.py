@@ -5,12 +5,13 @@ Please note that the length of list self.pins is 1 more than the number of actua
 is not used as a general term referring to the first pin of the IC. Zeroth index of the self.pins is not being used.
 """
 from __future__ import print_function
-from BinPy.Gates import *
-from BinPy.Sequential import *
+
+from BinPy.connectors import *
+from BinPy.gates import *
+from BinPy.sequential import *
 from BinPy.ic.base import *
 from BinPy.tools import *
 from BinPy.Combinational.combinational import *
-
 
 #################################
 # IC's with 5 pins

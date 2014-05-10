@@ -12,5 +12,5 @@ setup(
     packages=find_packages(),
     package_data={'data': ['README.md']},
     include_package_data=True,
-    entry_points={'console_scripts': ['binpy = BinPy.Shell:shellMain']}
+    entry_points={'console_scripts': ['binpy = BinPy.shell:shell_main']}
 )

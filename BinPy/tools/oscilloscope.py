@@ -1,27 +1,15 @@
 from __future__ import print_function
 import time
 from itertools import chain
-from BinPy import Connector
+from BinPy import *
+from BinPy.draw import symbols
 import threading
 import sys
 
 try:
-    _V = chr(9474)
-    _H = chr(9472)
-    _HVD = chr(9488)
-    _HVU = chr(9496)
-    _VHU = chr(9484)
-    _VHD = chr(9492)
-    _N = chr(10)
-except:
     range = xrange  # This is to make the sampler more efficient in python2
-    _V = unichr(9474)
-    _H = unichr(9472)
-    _HVD = unichr(9488)
-    _HVU = unichr(9496)
-    _VHU = unichr(9484)
-    _VHD = unichr(9492)
-    _N = unichr(10)
+except:
+    pass
 
 
 class Oscilloscope(threading.Thread):
@@ -32,7 +20,6 @@ class Oscilloscope(threading.Thread):
     USAGE:
     # A clock of 1 hertz frequency
     clock = Clock(1, 1)
-    clock.start()
     clk_conn = clock.A
 
     bc = BinaryCounter()
@@ -51,37 +38,38 @@ class Oscilloscope(threading.Thread):
         self.daemon = True
 
         self.MAX_INP = 15
-        self.WID = 150
-        self.LEN = 500
+        self.WIDTH = 150
 
         self.inputs = []
         self.labels = {}
-        self.logicArray = [[]]
-        self.clearLA
-        self.leninputs = 0
+        self.logic_array = [[]]
+        self._clear_LA()
+        self.len_inputs = 0
 
-        self.active = False
-        self.exitFlag = False
-        self.C = "\x1b[0m"
+        self.active = True
+        self.exit = False
+        self.colour = "\x1b[0m"
 
         if len(inputs) > 0:
-            self.updateInputs(*inputs)
+            self.set_inputs(*inputs)
 
-    def clearLA(self):
-        self.logicArray = [
-            [0 for x in range(self.WID)] for x in range(self.MAX_INP)]
+        self.start()
 
-    def setWidth(self, w=150):
+    def _clear_LA(self):
+        self.logic_array = [
+            [0 for x in range(self.WIDTH)] for x in range(self.MAX_INP)]
+
+    def set_width(self, w=150):
         """
         Set the maximum width of the oscilloscope.
         This is dependent on your current monitor configuration.
         """
         if w in range(50, 300):
-            self.WID = w
+            self.WIDTH = w
         else:
             print("ERROR:Invalid width. Width reverted to old value")
 
-    def setScale(self, scale=0.05):
+    def set_scale(self, scale=0.05):
         """
         This decides the time per unit xWidth.
         To avoid waveform distortion, follow NYQUIST sampling theorem.
@@ -93,7 +81,7 @@ class Oscilloscope(threading.Thread):
         """
         self.scale = scale
 
-    def updateInputs(self, *inputs):
+    def set_inputs(self, *inputs):
         """
         Set inputs using a list of tuples.
 
@@ -105,7 +93,7 @@ class Oscilloscope(threading.Thread):
         if len(inputs) < 1:
             raise Exception("ERROR: Too few inputs given.")
 
-        if len(inputs) > self.MAX_INP - self.leninputs:
+        if len(inputs) > self.MAX_INP - self.len_inputs:
             raise Exception("ERROR: Maximum inputs exceeded")
 
         try:
@@ -124,7 +112,7 @@ class Oscilloscope(threading.Thread):
                 self.inputs.append(i[0])
                 self.labels[i[0]] = lbl
 
-        self.leninputs = len(self.inputs)
+        self.len_inputs = len(self.inputs)
 
     def disconnect(self, conn):
         """
@@ -134,14 +122,14 @@ class Oscilloscope(threading.Thread):
         self.clear(True)
         self.labels.pop(conn, None)
         self.inputs.remove(conn)
-        self.leninputs = len(self.inputs)
+        self.len_inputs = len(self.inputs)
 
     def sampler(self, trigPoint):
         # DEV-note: This is critical part and needs to be highly efficient.
         # Do not introduce any delay causing element
 
-        for i in range(self.leninputs):
-            self.logicArray[i][trigPoint] = self.inputs[i].state
+        for i in range(self.len_inputs):
+            self.logic_array[i][trigPoint] = self.inputs[i].state
 
     def unhold(self):
         self.clear(True)
@@ -158,30 +146,27 @@ class Oscilloscope(threading.Thread):
         except:
             pass
 
-        self.clearLA()
+        self._clear_LA()
         if not keepInputs:
             self.inputs = []
-            self.leninputs = 0
+            self.len_inputs = 0
 
-    def _trigger(self):
+    def run(self):
         while True:
-            if self.exitFlag:
+            if self.exit:
                 sys.exit()
             while self.active:
-                for i in range(self.WID):
+                for i in range(self.WIDTH):
                     if not self.active:
                         break
                     time.sleep(self.scale)
                     self.sampler(i)
                 self.hold()
 
-    def run(self):
-        self._trigger()
-
     def kill(self):
-        self.exitFlag = True
+        self.exit = True
 
-    def setColour(self, foreground=1, background=7):
+    def set_colour(self, foreground=None, background=None):
         """
         Acceptable values are:
         1 --> RED
@@ -195,26 +180,26 @@ class Oscilloscope(threading.Thread):
         This will run without problems on most Linux systems.
         """
         if not foreground and not background:
-            self.C = "\x1b[0m"
+            self.colour = "\x1b[0m"
 
-        self.C = "\x1b[3%im\x1b[4%im" % (foreground, background)
+        self.colour = "\x1b[3%im\x1b[4%im" % (foreground, background)
 
     def display(self):
         self.hold()
 
         try:
             sclstr = "SCALE - X-AXIS : 1 UNIT WIDTH = %s" % str(self.scale)
-            llen = (self.WID + 15)
-            disp = self.C + "=" * llen + \
+            llen = (self.WIDTH + 15)
+            disp = self.colour + "=" * llen + \
                 "\nBinPy - Oscilloscope\n" + "=" * llen
             disp += _N + sclstr.rjust(llen, " ") + _N + "=" * llen + _N
 
             j = 0
-            for i in range(self.leninputs):
+            for i in range(self.len_inputs):
 
                 conn = self.inputs[i]
 
-                lA2 = [0] + self.logicArray[i] + [0]
+                lA2 = [0] + self.logic_array[i] + [0]
                 lA = [j if j is not None else 0 for j in lA2]
 
                 disp += " " * 10 + _V + _N

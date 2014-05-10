@@ -1,4 +1,4 @@
-from BinPy.Sequential.sequential import *
+from BinPy.sequential.sequential import *
 from BinPy.tools import *
 
 
