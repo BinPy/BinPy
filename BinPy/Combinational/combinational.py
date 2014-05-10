@@ -19,28 +19,21 @@ class HalfAdder(GATES):
         GATES.__init__(self, [input1, input2])
         self.outputType = [0, 0]
         self.outputConnector = [None, None]
-        self.trigger()
-
-    def trigger(self):
-        if isinstance(self.outputType, int):
-            return
-        S = XOR(self.inputs[0], self.inputs[1]).output()
-        C = AND(self.inputs[0], self.inputs[1]).output()
-        self._updateResult([S, C])
+        self.S = XOR(self.inputs[0], self.inputs[1])
+        self.C = AND(self.inputs[0], self.inputs[1])
 
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
-        value.tap(self, 'output')
-        self.outputType[index] = 1
-        self.outputConnector[index] = value
-        self.trigger()
+        if index == 0:
+            self.S.setOutput(value)
+            self.outputType[0] = 1
+        elif index == 1:
+            self.C.setOutput(value)
+            self.outputType[1] = 1
 
-    def _updateResult(self, value):
-        self.result = value
-        for i in range(len(value)):
-            if self.outputType[i] == 1:
-                self.outputConnector[i].state = value[i]
+    def output(self):
+        return [self.S.output(), self.C.output()]
 
 
 class FullAdder(GATES):
