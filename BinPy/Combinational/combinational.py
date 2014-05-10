@@ -24,7 +24,7 @@ class HalfAdder():
         self.S = XOR(self.inputs[0], self.inputs[1])
         self.C = AND(self.inputs[0], self.inputs[1])
 
-    def setInput(self, index, value):
+    def set_input(self, index, value):
         if index > 1 or index < 0:
             raise Exception("ERROR: Not a valid index value")
         self.inputs[index] = value
@@ -35,12 +35,12 @@ class HalfAdder():
             self.S.setInput(1, self.inputs[1])
             self.C.setInput(1, self.inputs[1])
 
-    def setInputs(self, *inputs):
+    def set_inputs(self, *inputs):
         self.inputs = list(inputs)[:]
         self.S.setInputs(*inputs)
         self.C.setInputs(*inputs)
 
-    def setOutput(self, index, value):
+    def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         if index == 0:
@@ -71,40 +71,40 @@ class FullAdder():
         self.inputs = list(inputs)[:]
         self.con1 = Connector()  # Connector Object to connect the two half adders
         self.ha1 = HalfAdder(self.inputs[0], self.inputs[1])
-        self.ha1.setOutput(1, self.con1)
+        self.ha1.set_output(1, self.con1)
         self.ha2 = HalfAdder(self.con1, self.inputs[2])
         self.con2 = Connector()
         self.con3 = Connector()
-        self.ha1.setOutput(0, self.con2)
-        self.ha2.setOutput(0, self.con3)
+        self.ha1.set_output(0, self.con2)
+        self.ha2.set_output(0, self.con3)
         self.or1 = OR(self.con2, self.con3)
 
-    def setInput(self, index, value):
+    def set_input(self, index, value):
         if index > 3 or index < 0:
             raise Exception("ERROR: Not a valid index number")
         self.inputs[index] = value
         if index == 0:
-            self.ha1.setInput(0, self.inputs[0])
+            self.ha1.set_input(0, self.inputs[0])
         elif index == 1:
-            self.ha1.setInput(1, self.inputs[1])
+            self.ha1.set_input(1, self.inputs[1])
         elif index == 2:
-            self.ha2.setInput(1, self.inputs[2])
+            self.ha2.set_input(1, self.inputs[2])
 
-    def setInputs(self, *inputs):
+    def set_inputs(self, *inputs):
         if len(inputs) is not 3:
             raise Exception("ERROR: Number of arguments are inconsistent")
         self.inputs = list(inputs)[:]
-        self.ha1.setInputs(self.inputs[0], self.inputs[1])
-        self.ha2.setInput(1, self.inputs[1])
+        self.ha1.set_inputs(self.inputs[0], self.inputs[1])
+        self.ha2.set_input(1, self.inputs[1])
 
-    def setOutput(self, index, value):
+    def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
 
         if index == 0:
             self.or1.setOutput(value)
         elif index == 1:
-            self.ha2.setOutput(1, value)
+            self.ha2.set_output(1, value)
         else:
             raise Exception("ERROR: Invalid index passed")
 
