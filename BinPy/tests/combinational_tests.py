@@ -20,8 +20,19 @@ def FullAdder_test():
     fa = FullAdder(0, 1, 0)
     assert fa.output() == [1, 0]
 
-    fa = FullAdder(0, 1, 1)
+    fa.setInputs(1, 1, 1)
+    assert fa.output() == [1, 1]
+
+    fa.setInput(1, 0)
     assert fa.output() == [0, 1]
+
+    con1 = Connector()
+    con2 = Connector()
+
+    fa.setOutput(0, con1)
+    fa.setOutput(1, con2)
+
+    assert [con1.state, con2.state] == fa.output()
 
 
 def BinaryAdder_test():
