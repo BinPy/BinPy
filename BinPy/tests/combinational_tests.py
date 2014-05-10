@@ -6,7 +6,13 @@ def HalfAdder_test():
     ha = HalfAdder(0, 1)
     assert ha.output() == [1, 0]
 
-    ha = HalfAdder(1, 1)
+    ha.setInput(0, 1)
+    assert ha.output() == [0, 1]
+
+    ha.setInputs(0, 0)
+    assert ha.output() == [0, 0]
+
+    ha.setInputs(1, 1)
     assert ha.output() == [0, 1]
 
 

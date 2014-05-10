@@ -17,33 +17,36 @@ class HalfAdder():
 
     def __init__(self, *inputs):
 
-        self.inputs = inputs[:]
+        if len(inputs) is not 2:
+            raise Exception("ERROR: Number of arguments not consistent")
+
+        self.inputs = list(inputs[:])
         self.S = XOR(self.inputs[0], self.inputs[1])
         self.C = AND(self.inputs[0], self.inputs[1])
 
     def setInput(self, index, value):
         if index > 1 or index < 0:
             raise Exception("ERROR: Not a valid index value")
+        self.inputs[index] = value
         if index == 0:
-            self.S.setInput(self.inputs[0])
-            self.C.setInput(self.inputs[0])
+            self.S.setInput(0, self.inputs[0])
+            self.C.setInput(0, self.inputs[0])
         elif index == 1:
-            self.S.setInput(self.inputs[1])
-            self.C.setInput(self.inputs[1])     
+            self.S.setInput(1, self.inputs[1])
+            self.C.setInput(1, self.inputs[1])
 
     def setInputs(self, *inputs):
-        self.S.setInputs(inputs)
-        self.C.setInputs(inputs)
-        
+        self.inputs = list(inputs)[:]
+        self.S.setInputs(*inputs)
+        self.C.setInputs(*inputs)
+
     def setOutput(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         if index == 0:
             self.S.setOutput(value)
-            self.outputType[0] = 1
         elif index == 1:
             self.C.setOutput(value)
-            self.outputType[1] = 1
 
     def output(self):
         return [self.S.output(), self.C.output()]
