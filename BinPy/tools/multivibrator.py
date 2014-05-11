@@ -1,7 +1,7 @@
 import sys
 import time
 import threading
-from BinPy import *
+from BinPy.connectors import *
 
 
 class Multivibrator(threading.Thread):
@@ -10,15 +10,14 @@ class Multivibrator(threading.Thread):
     This class uses threading technique to create a multivibrator with a certain time period.
     USAGE:
         >>> m1 = Multivibrator()
-        >>> m1.start()     # Start this thread
         >>> m1.trigger()   # or m1()
-        >>> m1.getState()  # or m1.A.state
+        >>> m1.get_state()  # or m1.A.state
         0
-        >>> m1.setMode(2)
+        >>> m1.set_mode(2)
         >>> m1.trigger()
-        >>> m1.getstate()
+        >>> m1.get_state()
         >>> conn = Connector()
-        >>> m1.setOutput(conn) # To set the output to connector conn
+        >>> m1.set_output(conn) # To set the output to connector conn
         >>> conn()             # Retrieves the current state
 
     Note: Once you are done with the multivibrator, use m1.kill() to kill the Multivibrators.
@@ -70,38 +69,50 @@ class Multivibrator(threading.Thread):
 
         self.init_state = init_state
         self.curr_state = init_state
-        self.exitFlag = False
+        self._exit = False
         self.daemon = True
         self.A = Connector(self.init_state)
         self.update = False
 
-    def _toggleState(self):
+        self.active = False
+        self.scale = 1
+        self._started = False
+        self.start()
+
+    def start(self):
+        """ Do not use this method """
+        # Kept to make it compatible with older versions of BinPy
+        if not self._started:
+            threading.Thread.start(self)
+            self._started = True
+
+    def _toggle_state(self):
         """
         This is an internal method to toggle the state of the output
         """
         self.A.state = 0 if self.A.state else 1
         self.A.trigger()
 
-    def setMode(self, mode):
+    def set_mode(self, mode):
         """
         Sets the mode of the Multivibrator
         """
         self.mode = mode
         self.update = False
 
-    def getState(self):
+    def get_state(self):
         """
         Returns the current state
         """
         return self.A.state
 
-    def setState(self, value):
+    def set_state(self, value):
         """
         Resets the state of the clock to the passed value
         """
         self.A.state = value
 
-    def getTimePeriod(self):
+    def time_period(self):
         """
         Returns the time period of the clock
         """
@@ -111,30 +122,30 @@ class Multivibrator(threading.Thread):
         """
         Kills the Thread
         """
-        self.exitFlag = True
+        self._exit = True
 
-    def _updater(self):
+    def run(self):
         while True:
-            if self.exitFlag:
+            if self._exit:
                 sys.exit()
             if self.update is True:
                 if self.mode == 1:
                     self.A.state = 1
                     self.A.trigger()
                     time.sleep(self.time_period)
-                    self._toggleState()
+                    self._toggle_state()
                     self.update = False
 
                 elif self.mode == 2:
                     while (self.mode == 2) and (self.update) and (not self.exitFlag):
-                        self._toggleState()
+                        self._toggle_state()
                         if self.A.state == 1:
                             time.sleep(self.on_time)
                         else:
                             time.sleep(self.off_time)
 
                 elif self.mode == 3:
-                    self._toggleState()
+                    self._toggle_state()
                     self.update = False
 
     def __call__(self):
@@ -142,13 +153,10 @@ class Multivibrator(threading.Thread):
 
     trigger = __call__
 
-    def setOutput(self, conn):
+    def set_output(self, conn):
         a = self.A
         self.A = conn if isinstance(conn, Connector) else a
 
     def stop(self):
         # For stopping the multivibrator in astable mode.
         self.update = False
-
-    def run(self):
-        self._updater()

@@ -1,7 +1,7 @@
 from __future__ import print_function
 import time
 from itertools import chain
-from BinPy import *
+from BinPy.connectors import *
 from BinPy.draw import symbols
 import threading
 import sys
