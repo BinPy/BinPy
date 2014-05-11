@@ -24,7 +24,6 @@ class Oscilloscope(threading.Thread):
 
     bc = BinaryCounter()
     os1 = Oscilloscope( (bc.out[1],'lsb') , (bc.out[0],'msb'))
-    os1.start()
     #Triggering the counter:
     for i in range(5):
         b.trigger()
@@ -46,14 +45,24 @@ class Oscilloscope(threading.Thread):
         self._clear_LA()
         self.len_inputs = 0
 
-        self.active = True
         self.exit = False
         self.colour = "\x1b[0m"
 
         if len(inputs) > 0:
             self.set_inputs(*inputs)
-
+            
+        self.active = False
+        self.scale = 1
+        self._started = False
         self.start()
+        
+   
+    def start(self):
+        """ Do not use this method """
+        # Kept to make it compatible with older versions of BinPy
+        if not self._started:
+            threading.Thread.start(self)
+            self._started = True
 
     def _clear_LA(self):
         self.logic_array = [
@@ -192,7 +201,7 @@ class Oscilloscope(threading.Thread):
             llen = (self.WIDTH + 15)
             disp = self.colour + "=" * llen + \
                 "\nBinPy - Oscilloscope\n" + "=" * llen
-            disp += _N + sclstr.rjust(llen, " ") + _N + "=" * llen + _N
+            disp += symbols._N + sclstr.rjust(llen, " ") + symbols._N + "=" * llen + symbols._N
 
             j = 0
             for i in range(self.len_inputs):
@@ -202,47 +211,47 @@ class Oscilloscope(threading.Thread):
                 lA2 = [0] + self.logic_array[i] + [0]
                 lA = [j if j is not None else 0 for j in lA2]
 
-                disp += " " * 10 + _V + _N
-                disp += " " * 10 + _V + _N
-                disp += " " * 10 + _V + " "
+                disp += " " * 10 + symbols._V + symbols._N
+                disp += " " * 10 + symbols._V + symbols._N
+                disp += " " * 10 + symbols._V + " "
                 for i in range(1, len(lA) - 1):
                     cmpstr = (lA[i - 1], lA[i])
                     if cmpstr == (1, 0):
-                        disp += _HVD
+                        disp += symbols._HVD
                     elif cmpstr == (1, 1):
-                        disp += _H
+                        disp += symbols._H
                     elif cmpstr == (0, 0):
                         disp += " "
                     elif cmpstr == (0, 1):
-                        disp += _VHU
+                        disp += symbols._VHU
 
-                disp += _N + " " * 3 + self.labels[conn] + "  " + _V + " "
+                disp += symbols._N + " " * 3 + self.labels[conn] + "  " + symbols._V + " "
 
                 for i in range(1, len(lA) - 1):
                     cmpstr = lA[i - 1], lA[i]
                     if cmpstr == (1, 0):
-                        disp += _V
+                        disp += symbols._V
                     elif cmpstr == (0, 1):
-                        disp += _V
+                        disp += symbols._V
                     else:
                         disp += " "
 
-                disp += _N + " " * 10 + _H + " "
+                disp += symbols._N + " " * 10 + symbols._H + " "
 
                 for i in range(1, len(lA) - 1):
                     cmpstr = lA[i - 1], lA[i]
                     if cmpstr == (1, 0):
-                        disp += _VHD
+                        disp += symbols._VHD
                     elif cmpstr == (1, 1):
                         disp += " "
                     elif cmpstr == (0, 0):
-                        disp += _H
+                        disp += symbols._H
                     elif cmpstr == (0, 1):
-                        disp += _HVU
-                disp += _N + " " * 10 + _V + _N
-                disp += " " * 10 + _V + _N
-            disp += _V * llen + _N
-            disp += _H * llen + _N + "\x1b[0m"
+                        disp += symbols._HVU
+                disp += symbols._N + " " * 10 + symbols._V + symbols._N
+                disp += " " * 10 + symbols._V + symbols._N
+            disp += symbols._V * llen + symbols._N
+            disp += symbols._H * llen + symbols._N + "\x1b[0m"
             print(disp)
         except:
             print("\x1b[0mERROR: Display error: " + sys.exc_info()[1].args[0])
