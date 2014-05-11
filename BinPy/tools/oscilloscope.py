@@ -50,13 +50,12 @@ class Oscilloscope(threading.Thread):
 
         if len(inputs) > 0:
             self.set_inputs(*inputs)
-            
+
         self.active = False
         self.scale = 1
         self._started = False
         self.start()
-        
-   
+
     def start(self):
         """ Do not use this method """
         # Kept to make it compatible with older versions of BinPy
@@ -201,7 +200,8 @@ class Oscilloscope(threading.Thread):
             llen = (self.WIDTH + 15)
             disp = self.colour + "=" * llen + \
                 "\nBinPy - Oscilloscope\n" + "=" * llen
-            disp += symbols._N + sclstr.rjust(llen, " ") + symbols._N + "=" * llen + symbols._N
+            disp += symbols._N + \
+                sclstr.rjust(llen, " ") + symbols._N + "=" * llen + symbols._N
 
             j = 0
             for i in range(self.len_inputs):
@@ -225,7 +225,8 @@ class Oscilloscope(threading.Thread):
                     elif cmpstr == (0, 1):
                         disp += symbols._VHU
 
-                disp += symbols._N + " " * 3 + self.labels[conn] + "  " + symbols._V + " "
+                disp += symbols._N + " " * 3 + \
+                    self.labels[conn] + "  " + symbols._V + " "
 
                 for i in range(1, len(lA) - 1):
                     cmpstr = lA[i - 1], lA[i]

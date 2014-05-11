@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Monostable Multivibrator - Multivibrator in Mode 1
+# Monostable Multivibrator - Multivibrator in Mode 1
 
 # In[1]:
 
@@ -36,7 +36,7 @@ m.setOutput(out)
 
 # In[4]:
 
-# Initialize the oscilloscope 
+# Initialize the oscilloscope
 o = Oscilloscope((out, 'OUT'))
 o.start()
 o.set_scale(0.005)  # Set scale by trial and error.
@@ -58,4 +58,3 @@ o.display()
 # Kill the multivibrator and the oscilloscope threads
 m.kill()
 o.kill()
-
