@@ -8,7 +8,7 @@ from BinPy.tools import *
 from BinPy.base import *
 from BinPy.operations import *
 from BinPy.sequential import *
-from BinPy.Combinational import *
+from BinPy.combinational import *
 from BinPy.dev import *
 from BinPy.base import *
 from BinPy.config import *

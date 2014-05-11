@@ -53,15 +53,16 @@ class Oscilloscope(threading.Thread):
 
         self.active = False
         self.scale = 1
-        self._started = False
+
+        self._strtd = False
         self.start()
 
     def start(self):
         """ Do not use this method """
         # Kept to make it compatible with older versions of BinPy
-        if not self._started:
+        if not self._strtd:
             threading.Thread.start(self)
-            self._started = True
+            self._strtd = True
 
     def _clear_LA(self):
         self.logic_array = [

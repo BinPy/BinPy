@@ -44,15 +44,24 @@ class Clock(threading.Thread):
         if time_period is None and frequency is None:
             self.time_period = 1
 
-        self.init_state = init_state
         self.name = name
         self.curr_state = init_state
-        self.exitFlag = 0
+        self._exit = False
         self.daemon = True
-        self.A = Connector(0)
-        # self.A.trigger()
 
-    def __toggleState(self):
+        self.A = Connector(init_state)
+
+        self._strtd = False
+        self.start()
+
+    def start(self):
+        """ Do not use this method """
+        # Kept to make it compatible with older versions of BinPy
+        if not self._strtd:
+            threading.Thread.start(self)
+            self._strtd = True
+
+    def _toggle_state(self):
         """
         This is an internal method to toggle the state of the output
         """
@@ -65,23 +74,23 @@ class Clock(threading.Thread):
             self.A.state = self.curr_state
             # self.A.trigger()
 
-    def __main_func(self):
+    def run(self):
         while True:
-            if self.exitFlag:
+            if self._exit:
                 sys.exit()
             time.sleep(self.time_period)
             try:
-                self.__toggleState()
+                self._toggle_state()
             except:
                 pass
 
-    def getState(self):
+    def get_state(self):
         """
         Returns the current state of the clock
         """
         return self.curr_state
 
-    def setState(self, value):
+    def set_state(self, value):
         """
         Resets the state of the clock to the passed value
         """
@@ -91,13 +100,13 @@ class Clock(threading.Thread):
         self.A.state = self.curr_state
         # self.A.trigger()
 
-    def getTimePeriod(self):
+    def time_period(self):
         """
         Returns the time period of the clock
         """
         return self.time_period
 
-    def getName(self):
+    def name(self):
         """
         Returns the name of the clock
         """
@@ -107,7 +116,4 @@ class Clock(threading.Thread):
         """
         Kills the clock(Thread)
         """
-        self.exitFlag = 1
-
-    def run(self):
-        self.__main_func()
+        self._exit = True
