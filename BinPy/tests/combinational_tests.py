@@ -6,13 +6,13 @@ def HalfAdder_test():
     ha = HalfAdder(0, 1)
     assert ha.output() == [0, 1]
 
-    ha.setInput(0, 1)
+    ha.set_input(0, 1)
     assert ha.output() == [1, 0]
 
-    ha.setInputs(0, 0)
+    ha.set_inputs(0, 0)
     assert ha.output() == [0, 0]
 
-    ha.setInputs(1, 1)
+    ha.set_inputs(1, 1)
     assert ha.output() == [1, 0]
 
 
@@ -20,40 +20,28 @@ def FullAdder_test():
     fa = FullAdder(0, 1, 0)
     assert fa.output() == [0, 1]
 
-    fa.setInputs(1, 1, 1)
+    fa.set_inputs(1, 1, 1)
     assert fa.output() == [1, 1]
 
-    fa.setInput(1, 0)
+    fa.set_input(1, 0)
     assert fa.output() == [1, 0]
 
     con1 = Connector()
     con2 = Connector()
 
-    fa.setOutput(1, con1)
-    fa.setOutput(0, con2)
+    fa.set_output(1, con1)
+    fa.set_output(0, con2)
 
     assert [con2.state, con1.state] == fa.output()
 
-
-def BinaryAdder_test():
-    ba = BinaryAdder([0, 1], [1], 0)
-    assert ba.output() == [0, 1, 0]
-
-    ba = BinaryAdder([0, 1], [1, 1], 1)
-    assert ba.output() == [1, 0, 1]
-
-    ba = BinaryAdder([0, 1], [1, 0], 0)
-    ba.setInput(1, [0])
-    assert ba.output() == [0, 0, 1]
-
-
+'''
 def BCDAdder_test():
     ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 0)
     assert ba.output() == [0, 1, 0, 0, 1]
 
     ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 1)
     assert ba.output() == [0, 0, 1, 1, 1]
-
+'''
 
 def HalfSubtractor_test():
     hs = HalfSubtractor(0, 1)
@@ -65,19 +53,11 @@ def HalfSubtractor_test():
 
 def FullSubtractor_test():
     fs = FullSubtractor(0, 1, 1)
-    assert fs.output() == [0, 1]
+    assert fs.output() == [1, 0]
     fs = FullSubtractor(1, 1, 0)
     assert fs.output() == [0, 0]
     fs = FullSubtractor(1, 1, 1)
     assert fs.output() == [1, 1]
-
-
-def BinarySubtractor_test():
-    bs = BinarySubtractor([0, 1], [1], 0)
-    assert bs.output() == [0, 0, 0]
-
-    bs = BinarySubtractor([0, 1], [1, 1], 1)
-    assert bs.output() == [1, 0, 1]
 
 
 def MUX_test():
