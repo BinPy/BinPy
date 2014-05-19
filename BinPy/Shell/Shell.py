@@ -19,10 +19,12 @@ def shellclear():
 def magic_clear(self, arg):
     shellclear()
 
-banner = '+-----------------------------------------------------------+\n'
+banner = '+-----------------------------------------------------------+\n\n'
 banner += ' BinPy '
 banner += BINPY_VERSION
-banner += ' [interactive shell]\n'
+banner += ' [interactive shell]\n\n'
+banner += ' Website: www.binpy.org\n\n'
+banner += ' Documentation: https://pythonhosted.org/BinPy/index.html\n\n'
 banner += '+-----------------------------------------------------------+\n'
 banner += '\n'
 banner += 'Commands: \n'
