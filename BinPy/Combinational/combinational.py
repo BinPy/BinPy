@@ -198,7 +198,7 @@ class FullSubtractor(GATES):
     def set_input(self, index, value):
         if index > 3 or index < 0:
             raise Exception("ERROR: Invalid Index passed")
-        self.inputs[index] = value  
+        self.inputs[index] = value
         if index == 0:
             self.hs1.set_input(0, self.inputs[0])
         elif index == 1:
@@ -260,7 +260,7 @@ class MUX(GATES):
         GATES.__init__(self, list(inputs))
 
     def selectLines(self, *select):
-        if not (pow(2, len(select)) == len(self.inputs)):
+        if not pow(2, len(select)) == len(self.inputs):
             raise Exception(
                 "ERROR: No. of Select lines are inconsistent with the inputs")
         self.selects = list(select)
@@ -333,7 +333,7 @@ class DEMUX(GATES):
     """
 
     def __init__(self, *inputs):
-        if not (len(inputs) == 1):
+        if not len(inputs) == 1:
             raise Exception("ERROR: Input should be 0/1")
         self.selects = []
         GATES.__init__(self, list(inputs))
@@ -341,7 +341,7 @@ class DEMUX(GATES):
         self.outputConnector = []
 
     def selectLines(self, *select):
-        if not (len(select) != 0):
+        if not len(select) != 0:
             raise Exception(
                 "ERROR: Number of select lines should be greater than zero")
         self.selects = list(select)
@@ -364,7 +364,7 @@ class DEMUX(GATES):
             self.trigger()
 
     def setInput(self, index, value):
-        if not (index == 0):
+        if not index == 0:
             raise Exception("ERROR: There should be a single input")
         self.inputs[index] = value
         if isinstance(value, Connector):
@@ -391,7 +391,7 @@ class DEMUX(GATES):
             self._updateResult(out)
 
     def setInputs(self, *inputs):
-        if not (len(inputs) == 1):
+        if not len(inputs) == 1:
             raise Exception("ERROR: There should be a single Input")
         self.inputs = list(inputs)
         self._updateConnections(self.inputs)
