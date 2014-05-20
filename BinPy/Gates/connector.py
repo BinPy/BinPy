@@ -4,6 +4,7 @@ Contains
 ========
 
 * Connector
+* Bus
 
 """
 
@@ -104,3 +105,52 @@ class Connector:
 
     def __truediv__(self, other):
         return self.state / other.state
+
+
+class Bus:
+
+    """
+    This class provides an array of Connector Objects. Objects of this class can be
+    used in situations where a lot of connectors are needed
+    """
+    
+    def __init__(self, width=4):
+        if width <= 0:
+            raise Exception("ERROR: Enter non-negative width")
+
+        self.bus = list()
+        self.width = width
+        for i in range(width):
+            temp = Connector()
+            self.bus.append(temp)
+
+    def get_state(self, index):
+        if index > 0 and index < width:
+            return self.bus[index].state
+        raise Exception("ERROR: Invalid Index value")
+
+    def set_width(self, width=None):
+        if width <= 0:
+            raise Exception("ERROR: Enter non-negative width")
+        if width == self.width:
+            return
+        elif width < self.width:
+            self.bus = self.bus[:width]
+        elif width > self.width:
+            for i in range(width - self.width):
+                temp = Connector()
+                self.bus.append(temp)
+        self.width = width
+
+    def tap(self, index, element, mode):
+        if index < 0 or index > width:
+            raise Exception("ERROR: Invalid Index Value")
+        self.bus[index].tap(element, mode)
+
+    def untap(self, index, element, mode):
+        if index < 0 or index > width:
+            raise Exception("ERROR: Invalid Index Value")
+        self.bus[index].untap(element, mode)
+
+    def __repr__(self):
+        return str(self.bus)
