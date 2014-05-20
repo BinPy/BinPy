@@ -113,7 +113,7 @@ class Bus:
     This class provides an array of Connector Objects. Objects of this class can be
     used in situations where a lot of connectors are needed
     """
-    
+
     def __init__(self, width=4):
         if width <= 0:
             raise Exception("ERROR: Enter non-negative width")
@@ -154,3 +154,4 @@ class Bus:
 
     def __repr__(self):
         return str(self.bus)
+        
