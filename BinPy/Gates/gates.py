@@ -134,6 +134,16 @@ class GATES:
         self.history_active = 0
         self.trigger()
 
+    def resetOutput(self):
+    	"""
+    	The method resets the output of the gate. The output of the gate is not
+    	directed to any Connector Object
+    	"""
+
+    	self.outputType = 0
+    	self.outputConnector = None
+    	self.history_active = 0
+
     def output(self):
         """
         This methods returns the output of the gate.
