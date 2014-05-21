@@ -154,3 +154,10 @@ class Bus:
 
     def __repr__(self):
         return str(self.bus)
+
+    @property
+    def width(self):
+        """
+        Gives width of the Bus
+        """
+        return self.width
