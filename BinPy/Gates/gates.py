@@ -140,9 +140,9 @@ class GATES:
     	directed to any Connector Object
     	"""
 
+    	self.outputConnector.untap(self, 'output')
     	self.outputType = 0
     	self.outputConnector = None
-    	self.history_active = 0
 
     def output(self):
         """
