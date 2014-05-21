@@ -5,6 +5,7 @@ Contains
 
 * Connector
 * Bus
+* make_bus
 
 """
 
@@ -114,18 +115,23 @@ class Bus:
     used in situations where a lot of connectors are needed
     """
 
-    def __init__(self, width=4):
+    def __init__(self, width=4, from_connectors=False, *connectors):
         if width <= 0:
             raise Exception("ERROR: Enter non-negative width")
 
         self.bus = list()
-        self.width = width
-        for i in range(width):
-            temp = Connector()
-            self.bus.append(temp)
+        self._width = width
+        if not from_connectors:
+            for i in range(width):
+                temp = Connector()
+                self.bus.append(temp)
+        else:
+            self._width = len(connectors)
+            for i in connectors:
+                self.bus.append(i)
 
     def get_state(self, index):
-        if index > 0 and index < width:
+        if index > 0 and index < self._width:
             return self.bus[index].state
         raise Exception("ERROR: Invalid Index value")
 
@@ -143,14 +149,28 @@ class Bus:
         self.width = width
 
     def tap(self, index, element, mode):
-        if index < 0 or index > width:
+        if index < 0 or index > self._width:
             raise Exception("ERROR: Invalid Index Value")
         self.bus[index].tap(element, mode)
 
     def untap(self, index, element, mode):
-        if index < 0 or index > width:
+        if index < 0 or index > self._width:
             raise Exception("ERROR: Invalid Index Value")
         self.bus[index].untap(element, mode)
 
     def __repr__(self):
         return str(self.bus)
+
+    @property
+    def width(self):
+        """
+        Gives width of the Bus
+        """
+        return self._width
+
+
+def make_bus(*connectors):
+    """
+    This function converts a set of connectors to a Bus
+    """
+    return Bus(from_connectors=True, *connectors)
