@@ -5,6 +5,7 @@ Contains
 
 * Connector
 * Bus
+* make_bus
 
 """
 
@@ -167,5 +168,9 @@ class Bus:
         """
         return self._width
 
+
 def make_bus(*connectors):
+    """
+    This function converts a set of connectors to a Bus
+    """
     return Bus(from_connectors=True, *connectors)
