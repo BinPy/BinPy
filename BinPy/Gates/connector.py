@@ -137,16 +137,16 @@ class Bus:
 
     def set_width(self, width=None):
         if width <= 0:
-            raise Exception("ERROR: Enter non-negative width")
+            raise Exception("ERROR: Enter positive width")
         if width == self.width:
             return
         elif width < self.width:
             self.bus = self.bus[:width]
         elif width > self.width:
-            for i in range(width - self.width):
+            for i in range(width - self._width):
                 temp = Connector()
                 self.bus.append(temp)
-        self.width = width
+        self._width = width
 
     def tap(self, index, element, mode):
         if index < 0 or index > self._width:
