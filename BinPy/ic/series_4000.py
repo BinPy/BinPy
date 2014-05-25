@@ -968,7 +968,6 @@ class IC_4008(Base_16pin):
                     16: {'desc': 'VDD'},
                     })
 
-
     def run(self):
         output = {}
         output[10] = ((self.pins[2]()) ^ (self.pins[3]()) ^ (self.pins[9]()))()
