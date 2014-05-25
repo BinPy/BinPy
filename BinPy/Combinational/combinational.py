@@ -198,7 +198,7 @@ class FullSubtractor(GATES):
     def set_input(self, index, value):
         if index > 3 or index < 0:
             raise Exception("ERROR: Invalid Index passed")
-        self.inputs[index] = value  
+        self.inputs[index] = value
         if index == 0:
             self.hs1.set_input(0, self.inputs[0])
         elif index == 1:
