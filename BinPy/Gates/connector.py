@@ -48,6 +48,8 @@ class Connector:
         # voltage for analog components
         self.voltage = 0.0
         self.oldvoltage = 0.0
+        self.name = name
+        self.name_set = (name != "")
         
     def tap(self, element, mode):
         # Can't serve output for multiple devices
@@ -114,6 +116,17 @@ class Connector:
     def __call__(self):
         return self.state
     
+    def set_name(self, name):
+        if ( self.name is None ) and ( not self.name_set ):
+            for k, v in list(globals().iteritems()):
+                if (id(v) == id(self)) and (k != "self"):
+                    self.name = k
+            self.name_set = True
+    
+    @property
+    def name(self):
+        return self.name
+    
     # This could replace the trigger method all together.
     def __setattr__(self, name, val):
         self.__dict__[name] = val
@@ -123,7 +136,7 @@ class Connector:
     # For python3
     def __bool__(self):
         return True if self.state == 1 else False
-
+    
     # To be compatible with Python 2.x
     __nonzero__ = __bool__
 
