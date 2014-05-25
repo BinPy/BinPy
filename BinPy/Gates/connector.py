@@ -161,6 +161,8 @@ class Bus:
     2. When a lot of connectors are needed
     """
     
+    _index = 0
+    
     def __init__(self, *inputs):
         """
         Initialized through a list of connectors or another Bus 
@@ -170,6 +172,10 @@ class Bus:
         self.bus = []
         self.analog = False
         
+        # Each Bus will have an unique index. Good for debugging Connections.
+        Bus._index += 1
+        self._index = Bus._index
+
         # width specified
         if ( len(inputs) == 1 ) and ( type(inputs[0]) is int ) and (inputs[0] >= 0):
             self.bus += [ Connector() for i in range(inputs[0])]
