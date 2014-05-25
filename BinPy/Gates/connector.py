@@ -1,5 +1,5 @@
 from __future__ import division
-import BinPy.config.constants
+from BinPy.config import *
 import itertools
 
 
