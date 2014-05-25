@@ -40,6 +40,8 @@ class Connector:
     * trigger
     """
     
+    index = 0
+    
     def __init__(self, state=None, name = ""):
         self.connections = {"output": [], "input": []}
         # To store the all the taps onto this connection
@@ -50,6 +52,12 @@ class Connector:
         self.oldvoltage = 0.0
         self.name = name
         self.name_set = (name != "")
+        Connector.index +=1 
+        self.index = Connector.index
+    
+    @property
+    def index(self):
+        return self.index
         
     def tap(self, element, mode):
         # Can't serve output for multiple devices
@@ -151,7 +159,7 @@ class Connector:
         return str(self.state)
 
     def __str__(self):
-        return "Connector; State: " + str(self.state)
+        return "Connector; Name: %s; Index: %d; State: "%(self.name, self.index) + str(self.state)
 
     def __add__(self, other):
         return self.voltage + other.voltage
