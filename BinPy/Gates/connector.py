@@ -1,6 +1,5 @@
 from __future__ import division
 from BinPy.config import *
-import itertools
 
 
 """
@@ -291,33 +290,33 @@ class Bus:
             str_int_bool = lambda o: str(int(bool(o)))
             # This is done to convert Connector elements to logic states or to
             # ensure the list passed is binary
-            word = "".join(map(str_int_bool, word))
+            word = "".join(list(map(str_int_bool, word)))
 
         elif isinstance(values[0], Bus):
             word = values.get_logic_all(as_list=False)
 
         elif isinstance(values[0], Connector):
             str_int_bool = lambda o: str(int(bool(o)))
-            word = map(str_int_bool, values)
+            word = list(map(str_int_bool, values))
 
         else:
             raise Exception("ERROR: Invalid input")
 
-        word = map(int, word)
+        word = list(map(int, word))
 
         if len(word) != self._width:
             # If input width is not of same size as the bus raise an exception
             raise Exception(
                 "ERROR: Input width is not the same as that of the bus")
 
-        for (bit, conn) in itertools.izip(word, self.bus):
+        for (bit, conn) in zip(word, self.bus):
             conn.set_logic(bit)
 
     def get_logic_all(self, as_list=True):
         if as_list:
-            return map(int, self.bus)
+            return list(map(int, self.bus))
 
-        return "0b" + "".join((map(lambda o: str(int(o)), self.bus)))
+        return "0b" + "".join((list(map(lambda o: str(int(o)), self.bus))))
 
     def set_voltage_all(self, *values):
         """
@@ -331,7 +330,7 @@ class Bus:
 
         if isinstance(values[0], list):
             values = values[0]
-            values = map(float, values)
+            values = list(map(float, values))
             # This serves dual purpose:
             # 1. Converts 5 to 5.0
             # 2. When inputs are connectors it extracts the voltage data from
@@ -344,11 +343,11 @@ class Bus:
             raise Exception(
                 "ERROR: Input width is not the same as that of the bus")
 
-        for (volt, conn) in itertools.izip(values, self.bus):
+        for (volt, conn) in zip(values, self.bus):
             conn.set_voltage(volt)
 
     def get_voltage_all(self):
-        return map(float, self.bus)
+        return list(map(float, self.bus))
 
     def copy(self):
         # Returns a copy of bus
@@ -371,7 +370,7 @@ class Bus:
         if not isinstance(bus, Bus):
             raise Exception("ERROR: Invalid input""")
 
-        if bus.width() != self._width:
+        if bus.width != self._width:
             raise Exception("ERROR: Width of both the busses must be same")
 
         self.set_voltage_all(bus.get_voltage_all())
@@ -416,11 +415,11 @@ class Bus:
         if isinstance(value, Connector):
             return value in self.bus
         elif isinstance(value, bool):
-            return value in map(bool, self.bus)
+            return value in list(map(bool, self.bus))
         elif isinstance(value, float):
-            return value in map(float, self.bus)
+            return value in list(map(float, self.bus))
         elif isinstance(value, int):
-            return value in map(int, self.bus)
+            return value in list(map(int, self.bus))
         else:
             return False
 
@@ -437,10 +436,10 @@ class Bus:
         return self._width
 
     def __int__(self):
-        return map(int, self.bus)
+        return list(map(int, self.bus))
 
     def __float__(self):
-        return map(float, self.bus)
+        return list(map(float, self.bus))
 
     def __str__(self):
         return str(self.bus)
@@ -482,6 +481,6 @@ class Bus:
         return Bus(self.bus + other.bus)
 
     def __bool__(self):
-        return map(bool, self.bus)
+        return list(map(bool, self.bus))
 
     __nonzero__ = __bool__
