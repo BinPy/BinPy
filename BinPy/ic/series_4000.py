@@ -968,26 +968,62 @@ class IC_4008(Base_16pin):
                     16: {'desc': 'VDD'},
                     })
 
-    def run(self):
-        output = {}
-        ff = FullAdder(self.pins[7].value, self.pins[6].value,
-                       self.pins[9].value).output()
-        output[10] = ff[0]
-        ff = FullAdder(self.pins[5].value, self.pins[4].value, ff[1]).output()
-        output[11] = ff[0]
-        ff = FullAdder(self.pins[3].value, self.pins[2].value, ff[1]).output()
-        output[12] = ff[0]
-        ff = FullAdder(self.pins[1].value, self.pins[15].value, ff[1]).output()
-        output[13] = ff[0]
-        output[14] = ff[1]
 
-        if self.pins[8].value == 0 and self.pins[16].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
-            return output
-        else:
-            print ("Ground and VCC pins have not been configured correctly.")
+def run(self):
+    output = {}
+    output[10] = ((self.pins[2]()) ^ (self.pins[3]()) ^ (self.pins[9]()))()
+    output[11] = (
+        (self.pins[5]()) ^ (
+            self.pins[4]()) ^ (
+            (self.pins[7]() & self.pins[6]()) | (
+                (self.pins[7]() | self.pins[6]()) & (
+                    self.pins[9]()))))()
+    output[12] = (
+        (self.pins[3]()) ^ (
+            self.pins[2]()) ^ (
+            (self.pins[5]() & self.pins[4]()) | (
+                (self.pins[5]() | self.pins[4]()) & (
+                    self.pins[7]() & self.pins[6]())) | (
+                        (self.pins[5]() | self.pins[4]()) & (
+                            self.pins[7]() | self.pins[6]()) & (
+                                self.pins[9]()))))()
+    output[13] = (
+        (self.pins[1]()) ^ (
+            self.pins[15]()) ^ (
+            (self.pins[3]() & self.pins[2]()) | (
+                (self.pins[3]() | self.pins[2]()) & (
+                    self.pins[5]() & self.pins[4]())) | (
+                        (self.pins[3]() | self.pins[2]()) & (
+                            self.pins[5]() | self.pins[4]()) & (
+                                self.pins[7]() & self.pins[6]())) | (
+                                    (self.pins[3]() | self.pins[2]()) & (
+                                        self.pins[5]() | self.pins[4]()) & (
+                                            self.pins[7]() | self.pins[6]()) & (
+                                                self.pins[9]()))))()
+    output[14] = (
+        (self.pins[1]() & self.pins[15]()) | (
+            (self.pins[1]() | self.pins[15]()) & (
+                self.pins[3]() & self.pins[2]())) | (
+            (self.pins[1]() | self.pins[15]()) & (
+                self.pins[3]() | self.pins[2]()) & (
+                self.pins[5]() & self.pins[4]())) | (
+            (self.pins[1]() | self.pins[15]()) & (
+                self.pins[3]() | self.pins[2]()) & (
+                self.pins[5]() | self.pins[4]()) & (
+                self.pins[7]() & self.pins[6]())) | (
+            (self.pins[1]() | self.pins[15]()) & (
+                self.pins[3]() | self.pins[2]()) & (
+                self.pins[5]() | self.pins[4]()) & (
+                self.pins[7]() | self.pins[6]()) & (
+                self.pins[9]())))()
+
+    if self.pins[8].value == 0 and self.pins[16].value == 1:
+        self.setIC(output)
+        for i in self.outputConnector:
+            self.outputConnector[i].state = output[i]
+        return output
+    else:
+        print ("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4009(Base_16pin):
