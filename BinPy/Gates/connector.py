@@ -40,7 +40,7 @@ class Connector:
     * trigger
     """
     
-    index = 0
+    _index = 0
     
     def __init__(self, state=None, name = ""):
         self.connections = {"output": [], "input": []}
@@ -50,14 +50,14 @@ class Connector:
         # voltage for analog components
         self.voltage = 0.0
         self.oldvoltage = 0.0
-        self.name = name
+        self._name = name
         self.name_set = (name != "")
-        Connector.index +=1 
-        self.index = Connector.index
+        Connector._index +=1 
+        self._index = Connector._index
     
     @property
     def index(self):
-        return self.index
+        return self._index
         
     def tap(self, element, mode):
         # Can't serve output for multiple devices
@@ -133,7 +133,7 @@ class Connector:
     
     @property
     def name(self):
-        return self.name
+        return self._name
     
     # This could replace the trigger method all together.
     def __setattr__(self, name, val):
@@ -389,10 +389,6 @@ class Bus:
     @property
     def index(self):
         return self._index
-    
-    @property
-    def bus(self):
-        return self.bus
     
     def trigger(self):
          for conn in self.bus:
