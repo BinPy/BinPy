@@ -389,6 +389,9 @@ class Bus:
             raise Exception("ERROR: Invalid Index Value")
         self.bus[index].untap(element, mode)
 
+    def __repr__(self):
+        return str(self.bus)
+
     @property
     def width(self):
         """
