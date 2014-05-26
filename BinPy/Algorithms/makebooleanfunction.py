@@ -39,7 +39,7 @@ def make_boolean(vars, min_max, dont_care=None, **kwargs):
                         ones.append(i)
                 break
     if dont_care is not None:
-        _dont_care = map(int, dont_care)
+        _dont_care = list(map(int, dont_care))
 
     qm = QM(vars)
     if dont_care is not None:
