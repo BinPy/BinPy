@@ -27,60 +27,13 @@ before install:
 
 install:
 
- - sudo apt-get install libqt4-dev python-qt4 pyqt4-dev-tools qt4-designer
  - sudo apt-get install python3-nose python-nose
  - sudo apt-get install pep8
  - pip install --use-mirrors coveralls
 
- # install SIP
-
- - wget http://jaist.dl.sourceforge.net/project/pyqt/sip/sip-4.15.5/sip-4.15.5.tar.gz
- - tar zxvf sip-4.15.5.tar.gz
- - cd sip-4.15.5
- - python configure.py
- - make --silent
- - sudo make install --silent
-
- # For python3
-
- - python3 configure.py
- - make --silent
- - sudo make install --silent
-
- - cd ..
-
-# install PyQt4
-
- - wget http://jaist.dl.sourceforge.net/project/pyqt/PyQt4/PyQt-4.10.4/PyQt-x11-gpl-4.10.4.tar.gz
- - tar zxvf PyQt-x11-gpl-4.10.4.tar.gz
- - cd PyQt-x11-gpl-4.10.4/
- - echo 'yes' | python configure.py
- - make --silent
- - sudo make install --silent
-
-# For python3
-
- - sudo apt-get install python3-pyqt4
-
-# clean up sources so that they dont affect the pep8 test
-
- - cd ..
- - rm -R PyQt-x11-gpl-4.10.4/
- - rm -R sip-4.15.5
-
-# try importing the newly installed packages
-
- - python -c 'import sip'
- - python -c 'import PyQt4'
- - python -c 'import PyQt4.QtCore'
-
-matrix:
-  allow_failures:
-    - python: "pypy"
-
 script:
 
- - ./bin/test_travis.sh
+ - ./test_travis.sh
 
 after_success:
   coveralls
