@@ -1,0 +1,15 @@
+# Voltage Values for Logic States
+
+LOGIC_HIGH_VOLT = 5
+LOGIC_LOW_VOLT = 0
+
+# Logic State values
+
+LOGIC_HIGH_STATE = 1
+LOGIC_LOW_STATE = 0
+LOGIC_DONT_CARE_STATE = -1
+LOGIC_HIGH_IMPEDANCE_STATE = None
+
+# Logic Threshold value
+
+LOGIC_THRESHOLD_VOLT = 2.5

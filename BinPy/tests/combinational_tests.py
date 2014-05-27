@@ -43,6 +43,7 @@ def BCDAdder_test():
     assert ba.output() == [0, 0, 1, 1, 1]
 '''
 
+
 def HalfSubtractor_test():
     hs = HalfSubtractor(0, 1)
     assert hs.output() == [1, 1]
