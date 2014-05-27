@@ -16,15 +16,16 @@ def AND_test():
 
     lgate = AND(1, 0)
     try:
-    	lgate.addInput(1)
-    	if lgate.output() is not 0:
-    		assert False
+        lgate.addInput(1)
+        if lgate.output() is not 0:
+            assert False
 
-    	lgate.removeInput(1)
-    	if lgate.output() is not 1:
-    		assert False
+        lgate.removeInput(1)
+        if lgate.output() is not 1:
+            assert False
     except Exception, e:
-    	assert False
+        assert False
+
 
 def OR_test():
     lgate = OR(0, 0)
@@ -40,15 +41,16 @@ def OR_test():
 
     lgate = OR(1, 0)
     try:
-    	lgate.addInput(1)
-    	if lgate.output() is not 1:
-    		assert False
+        lgate.addInput(1)
+        if lgate.output() is not 1:
+            assert False
 
-    	lgate.removeInput(1)
-    	if lgate.output() is not 1:
-    		assert False
+        lgate.removeInput(1)
+        if lgate.output() is not 1:
+            assert False
     except Exception, e:
-    	assert False
+        assert False
+
 
 def NAND_test():
     lgate = NAND(0, 0)
@@ -64,15 +66,16 @@ def NAND_test():
 
     lgate = NAND(1, 1)
     try:
-    	lgate.addInput(1)
-    	if lgate.output() is not 0:
-    		assert False
+        lgate.addInput(1)
+        if lgate.output() is not 0:
+            assert False
 
-    	lgate.removeInput(1)
-    	if lgate.output() is not 0:
-    		assert False
+        lgate.removeInput(1)
+        if lgate.output() is not 0:
+            assert False
     except Exception, e:
-    	assert False
+        assert False
+
 
 def NOR_test():
     lgate = NOR(0, 0)
@@ -88,15 +91,16 @@ def NOR_test():
 
     lgate = NOR(1, 0)
     try:
-    	lgate.addInput(1)
-    	if lgate.output() is not 0:
-    		assert False
+        lgate.addInput(1)
+        if lgate.output() is not 0:
+            assert False
 
-    	lgate.removeInput(1)
-    	if lgate.output() is not 0:
-    		assert False
+        lgate.removeInput(1)
+        if lgate.output() is not 0:
+            assert False
     except Exception, e:
-    	assert False
+        assert False
+
 
 def XOR_test():
     lgate = XOR(0, 0)
@@ -112,15 +116,16 @@ def XOR_test():
 
     lgate = XOR(1, 0)
     try:
-    	lgate.addInput(1)
-    	if lgate.output() is not 0:
-    		assert False
+        lgate.addInput(1)
+        if lgate.output() is not 0:
+            assert False
 
-    	lgate.removeInput(1)
-    	if lgate.output() is not 0:
-    		assert False
+        lgate.removeInput(1)
+        if lgate.output() is not 0:
+            assert False
     except Exception, e:
-    	assert False
+        assert False
+
 
 def XNOR_test():
     lgate = XNOR(0, 0)
@@ -136,12 +141,12 @@ def XNOR_test():
 
         lgate = XNOR(1, 0)
     try:
-    	lgate.addInput(1)
-    	if lgate.output() is not 1:
-    		assert False
+        lgate.addInput(1)
+        if lgate.output() is not 1:
+            assert False
 
-    	lgate.removeInput(1)
-    	if lgate.output() is not 0:
-    		assert False
+        lgate.removeInput(1)
+        if lgate.output() is not 0:
+            assert False
     except Exception, e:
-    	assert False
+        assert False
