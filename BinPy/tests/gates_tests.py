@@ -23,7 +23,7 @@ def AND_test():
         lgate.removeInput(1)
         if lgate.output() is not 1:
             assert False
-    except Exception, e:
+    except Exception:
         assert False
 
 
@@ -48,7 +48,7 @@ def OR_test():
         lgate.removeInput(1)
         if lgate.output() is not 1:
             assert False
-    except Exception, e:
+    except Exception:
         assert False
 
 
@@ -73,7 +73,7 @@ def NAND_test():
         lgate.removeInput(1)
         if lgate.output() is not 0:
             assert False
-    except Exception, e:
+    except Exception:
         assert False
 
 
@@ -98,7 +98,7 @@ def NOR_test():
         lgate.removeInput(1)
         if lgate.output() is not 0:
             assert False
-    except Exception, e:
+    except Exception:
         assert False
 
 
@@ -123,7 +123,7 @@ def XOR_test():
         lgate.removeInput(1)
         if lgate.output() is not 0:
             assert False
-    except Exception, e:
+    except Exception:
         assert False
 
 
@@ -148,5 +148,5 @@ def XNOR_test():
         lgate.removeInput(1)
         if lgate.output() is not 0:
             assert False
-    except Exception, e:
+    except Exception:
         assert False
