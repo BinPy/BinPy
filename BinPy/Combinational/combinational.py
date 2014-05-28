@@ -264,7 +264,7 @@ class MUX(GATES):
             raise Exception(
                 "ERROR: No. of Select lines are inconsistent with the inputs")
         self.selects = list(select)
-        self._updateConnections(self.selects)
+        self._updateSelectConnections()
         self.trigger()
 
     def selectLine(self, index, value):
@@ -306,6 +306,11 @@ class MUX(GATES):
                 "Error: Select lines are inconsistent with Input lines")
         if self.outputType:
             self.outputConnector.trigger()
+    
+    def _updateSelectConnections(self):
+        for i in self.selects:
+            if isinstance(i, Connector):
+                i.tap(self, 'input')
 
     def __str__(self):
         return self.buildStr("MUX")
@@ -348,7 +353,7 @@ class DEMUX(GATES):
         for i in range(pow(2, len(select))):
             self.outputType.append(0)
             self.outputConnector.append(None)
-        self._updateConnections(self.selects)
+        self._updateConnections()
         self.trigger()
 
     def selectLine(self, index, value):
@@ -394,7 +399,7 @@ class DEMUX(GATES):
         if not len(inputs) == 1:
             raise Exception("ERROR: There should be a single Input")
         self.inputs = list(inputs)
-        self._updateConnections(self.inputs)
+        self._updateConnections()
         self.trigger()
 
     def setOutput(self, index, value):
@@ -411,6 +416,11 @@ class DEMUX(GATES):
             if self.outputType[i] == 1:
                 self.outputConnector[i].state = value[i]
 
+    def _updateSelectConnections(self):
+        for i in self.selects:
+            if isinstance(i, Connector):
+                i.tap(self, 'input')
+    
     def __str__(self):
         return self.buildStr("DEMUX")
 
@@ -464,7 +474,7 @@ class Decoder(GATES):
         for i in range(len(self.outputType), pow(2, len(self.inputs))):
             self.outputType.append(0)
             self.outputConnector.append(None)
-        self._updateConnections(self.inputs)
+        self._updateConnections()
         self.trigger()
 
     def setInput(self, index, value):
@@ -553,7 +563,7 @@ class Encoder(GATES):
         for i in range(len(self.outputType), int(math.log(len(self.inputs), 2))):
             self.outputType.append(0)
             self.outputConnector.append(None)
-            self._updateConnections(self.inputs)
+            self._updateConnections()
             self.trigger()
 
     def setInput(self, index, value):
