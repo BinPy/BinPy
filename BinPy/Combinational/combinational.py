@@ -306,7 +306,7 @@ class MUX(GATES):
                 "Error: Select lines are inconsistent with Input lines")
         if self.outputType:
             self.outputConnector.trigger()
-    
+
     def _updateSelectConnections(self):
         for i in self.selects:
             if isinstance(i, Connector):
@@ -420,7 +420,7 @@ class DEMUX(GATES):
         for i in self.selects:
             if isinstance(i, Connector):
                 i.tap(self, 'input')
-    
+
     def __str__(self):
         return self.buildStr("DEMUX")
 
