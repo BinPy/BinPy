@@ -1,51 +1,39 @@
 language: python
+
+notifications:
+  email: false
+
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/06cf2c44aa8e55ab06c8
+    on_success: always
+    on_failure: always
+    on_start: false
+
 python:
   - 2.6
   - 2.7
   - 3.2
   - 3.3
+  - 3.4
   - pypy
 
 before install:
+
  - sudo apt-get update
- - sudo apt-get install python-setuptools
+ - sudo apt-get install wget build-essential
+ - sudo apt-get install python3-setuptools python-setuptools
+ - sudo apt-get install python3-dev python-dev
 
 install:
- - sudo apt-get install python3-nose
- - sudo pip install pep8
+
+ - sudo apt-get install python3-nose python-nose
+ - sudo apt-get install pep8
+ - pip install --use-mirrors coveralls
 
 script:
- - pep8 --ignore=E501 ./
- - nosetests
- - nosetests3
- - cd BinPy/tests/
- - nosetests -v gates_tests.py
- - nosetests -v combinational_tests.py
- - nosetests -v operations_tests.py
- - nosetests -v sequential_tests.py
- - nosetests -v counters_tests.py
- - nosetests -v series_4000_tests.py
- - nosetests -v series_7400_tests.py
- - nosetests -v source_tests.py
- - nosetests -v sequential_ic_tests.py
- - nosetests -v registers_tests.py
- - nosetests -v tree_tests.py
- - nosetests -v print_tests.py
- - nosetests -v expr_tests.py
- - nosetests -v analog_devices_tests.py
- - nosetests -v analog_source_tests.py
- - nosetests3 -v gates_tests.py
- - nosetests3 -v combinational_tests.py
- - nosetests3 -v operations_tests.py
- - nosetests3 -v sequential_tests.py
- - nosetests3 -v counters_tests.py
- - nosetests3 -v series_4000_tests.py
- - nosetests3 -v series_7400_tests.py
- - nosetests3 -v source_tests.py
- - nosetests3 -v sequential_ic_tests.py
- - nosetests3 -v registers_tests.py
- - nosetests3 -v tree_tests.py
- - nosetests3 -v print_tests.py
- - nosetests3 -v expr_tests.py
- - nosetests3 -v analog_devices_tests.py
- - nosetests3 -v analog_source_tests.py
+
+ - ./test_travis.sh
+
+after_success:
+  coveralls

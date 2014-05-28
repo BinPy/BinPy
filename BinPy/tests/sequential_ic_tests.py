@@ -7,7 +7,7 @@ from nose.tools import with_setup, nottest
 
 
 def test_IC_7470():
-    c = Clock(1, 5000)
+    c = Clock(1, 500)
     c.start()
     testIC = IC_7470()
     p = {1: 1, 2: 1, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: c, 13: 0, 14: 1}
@@ -31,7 +31,7 @@ def test_IC_7470():
 
 
 def test_IC_7472():
-    c = Clock(1, 5000)
+    c = Clock(1, 500)
     c.start()
     testIC = IC_7472()
     p = {1: 1, 2: 1, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: c, 13: 0, 14: 1}
@@ -55,9 +55,9 @@ def test_IC_7472():
 
 
 def test_IC_7473():
-    c1 = Clock(1, 5000)
+    c1 = Clock(1, 500)
     c1.start()
-    c2 = Clock(1, 5000)
+    c2 = Clock(1, 500)
     c2.start()
     testIC = IC_7473()
     p = {1: c1, 2: 1, 4: 0, 5: c2, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
@@ -93,9 +93,9 @@ def test_IC_7473():
 
 
 def test_IC_7474():
-    c1 = Clock(1, 5000)
+    c1 = Clock(1, 500)
     c1.start()
-    c2 = Clock(1, 5000)
+    c2 = Clock(1, 500)
     c2.start()
     testIC = IC_7474()
     p = {
@@ -153,9 +153,9 @@ def test_IC_7474():
 
 
 def test_IC_7475():
-    c1 = Clock(1, 5000)
+    c1 = Clock(1, 500)
     c1.start()
-    c2 = Clock(1, 5000)
+    c2 = Clock(1, 500)
     c2.start()
     testIC = IC_7475()
     p = {
@@ -223,9 +223,9 @@ def test_IC_7475():
 
 
 def test_IC_7476():
-    c1 = Clock(1, 5000)
+    c1 = Clock(1, 500)
     c1.start()
-    c2 = Clock(1, 5000)
+    c2 = Clock(1, 500)
     c2.start()
     testIC = IC_7476()
     p = {

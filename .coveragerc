@@ -1,0 +1,6 @@
+[run]
+branch = true
+source = BinPy
+
+[report]
+ignore_errors = true

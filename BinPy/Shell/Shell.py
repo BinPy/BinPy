@@ -19,10 +19,12 @@ def shellclear():
 def magic_clear(self, arg):
     shellclear()
 
-banner = '+-----------------------------------------------------------+\n'
+banner = '+-----------------------------------------------------------+\n\n'
 banner += ' BinPy '
 banner += BINPY_VERSION
-banner += ' [interactive shell]\n'
+banner += ' [interactive shell]\n\n'
+banner += ' Website: www.binpy.org\n\n'
+banner += ' Documentation: http://docs.binpy.org/\n\n'
 banner += '+-----------------------------------------------------------+\n'
 banner += '\n'
 banner += 'Commands: \n'
@@ -45,8 +47,13 @@ def self_update():
 
 
 def setupIpython():
+
     try:
         import IPython
+    except:
+        raise("ERROR: IPython Failed to load")
+
+    try:
         from IPython.config.loader import Config
         from IPython.frontend.terminal.embed import InteractiveShellEmbed
 
@@ -71,6 +78,61 @@ def setupIpython():
     return bpyShell()
 
 
+def run_notebook(mainArgs):
+    """Run the ipython notebook server"""
+
+    try:
+        import IPython
+    except:
+        raise("ERROR: IPython Failed to load")
+
+    try:
+        from IPython.html import notebookapp
+        from IPython.html.services.kernels import kernelmanager
+    except:
+        from IPython.frontend.html.notebook import notebookapp
+        from IPython.frontend.html.notebook import kernelmanager
+
+    kernelmanager.MappingKernelManager.first_beat = 30.0
+    app = notebookapp.NotebookApp.instance()
+    with open('BinPyNotebook0.ipynb', 'a') as new_ipynb:
+        if (new_ipynb.tell() == 0):
+            new_ipynb.write(
+                """
+                {
+                "metadata": {
+                "name": "",
+                "signature": ""
+                },
+                "nbformat": 3,
+                "nbformat_minor": 0,
+                "worksheets": [
+                {
+                "cells": [
+                    {
+                    "cell_type": "code",
+                    "collapsed": false,
+                    "input": [
+                    "from BinPy import *"
+                    ],
+                    "language": "python",
+                    "metadata": {},
+                    "outputs": [],
+                    "prompt_number": 1
+                    }
+                ],
+                "metadata": {}
+                }
+                ]
+                }
+            """
+            )
+
+    app.initialize(['BinPyNotebook0.ipynb'])
+    app.start()
+    sys.exit()
+
+
 def shellMain(*args):
     log_level = logging.WARNING
     interface = None
@@ -82,6 +144,10 @@ def shellMain(*args):
         if flag == 'update':
             print ("Updating BinPy...")
             self_update()
+
+        elif flag == 'notebook':
+            run_notebook(['.'])
+            sys.exit()
 
         if flag in ['--nowarnings', 'nowarnings']:
             log_level = logging.INFO

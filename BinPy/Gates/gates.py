@@ -32,14 +32,14 @@ class GATES:
         self.outputConnector = None  # Valid only if outputType = 1
         self.inputs = inputs[:]  # Set the inputs
         self.history_inputs = []  # Save a copy of the inputs
-        self._updateConnections(self.inputs)
+        self._updateConnections()
         self._updateHistory()
         self.trigger()
         # Any change in the input will trigger change in the
         # output
 
-    def _updateConnections(self, inputs):
-        for i in inputs:
+    def _updateConnections(self):
+        for i in self.inputs:
             if isinstance(i, Connector):
                 i.tap(self, 'input')
 
@@ -56,7 +56,7 @@ class GATES:
         else:
             self.history_active = 1  # Use history before computing
             self.inputs = list(inputs)[:]  # Set the inputs
-            self._updateConnections(self.inputs)
+            self._updateConnections()
         self.trigger()
         # Any change in the input will trigger change in the
         # output
@@ -102,7 +102,10 @@ class GATES:
         return input_states
 
     def _updateResult(self, value):
-        self.result = int(value)  # Set True or False
+        if value is None:
+            self.result = None
+        else:
+            self.result = int(value)  # Set True or False
         if self.outputType == 1:
             self.outputConnector.state = self.result
 
@@ -130,6 +133,16 @@ class GATES:
         self.outputConnector = connector
         self.history_active = 0
         self.trigger()
+
+    def resetOutput(self):
+        """
+        The method resets the output of the gate. The output of the gate is not
+        directed to any Connector Object
+        """
+
+        self.outputConnector.untap(self, 'output')
+        self.outputType = 0
+        self.outputConnector = None
 
     def output(self):
         """
@@ -186,6 +199,32 @@ class MIGATES(GATES):
 
         GATES.__init__(self, list(inputs))
 
+    def addInput(self, value):
+        """
+        This method adds an input to an existing gate
+        """
+
+        self.history_active = 0  # Don't use history after adding an input
+        self.inputs.append(value)
+        self._updateConnections()
+        self._updateHistory()
+
+    def removeInput(self, index):
+        """
+        This method removes an input whose index is passed
+        """
+
+        if len(self.inputs) - 1 < 2:
+            raise Exception("ERROR: Too few inputs left after removing")
+
+        if index > len(self.inputs):
+            raise Exception("ERROR: Index value out of range")
+
+        self.history_active = 0
+        self.inputs.pop(index)
+        self._updateConnections()
+        self._updateHistory()
+
 
 class AND(MIGATES):
 
@@ -220,11 +259,11 @@ class AND(MIGATES):
             val = True
             for i in self.inputs:
                 if (isinstance(i, Connector)):
-                    val = val & i.state
+                    val = val and i.state
                 elif (isinstance(i, GATES)):
-                    val = val & i.output()
+                    val = val and i.output()
                 else:
-                    val = val & i
+                    val = val and i
 
             self._updateResult(val)
             if self.outputType:
@@ -267,11 +306,11 @@ class OR(MIGATES):
             val = False
             for i in self.inputs:
                 if (isinstance(i, Connector)):
-                    val = val | i.state
+                    val = val or i.state
                 elif (isinstance(i, GATES)):
-                    val = val | i.output()
+                    val = val or i.output()
                 else:
-                    val = val | i
+                    val = val or i
 
             self._updateResult(val)
             if self.outputType:
@@ -313,7 +352,7 @@ class NOT(GATES):
         else:
             self.history_active = 1  # Use history before computing
             self.inputs = list(inputs)[:]  # Set the inputs
-            self._updateConnections(self.inputs)
+            self._updateConnections()
         self.trigger()
         # Any change in the input will trigger change in the
         # output
@@ -376,8 +415,8 @@ class XOR(MIGATES):
                     val = i.output()
                 else:
                     val = i
-                temp = temp ^ val
-            temp = temp ^ 1
+                temp = (temp and not val) or (not temp and val)
+            temp = (temp and not 1) or (not temp and 1)
             self._updateResult(temp)
             if self.outputType:
                 self.outputConnector.trigger()
@@ -424,8 +463,8 @@ class XNOR(MIGATES):
                     val = i.output()
                 else:
                     val = i
-                temp = temp ^ val
-            temp = temp ^ 1
+                temp = (temp and not val) or (not temp and val)
+            temp = (temp and not 1) or (not temp and 1)
             self._updateResult(not temp)
             if self.outputType:
                 self.outputConnector.trigger()
@@ -459,12 +498,12 @@ class NAND(MIGATES):
             val = True
             for i in self.inputs:
                 if (isinstance(i, Connector)):
-                    val = val & i.state
+                    val = val and i.state
 
                 elif (isinstance(i, GATES)):
-                    val = val & i.output()
+                    val = val and i.output()
                 else:
-                    val = val & i
+                    val = val and i
 
             self._updateResult(not val)
             if self.outputType:
@@ -499,11 +538,11 @@ class NOR(MIGATES):
             val = False
             for i in self.inputs:
                 if (isinstance(i, Connector)):
-                    val = val | i.state
+                    val = val or i.state
                 elif (isinstance(i, GATES)):
-                    val = val | i.output()
+                    val = val or i.output()
                 else:
-                    val = val | i
+                    val = val or i
 
             self._updateResult(not val)
 

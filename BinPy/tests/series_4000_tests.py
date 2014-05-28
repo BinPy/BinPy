@@ -349,6 +349,7 @@ def test_IC_4017():
                             0, 10: 0, 11: 1, 12: 0}
     assert testIC.run() == {1: 0, 2: 0, 3: 1, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9:
                             0, 10: 0, 11: 0, 12: 1}
+    c.kill()
 
 
 def test_IC_4019():
@@ -376,7 +377,7 @@ def test_IC_4019():
 
 def test_IC_4020():
     testIC = IC_4020()
-    c = Clock(1, 5000)
+    c = Clock(1, 500)
     c.start()
     p = {8: 0, 16: 1, 10: c}
     testIC.setIC(p)
@@ -411,11 +412,12 @@ def test_IC_4020():
                             0, 12: 0, 13: 0, 14: 0, 15: 0}
     assert testIC.run() == {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9:
                             1, 12: 0, 13: 0, 14: 0, 15: 0}
+    c.kill()
 
 
 def test_IC_4022():
     testIC = IC_4022()
-    c = Clock(1, 5000)
+    c = Clock(1, 500)
     c.start()
     p = {8: 0, 16: 1, 13: c, 14: c, 15: 0}
     testIC.setIC(p)
@@ -438,10 +440,11 @@ def test_IC_4022():
                             0, 10: 1, 11: 0, 12: 0}
     assert testIC.run() == {1: 0, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9:
                             0, 10: 0, 11: 0, 12: 1}
+    c.kill()
 
 
 def test_IC_4027():
-    clk = Clock(1, 50000)
+    clk = Clock(1, 500)
     clk.start()
     testIC = IC_4027()
     p = {
@@ -501,6 +504,7 @@ def test_IC_4027():
         16: 1}
     testIC.setIC(p)
     assert testIC.run() == {1: 0, 2: 1, 14: 1, 15: 0}
+    clk.kill()
 
 
 def test_IC_2028():
@@ -546,7 +550,7 @@ def test_IC_2028():
 
 
 def test_IC_4029():
-    clk = Clock(1, 5000)
+    clk = Clock(1, 500)
     clk.start()
 
     p = {
