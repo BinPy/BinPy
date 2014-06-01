@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-set -e
+set +e
 pep8 --ignore=E501 ./
 nosetests
 nosetests3
