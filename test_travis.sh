@@ -4,9 +4,9 @@ pep8 --ignore=E501 ./
 nosetests
 nosetests3
 cd BinPy/tests/
-nosetests gates_tests.py
-nosetests combinational_tests.py
-nosetests operations_tests.py
+nosetests gates_tests.py;
+nosetests combinational_tests.py;
+nosetests operations_tests.py;
 nosetests sequential_tests.py
 nosetests counters_tests.py
 nosetests series_4000_tests.py
