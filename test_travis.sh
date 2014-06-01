@@ -36,3 +36,4 @@ nosetests3 expr_tests.py
 nosetests3 analog_devices_tests.py
 nosetests3 analog_source_tests.py
 nosetests3 test_makebooleanfunction.py
+set -e
