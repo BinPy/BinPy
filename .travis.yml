@@ -29,6 +29,7 @@ install:
 
  - sudo apt-get install python3-nose python-nose
  - sudo apt-get install pep8
+ - pip install coverage
  - pip install coveralls
 
 script:
