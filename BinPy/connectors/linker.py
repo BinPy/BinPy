@@ -49,7 +49,10 @@ class BinPyIndexer:
             BinPyIndexer._indices[element.__class__] = {}
             BinPyIndexer._rev_indices[element.__class__] = {}
             BinPyIndexer._max_index[element.__class__] = 0
-            
+        
+        if BinPyIndexer.get_index(element) is not None:
+            return BinPyIndexer.get_index(element)
+        
         BinPyIndexer._max_index[element.__class__] += 1               # Unique ID numbers are not recycled.
         
         uid = BinPyIndexer._max_index[element.__class__]              # Unique ID for the element
@@ -78,7 +81,8 @@ class BinPyIndexer:
     @staticmethod
     def get_index(element):
         """ Get the index of the element """
-        return BinPyIndexer._rev_indices[element.__class__][element]
+        if element in BinPyIndexer._rev_indices[element.__class__]:
+            return BinPyIndexer._rev_indices[element.__class__][element]
     
     @staticmethod
     def get_element(index, cls):
@@ -92,4 +96,5 @@ class BinPyIndexer:
         1
         
         """
-        return BinPyIndexer._indices[cls][index]
+        if ( cls in BinPyIndexer._indices ) and ( index in BinPyIndexer._indices[cls] ):
+            return BinPyIndexer._indices[cls][index]
