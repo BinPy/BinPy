@@ -24,13 +24,16 @@ before install:
  - sudo apt-get install wget build-essential
  - sudo apt-get install python3-setuptools python-setuptools
  - sudo apt-get install python3-dev python-dev
+ - sudo apt-get install python-pip python3-pip
 
 install:
 
  - sudo apt-get install python3-nose python-nose
  - sudo apt-get install pep8
  - pip install coverage
- - pip install coveralls
+ - pip install --use-mirrors coveralls
+ - pip install networkx
+ - pip3 install networkx
 
 script:
 
