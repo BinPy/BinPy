@@ -37,3 +37,6 @@ script:
 
 after_success:
   coveralls
+
+notifications:
+  irc: "chat.freenode.net#binpy-soc"
