@@ -1,5 +1,6 @@
 from __future__ import division
 from BinPy.config import *
+from BinPy.connectors.linker import *
 
 
 """
@@ -8,7 +9,6 @@ Contains
 
 * Connector
 * Bus
-* make_bus
 
 """
 
@@ -39,8 +39,6 @@ class Connector:
     * trigger
     """
 
-    _index = 0
-
     def __init__(self, state=None, name=""):
         self.connections = {"output": [], "input": []}
         # To store the all the taps onto this connection
@@ -51,8 +49,8 @@ class Connector:
         self.oldvoltage = 0.0
         self._name = name
         self.name_set = (name != "")
-        Connector._index += 1
-        self._index = Connector._index
+
+        self._index = BinPyIndexer.index(self)
 
     @property
     def index(self):
@@ -174,6 +172,12 @@ class Connector:
     def __truediv__(self, other):
         return self.voltage / other.voltage
 
+    def __del__(self):
+        try:
+            BinPyIndexer.unindex(self)
+        except:
+            pass
+
 
 class Bus:
 
@@ -183,8 +187,6 @@ class Bus:
     1. As input and output interfaces for modules and other blocks
     2. When a lot of connectors are needed
     """
-
-    _index = 0
 
     def __init__(self, *inputs):
         """
@@ -223,6 +225,12 @@ class Bus:
 
             else:
                 raise Exception("ERROR: Invalid input")
+
+        self._index = BinPyIndexer.index(self)
+
+    @property
+    def index(self):
+        return self._index
 
     def set_width(self, width, *connectors):
         """Used to decrease the width of the bus or increase it and appending new additional connectors."""
@@ -398,10 +406,6 @@ class Bus:
         """
         return self._width
 
-    @property
-    def index(self):
-        return self._index
-
     def trigger(self):
         for conn in self.bus:
             conn.trigger()
@@ -484,3 +488,9 @@ class Bus:
         return list(map(bool, self.bus))
 
     __nonzero__ = __bool__
+
+    def __del__(self):
+        try:
+            BinPyIndexer.unindex(self)
+        except:
+            pass

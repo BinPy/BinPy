@@ -1,46 +1,65 @@
 import threading
 import BinPy
+import networkx as nx
 
-# This is a basic skeleton ... Much has to be developed ...
 
-lock = threading.Lock()
-elements = []
+class Linker(object):
 
-'''
-def link(*inputs):
-    """ Connect the connectors to the network graph. """
-    inputs
-    instance_check = [inputs[0], inputs[1]]
+    _graph = nx.DiGraph()
 
-    if False in instance_check:
-        raise('ERROR: Invalid Input')
+    @staticmethod
+    def add_link(a, b):
+        Linker._graph.add_edge(a, b)
 
-    for i in inputs:
-        if i not in elements:
-            elements.append(i)
-'''
+    @staticmethod
+    def remove_link(a, b):
+        Linker._graph.remove_edge(a, b)
 
-class Linker:
+
+class AutoUpdater(threading):
+
     def __init__(self):
-        pass
+        threading.Thread.__init__(self)
 
-class BinPyIndexer:
+        self.daemon = True
+        self.start()
+
+    def run(self):
+        while True:
+            graph = Linker._graph.copy()
+            # Get a copy of the instantaneous structure of the graph of
+            # elements
+            nodes = graph.nodes()
+
+            for i in nodes:
+                for pair in graph.edges(i):
+                    pair[1].set_voltage((pair[0].get_voltage()))
+                    # Copies the value of the 0th index connector to the 1st
+                    # index connector
+
+            # One circuit has been traversed.
+
+
+# Initiating the auto updater.
+auto_updater_instance = AutoUpdater()
+
+
+class BinPyIndexer(object):
 
     _indices = {}     # { gates.AND : { 1:<AND instance> } }
-    _rev_indices = {} # { gates.AND : { <AND instance>:1 } }
-    
+    _rev_indices = {}  # { gates.AND : { <AND instance>:1 } }
+
     _max_index = {}   # { gates.AND : 1 }
-    
+
     @staticmethod
     @property
     def indices():
         return BinPyIndexer._indices
-    
+
     @staticmethod
     @property
     def indices():
         return BinPyIndexer._rev_indices
-
 
     @staticmethod
     def index(element):
@@ -49,52 +68,56 @@ class BinPyIndexer:
             BinPyIndexer._indices[element.__class__] = {}
             BinPyIndexer._rev_indices[element.__class__] = {}
             BinPyIndexer._max_index[element.__class__] = 0
-        
+
         if BinPyIndexer.get_index(element) is not None:
             return BinPyIndexer.get_index(element)
-        
-        BinPyIndexer._max_index[element.__class__] += 1               # Unique ID numbers are not recycled.
-        
-        uid = BinPyIndexer._max_index[element.__class__]              # Unique ID for the element
-        
-        BinPyIndexer._indices[element.__class__][uid] = element       # UniqueID:element
-        
-        BinPyIndexer._rev_indices[element.__class__][element] = uid   # element:UniqueID
-        
+
+        # Unique ID numbers are not recycled.
+        BinPyIndexer._max_index[element.__class__] += 1
+
+        # Unique ID for the element
+        uid = BinPyIndexer._max_index[element.__class__]
+
+        BinPyIndexer._indices[element.__class__][
+            uid] = element       # UniqueID:element
+
+        BinPyIndexer._rev_indices[element.__class__][
+            element] = uid   # element:UniqueID
+
         return uid
-    
+
     @staticmethod
-    def unindex(element = None, index = None, cls = None):
-        if ( element, index, cls ) == ( None, None, None ):
+    def unindex(element=None, index=None, cls=None):
+        if (element, index, cls) == (None, None, None):
             raise Exception("Specify atleast one parameter")
-        
+
         if element is not None:
             index = BinPyIndexer.get_index(element)
             cls = element.__class__
-            
-        if ( index, cls ) == ( None, None ):
+
+        if (index, cls) == (None, None):
             raise Exception("Insufficient parameters passed")
-    
+
         BinPyIndexer._indices[element.__class__].pop(index)
         BinPyIndexer._rev_indices[element.__class__].pop(element)
-    
+
     @staticmethod
     def get_index(element):
         """ Get the index of the element """
         if element in BinPyIndexer._rev_indices[element.__class__]:
             return BinPyIndexer._rev_indices[element.__class__][element]
-    
+
     @staticmethod
     def get_element(index, cls):
-        """ 
+        """
         Get the element of the specified index and class
-        
+
         USAGE:
         ======
         >>> g1 = AND(1,0)
         >>> BinPyIndexer.get_element(g1, AND)
         1
-        
+
         """
-        if ( cls in BinPyIndexer._indices ) and ( index in BinPyIndexer._indices[cls] ):
+        if (cls in BinPyIndexer._indices) and (index in BinPyIndexer._indices[cls]):
             return BinPyIndexer._indices[cls][index]
