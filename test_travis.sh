@@ -41,6 +41,6 @@ nosetests3 expr_tests.py; chk;
 nosetests3 analog_devices_tests.py; chk;
 nosetests3 analog_source_tests.py; chk;
 nosetests3 test_makebooleanfunction.py; chk;
-
+nosetests3  --with-coverage --cover-package=BinPy
 exit $status_code;
 
