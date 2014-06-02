@@ -29,7 +29,7 @@ install:
 
  - sudo apt-get install python3-nose python-nose
  - sudo apt-get install pep8
- - pip install --use-mirrors coveralls
+ - pip install coveralls
 
 script:
 
