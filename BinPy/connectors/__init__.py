@@ -1,2 +1,2 @@
 from BinPy.connectors.connector import *
-from BinPy.connectors.connector2 import *
+from BinPy.connectors.linker import *
