@@ -1,4 +1,4 @@
-from BinPy.Combinational.combinational import *
+from BinPy.combinational.combinational import *
 from nose.tools import with_setup, nottest
 
 

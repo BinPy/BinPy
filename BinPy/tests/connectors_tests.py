@@ -1,4 +1,4 @@
-from BinPy.Gates.gates import *
+from BinPy.gates.gates import *
 from nose.tools import with_setup, nottest
 
 
