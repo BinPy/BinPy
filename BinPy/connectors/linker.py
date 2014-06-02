@@ -1,47 +1,44 @@
 import threading
 import BinPy
 import networkx as nx
+import time
 
 
-class Linker(object):
+class AutoUpdater(threading.Thread):
 
     _graph = nx.DiGraph()
-
+    
     @staticmethod
     def add_link(a, b):
-        Linker._graph.add_edge(a, b)
+        AutoUpdater._graph.add_edge(a, b)
 
     @staticmethod
     def remove_link(a, b):
-        Linker._graph.remove_edge(a, b)
-
-
-class AutoUpdater(threading):
-
+        AutoUpdater._graph.remove_edge(a, b)
+    
     def __init__(self):
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self) 
 
         self.daemon = True
         self.start()
 
     def run(self):
         while True:
-            graph = Linker._graph.copy()
-            # Get a copy of the instantaneous structure of the graph of
-            # elements
-            nodes = graph.nodes()
+            nodes = AutoUpdater._graph.nodes()
 
             for i in nodes:
-                for pair in graph.edges(i):
-                    pair[1].set_voltage((pair[0].get_voltage()))
+                for pair in AutoUpdater._graph.edges(i):
+                    pair[1].set_voltage(pair[0])
                     # Copies the value of the 0th index connector to the 1st
                     # index connector
+                    
+                    time.sleep(0.01)
 
             # One circuit has been traversed.
 
 
 # Initiating the auto updater.
-auto_updater_instance = AutoUpdater()
+#auto_updater_instance = AutoUpdater()
 
 
 class BinPyIndexer(object):
