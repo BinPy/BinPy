@@ -38,4 +38,5 @@ nosetests.xml
 
 # Swap Files
 *.swp
+*-swp
 *~
