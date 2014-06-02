@@ -4,7 +4,7 @@ from nose.tools import with_setup, nottest
 
 def HalfAdder_test():
     ha = HalfAdder(0, 1)
-    assert ha.output() == [0, 1]
+    assert ha.output() == [1, 1]
 
     ha.set_input(0, 1)
     assert ha.output() == [1, 0]
