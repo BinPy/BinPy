@@ -18,22 +18,23 @@ python:
   - 3.4
   - pypy
 
-before install:
+before_install:
 
  - sudo apt-get update
  - sudo apt-get install wget build-essential
  - sudo apt-get install python3-setuptools python-setuptools
  - sudo apt-get install python3-dev python-dev
- - sudo apt-get install python-pip python3-pip
-
+ - sudo apt-get install python-pip
+ - sudo apt-get install python-networkx
+ - sudo apt-get install python3-networkx
+   
 install:
 
  - sudo apt-get install python3-nose python-nose
  - sudo apt-get install pep8
- - pip install coverage
- - pip install --use-mirrors coveralls
- - pip install networkx
- - pip3 install networkx
+ - sudo pip install coverage
+ - sudo pip install --use-mirrors coveralls
+ - sudo pip install networkx
 
 script:
 
