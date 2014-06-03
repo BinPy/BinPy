@@ -196,11 +196,7 @@ class Bus:
 
         self.bus = []
         self.analog = False
-
-        # Each Bus will have an unique index. Good for debugging Connections.
-        Bus._index += 1
-        self._index = Bus._index
-
+        
         # width specified
         if (len(inputs) == 1) and (isinstance(inputs[0], int)) and (inputs[0] >= 0):
             self.bus += [Connector() for i in range(inputs[0])]
@@ -225,7 +221,8 @@ class Bus:
 
             else:
                 raise Exception("ERROR: Invalid input")
-
+        
+        # Each Bus will have an unique index. Good for debugging Connections.
         self._index = BinPyIndexer.index(self)
 
     @property
