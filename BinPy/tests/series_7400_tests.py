@@ -5,7 +5,7 @@ from nose.tools import with_setup, nottest
 # IC's with 14 pins
 #################################
 
-
+    
 def test_IC_7400():
     testIC = IC_7400()
     p = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
@@ -558,6 +558,14 @@ def test_IC_7445():
     testIC.setIC(p)
     q = {1: 1, 2: 1, 3: 0, 4: 1, 5: 1, 6: 1, 7: 1, 9: 1, 10: 1, 11: 1}
     if q != testIC.run():
+        assert False
+
+def test_IC_7447():
+    testIC = IC_7447()
+    p = {1:0 , 2:0 , 3:0 , 4:0 , 5:0 , 6:0 , 7:1 , 8:0 , 16:1}
+    testIC.setIC(p)
+    q = {9: 1, 10: 1, 11: 0, 12: 0, 13: 1, 14: 1, 15: 1}
+    if q!=testIC.run():
         assert False
 
 
