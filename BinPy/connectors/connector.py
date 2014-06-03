@@ -255,7 +255,7 @@ class Bus(object):
     def set_type(self, analog):
         self.analog = bool(analog)
 
-    get_type = lambda self: "ANALOG" if self.analog else "DIGITAL"
+    def get_type(self): return "ANALOG" if self.analog else "DIGITAL"
 
     def set_logic(self, index, value):
         if index > 0 and index < self._width:
@@ -464,6 +464,9 @@ class Bus(object):
             return int(val, 2) == self.get_logic_all(as_list=False)
 
         raise Exception("ERROR: Invalid Comparison")
+
+    def __hash__(self):
+        return hash((self.width, int(self.analog), max(self.get_voltage_all()), int(self.get_logic_all(as_list=False), 2) ))
 
     def __rshift__(self):
         """ Clock wise right shift """
