@@ -175,7 +175,7 @@ class Connector(object):
     def __del__(self):
         try:
             BinPyIndexer.unindex(self)
-        except:
+        except AttributeError:
             pass
 
 
@@ -255,7 +255,8 @@ class Bus(object):
     def set_type(self, analog):
         self.analog = bool(analog)
 
-    def get_type(self): return "ANALOG" if self.analog else "DIGITAL"
+    def get_type(self):
+        return "ANALOG" if self.analog else "DIGITAL"
 
     def set_logic(self, index, value):
         if index > 0 and index < self._width:
@@ -466,7 +467,12 @@ class Bus(object):
         raise Exception("ERROR: Invalid Comparison")
 
     def __hash__(self):
-        return hash((self.width, int(self.analog), max(self.get_voltage_all()), int(self.get_logic_all(as_list=False), 2) ))
+        return hash(
+            (self.width, int(
+                self.analog), max(
+                self.get_voltage_all()), int(
+                self.get_logic_all(
+                    as_list=False), 2)))
 
     def __rshift__(self):
         """ Clock wise right shift """
@@ -488,5 +494,5 @@ class Bus(object):
     def __del__(self):
         try:
             BinPyIndexer.unindex(self)
-        except:
+        except AttributeError:
             pass
