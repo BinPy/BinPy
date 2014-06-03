@@ -13,7 +13,7 @@ Contains
 """
 
 
-class Connector:
+class Connector(object):
 
     """
     This class is the primary medium for data transfer. Objects of this
@@ -179,7 +179,7 @@ class Connector:
             pass
 
 
-class Bus:
+class Bus(object):
 
     """
     This class provides an array of Connector Objects.
@@ -196,7 +196,7 @@ class Bus:
 
         self.bus = []
         self.analog = False
-        
+
         # width specified
         if (len(inputs) == 1) and (isinstance(inputs[0], int)) and (inputs[0] >= 0):
             self.bus += [Connector() for i in range(inputs[0])]
@@ -221,7 +221,7 @@ class Bus:
 
             else:
                 raise Exception("ERROR: Invalid input")
-        
+
         # Each Bus will have an unique index. Good for debugging Connections.
         self._index = BinPyIndexer.index(self)
 
@@ -233,8 +233,7 @@ class Bus:
         """Used to decrease the width of the bus or increase it and appending new additional connectors."""
 
         # Use this method sparingly. It would be good practice to keep Bus
-        # objects of fixed size.
-
+        # objects of fixed si
         if width <= 0:
             raise Exception("ERROR: Enter non-negative width")
         if width == self._width:
@@ -379,9 +378,6 @@ class Bus:
             raise Exception("ERROR: Width of both the busses must be same")
 
         self.set_voltage_all(bus.get_voltage_all())
-
-    def __get__(self, index):
-        return self.bus[index]
 
     def tap(self, index, element, mode):
         if index < 0 or index > self._width:
