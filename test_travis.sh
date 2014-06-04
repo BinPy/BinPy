@@ -5,7 +5,7 @@ function chk()
     let "status_code=$status_code||$?";
 }
 
-pep8 --ignore=E501 ./; chk;
+pep8 --exclude="build/*" --ignore=E501 ./; chk;
 nosetests; chk;
 nosetests3; chk;
 cd BinPy/tests/; chk;
