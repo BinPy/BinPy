@@ -26,8 +26,11 @@ before_install:
  - sudo apt-get install python3-dev python-dev
  - sudo apt-get install python-pip
  - sudo apt-get install python-networkx
- - sudo apt-get install python3-networkx
-   
+ - wget http://python-distribute.org/distribute_setup.py
+ - sudo python3 distribute_setup.py
+ - wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+ - sudo python3 get-pip.py
+
 install:
 
  - sudo apt-get install python3-nose python-nose
@@ -35,6 +38,7 @@ install:
  - sudo pip install coverage
  - sudo pip install --use-mirrors coveralls
  - sudo pip install networkx
+ - sudo pip3 install networkx
 
 script:
 
