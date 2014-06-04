@@ -118,14 +118,14 @@ class BinPyIndexer(object):
 
     @staticmethod
     def unindex(element=None, index=None, cls=None):
-        if (element, index, cls) == (None, None, None):
+        if ( element is not None ) and ( index is not None ) and (  cls is not None ):
             raise Exception("Specify atleast one parameter")
 
         if element is not None:
             index = BinPyIndexer.get_index(element)
             cls = element.__class__
 
-        if (index, cls) == (None, None):
+        if ( index is not None ) and  ( cls is not None ):
             raise Exception("Insufficient parameters passed")
 
         BinPyIndexer._indices[element.__class__].pop(index)
