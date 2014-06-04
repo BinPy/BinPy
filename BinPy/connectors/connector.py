@@ -472,7 +472,7 @@ class Bus(object):
                 self.analog), max(
                 self.get_voltage_all()), int(
                 self.get_logic_all(
-                    as_list=False), 2), id(self)))  
+                    as_list=False), 2), id(self)))
 
     def __rshift__(self):
         """ Clock wise right shift """

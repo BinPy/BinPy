@@ -1,7 +1,9 @@
 import threading
-import BinPy
 import networkx as nx
 import time
+import BinPy
+# Cannot import from connector module since connector module requires
+# linker ( this ) module to be available first.
 
 
 class AutoUpdater(threading.Thread):
@@ -9,37 +11,39 @@ class AutoUpdater(threading.Thread):
     _graph = nx.DiGraph()
 
     @staticmethod
-    def add_link(a, b, directed = True):
+    def add_link(a, b, directed=True):
         """
         Link a list of Connectors ( or  a Bus of connectors ) with another list / Bus for auto-updation.
         """
 
-        if ( type(a), type(b) ) == ( list, list ):
+        if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
             if len(a) != len(b):
                 raise Exception("ERROR: Lengths are not equal")
-            for i, j in zip(a,b):
-                if ( isinstance(i, Connector) , isinstance(j, Connector) ) != ( True, True ):
-                    raise Exception("ERROR: Only Connector objects can be linked")
+            for i, j in zip(a, b):
+                if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
+                    raise Exception(
+                        "ERROR: Only Connector objects can be linked")
                 if not AutoUpdater._graph.has_edge(i, j):
                     AutoUpdater._graph.add_edge(i, j)
 
-                    if ( not directed ) and ( not AutoUpdater._graph.has_edge(j, i)):
-                       AutoUpdater._graph.add_edge(j, i)
+                    if (not directed) and (not AutoUpdater._graph.has_edge(j, i)):
+                        AutoUpdater._graph.add_edge(j, i)
         else:
             raise Exception("Invalid Input")
-     
+
     @staticmethod
-    def remove_link(a, b, directed = True):
+    def remove_link(a, b, directed=True):
         """
         Unlink a list of Connectors ( or  a Bus of connectors ) with another list / Bus.
         """
 
-        if ( type(a), type(b) ) == ( list, list ):
+        if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
             if len(a) != len(b):
                 raise Exception("ERROR: Lengths are not equal")
-            for i, j in zip(a,b):
-                if ( isinstance(i, Connector) , isinstance(j, Connector) ) != ( True, True ):
-                    raise Exception("ERROR: Only Connector objects can be linked")
+            for i, j in zip(a, b):
+                if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
+                    raise Exception(
+                        "ERROR: Only Connector objects can be linked")
                 if AutoUpdater._graph.has_edge(i, j):
                     AutoUpdater._graph.remove_edge(i, j)
 
@@ -81,14 +85,12 @@ class BinPyIndexer(object):
 
     _max_index = {}   # { gates.AND : 1 }
 
-    @staticmethod
     @property
     def indices():
         return BinPyIndexer._indices
 
-    @staticmethod
     @property
-    def indices():
+    def rev_indices():
         return BinPyIndexer._rev_indices
 
     @staticmethod
@@ -118,18 +120,18 @@ class BinPyIndexer(object):
 
     @staticmethod
     def unindex(element=None, index=None, cls=None):
-        if ( element is not None ) and ( index is not None ) and (  cls is not None ):
+        if (element is None) and (index is None) and (cls is None):
             raise Exception("Specify atleast one parameter")
 
         if element is not None:
             index = BinPyIndexer.get_index(element)
             cls = element.__class__
 
-        if ( index is not None ) and  ( cls is not None ):
+        elif (index is None) and (cls is None):
             raise Exception("Insufficient parameters passed")
 
-        BinPyIndexer._indices[element.__class__].pop(index)
-        BinPyIndexer._rev_indices[element.__class__].pop(element)
+        element = BinPyIndexer._indices[cls].pop(index)
+        BinPyIndexer._rev_indices[cls].pop(element)
 
     @staticmethod
     def get_index(element):
