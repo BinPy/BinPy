@@ -75,7 +75,7 @@ class AutoUpdater(threading.Thread):
 
 
 # Initiating the auto updater.
-#auto_updater_instance = AutoUpdater()
+# auto_updater_instance = AutoUpdater()
 
 
 class BinPyIndexer(object):

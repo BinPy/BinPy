@@ -23,25 +23,17 @@ before_install:
  - sudo apt-get update
  - sudo apt-get install wget build-essential
  - sudo apt-get install python3-setuptools python-setuptools
- - sudo apt-get install python3-dev python-dev
- - sudo apt-get install python-pip
- - sudo apt-get install python-networkx
- - wget http://python-distribute.org/distribute_setup.py
- - sudo python3 distribute_setup.py
- - wget https://raw.github.com/pypa/pip/master/contrib/get-pip.py
- - sudo python3 get-pip.py
 
 install:
 
- - sudo apt-get install python3-nose python-nose
- - sudo apt-get install pep8
- - sudo pip install coverage
- - sudo pip install --use-mirrors coveralls
- - sudo pip install networkx
- - sudo pip3 install networkx
+ - sudo apt-get install pep8 python-nose
+ - pip install coverage
+ - pip install --use-mirrors coveralls
+ - pip install networkx
 
 script:
 
+ - sudo chmod 777 test_travis.sh
  - ./test_travis.sh
 
 after_success:
