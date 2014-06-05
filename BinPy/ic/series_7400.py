@@ -2463,6 +2463,101 @@ class IC_7445(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_7447(Base_16pin):
+
+    """BCD to 7-segment decoder"""
+
+    # Datasheet available here,
+    # http://engineersgarage.com/sites/default/files/7447.pdf
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            1]
+
+        self.invalidlist = [
+            [1, 0, 1, 0],
+            [1, 0, 1, 1],
+            [1, 1, 0, 0],
+            [1, 1, 0, 1],
+            [1, 1, 1, 0],
+            [1, 1, 1, 1]]
+
+    def run(self):
+        output = {}
+        inputlist = []
+
+        for i in range(12, 16, 1):
+            inputlist.append(self.pins[i])
+
+        if inputlist in self.invalidlist:
+            raise Exception("ERROR: Invalid Pin configuration")
+
+        output[13] = OR(AND(self.pins[2],
+                            NOT(self.pins[7]).output()).output(),
+                        (AND(NOT(self.pins[6]).output(),
+                             NOT(self.pins[2]).output(),
+                             NOT(self.pins[1]).output(),
+                             self.pins[7]).output())).output()
+
+        output[12] = AND(self.pins[2],
+                         XOR(self.pins[1], self.pins[7]).output()).output()
+
+        output[11] = AND(NOT(self.pins[2]).output(),
+                         self.pins[1],
+                         NOT(self.pins[7]).output()).output()
+
+        output[10] = OR(AND(self.pins[2],
+                            NOT(self.pins[1]).output(),
+                            NOT(self.pins[7]).output()).output(),
+                        AND(self.pins[2], self.pins[1],
+                            self.pins[7]).output(),
+                        AND(NOT(self.pins[2]).output(),
+                            NOT(self.pins[1]).output(),
+                            self.pins[7]).output()).output()
+
+        output[9] = OR(self.pins[7],
+                       AND(self.pins[2],
+                           NOT(self.pins[1]).output()).output()).output()
+
+        output[14] = OR(AND(NOT(self.pins[6]).output(),
+                            NOT(self.pins[2]).output(),
+                            NOT(self.pins[1]).output()).output(),
+                        AND(self.pins[2], self.pins[1],
+                            self.pins[6]).output()).output()
+
+        output[15] = OR(AND(self.pins[1], self.pins[7]).output(),
+                        AND(NOT(self.pins[2]).output(),
+                            self.pins[1]).output(),
+                        AND(NOT(self.pins[6]).output(),
+                            NOT(self.pins[2]).output(),
+                            self.pins[7]).output()).output()
+
+        check = self.pins[3] == 0 and self.pins[4] == 0 and self.pins[5] == 0
+
+        if self.pins[8] == 0 and self.pins[16] == 1 and check:
+            for i in self.outputConnector:
+                self.outputConnector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
 class IC_7459(Base_14pin):
 
     """
