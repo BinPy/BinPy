@@ -2552,8 +2552,8 @@ class IC_7447(Base_16pin):
         check = self.pins[3] == 0 and self.pins[4] == 0 and self.pins[5] == 0
 
         if self.pins[8] == 0 and self.pins[16] == 1 and check:
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
