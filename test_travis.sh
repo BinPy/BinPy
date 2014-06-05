@@ -15,7 +15,7 @@ pep8 --exclude="build/*" --ignore=E501 ./; chk;
 
 cd BinPy/tests/;
 
-nt; chk;
+nt .; chk;
 nt gates_tests.py; chk;
 nt combinational_tests.py; chk;
 nt operations_tests.py; chk;
@@ -32,6 +32,6 @@ nt expr_tests.py; chk;
 nt analog_devices_tests.py; chk;
 nt analog_source_tests.py; chk;
 nt test_makebooleanfunction.py; chk;
-nt  --with-coverage --cover-package=BinPy
+nosetests --with-coverage --cover-package=BinPy
 
 exit $status_code;

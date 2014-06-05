@@ -6,9 +6,10 @@ function chk()
 }
 
 pep8 --exclude="build/*" --ignore=E501 ./; chk;
+
+cd BinPy/tests/; chk;
 nosetests; chk;
 nosetests3; chk;
-cd BinPy/tests/; chk;
 nosetests gates_tests.py; chk;
 nosetests combinational_tests.py; chk;
 nosetests operations_tests.py; chk;
