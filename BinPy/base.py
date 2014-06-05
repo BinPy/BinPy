@@ -17,7 +17,12 @@ except ImportError:
     ipython_version = None
 
 
-def ipython_exception_handler(shell, excType, excValue, traceback, tb_offset=0):
+def ipython_exception_handler(
+        shell,
+        excType,
+        excValue,
+        traceback,
+        tb_offset=0):
     logger.error("", exc_info=(excType, excValue, traceback))
 
 

@@ -14,7 +14,7 @@ Contains
 """
 
 
-from BinPy.Gates.connector import *
+from BinPy.connectors.connector import *
 
 
 class GATES:

@@ -1,8 +1,9 @@
 from __future__ import print_function
-from BinPy.Gates.tree import *
-from BinPy.Gates.gates import *
-from BinPy.Gates.connector import *
-from BinPy.Combinational.combinational import *
+from BinPy.connectors.connector import *
+from BinPy.gates.tree import *
+from BinPy.connectors.connector import *
+from BinPy.gates.gates import *
+from BinPy.combinational.combinational import *
 
 from nose.tools import with_setup, nottest
 

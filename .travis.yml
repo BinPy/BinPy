@@ -18,22 +18,22 @@ python:
   - 3.4
   - pypy
 
-before install:
+before_install:
 
  - sudo apt-get update
  - sudo apt-get install wget build-essential
  - sudo apt-get install python3-setuptools python-setuptools
- - sudo apt-get install python3-dev python-dev
 
 install:
 
- - sudo apt-get install python3-nose python-nose
- - sudo apt-get install pep8
+ - sudo apt-get install pep8 python-nose
  - pip install coverage
- - pip install coveralls
+ - pip install --use-mirrors coveralls
+ - pip install networkx
 
 script:
 
+ - sudo chmod 777 test_travis.sh
  - ./test_travis.sh
 
 after_success:

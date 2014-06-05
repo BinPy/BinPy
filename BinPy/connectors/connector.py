@@ -1,5 +1,6 @@
-from __future__ import division
+from __future__ import division, with_statement
 from BinPy.config import *
+from BinPy.connectors.linker import *
 
 
 """
@@ -8,12 +9,11 @@ Contains
 
 * Connector
 * Bus
-* make_bus
 
 """
 
 
-class Connector:
+class Connector(object):
 
     """
     This class is the primary medium for data transfer. Objects of this
@@ -39,9 +39,8 @@ class Connector:
     * trigger
     """
 
-    _index = 0
-
     def __init__(self, state=None, name=""):
+        self.__dict__["_lock"] = threading.RLock()
         self.connections = {"output": [], "input": []}
         # To store the all the taps onto this connection
         self.state = state  # To store the state of the connection
@@ -51,8 +50,7 @@ class Connector:
         self.oldvoltage = 0.0
         self._name = name
         self.name_set = (name != "")
-        Connector._index += 1
-        self._index = Connector._index
+        self._index = BinPyIndexer.index(self)
 
     @property
     def index(self):
@@ -77,127 +75,169 @@ class Connector:
                 mode)
 
     def set_logic(self, val):
-        if type(val) in [int, None, bool]:
-            self.state = val if val is not None else None
-            self.voltage = constants.LOGIC_HIGH_VOLT if self.state == constants.LOGIC_HIGH_STATE else constants.LOGIC_LOW_VOLT
+        with self._lock:
+
+            if type(val) in [int, None, bool]:
+                self.state = val if val is not None else None
+                self.voltage = constants.LOGIC_HIGH_VOLT if self.state == constants.LOGIC_HIGH_STATE else constants.LOGIC_LOW_VOLT
+                self.trigger()
+
+            elif isinstance(val, Connector):
+                self.state = val.get_logic()
+
+            else:
+                raise Exception("ERROR: Invalid input type")
+
             self.trigger()
-
-        elif isinstance(val, Connector):
-            self.state = val.get_logic()
-
-        else:
-            raise Exception("ERROR: Invalid input type")
-
-        self.trigger()
-        # All set functions ultimately call this. So one trigger here should
-        # suffice.
+            # All set functions ultimately call this. So one trigger here should
+            # suffice.
 
     def get_logic(self):
-        return self.state
+        with self._lock:
+            return self.state
 
     def set_voltage(self, val):
-        if type(val) in [float, int]:
-            self.voltage = float(val)
-        elif isinstance(val, Connector):
-            self.voltage = val.get_voltage()
+        with self._lock:
 
-        else:
-            raise Exception("ERROR: Voltage must be a float or int")
+            if type(val) in [float, int]:
+                self.voltage = float(val)
+            elif isinstance(val, Connector):
+                self.voltage = val.get_voltage()
 
-        state = constants.LOGIC_HIGH_STATE if self.voltage > constants.LOGIC_THRESHOLD_VOLT else constants.LOGIC_LOW_STATE
-        self.set_logic(state)
+            else:
+                raise Exception("ERROR: Voltage must be a float or int")
+
+            state = constants.LOGIC_HIGH_STATE if self.voltage > constants.LOGIC_THRESHOLD_VOLT else constants.LOGIC_LOW_STATE
+            self.set_logic(state)
 
     def get_voltage(self):
-        return self.voltage
+        with self._lock:
+            return self.voltage
 
     def is_input_of(self, element):
-        return element in self.connections["input"]
+        with self._lock:
+            return element in self.connections["input"]
 
     def is_output_of(self, element):
-        return element in self.connections["output"]
+        with self._lock:
+            return element in self.connections["output"]
 
     # This function is called when the value of the connection changes
     def trigger(self):
-        for i in self.connections["input"]:
-            i.trigger()
+        with self._lock:
+            for i in self.connections["input"]:
+                i.trigger()
 
     def __call__(self):
-        return self.state
+        with self._lock:
+            return self.state
 
     def set_name(self, name):
-        if (self.name is None) and (not self.name_set):
-            for k, v in list(globals().iteritems()):
-                if (id(v) == id(self)) and (k != "self"):
-                    self.name = k
-            self.name_set = True
+        with self._lock:
+            if (self.name is None) and (not self.name_set):
+                for k, v in list(globals().iteritems()):
+                    if (id(v) == id(self)) and (k != "self"):
+                        self.name = k
+                self.name_set = True
 
     @property
     def name(self):
-        return self._name
+        with self._lock:
+            return self._name
 
     # This could replace the trigger method all together.
     def __setattr__(self, name, val):
-        self.__dict__[name] = val
+        with self._lock:
+            self.__dict__[name] = val
+
+        # Using lock'd access in setattr implies that even if the parameter is changed externally `a.state = 1`
+        # thread safety is ensured.
         # self.trigger()
 
     # Overloads the bool method
     # For python3
     def __bool__(self):
-        return True if self.state == 1 else False
+        with self._lock:
+            return True if self.state == 1 else False
 
     # To be compatible with Python 2.x
     __nonzero__ = __bool__
 
     # Overloads the int() method
     def __int__(self):
-        return 1 if self.state == 1 else 0
+        with self._lock:
+            return 1 if self.state == 1 else 0
 
     def __float__(self):
-        return float(self.voltage)
+        with self._lock:
+            return float(self.voltage)
 
     def __repr__(self):
-        return str(self.state)
+        with self._lock:
+            return str(self.state)
 
     def __str__(self):
-        return "Connector; Name: %s; Index: %d; State: " % (
-            self.name, self.index) + str(self.state)
+        with self._lock:
+            return "Connector; Name: %s; Index: %d; State: " % (
+                self.name, self.index) + str(self.state)
 
     def __add__(self, other):
-        return self.voltage + other.voltage
+        with self._lock:
+            return self.voltage + other.voltage
 
     def __sub__(self, other):
-        return self.voltage - other.voltage
+        with self._lock:
+            return self.voltage - other.voltage
 
     def __mul__(self, other):
-        return self.voltage * other.voltage
+        with self._lock:
+            return self.voltage * other.voltage
 
     def __truediv__(self, other):
-        return self.voltage / other.voltage
+        with self._lock:
+            return self.voltage / other.voltage
+
+    def __del__(self):
+        try:
+            BinPyIndexer.unindex(self)
+        except (AttributeError, KeyError) as e:
+            pass
 
 
-class Bus:
+class Bus(object):
 
     """
     This class provides an array of Connector Objects.
     Objects of this class can be used :
     1. As input and output interfaces for modules and other blocks
     2. When a lot of connectors are needed
-    """
 
-    _index = 0
+    EXAMPLES
+    ========
+
+    a = Connector()
+    b = Connector()
+    c = Connector()
+    d = Connector()
+
+    # Equivalent
+    lst = Bus(4)
+
+    # Initializing and methods.
+
+    Bus.set_voltage_all()
+    Bus.get_voltage.all()
+    Bus.set_logic_all('1111')
+    Bus.get_logic_all()
+    """
 
     def __init__(self, *inputs):
         """
         Initialized through a list of connectors or another Bus
         or a integer (width) to create a Bus of new Connectors of the specified width
         """
-
         self.bus = []
         self.analog = False
-
-        # Each Bus will have an unique index. Good for debugging Connections.
-        Bus._index += 1
-        self._index = Bus._index
 
         # width specified
         if (len(inputs) == 1) and (isinstance(inputs[0], int)) and (inputs[0] >= 0):
@@ -224,12 +264,18 @@ class Bus:
             else:
                 raise Exception("ERROR: Invalid input")
 
+        # Each Bus will have an unique index. Good for debugging Connections.
+        self._index = BinPyIndexer.index(self)
+
+    @property
+    def index(self):
+        return self._index
+
     def set_width(self, width, *connectors):
         """Used to decrease the width of the bus or increase it and appending new additional connectors."""
 
         # Use this method sparingly. It would be good practice to keep Bus
-        # objects of fixed size.
-
+        # objects of fixed si
         if width <= 0:
             raise Exception("ERROR: Enter non-negative width")
         if width == self._width:
@@ -251,7 +297,8 @@ class Bus:
     def set_type(self, analog):
         self.analog = bool(analog)
 
-    get_type = lambda self: "ANALOG" if self.analog else "DIGITAL"
+    def get_type(self):
+        return "ANALOG" if self.analog else "DIGITAL"
 
     def set_logic(self, index, value):
         if index > 0 and index < self._width:
@@ -375,9 +422,6 @@ class Bus:
 
         self.set_voltage_all(bus.get_voltage_all())
 
-    def __get__(self, index):
-        return self.bus[index]
-
     def tap(self, index, element, mode):
         if index < 0 or index > self._width:
             raise Exception("ERROR: Invalid Index Value")
@@ -397,10 +441,6 @@ class Bus:
         Gives width of the Bus
         """
         return self._width
-
-    @property
-    def index(self):
-        return self._index
 
     def trigger(self):
         for conn in self.bus:
@@ -468,6 +508,14 @@ class Bus:
 
         raise Exception("ERROR: Invalid Comparison")
 
+    def __hash__(self):
+        return hash(
+            (self.width, int(
+                self.analog), max(
+                self.get_voltage_all()), int(
+                self.get_logic_all(
+                    as_list=False), 2), id(self)))
+
     def __rshift__(self):
         """ Clock wise right shift """
         return self.bus[-1] + self.bus[1:-1]
@@ -484,3 +532,9 @@ class Bus:
         return list(map(bool, self.bus))
 
     __nonzero__ = __bool__
+
+    def __del__(self):
+        try:
+            BinPyIndexer.unindex(self)
+        except (AttributeError, KeyError) as e:
+            pass

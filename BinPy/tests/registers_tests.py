@@ -5,7 +5,7 @@ from nose.tools import with_setup, nottest
 def test_FourBitRegister():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_ffr = FourBitRegister(1, 0, 1, 0, clock, 1)
 
     assert test_ffr.output() == [1, 0, 1, 0]
@@ -16,7 +16,7 @@ def test_FourBitRegister():
 def test_FourBitLoadRegister():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_ffr = FourBitLoadRegister(1, 0, 1, 0, clock, 1, 1)
 
     assert test_ffr.output() == [1, 0, 1, 0]
@@ -30,7 +30,7 @@ def test_FourBitLoadRegister():
 def test_ShiftRegister():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_ffr = ShiftRegister([1, 0, 0, 0], clock)
 
     assert test_ffr.output() == [1, 1, 0, 0]

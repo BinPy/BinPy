@@ -2,6 +2,7 @@
 *~
 # C extensions
 *.so
+*.swo
 
 # Packages
 *.egg
@@ -35,3 +36,8 @@ nosetests.xml
 
 # IPython Notebook Checkpoints
 .ipynb_checkpoints/
+
+# Swap Files
+*.swp
+*-swp
+*~

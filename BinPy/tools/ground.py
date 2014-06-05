@@ -1,4 +1,4 @@
-from BinPy.Gates import *
+from BinPy import *
 
 
 class Ground:

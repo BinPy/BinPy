@@ -10,8 +10,8 @@ Contains
 
 from __future__ import print_function
 from sys import stdout
-from BinPy.Gates.gates import *
-from BinPy.Gates.connector import *
+from BinPy.gates.gates import *
+from BinPy.connectors.connector import *
 
 
 class Tree:
