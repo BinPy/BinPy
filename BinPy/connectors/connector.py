@@ -1,4 +1,4 @@
-from __future__ import division
+from __future__ import division, with_statement
 from BinPy.config import *
 from BinPy.connectors.linker import *
 
@@ -40,6 +40,7 @@ class Connector(object):
     """
 
     def __init__(self, state=None, name=""):
+        self.__dict__["_lock"] = threading.RLock()
         self.connections = {"output": [], "input": []}
         # To store the all the taps onto this connection
         self.state = state  # To store the state of the connection
@@ -49,7 +50,6 @@ class Connector(object):
         self.oldvoltage = 0.0
         self._name = name
         self.name_set = (name != "")
-
         self._index = BinPyIndexer.index(self)
 
     @property
@@ -75,102 +75,127 @@ class Connector(object):
                 mode)
 
     def set_logic(self, val):
-        if type(val) in [int, None, bool]:
-            self.state = val if val is not None else None
-            self.voltage = constants.LOGIC_HIGH_VOLT if self.state == constants.LOGIC_HIGH_STATE else constants.LOGIC_LOW_VOLT
+        with self._lock:
+            
+            if type(val) in [int, None, bool]:
+                self.state = val if val is not None else None
+                self.voltage = constants.LOGIC_HIGH_VOLT if self.state == constants.LOGIC_HIGH_STATE else constants.LOGIC_LOW_VOLT
+                self.trigger()
+
+            elif isinstance(val, Connector):
+                self.state = val.get_logic()
+
+            else:
+                raise Exception("ERROR: Invalid input type")
+
             self.trigger()
-
-        elif isinstance(val, Connector):
-            self.state = val.get_logic()
-
-        else:
-            raise Exception("ERROR: Invalid input type")
-
-        self.trigger()
-        # All set functions ultimately call this. So one trigger here should
-        # suffice.
+            # All set functions ultimately call this. So one trigger here should
+            # suffice.
 
     def get_logic(self):
-        return self.state
+        with self._lock:
+            return self.state
 
     def set_voltage(self, val):
-        if type(val) in [float, int]:
-            self.voltage = float(val)
-        elif isinstance(val, Connector):
-            self.voltage = val.get_voltage()
+        with self._lock:
 
-        else:
-            raise Exception("ERROR: Voltage must be a float or int")
+            if type(val) in [float, int]:
+                self.voltage = float(val)
+            elif isinstance(val, Connector):
+                self.voltage = val.get_voltage()
 
-        state = constants.LOGIC_HIGH_STATE if self.voltage > constants.LOGIC_THRESHOLD_VOLT else constants.LOGIC_LOW_STATE
-        self.set_logic(state)
+            else:
+                raise Exception("ERROR: Voltage must be a float or int")
+
+            state = constants.LOGIC_HIGH_STATE if self.voltage > constants.LOGIC_THRESHOLD_VOLT else constants.LOGIC_LOW_STATE
+            self.set_logic(state)
 
     def get_voltage(self):
-        return self.voltage
+        with self._lock:
+            return self.voltage
 
     def is_input_of(self, element):
-        return element in self.connections["input"]
+        with self._lock:
+            return element in self.connections["input"]
 
     def is_output_of(self, element):
-        return element in self.connections["output"]
+        with self._lock:
+            return element in self.connections["output"]
 
     # This function is called when the value of the connection changes
     def trigger(self):
-        for i in self.connections["input"]:
-            i.trigger()
+        with self._lock:
+            for i in self.connections["input"]:
+                i.trigger()
 
     def __call__(self):
-        return self.state
+        with self._lock:
+            return self.state
 
     def set_name(self, name):
-        if (self.name is None) and (not self.name_set):
-            for k, v in list(globals().iteritems()):
-                if (id(v) == id(self)) and (k != "self"):
-                    self.name = k
-            self.name_set = True
+        with self._lock:
+            if (self.name is None) and (not self.name_set):
+                for k, v in list(globals().iteritems()):
+                    if (id(v) == id(self)) and (k != "self"):
+                        self.name = k
+                self.name_set = True
 
     @property
     def name(self):
-        return self._name
+        with self._lock:
+            return self._name
 
     # This could replace the trigger method all together.
     def __setattr__(self, name, val):
-        self.__dict__[name] = val
+        with self._lock:
+            self.__dict__[name] = val
+
+        # Using lock'd access in setattr implies that even if the parameter is changed externally `a.state = 1` 
+        # thread safety is ensured.
         # self.trigger()
 
     # Overloads the bool method
     # For python3
     def __bool__(self):
-        return True if self.state == 1 else False
+        with self._lock:
+            return True if self.state == 1 else False
 
     # To be compatible with Python 2.x
     __nonzero__ = __bool__
 
     # Overloads the int() method
     def __int__(self):
-        return 1 if self.state == 1 else 0
+        with self._lock:
+            return 1 if self.state == 1 else 0
 
     def __float__(self):
-        return float(self.voltage)
+        with self._lock:
+            return float(self.voltage)
 
     def __repr__(self):
-        return str(self.state)
+        with self._lock:
+            return str(self.state)
 
     def __str__(self):
-        return "Connector; Name: %s; Index: %d; State: " % (
-            self.name, self.index) + str(self.state)
+        with self._lock:
+            return "Connector; Name: %s; Index: %d; State: " % (
+                    self.name, self.index) + str(self.state)
 
     def __add__(self, other):
-        return self.voltage + other.voltage
+        with self._lock:
+            return self.voltage + other.voltage
 
     def __sub__(self, other):
-        return self.voltage - other.voltage
+        with self._lock:
+            return self.voltage - other.voltage
 
     def __mul__(self, other):
-        return self.voltage * other.voltage
+        with self._lock:
+            return self.voltage * other.voltage
 
     def __truediv__(self, other):
-        return self.voltage / other.voltage
+        with self._lock:
+            return self.voltage / other.voltage
 
     def __del__(self):
         try:
