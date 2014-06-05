@@ -76,7 +76,7 @@ class Connector(object):
 
     def set_logic(self, val):
         with self._lock:
-            
+
             if type(val) in [int, None, bool]:
                 self.state = val if val is not None else None
                 self.voltage = constants.LOGIC_HIGH_VOLT if self.state == constants.LOGIC_HIGH_STATE else constants.LOGIC_LOW_VOLT
@@ -150,7 +150,7 @@ class Connector(object):
         with self._lock:
             self.__dict__[name] = val
 
-        # Using lock'd access in setattr implies that even if the parameter is changed externally `a.state = 1` 
+        # Using lock'd access in setattr implies that even if the parameter is changed externally `a.state = 1`
         # thread safety is ensured.
         # self.trigger()
 
@@ -179,7 +179,7 @@ class Connector(object):
     def __str__(self):
         with self._lock:
             return "Connector; Name: %s; Index: %d; State: " % (
-                    self.name, self.index) + str(self.state)
+                self.name, self.index) + str(self.state)
 
     def __add__(self, other):
         with self._lock:
@@ -218,7 +218,6 @@ class Bus(object):
         Initialized through a list of connectors or another Bus
         or a integer (width) to create a Bus of new Connectors of the specified width
         """
-
         self.bus = []
         self.analog = False
 

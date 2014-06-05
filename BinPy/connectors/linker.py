@@ -7,6 +7,30 @@ import BinPy
 
 
 class AutoUpdater(threading.Thread):
+
+    """
+    AutoUpdater class provides a collection of static methods for linking BinPy connections primitives Bus and Connector.
+    Note that since Bus is a collecion of Connectors, AutoUpdater essentially binds together a network of linked Connectors.
+
+    Use this class to provide automatic state propagation between modules ( with Bus input / output )
+
+    EXAMPLES
+    ========
+
+    >>> a = Bus(4)
+    >>> b = Bus(4)
+    >>> AutoUpdator.add_link(a,b)
+    >>> a.set_voltage_all(5,0,5,5)
+    >>> b.get_voltage_all()
+    [5.0, 0.0, 5.0, 5.0]
+
+    METHODS
+    =======
+
+    * add_link(a, b, directed)
+    * remove_link(a,b)
+    * run(b,a) # The main execution loop to keep the connections updated.
+    """
     _lock = threading.RLock()
     _graph = nx.DiGraph()
 
@@ -65,7 +89,7 @@ class AutoUpdater(threading.Thread):
         while True:
             with AutoUpdater._lock:
                 nodes = AutoUpdater._graph.nodes()
-            
+
             for i in nodes:
                 with AutoUpdater._lock:
                     for pair in AutoUpdater._graph.edges(i):
@@ -81,6 +105,30 @@ auto_updater_instance = AutoUpdater()
 
 
 class BinPyIndexer(object):
+
+    """
+    The BnPy Indexer is a indexing and inventory listing servic to bind a unique index and store them as key:value
+
+    This makes it easier to debug connections.
+
+    MODULES
+    =======
+
+    * index
+    * unindex
+    * get_element
+    * get_index
+
+    EXAMPLES
+    ========
+
+    >>> a = Bus(4); b= Bus(4)
+    >>> a.index
+    1
+    >>> b.index
+    2
+
+    """
 
     _indices = {}     # { gates.AND : { 1:<AND instance> } }
     _rev_indices = {}  # { gates.AND : { <AND instance>:1 } }
