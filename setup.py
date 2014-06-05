@@ -9,8 +9,9 @@ setup(
     # license=open('docs/LICENSE.txt').read(),
     description='Virtualizing Electronics',
     # long_description=open('README.md').read(),
+    install_requires="networkx >= 1.8.1",
     packages=find_packages(),
     package_data={'data': ['README.md']},
     include_package_data=True,
-    entry_points={'console_scripts': ['binpy = BinPy.Shell:shellMain']}
+    entry_points={'console_scripts': ['binpy = BinPy.shell:shell_main']}
 )

@@ -23,29 +23,35 @@ Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
 
 from BinPy import *
 
-NOR1 = Nor('NOR1')  #First NOR gate
-NOR2 = Nor('NOR2')  #Second NOR gate
+# Connector for connecting output of second NOR gate with input of first NOR gate
+con1 = Connector()
+# Connector for connecting output of first NOR gate with input of second NOR gate
+con2 = Connector()
 
-#Connecting output of second NOR with input of first NOR
-NOR2.C.connect(NOR1.B)
-#Connecting output of first NOR with input of second NOR
-NOR1.C.connect(NOR2.A)
+R = 0 # Reset input for the SR-Latch
+S = 0 # Set input for the SR-Lacth
 
+NOR1 = NOR(con1, R)  #First NOR gate
+NOR1.setOutput(con2) # Set output for NOR gate
 
-NOR1.A.set(1);NOR2.B.set(0) #Set state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
-
-
-NOR1.A.set(0);NOR2.B.set(1) #Reset state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+NOR2 = NOR(con2, S)  #Second NOR gate
+NOR2.setOutput(con1) # Set output for NOR gate
 
 
-NOR1.A.set(0);NOR2.B.set(0) #Hold state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+NOR1.setInput(1, 1); NOR2.setInput(1, 0) #Set state
+print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
 
 
-NOR1.A.set(1);NOR2.B.set(1) #Invalid state
-print 'Q: ',NOR2.C.getState(), '\t','Q\': ',NOR1.C.getState()
+NOR1.setInput(1, 0); NOR2.setInput(1, 1) #Reset state
+print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
+
+
+NOR1.setInput(1, 0); NOR2.setInput(1, 0) #Hold state
+print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
+
+
+NOR1.setInput(1, 1); NOR2.setInput(1, 1) #Invalid state
+print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
 
 
 ```

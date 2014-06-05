@@ -1,41 +1,47 @@
-from BinPy.Combinational.combinational import *
+from BinPy.combinational.combinational import *
 from nose.tools import with_setup, nottest
 
 
 def HalfAdder_test():
     ha = HalfAdder(0, 1)
+    assert ha.output() == [0, 1]
+
+    ha.set_input(0, 1)
     assert ha.output() == [1, 0]
 
-    ha = HalfAdder(1, 1)
-    assert ha.output() == [0, 1]
+    ha.set_inputs(0, 0)
+    assert ha.output() == [0, 0]
+
+    ha.set_inputs(1, 1)
+    assert ha.output() == [1, 0]
 
 
 def FullAdder_test():
     fa = FullAdder(0, 1, 0)
-    assert fa.output() == [1, 0]
-
-    fa = FullAdder(0, 1, 1)
     assert fa.output() == [0, 1]
 
+    fa.set_inputs(1, 1, 1)
+    assert fa.output() == [1, 1]
 
-def BinaryAdder_test():
-    ba = BinaryAdder([0, 1], [1], 0)
-    assert ba.output() == [0, 1, 0]
+    fa.set_input(1, 0)
+    assert fa.output() == [1, 0]
 
-    ba = BinaryAdder([0, 1], [1, 1], 1)
-    assert ba.output() == [1, 0, 1]
+    con1 = Connector()
+    con2 = Connector()
 
-    ba = BinaryAdder([0, 1], [1, 0], 0)
-    ba.setInput(1, [0])
-    assert ba.output() == [0, 0, 1]
+    fa.set_output(1, con1)
+    fa.set_output(0, con2)
 
+    assert [con2.state, con1.state] == fa.output()
 
+'''
 def BCDAdder_test():
     ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 0)
     assert ba.output() == [0, 1, 0, 0, 1]
 
     ba = BCDAdder([0, 1, 1, 0], [0, 0, 1, 1], 1)
     assert ba.output() == [0, 0, 1, 1, 1]
+'''
 
 
 def HalfSubtractor_test():
@@ -48,19 +54,11 @@ def HalfSubtractor_test():
 
 def FullSubtractor_test():
     fs = FullSubtractor(0, 1, 1)
-    assert fs.output() == [0, 1]
+    assert fs.output() == [1, 0]
     fs = FullSubtractor(1, 1, 0)
     assert fs.output() == [0, 0]
     fs = FullSubtractor(1, 1, 1)
     assert fs.output() == [1, 1]
-
-
-def BinarySubtractor_test():
-    bs = BinarySubtractor([0, 1], [1], 0)
-    assert bs.output() == [0, 0, 0]
-
-    bs = BinarySubtractor([0, 1], [1, 1], 1)
-    assert bs.output() == [1, 0, 1]
 
 
 def MUX_test():

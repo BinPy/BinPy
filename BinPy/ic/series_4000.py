@@ -11,9 +11,13 @@ ICs in this module:
 """
 
 from __future__ import print_function
-from BinPy.Gates import *
-from BinPy.ic import *
-from BinPy.Combinational import *
+
+from BinPy.connectors import *
+from BinPy.gates import *
+from BinPy.ic.base import *
+from BinPy.combinational import *
+from BinPy.sequential import *
+from BinPy.tools.clock import Clock
 
 #################################
 # IC's with 14 pins
@@ -33,21 +37,21 @@ class IC_4000(Base_14pin):
         self.pins = [None, None, None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'NC'},
-                    2: {'desc': 'NC'},
-                    3: {'desc': 'A1: Input 1 of NOR gate 1'},
-                    4: {'desc': 'B1: Input 2 of NOR gate 1'},
-                    5: {'desc': 'C1: Input 3 of NOR gate 1'},
-                    6: {'desc': 'Q1: Output of NOR gate 1'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'B2: Input of NOT gate'},
-                    9: {'desc': 'Q2: Output of NOT gate'},
-                    10: {'desc': 'Q3: Output of NOR gate 2'},
-                    11: {'desc': 'C3: Input 3 of NOR gate 2'},
-                    12: {'desc': 'B3: Input 2 of NOR gate 2'},
-                    13: {'desc': 'A3: Input 1 of NOR gate 2'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'NC'},
+                     2: {'desc': 'NC'},
+                     3: {'desc': 'A1: Input 1 of NOR gate 1'},
+                     4: {'desc': 'B1: Input 2 of NOR gate 1'},
+                     5: {'desc': 'C1: Input 3 of NOR gate 1'},
+                     6: {'desc': 'Q1: Output of NOR gate 1'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'B2: Input of NOT gate'},
+                     9: {'desc': 'Q2: Output of NOT gate'},
+                     10: {'desc': 'Q3: Output of NOR gate 2'},
+                     11: {'desc': 'C3: Input 3 of NOR gate 2'},
+                     12: {'desc': 'B3: Input 2 of NOR gate 2'},
+                     13: {'desc': 'A3: Input 1 of NOR gate 2'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -57,9 +61,9 @@ class IC_4000(Base_14pin):
                          self.pins[13].value).output()
         output[9] = NOT(self.pins[8].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -79,21 +83,21 @@ class IC_4001(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'A1: Input 1 of NOR gate 1'},
-                    2: {'desc': 'B1: Input 2 of NOR gate 1'},
-                    3: {'desc': 'Q1: Output of NOR gate 1'},
-                    4: {'desc': 'Q2: Output of NOR gate 2'},
-                    5: {'desc': 'B2: Input 2 of NOR gate 2'},
-                    6: {'desc': 'A2: Input 1 of NOR gate 2'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A3: Input 1 of NOR gate 3'},
-                    9: {'desc': 'B3: Input 2 of NOR gate 3'},
-                    10: {'desc': 'Q3: Output of NOR gate 3'},
-                    11: {'desc': 'Q4: Output of NOR gate 4'},
-                    12: {'desc': 'B4: Input 2 of NOR gate 4'},
-                    13: {'desc': 'A4: Input 1 of NOR gate 4'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'A1: Input 1 of NOR gate 1'},
+                     2: {'desc': 'B1: Input 2 of NOR gate 1'},
+                     3: {'desc': 'Q1: Output of NOR gate 1'},
+                     4: {'desc': 'Q2: Output of NOR gate 2'},
+                     5: {'desc': 'B2: Input 2 of NOR gate 2'},
+                     6: {'desc': 'A2: Input 1 of NOR gate 2'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A3: Input 1 of NOR gate 3'},
+                     9: {'desc': 'B3: Input 2 of NOR gate 3'},
+                     10: {'desc': 'Q3: Output of NOR gate 3'},
+                     11: {'desc': 'Q4: Output of NOR gate 4'},
+                     12: {'desc': 'B4: Input 2 of NOR gate 4'},
+                     13: {'desc': 'A4: Input 1 of NOR gate 4'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -102,10 +106,10 @@ class IC_4001(Base_14pin):
         output[10] = NOR(self.pins[8].value, self.pins[9].value).output()
         output[11] = NOR(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -123,21 +127,21 @@ class IC_4002(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'Q1: Output of NOR gate 1'},
-                    2: {'desc': 'A1: Input 1 of NOR gate 1'},
-                    3: {'desc': 'B1: Input 2 of NOR gate 1'},
-                    4: {'desc': 'C1: Input 3 of NOR gate 1'},
-                    5: {'desc': 'D1: Input 4 of NOR gate 1'},
-                    6: {'desc': 'NC'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'NC'},
-                    9: {'desc': 'D2: Input 4 of NOR gate 2'},
-                    10: {'desc': 'C2: Input 3 of NOR gate 2'},
-                    11: {'desc': 'B2: Input 2 of NOR gate 2'},
-                    12: {'desc': 'A2: Input 1 of NOR gate 2'},
-                    13: {'desc': 'Q2: Output of NOR gate 2'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'Q1: Output of NOR gate 1'},
+                     2: {'desc': 'A1: Input 1 of NOR gate 1'},
+                     3: {'desc': 'B1: Input 2 of NOR gate 1'},
+                     4: {'desc': 'C1: Input 3 of NOR gate 1'},
+                     5: {'desc': 'D1: Input 4 of NOR gate 1'},
+                     6: {'desc': 'NC'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'NC'},
+                     9: {'desc': 'D2: Input 4 of NOR gate 2'},
+                     10: {'desc': 'C2: Input 3 of NOR gate 2'},
+                     11: {'desc': 'B2: Input 2 of NOR gate 2'},
+                     12: {'desc': 'A2: Input 1 of NOR gate 2'},
+                     13: {'desc': 'Q2: Output of NOR gate 2'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -146,10 +150,10 @@ class IC_4002(Base_14pin):
         output[13] = NOR(self.pins[9].value, self.pins[10].value,
                          self.pins[11].value, self.pins[12].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -169,21 +173,21 @@ class IC_4011(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'A1: Input 1 of NAND gate 1'},
-                    2: {'desc': 'B1: Input 2 of NAND gate 1'},
-                    3: {'desc': 'Q1: Output of NAND gate 1'},
-                    4: {'desc': 'Q2: Output of NAND gate 2'},
-                    5: {'desc': 'B2: Input 2 of NAND gate 2'},
-                    6: {'desc': 'A2: Input 1 of NAND gate 2'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A3: Input 1 of NAND gate 3'},
-                    9: {'desc': 'B3: Input 2 of NAND gate 3'},
-                    10: {'desc': 'Q3: Output of NAND gate 3'},
-                    11: {'desc': 'Q4: Output of NAND gate 4'},
-                    12: {'desc': 'B4: Input 2 of NAND gate 4'},
-                    13: {'desc': 'A4: Input 1 of NAND gate 4'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'A1: Input 1 of NAND gate 1'},
+                     2: {'desc': 'B1: Input 2 of NAND gate 1'},
+                     3: {'desc': 'Q1: Output of NAND gate 1'},
+                     4: {'desc': 'Q2: Output of NAND gate 2'},
+                     5: {'desc': 'B2: Input 2 of NAND gate 2'},
+                     6: {'desc': 'A2: Input 1 of NAND gate 2'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A3: Input 1 of NAND gate 3'},
+                     9: {'desc': 'B3: Input 2 of NAND gate 3'},
+                     10: {'desc': 'Q3: Output of NAND gate 3'},
+                     11: {'desc': 'Q4: Output of NAND gate 4'},
+                     12: {'desc': 'B4: Input 2 of NAND gate 4'},
+                     13: {'desc': 'A4: Input 1 of NAND gate 4'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -192,9 +196,9 @@ class IC_4011(Base_14pin):
         output[10] = NAND(self.pins[8].value, self.pins[9].value).output()
         output[11] = NAND(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -212,21 +216,21 @@ class IC_4012(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'Q1: Output of NAND gate 1'},
-                    2: {'desc': 'A1: Input 1 of NAND gate 1'},
-                    3: {'desc': 'B1: Input 2 of NAND gate 1'},
-                    4: {'desc': 'C1: Input 3 of NAND gate 1'},
-                    5: {'desc': 'D1: Input 4 of NAND gate 1'},
-                    6: {'desc': 'NC'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'NC'},
-                    9: {'desc': 'D2: Input 4 of NAND gate 2'},
-                    10: {'desc': 'C2: Input 3 of NAND gate 2'},
-                    11: {'desc': 'B2: Input 2 of NAND gate 2'},
-                    12: {'desc': 'A2: Input 1 of NAND gate 2'},
-                    13: {'desc': 'Q2: Output of NAND gate 2'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'Q1: Output of NAND gate 1'},
+                     2: {'desc': 'A1: Input 1 of NAND gate 1'},
+                     3: {'desc': 'B1: Input 2 of NAND gate 1'},
+                     4: {'desc': 'C1: Input 3 of NAND gate 1'},
+                     5: {'desc': 'D1: Input 4 of NAND gate 1'},
+                     6: {'desc': 'NC'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'NC'},
+                     9: {'desc': 'D2: Input 4 of NAND gate 2'},
+                     10: {'desc': 'C2: Input 3 of NAND gate 2'},
+                     11: {'desc': 'B2: Input 2 of NAND gate 2'},
+                     12: {'desc': 'A2: Input 1 of NAND gate 2'},
+                     13: {'desc': 'Q2: Output of NAND gate 2'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -235,9 +239,9 @@ class IC_4012(Base_14pin):
         output[13] = NAND(self.pins[9].value, self.pins[10].value,
                           self.pins[11].value, self.pins[12].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -253,21 +257,21 @@ class IC_4013(Base_14pin):
         self.pins = [None, None, None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
-        self.setIC({1: {'desc': 'Q1'},
-                    2: {'desc': '~Q1'},
-                    3: {'desc': 'CLK1'},
-                    4: {'desc': 'RST1'},
-                    5: {'desc': 'D1'},
-                    6: {'desc': 'SET1'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'SET2'},
-                    9: {'desc': 'D2'},
-                    10: {'desc': 'RST2'},
-                    11: {'desc': 'CLK2'},
-                    12: {'desc': '~Q2'},
-                    13: {'desc': 'Q2'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'Q1'},
+                     2: {'desc': '~Q1'},
+                     3: {'desc': 'CLK1'},
+                     4: {'desc': 'RST1'},
+                     5: {'desc': 'D1'},
+                     6: {'desc': 'SET1'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'SET2'},
+                     9: {'desc': 'D2'},
+                     10: {'desc': 'RST2'},
+                     11: {'desc': 'CLK2'},
+                     12: {'desc': '~Q2'},
+                     13: {'desc': 'Q2'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -302,9 +306,9 @@ class IC_4013(Base_14pin):
         output[12] = ff2.state()[1]
 
         if self.pins[7] == 0 and self.pins[14] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -323,21 +327,21 @@ class IC_4023(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'C2: Input 3 of NAND gate 2'},
-                    2: {'desc': 'B2: Input 2 of NAND gate 2'},
-                    3: {'desc': 'C1: Input 3 of NAND gate 1'},
-                    4: {'desc': 'B1: Input 2 of NAND gate 1'},
-                    5: {'desc': 'A1: Input 1 of NAND gate 1'},
-                    6: {'desc': 'Q1: Output of NAND gate 1'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A2: Input 1 of NAND gate 2'},
-                    9: {'desc': 'Q2: Output of NAND gate 2'},
-                    10: {'desc': 'Q3: Output of NAND gate 3'},
-                    11: {'desc': 'A3: Input 1 of NAND gate 3'},
-                    12: {'desc': 'B3: Input 2 of NAND gate 3'},
-                    13: {'desc': 'C3: Input 3 of NAND gate 3'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'C2: Input 3 of NAND gate 2'},
+                     2: {'desc': 'B2: Input 2 of NAND gate 2'},
+                     3: {'desc': 'C1: Input 3 of NAND gate 1'},
+                     4: {'desc': 'B1: Input 2 of NAND gate 1'},
+                     5: {'desc': 'A1: Input 1 of NAND gate 1'},
+                     6: {'desc': 'Q1: Output of NAND gate 1'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A2: Input 1 of NAND gate 2'},
+                     9: {'desc': 'Q2: Output of NAND gate 2'},
+                     10: {'desc': 'Q3: Output of NAND gate 3'},
+                     11: {'desc': 'A3: Input 1 of NAND gate 3'},
+                     12: {'desc': 'B3: Input 2 of NAND gate 3'},
+                     13: {'desc': 'C3: Input 3 of NAND gate 3'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -348,9 +352,9 @@ class IC_4023(Base_14pin):
         output[10] = NAND(self.pins[11].value, self.pins[12].value,
                           self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -369,21 +373,21 @@ class IC_4025(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'C2: Input 3 of NOR gate 2'},
-                    2: {'desc': 'B2: Input 2 of NOR gate 2'},
-                    3: {'desc': 'C1: Input 3 of NOR gate 1'},
-                    4: {'desc': 'B1: Input 2 of NOR gate 1'},
-                    5: {'desc': 'A1: Input 1 of NOR gate 1'},
-                    6: {'desc': 'Q1: Output of NOR gate 1'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A2: Input 1 of NOR gate 2'},
-                    9: {'desc': 'Q2: Output of NOR gate 2'},
-                    10: {'desc': 'Q3: Output of NOR gate 3'},
-                    11: {'desc': 'A3: Input 1 of NOR gate 3'},
-                    12: {'desc': 'B3: Input 2 of NOR gate 3'},
-                    13: {'desc': 'C3: Input 3 of NOR gate 3'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'C2: Input 3 of NOR gate 2'},
+                     2: {'desc': 'B2: Input 2 of NOR gate 2'},
+                     3: {'desc': 'C1: Input 3 of NOR gate 1'},
+                     4: {'desc': 'B1: Input 2 of NOR gate 1'},
+                     5: {'desc': 'A1: Input 1 of NOR gate 1'},
+                     6: {'desc': 'Q1: Output of NOR gate 1'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A2: Input 1 of NOR gate 2'},
+                     9: {'desc': 'Q2: Output of NOR gate 2'},
+                     10: {'desc': 'Q3: Output of NOR gate 3'},
+                     11: {'desc': 'A3: Input 1 of NOR gate 3'},
+                     12: {'desc': 'B3: Input 2 of NOR gate 3'},
+                     13: {'desc': 'C3: Input 3 of NOR gate 3'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -394,9 +398,9 @@ class IC_4025(Base_14pin):
         output[10] = NOR(self.pins[11].value, self.pins[12].value,
                          self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -412,21 +416,21 @@ class IC_4030(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': '1A'},
-                    2: {'desc': '1B'},
-                    3: {'desc': '1Y'},
-                    4: {'desc': '2Y'},
-                    5: {'desc': '2A'},
-                    6: {'desc': '2B'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': '3A'},
-                    9: {'desc': '3B'},
-                    10: {'desc': '3Y'},
-                    11: {'desc': '4Y'},
-                    12: {'desc': '4A'},
-                    13: {'desc': '4B'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': '1A'},
+                     2: {'desc': '1B'},
+                     3: {'desc': '1Y'},
+                     4: {'desc': '2Y'},
+                     5: {'desc': '2A'},
+                     6: {'desc': '2B'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': '3A'},
+                     9: {'desc': '3B'},
+                     10: {'desc': '3Y'},
+                     11: {'desc': '4Y'},
+                     12: {'desc': '4A'},
+                     13: {'desc': '4B'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -435,9 +439,9 @@ class IC_4030(Base_14pin):
         output[10] = XOR(self.pins[8].value, self.pins[9].value).output()
         output[11] = XOR(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -454,21 +458,21 @@ class IC_4068(Base_14pin):
         self.pins = [None, None, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'NC'},
-                    2: {'desc': 'Input 1 of NAND gate'},
-                    3: {'desc': 'Input 2 of NAND gate'},
-                    4: {'desc': 'Input 3 of NAND gate'},
-                    5: {'desc': 'Input 4 of NAND gate'},
-                    6: {'desc': 'NC'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'NC'},
-                    9: {'desc': 'Input 5 of NAND gate'},
-                    10: {'desc': 'Input 6 of NAND gate'},
-                    11: {'desc': 'Input 7 of NAND gate'},
-                    12: {'desc': 'Input 8 of NAND gate'},
-                    13: {'desc': 'Output of NAND gate'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'NC'},
+                     2: {'desc': 'Input 1 of NAND gate'},
+                     3: {'desc': 'Input 2 of NAND gate'},
+                     4: {'desc': 'Input 3 of NAND gate'},
+                     5: {'desc': 'Input 4 of NAND gate'},
+                     6: {'desc': 'NC'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'NC'},
+                     9: {'desc': 'Input 5 of NAND gate'},
+                     10: {'desc': 'Input 6 of NAND gate'},
+                     11: {'desc': 'Input 7 of NAND gate'},
+                     12: {'desc': 'Input 8 of NAND gate'},
+                     13: {'desc': 'Output of NAND gate'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -477,9 +481,9 @@ class IC_4068(Base_14pin):
                           self.pins[9].value, self.pins[10].value,
                           self.pins[11].value, self.pins[12].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -501,21 +505,21 @@ class IC_4069(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'Input of NOT gate 1'},
-                    2: {'desc': 'Output of NOT gate 1'},
-                    3: {'desc': 'Input of NOT gate 2'},
-                    4: {'desc': 'Output of NOT gate 2'},
-                    5: {'desc': 'Input of NOT gate 3'},
-                    6: {'desc': 'Output of NOT gate 3'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'Output of NOT gate 4'},
-                    9: {'desc': 'Input of NOT gate 4'},
-                    10: {'desc': 'Output of NOT gate 5'},
-                    11: {'desc': 'Input of NOT gate 5'},
-                    12: {'desc': 'Output of NOT gate 6'},
-                    13: {'desc': 'Input of NOT gate 6'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'Input of NOT gate 1'},
+                     2: {'desc': 'Output of NOT gate 1'},
+                     3: {'desc': 'Input of NOT gate 2'},
+                     4: {'desc': 'Output of NOT gate 2'},
+                     5: {'desc': 'Input of NOT gate 3'},
+                     6: {'desc': 'Output of NOT gate 3'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'Output of NOT gate 4'},
+                     9: {'desc': 'Input of NOT gate 4'},
+                     10: {'desc': 'Output of NOT gate 5'},
+                     11: {'desc': 'Input of NOT gate 5'},
+                     12: {'desc': 'Output of NOT gate 6'},
+                     13: {'desc': 'Input of NOT gate 6'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -526,9 +530,9 @@ class IC_4069(Base_14pin):
         output[10] = NOT(self.pins[11].value).output()
         output[12] = NOT(self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -548,21 +552,21 @@ class IC_4070(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'A1: Input 1 of XOR gate 1'},
-                    2: {'desc': 'B1: Input 2 of XOR gate 1'},
-                    3: {'desc': 'Q1: Output of XOR gate 1'},
-                    4: {'desc': 'Q2: Output of XOR gate 2'},
-                    5: {'desc': 'B2: Input 2 of XOR gate 2'},
-                    6: {'desc': 'A2: Input 1 of XOR gate 2'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A3: Input 1 of XOR gate 3'},
-                    9: {'desc': 'B3: Input 2 of XOR gate 3'},
-                    10: {'desc': 'Q3: Output of XOR gate 3'},
-                    11: {'desc': 'Q4: Output of XOR gate 4'},
-                    12: {'desc': 'B4: Input 2 of XOR gate 4'},
-                    13: {'desc': 'A4: Input 1 of XOR gate 4'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'A1: Input 1 of XOR gate 1'},
+                     2: {'desc': 'B1: Input 2 of XOR gate 1'},
+                     3: {'desc': 'Q1: Output of XOR gate 1'},
+                     4: {'desc': 'Q2: Output of XOR gate 2'},
+                     5: {'desc': 'B2: Input 2 of XOR gate 2'},
+                     6: {'desc': 'A2: Input 1 of XOR gate 2'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A3: Input 1 of XOR gate 3'},
+                     9: {'desc': 'B3: Input 2 of XOR gate 3'},
+                     10: {'desc': 'Q3: Output of XOR gate 3'},
+                     11: {'desc': 'Q4: Output of XOR gate 4'},
+                     12: {'desc': 'B4: Input 2 of XOR gate 4'},
+                     13: {'desc': 'A4: Input 1 of XOR gate 4'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -571,9 +575,9 @@ class IC_4070(Base_14pin):
         output[10] = XOR(self.pins[8].value, self.pins[9].value).output()
         output[11] = XOR(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -593,21 +597,21 @@ class IC_4071(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'A1: Input 1 of OR gate 1'},
-                    2: {'desc': 'B1: Input 2 of OR gate 1'},
-                    3: {'desc': 'Q1: Output of OR gate 1'},
-                    4: {'desc': 'Q2: Output of OR gate 2'},
-                    5: {'desc': 'B2: Input 2 of OR gate 2'},
-                    6: {'desc': 'A2: Input 1 of OR gate 2'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A3: Input 1 of OR gate 3'},
-                    9: {'desc': 'B3: Input 2 of OR gate 3'},
-                    10: {'desc': 'Q3: Output of OR gate 3'},
-                    11: {'desc': 'Q4: Output of OR gate 4'},
-                    12: {'desc': 'B4: Input 2 of OR gate 4'},
-                    13: {'desc': 'A4: Input 1 of OR gate 4'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'A1: Input 1 of OR gate 1'},
+                     2: {'desc': 'B1: Input 2 of OR gate 1'},
+                     3: {'desc': 'Q1: Output of OR gate 1'},
+                     4: {'desc': 'Q2: Output of OR gate 2'},
+                     5: {'desc': 'B2: Input 2 of OR gate 2'},
+                     6: {'desc': 'A2: Input 1 of OR gate 2'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A3: Input 1 of OR gate 3'},
+                     9: {'desc': 'B3: Input 2 of OR gate 3'},
+                     10: {'desc': 'Q3: Output of OR gate 3'},
+                     11: {'desc': 'Q4: Output of OR gate 4'},
+                     12: {'desc': 'B4: Input 2 of OR gate 4'},
+                     13: {'desc': 'A4: Input 1 of OR gate 4'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -616,9 +620,9 @@ class IC_4071(Base_14pin):
         output[10] = OR(self.pins[8].value, self.pins[9].value).output()
         output[11] = OR(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -636,21 +640,21 @@ class IC_4072(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'Q1: Output of OR gate 1'},
-                    2: {'desc': 'A1: Input 1 of OR gate 1'},
-                    3: {'desc': 'B1: Input 2 of OR gate 1'},
-                    4: {'desc': 'C1: Input 3 of OR gate 1'},
-                    5: {'desc': 'D1: Input 4 of OR gate 1'},
-                    6: {'desc': 'NC'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'NC'},
-                    9: {'desc': 'D2: Input 4 of OR gate 2'},
-                    10: {'desc': 'C2: Input 3 of OR gate 2'},
-                    11: {'desc': 'B2: Input 2 of OR gate 2'},
-                    12: {'desc': 'A2: Input 1 of OR gate 2'},
-                    13: {'desc': 'Q2: Output of OR gate 2'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'Q1: Output of OR gate 1'},
+                     2: {'desc': 'A1: Input 1 of OR gate 1'},
+                     3: {'desc': 'B1: Input 2 of OR gate 1'},
+                     4: {'desc': 'C1: Input 3 of OR gate 1'},
+                     5: {'desc': 'D1: Input 4 of OR gate 1'},
+                     6: {'desc': 'NC'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'NC'},
+                     9: {'desc': 'D2: Input 4 of OR gate 2'},
+                     10: {'desc': 'C2: Input 3 of OR gate 2'},
+                     11: {'desc': 'B2: Input 2 of OR gate 2'},
+                     12: {'desc': 'A2: Input 1 of OR gate 2'},
+                     13: {'desc': 'Q2: Output of OR gate 2'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -659,9 +663,9 @@ class IC_4072(Base_14pin):
         output[13] = OR(self.pins[9].value, self.pins[10].value,
                         self.pins[11].value, self.pins[12].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -680,21 +684,21 @@ class IC_4073(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'C2: Input 3 of AND gate 2'},
-                    2: {'desc': 'B2: Input 2 of AND gate 2'},
-                    3: {'desc': 'C1: Input 3 of AND gate 1'},
-                    4: {'desc': 'B1: Input 2 of AND gate 1'},
-                    5: {'desc': 'A1: Input 1 of AND gate 1'},
-                    6: {'desc': 'Q1: Output of AND gate 1'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A2: Input 1 of AND gate 2'},
-                    9: {'desc': 'Q2: Output of AND gate 2'},
-                    10: {'desc': 'Q3: Output of AND gate 3'},
-                    11: {'desc': 'A3: Input 1 of AND gate 3'},
-                    12: {'desc': 'B3: Input 2 of AND gate 3'},
-                    13: {'desc': 'C3: Input 3 of AND gate 3'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'C2: Input 3 of AND gate 2'},
+                     2: {'desc': 'B2: Input 2 of AND gate 2'},
+                     3: {'desc': 'C1: Input 3 of AND gate 1'},
+                     4: {'desc': 'B1: Input 2 of AND gate 1'},
+                     5: {'desc': 'A1: Input 1 of AND gate 1'},
+                     6: {'desc': 'Q1: Output of AND gate 1'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A2: Input 1 of AND gate 2'},
+                     9: {'desc': 'Q2: Output of AND gate 2'},
+                     10: {'desc': 'Q3: Output of AND gate 3'},
+                     11: {'desc': 'A3: Input 1 of AND gate 3'},
+                     12: {'desc': 'B3: Input 2 of AND gate 3'},
+                     13: {'desc': 'C3: Input 3 of AND gate 3'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -705,9 +709,9 @@ class IC_4073(Base_14pin):
         output[10] = AND(self.pins[11].value, self.pins[12].value,
                          self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -726,21 +730,21 @@ class IC_4075(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'C2: Input 3 of OR gate 2'},
-                    2: {'desc': 'B2: Input 2 of OR gate 2'},
-                    3: {'desc': 'C1: Input 3 of OR gate 1'},
-                    4: {'desc': 'B1: Input 2 of OR gate 1'},
-                    5: {'desc': 'A1: Input 1 of OR gate 1'},
-                    6: {'desc': 'Q1: Output of OR gate 1'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A2: Input 1 of OR gate 2'},
-                    9: {'desc': 'Q2: Output of OR gate 2'},
-                    10: {'desc': 'Q3: Output of OR gate 3'},
-                    11: {'desc': 'A3: Input 1 of OR gate 3'},
-                    12: {'desc': 'B3: Input 2 of OR gate 3'},
-                    13: {'desc': 'C3: Input 3 of OR gate 3'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'C2: Input 3 of OR gate 2'},
+                     2: {'desc': 'B2: Input 2 of OR gate 2'},
+                     3: {'desc': 'C1: Input 3 of OR gate 1'},
+                     4: {'desc': 'B1: Input 2 of OR gate 1'},
+                     5: {'desc': 'A1: Input 1 of OR gate 1'},
+                     6: {'desc': 'Q1: Output of OR gate 1'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A2: Input 1 of OR gate 2'},
+                     9: {'desc': 'Q2: Output of OR gate 2'},
+                     10: {'desc': 'Q3: Output of OR gate 3'},
+                     11: {'desc': 'A3: Input 1 of OR gate 3'},
+                     12: {'desc': 'B3: Input 2 of OR gate 3'},
+                     13: {'desc': 'C3: Input 3 of OR gate 3'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -751,9 +755,9 @@ class IC_4075(Base_14pin):
         output[10] = OR(self.pins[11].value, self.pins[12].value,
                         self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -773,21 +777,21 @@ class IC_4077(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'A1: Input 1 of XNOR gate 1'},
-                    2: {'desc': 'B1: Input 2 of XNOR gate 1'},
-                    3: {'desc': 'Q1: Output of XNOR gate 1'},
-                    4: {'desc': 'Q2: Output of XNOR gate 2'},
-                    5: {'desc': 'B2: Input 2 of XNOR gate 2'},
-                    6: {'desc': 'A2: Input 1 of XNOR gate 2'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A3: Input 1 of XNOR gate 3'},
-                    9: {'desc': 'B3: Input 2 of XNOR gate 3'},
-                    10: {'desc': 'Q3: Output of XNOR gate 3'},
-                    11: {'desc': 'Q4: Output of XNOR gate 4'},
-                    12: {'desc': 'B4: Input 2 of XNOR gate 4'},
-                    13: {'desc': 'A4: Input 1 of XNOR gate 4'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'A1: Input 1 of XNOR gate 1'},
+                     2: {'desc': 'B1: Input 2 of XNOR gate 1'},
+                     3: {'desc': 'Q1: Output of XNOR gate 1'},
+                     4: {'desc': 'Q2: Output of XNOR gate 2'},
+                     5: {'desc': 'B2: Input 2 of XNOR gate 2'},
+                     6: {'desc': 'A2: Input 1 of XNOR gate 2'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A3: Input 1 of XNOR gate 3'},
+                     9: {'desc': 'B3: Input 2 of XNOR gate 3'},
+                     10: {'desc': 'Q3: Output of XNOR gate 3'},
+                     11: {'desc': 'Q4: Output of XNOR gate 4'},
+                     12: {'desc': 'B4: Input 2 of XNOR gate 4'},
+                     13: {'desc': 'A4: Input 1 of XNOR gate 4'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -796,9 +800,9 @@ class IC_4077(Base_14pin):
         output[10] = XNOR(self.pins[8].value, self.pins[9].value).output()
         output[11] = XNOR(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -815,21 +819,21 @@ class IC_4078(Base_14pin):
         self.pins = [None, None, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'NC'},
-                    2: {'desc': 'Input 1 of NOR gate'},
-                    3: {'desc': 'Input 2 of NOR gate'},
-                    4: {'desc': 'Input 3 of NOR gate'},
-                    5: {'desc': 'Input 4 of NOR gate'},
-                    6: {'desc': 'NC'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'NC'},
-                    9: {'desc': 'Input 5 of NOR gate'},
-                    10: {'desc': 'Input 6 of NOR gate'},
-                    11: {'desc': 'Input 7 of NOR gate'},
-                    12: {'desc': 'Input 8 of NOR gate'},
-                    13: {'desc': 'Output of NOR gate'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'NC'},
+                     2: {'desc': 'Input 1 of NOR gate'},
+                     3: {'desc': 'Input 2 of NOR gate'},
+                     4: {'desc': 'Input 3 of NOR gate'},
+                     5: {'desc': 'Input 4 of NOR gate'},
+                     6: {'desc': 'NC'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'NC'},
+                     9: {'desc': 'Input 5 of NOR gate'},
+                     10: {'desc': 'Input 6 of NOR gate'},
+                     11: {'desc': 'Input 7 of NOR gate'},
+                     12: {'desc': 'Input 8 of NOR gate'},
+                     13: {'desc': 'Output of NOR gate'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -838,9 +842,9 @@ class IC_4078(Base_14pin):
                          self.pins[9].value, self.pins[10].value,
                          self.pins[11].value, self.pins[12].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -860,21 +864,21 @@ class IC_4081(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'A1: Input 1 of AND gate 1'},
-                    2: {'desc': 'B1: Input 2 of AND gate 1'},
-                    3: {'desc': 'Q1: Output of AND gate 1'},
-                    4: {'desc': 'Q2: Output of AND gate 2'},
-                    5: {'desc': 'B2: Input 2 of AND gate 2'},
-                    6: {'desc': 'A2: Input 1 of AND gate 2'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'A3: Input 1 of AND gate 3'},
-                    9: {'desc': 'B3: Input 2 of AND gate 3'},
-                    10: {'desc': 'Q3:Output of AND gate 3'},
-                    11: {'desc': 'Q4:Output of AND gate 4'},
-                    12: {'desc': 'B4: Input 2 of AND gate 4'},
-                    13: {'desc': 'A4: Input 1 of AND gate 4'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'A1: Input 1 of AND gate 1'},
+                     2: {'desc': 'B1: Input 2 of AND gate 1'},
+                     3: {'desc': 'Q1: Output of AND gate 1'},
+                     4: {'desc': 'Q2: Output of AND gate 2'},
+                     5: {'desc': 'B2: Input 2 of AND gate 2'},
+                     6: {'desc': 'A2: Input 1 of AND gate 2'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'A3: Input 1 of AND gate 3'},
+                     9: {'desc': 'B3: Input 2 of AND gate 3'},
+                     10: {'desc': 'Q3:Output of AND gate 3'},
+                     11: {'desc': 'Q4:Output of AND gate 4'},
+                     12: {'desc': 'B4: Input 2 of AND gate 4'},
+                     13: {'desc': 'A4: Input 1 of AND gate 4'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -883,9 +887,9 @@ class IC_4081(Base_14pin):
         output[10] = AND(self.pins[8].value, self.pins[9].value).output()
         output[11] = AND(self.pins[12].value, self.pins[13].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -903,21 +907,21 @@ class IC_4082(Base_14pin):
         self.pins = [None, 0, 0, 0, 0, 0, None, 0, None, 0, 0, 0, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'Q1: Output of AND gate 1'},
-                    2: {'desc': 'A1: Input 1 of AND gate 1'},
-                    3: {'desc': 'B1: Input 2 of AND gate 1'},
-                    4: {'desc': 'C1: Input 3 of AND gate 1'},
-                    5: {'desc': 'D1: Input 4 of AND gate 1'},
-                    6: {'desc': 'NC'},
-                    7: {'desc': 'GND'},
-                    8: {'desc': 'NC'},
-                    9: {'desc': 'D2: Input 4 of AND gate 2'},
-                    10: {'desc': 'C2: Input 3 of AND gate 2'},
-                    11: {'desc': 'B2: Input 2 of AND gate 2'},
-                    12: {'desc': 'A2: Input 1 of AND gate 2'},
-                    13: {'desc': 'Q2: Output of AND gate 2'},
-                    14: {'desc': 'VCC'}
-                    })
+        self.set_IC({1: {'desc': 'Q1: Output of AND gate 1'},
+                     2: {'desc': 'A1: Input 1 of AND gate 1'},
+                     3: {'desc': 'B1: Input 2 of AND gate 1'},
+                     4: {'desc': 'C1: Input 3 of AND gate 1'},
+                     5: {'desc': 'D1: Input 4 of AND gate 1'},
+                     6: {'desc': 'NC'},
+                     7: {'desc': 'GND'},
+                     8: {'desc': 'NC'},
+                     9: {'desc': 'D2: Input 4 of AND gate 2'},
+                     10: {'desc': 'C2: Input 3 of AND gate 2'},
+                     11: {'desc': 'B2: Input 2 of AND gate 2'},
+                     12: {'desc': 'A2: Input 1 of AND gate 2'},
+                     13: {'desc': 'Q2: Output of AND gate 2'},
+                     14: {'desc': 'VCC'}
+                     })
 
     def run(self):
         output = {}
@@ -926,9 +930,9 @@ class IC_4082(Base_14pin):
         output[13] = AND(self.pins[9].value, self.pins[10].value,
                          self.pins[11].value, self.pins[12].value).output()
         if self.pins[7].value == 0 and self.pins[14].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
 
@@ -950,41 +954,76 @@ class IC_4008(Base_16pin):
                      None, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'A3'},
-                    2: {'desc': 'B2'},
-                    3: {'desc': 'A2'},
-                    4: {'desc': 'B1'},
-                    5: {'desc': 'A1'},
-                    6: {'desc': 'B0'},
-                    7: {'desc': 'A0'},
-                    8: {'desc': 'VSS'},
-                    9: {'desc': 'C0'},
-                    10: {'desc': 'S0'},
-                    11: {'desc': 'S1'},
-                    12: {'desc': 'S2'},
-                    13: {'desc': 'S3'},
-                    14: {'desc': 'C4'},
-                    15: {'desc': 'B3'},
-                    16: {'desc': 'VDD'},
-                    })
+        self.set_IC({1: {'desc': 'A3'},
+                     2: {'desc': 'B2'},
+                     3: {'desc': 'A2'},
+                     4: {'desc': 'B1'},
+                     5: {'desc': 'A1'},
+                     6: {'desc': 'B0'},
+                     7: {'desc': 'A0'},
+                     8: {'desc': 'VSS'},
+                     9: {'desc': 'C0'},
+                     10: {'desc': 'S0'},
+                     11: {'desc': 'S1'},
+                     12: {'desc': 'S2'},
+                     13: {'desc': 'S3'},
+                     14: {'desc': 'C4'},
+                     15: {'desc': 'B3'},
+                     16: {'desc': 'VDD'},
+                     })
 
     def run(self):
         output = {}
-        ff = FullAdder(self.pins[7].value, self.pins[6].value,
-                       self.pins[9].value).output()
-        output[10] = ff[0]
-        ff = FullAdder(self.pins[5].value, self.pins[4].value, ff[1]).output()
-        output[11] = ff[0]
-        ff = FullAdder(self.pins[3].value, self.pins[2].value, ff[1]).output()
-        output[12] = ff[0]
-        ff = FullAdder(self.pins[1].value, self.pins[15].value, ff[1]).output()
-        output[13] = ff[0]
-        output[14] = ff[1]
+        output[10] = ((self.pins[2]()) ^ (self.pins[3]()) ^ (self.pins[9]()))()
+        output[11] = (
+            (self.pins[5]()) ^ (
+                self.pins[4]()) ^ (
+                (self.pins[7]() & self.pins[6]()) | (
+                    (self.pins[7]() | self.pins[6]()) & (
+                        self.pins[9]()))))()
+        output[12] = (
+            (self.pins[3]()) ^ (
+                self.pins[2]()) ^ (
+                (self.pins[5]() & self.pins[4]()) | (
+                    (self.pins[5]() | self.pins[4]()) & (
+                        self.pins[7]() & self.pins[6]())) | (
+                            (self.pins[5]() | self.pins[4]()) & (
+                                self.pins[7]() | self.pins[6]()) & (
+                                    self.pins[9]()))))()
+        output[13] = (
+            (self.pins[1]()) ^ (
+                self.pins[15]()) ^ (
+                (self.pins[3]() & self.pins[2]()) | (
+                    (self.pins[3]() | self.pins[2]()) & (
+                        self.pins[5]() & self.pins[4]())) | (
+                            (self.pins[3]() | self.pins[2]()) & (
+                                self.pins[5]() | self.pins[4]()) & (
+                                    self.pins[7]() & self.pins[6]())) | (
+                                        (self.pins[3]() | self.pins[2]()) & (
+                                            self.pins[5]() | self.pins[4]()) & (
+                                                self.pins[7]() | self.pins[6]()) & (
+                                                    self.pins[9]()))))()
+        output[14] = (
+            (self.pins[1]() & self.pins[15]()) | (
+                (self.pins[1]() | self.pins[15]()) & (
+                    self.pins[3]() & self.pins[2]())) | (
+                (self.pins[1]() | self.pins[15]()) & (
+                    self.pins[3]() | self.pins[2]()) & (
+                    self.pins[5]() & self.pins[4]())) | (
+                (self.pins[1]() | self.pins[15]()) & (
+                    self.pins[3]() | self.pins[2]()) & (
+                    self.pins[5]() | self.pins[4]()) & (
+                    self.pins[7]() & self.pins[6]())) | (
+                (self.pins[1]() | self.pins[15]()) & (
+                    self.pins[3]() | self.pins[2]()) & (
+                    self.pins[5]() | self.pins[4]()) & (
+                    self.pins[7]() | self.pins[6]()) & (
+                    self.pins[9]())))()
 
         if self.pins[8].value == 0 and self.pins[16].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1017,23 +1056,23 @@ class IC_4009(Base_16pin):
             1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'VCC'},
-                    2: {'desc': 'Y1'},
-                    3: {'desc': 'A1'},
-                    4: {'desc': 'Y2'},
-                    5: {'desc': 'A2'},
-                    6: {'desc': 'Y3'},
-                    7: {'desc': 'A3'},
-                    8: {'desc': 'VSS'},
-                    9: {'desc': 'A4'},
-                    10: {'desc': 'Y4'},
-                    11: {'desc': 'A5'},
-                    12: {'desc': 'Y5'},
-                    13: {'desc': ''},
-                    14: {'desc': 'A6'},
-                    15: {'desc': 'Y6'},
-                    16: {'desc': 'VDD'},
-                    })
+        self.set_IC({1: {'desc': 'VCC'},
+                     2: {'desc': 'Y1'},
+                     3: {'desc': 'A1'},
+                     4: {'desc': 'Y2'},
+                     5: {'desc': 'A2'},
+                     6: {'desc': 'Y3'},
+                     7: {'desc': 'A3'},
+                     8: {'desc': 'VSS'},
+                     9: {'desc': 'A4'},
+                     10: {'desc': 'Y4'},
+                     11: {'desc': 'A5'},
+                     12: {'desc': 'Y5'},
+                     13: {'desc': ''},
+                     14: {'desc': 'A6'},
+                     15: {'desc': 'Y6'},
+                     16: {'desc': 'VDD'},
+                     })
 
     def run(self):
         output = {}
@@ -1045,9 +1084,9 @@ class IC_4009(Base_16pin):
         output[15] = NOT(self.pins[14].value).output()
 
         if self.pins[8].value == 0 and self.pins[16].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1080,23 +1119,23 @@ class IC_4010(Base_16pin):
             1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
-        self.setIC({1: {'desc': 'VCC'},
-                    2: {'desc': 'Y1'},
-                    3: {'desc': 'A1'},
-                    4: {'desc': 'Y2'},
-                    5: {'desc': 'A2'},
-                    6: {'desc': 'Y3'},
-                    7: {'desc': 'A3'},
-                    8: {'desc': 'VSS'},
-                    9: {'desc': 'A4'},
-                    10: {'desc': 'Y4'},
-                    11: {'desc': 'A5'},
-                    12: {'desc': 'Y5'},
-                    13: {'desc': ''},
-                    14: {'desc': 'A6'},
-                    15: {'desc': 'Y6'},
-                    16: {'desc': 'VDD'},
-                    })
+        self.set_IC({1: {'desc': 'VCC'},
+                     2: {'desc': 'Y1'},
+                     3: {'desc': 'A1'},
+                     4: {'desc': 'Y2'},
+                     5: {'desc': 'A2'},
+                     6: {'desc': 'Y3'},
+                     7: {'desc': 'A3'},
+                     8: {'desc': 'VSS'},
+                     9: {'desc': 'A4'},
+                     10: {'desc': 'Y4'},
+                     11: {'desc': 'A5'},
+                     12: {'desc': 'Y5'},
+                     13: {'desc': ''},
+                     14: {'desc': 'A6'},
+                     15: {'desc': 'Y6'},
+                     16: {'desc': 'VDD'},
+                     })
 
     def run(self):
         output = {}
@@ -1108,9 +1147,9 @@ class IC_4010(Base_16pin):
         output[15] = self.pins[14].value
 
         if self.pins[8].value == 0 and self.pins[16].value == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1127,24 +1166,24 @@ class IC_4015(Base_16pin):
                      None, None, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
-        self.setIC({1: {'desc': 'CLKB'},
-                    2: {'desc': 'Q4'},
-                    3: {'desc': 'Q3'},
-                    4: {'desc': 'Q2'},
-                    5: {'desc': 'Q1'},
-                    6: {'desc': 'RST1'},
-                    7: {'desc': 'DA'},
-                    8: {'desc': 'VSS'},
-                    9: {'desc': 'CLKA'},
-                    10: {'desc': 'Q4'},
-                    11: {'desc': 'Q3'},
-                    12: {'desc': 'Q2'},
-                    13: {'desc': 'Q1'},
-                    14: {'desc': 'RSTB'},
-                    15: {'desc': 'DB'},
-                    16: {'desc': 'VDD'}
+        self.set_IC({1: {'desc': 'CLKB'},
+                     2: {'desc': 'Q4'},
+                     3: {'desc': 'Q3'},
+                     4: {'desc': 'Q2'},
+                     5: {'desc': 'Q1'},
+                     6: {'desc': 'RST1'},
+                     7: {'desc': 'DA'},
+                     8: {'desc': 'VSS'},
+                     9: {'desc': 'CLKA'},
+                     10: {'desc': 'Q4'},
+                     11: {'desc': 'Q3'},
+                     12: {'desc': 'Q2'},
+                     13: {'desc': 'Q1'},
+                     14: {'desc': 'RSTB'},
+                     15: {'desc': 'DB'},
+                     16: {'desc': 'VDD'}
 
-                    })
+                     })
 
     def run(self):
         output = {}
@@ -1175,9 +1214,9 @@ class IC_4015(Base_16pin):
         output[10] = sr2[3]
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1194,24 +1233,24 @@ class IC_4017(Base_16pin):
                      None, None, None, 0, 0, 0, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
-        self.setIC({1: {'desc': '5'},
-                    2: {'desc': '1'},
-                    3: {'desc': '0'},
-                    4: {'desc': '2'},
-                    5: {'desc': '6'},
-                    6: {'desc': '7'},
-                    7: {'desc': '3'},
-                    8: {'desc': 'VSS'},
-                    9: {'desc': '8'},
-                    10: {'desc': '4'},
-                    11: {'desc': '9'},
-                    12: {'desc': 'carry'},
-                    13: {'desc': 'CLKI'},
-                    14: {'desc': 'CLK'},
-                    15: {'desc': 'RST'},
-                    16: {'desc': 'VDD'}
+        self.set_IC({1: {'desc': '5'},
+                     2: {'desc': '1'},
+                     3: {'desc': '0'},
+                     4: {'desc': '2'},
+                     5: {'desc': '6'},
+                     6: {'desc': '7'},
+                     7: {'desc': '3'},
+                     8: {'desc': 'VSS'},
+                     9: {'desc': '8'},
+                     10: {'desc': '4'},
+                     11: {'desc': '9'},
+                     12: {'desc': 'carry'},
+                     13: {'desc': 'CLKI'},
+                     14: {'desc': 'CLK'},
+                     15: {'desc': 'RST'},
+                     16: {'desc': 'VDD'}
 
-                    })
+                     })
         self.step = 0
 
     def run(self):
@@ -1256,9 +1295,9 @@ class IC_4017(Base_16pin):
             output[11] = 1
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1275,24 +1314,24 @@ class IC_4019(Base_16pin):
                      None, None, None, 0, 0, 0, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
-        self.setIC({1: {'desc': '4A1'},
-                    2: {'desc': '3A0'},
-                    3: {'desc': '3A1'},
-                    4: {'desc': '2A0'},
-                    5: {'desc': '2A1'},
-                    6: {'desc': '1A0'},
-                    7: {'desc': '1A1'},
-                    8: {'desc': 'GND'},
-                    9: {'desc': 'S0'},
-                    10: {'desc': 'Y1'},
-                    11: {'desc': 'Y2'},
-                    12: {'desc': 'Y3'},
-                    13: {'desc': 'Y4'},
-                    14: {'desc': 'S1'},
-                    15: {'desc': '4A0'},
-                    16: {'desc': 'VCC'}
+        self.set_IC({1: {'desc': '4A1'},
+                     2: {'desc': '3A0'},
+                     3: {'desc': '3A1'},
+                     4: {'desc': '2A0'},
+                     5: {'desc': '2A1'},
+                     6: {'desc': '1A0'},
+                     7: {'desc': '1A1'},
+                     8: {'desc': 'GND'},
+                     9: {'desc': 'S0'},
+                     10: {'desc': 'Y1'},
+                     11: {'desc': 'Y2'},
+                     12: {'desc': 'Y3'},
+                     13: {'desc': 'Y4'},
+                     14: {'desc': 'S1'},
+                     15: {'desc': '4A0'},
+                     16: {'desc': 'VCC'}
 
-                    })
+                     })
 
     def run(self):
         output = {}
@@ -1308,9 +1347,9 @@ class IC_4019(Base_16pin):
                         AND(self.pins[14], self.pins[15]).output()).output()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1327,24 +1366,24 @@ class IC_4020(Base_16pin):
                      0, 0, None, None, None, None, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
-        self.setIC({1: {'desc': 'Q11'},
-                    2: {'desc': 'Q12'},
-                    3: {'desc': 'Q13'},
-                    4: {'desc': 'Q5'},
-                    5: {'desc': 'Q4'},
-                    6: {'desc': 'Q6'},
-                    7: {'desc': 'Q3'},
-                    8: {'desc': 'VSS'},
-                    9: {'desc': 'Q0'},
-                    10: {'desc': 'CLK'},
-                    11: {'desc': 'RST'},
-                    12: {'desc': 'Q8'},
-                    13: {'desc': 'Q7'},
-                    14: {'desc': 'Q9'},
-                    15: {'desc': 'Q10'},
-                    16: {'desc': 'VCC'}
+        self.set_IC({1: {'desc': 'Q11'},
+                     2: {'desc': 'Q12'},
+                     3: {'desc': 'Q13'},
+                     4: {'desc': 'Q5'},
+                     5: {'desc': 'Q4'},
+                     6: {'desc': 'Q6'},
+                     7: {'desc': 'Q3'},
+                     8: {'desc': 'VSS'},
+                     9: {'desc': 'Q0'},
+                     10: {'desc': 'CLK'},
+                     11: {'desc': 'RST'},
+                     12: {'desc': 'Q8'},
+                     13: {'desc': 'Q7'},
+                     14: {'desc': 'Q9'},
+                     15: {'desc': 'Q10'},
+                     16: {'desc': 'VCC'}
 
-                    })
+                     })
         self.step = 0
 
     def run(self):
@@ -1389,9 +1428,9 @@ class IC_4020(Base_16pin):
             output[15] = 1
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1408,24 +1447,24 @@ class IC_4022(Base_16pin):
                      None, None, None, 0, 0, 0, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
-        self.setIC({1: {'desc': '1'},
-                    2: {'desc': '0'},
-                    3: {'desc': '2'},
-                    4: {'desc': '5'},
-                    5: {'desc': '6'},
-                    6: {'desc': ''},
-                    7: {'desc': '3'},
-                    8: {'desc': 'VSS'},
-                    9: {'desc': ''},
-                    10: {'desc': '7'},
-                    11: {'desc': '4'},
-                    12: {'desc': 'carry'},
-                    13: {'desc': 'CLKI'},
-                    14: {'desc': 'CLK'},
-                    15: {'desc': 'RST'},
-                    16: {'desc': 'VDD'}
+        self.set_IC({1: {'desc': '1'},
+                     2: {'desc': '0'},
+                     3: {'desc': '2'},
+                     4: {'desc': '5'},
+                     5: {'desc': '6'},
+                     6: {'desc': ''},
+                     7: {'desc': '3'},
+                     8: {'desc': 'VSS'},
+                     9: {'desc': ''},
+                     10: {'desc': '7'},
+                     11: {'desc': '4'},
+                     12: {'desc': 'carry'},
+                     13: {'desc': 'CLKI'},
+                     14: {'desc': 'CLK'},
+                     15: {'desc': 'RST'},
+                     16: {'desc': 'VDD'}
 
-                    })
+                     })
         self.step = 0
 
     def run(self):
@@ -1466,9 +1505,9 @@ class IC_4022(Base_16pin):
             output[11] = 1
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1485,24 +1524,24 @@ class IC_4027(Base_16pin):
                      0, 0, 0, None, None, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
-        self.setIC({1: {'desc': 'Q1'},
-                    2: {'desc': '~Q1'},
-                    3: {'desc': 'CLK1'},
-                    4: {'desc': 'RST1'},
-                    5: {'desc': 'K1'},
-                    6: {'desc': 'J1'},
-                    7: {'desc': 'SET1'},
-                    8: {'desc': 'GND'},
-                    9: {'desc': 'SET2'},
-                    10: {'desc': 'J2'},
-                    11: {'desc': 'K2'},
-                    12: {'desc': 'RST2'},
-                    13: {'desc': 'CLK2'},
-                    14: {'desc': '~Q2'},
-                    15: {'desc': 'Q2'},
-                    16: {'desc': 'VCC'}
+        self.set_IC({1: {'desc': 'Q1'},
+                     2: {'desc': '~Q1'},
+                     3: {'desc': 'CLK1'},
+                     4: {'desc': 'RST1'},
+                     5: {'desc': 'K1'},
+                     6: {'desc': 'J1'},
+                     7: {'desc': 'SET1'},
+                     8: {'desc': 'GND'},
+                     9: {'desc': 'SET2'},
+                     10: {'desc': 'J2'},
+                     11: {'desc': 'K2'},
+                     12: {'desc': 'RST2'},
+                     13: {'desc': 'CLK2'},
+                     14: {'desc': '~Q2'},
+                     15: {'desc': 'Q2'},
+                     16: {'desc': 'VCC'}
 
-                    })
+                     })
 
     def run(self):
         output = {}
@@ -1536,9 +1575,9 @@ class IC_4027(Base_16pin):
         output[15], output[14] = ff2.state()
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1555,24 +1594,24 @@ class IC_4028(Base_16pin):
                      0, 0, 0, 0, None, None, 1]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
-        self.setIC({1: {'desc': 'Y4'},
-                    2: {'desc': 'Y2'},
-                    3: {'desc': 'Y0'},
-                    4: {'desc': 'Y7'},
-                    5: {'desc': 'Y9'},
-                    6: {'desc': 'Y5'},
-                    7: {'desc': 'Y6'},
-                    8: {'desc': 'GND'},
-                    9: {'desc': 'Y8'},
-                    10: {'desc': 'S0'},
-                    11: {'desc': 'S3'},
-                    12: {'desc': 'S2'},
-                    13: {'desc': 'S1'},
-                    14: {'desc': 'Y1'},
-                    15: {'desc': 'Y3'},
-                    16: {'desc': 'VCC'}
+        self.set_IC({1: {'desc': 'Y4'},
+                     2: {'desc': 'Y2'},
+                     3: {'desc': 'Y0'},
+                     4: {'desc': 'Y7'},
+                     5: {'desc': 'Y9'},
+                     6: {'desc': 'Y5'},
+                     7: {'desc': 'Y6'},
+                     8: {'desc': 'GND'},
+                     9: {'desc': 'Y8'},
+                     10: {'desc': 'S0'},
+                     11: {'desc': 'S3'},
+                     12: {'desc': 'S2'},
+                     13: {'desc': 'S1'},
+                     14: {'desc': 'Y1'},
+                     15: {'desc': 'Y3'},
+                     16: {'desc': 'VCC'}
 
-                    })
+                     })
 
     def run(self):
         output = {}
@@ -1592,9 +1631,9 @@ class IC_4028(Base_16pin):
         output[15] = d[3]
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")
@@ -1612,7 +1651,7 @@ class IC_4029(Base_16pin):
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = False
         """
-      self.setIC({1: {'desc': 'Y4'},
+      self.set_IC({1: {'desc': 'Y4'},
                     2: {'desc': 'Y2'},
                     3: {'desc': 'Y0'},
                     4: {'desc': 'Y7'},
@@ -1685,9 +1724,9 @@ class IC_4029(Base_16pin):
                     output[7] = 0
 
         if self.pins[8] == 0 and self.pins[16] == 1:
-            self.setIC(output)
-            for i in self.outputConnector:
-                self.outputConnector[i].state = output[i]
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
             return output
         else:
             print ("Ground and VCC pins have not been configured correctly.")

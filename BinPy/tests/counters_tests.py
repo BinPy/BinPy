@@ -5,7 +5,7 @@ from nose.tools import with_setup, nottest
 def test_BinaryCounter():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_BinaryCounter = BinaryCounter(2, clock.A)
     op = []
     for i in range(5):
@@ -20,7 +20,7 @@ def test_BinaryCounter():
 def test_NBitRippleCounter():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_NBitRippleCounter = NBitRippleCounter(3, clock.A)
     op = []
     for i in range(9):
@@ -36,7 +36,7 @@ def test_NBitRippleCounter():
 def test_NBitDownCounter():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_NBitDownCounter = NBitDownCounter(3, clock.A)
     op = []
     for i in range(9):
@@ -52,7 +52,7 @@ def test_NBitDownCounter():
 def test_DecadeCounter():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_DecadeCounter = DecadeCounter(clock.A)
     op = []
     for i in range(14):
@@ -71,7 +71,7 @@ def test_DecadeCounter():
 def test_RingCounter():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_RingCounter = RingCounter(8, clock)
     op = []
     for i in range(8):
@@ -92,7 +92,7 @@ def test_RingCounter():
 def test_JohnsonCounter():
 
     clock = Clock(1, 500)
-    clock.start()
+
     test_JohnsonCounter = JohnsonCounter(4, clock)
     op = []
     for i in range(8):

@@ -14,7 +14,7 @@ Contains
 """
 
 
-from BinPy.Gates.connector import *
+from BinPy.connectors.connector import *
 
 
 class GATES:
@@ -32,14 +32,14 @@ class GATES:
         self.outputConnector = None  # Valid only if outputType = 1
         self.inputs = inputs[:]  # Set the inputs
         self.history_inputs = []  # Save a copy of the inputs
-        self._updateConnections(self.inputs)
+        self._updateConnections()
         self._updateHistory()
         self.trigger()
         # Any change in the input will trigger change in the
         # output
 
-    def _updateConnections(self, inputs):
-        for i in inputs:
+    def _updateConnections(self):
+        for i in self.inputs:
             if isinstance(i, Connector):
                 i.tap(self, 'input')
 
@@ -56,7 +56,7 @@ class GATES:
         else:
             self.history_active = 1  # Use history before computing
             self.inputs = list(inputs)[:]  # Set the inputs
-            self._updateConnections(self.inputs)
+            self._updateConnections()
         self.trigger()
         # Any change in the input will trigger change in the
         # output
@@ -134,6 +134,16 @@ class GATES:
         self.history_active = 0
         self.trigger()
 
+    def resetOutput(self):
+        """
+        The method resets the output of the gate. The output of the gate is not
+        directed to any Connector Object
+        """
+
+        self.outputConnector.untap(self, 'output')
+        self.outputType = 0
+        self.outputConnector = None
+
     def output(self):
         """
         This methods returns the output of the gate.
@@ -188,6 +198,32 @@ class MIGATES(GATES):
                  more inputs.")
 
         GATES.__init__(self, list(inputs))
+
+    def addInput(self, value):
+        """
+        This method adds an input to an existing gate
+        """
+
+        self.history_active = 0  # Don't use history after adding an input
+        self.inputs.append(value)
+        self._updateConnections()
+        self._updateHistory()
+
+    def removeInput(self, index):
+        """
+        This method removes an input whose index is passed
+        """
+
+        if len(self.inputs) - 1 < 2:
+            raise Exception("ERROR: Too few inputs left after removing")
+
+        if index > len(self.inputs):
+            raise Exception("ERROR: Index value out of range")
+
+        self.history_active = 0
+        self.inputs.pop(index)
+        self._updateConnections()
+        self._updateHistory()
 
 
 class AND(MIGATES):
@@ -316,7 +352,7 @@ class NOT(GATES):
         else:
             self.history_active = 1  # Use history before computing
             self.inputs = list(inputs)[:]  # Set the inputs
-            self._updateConnections(self.inputs)
+            self._updateConnections()
         self.trigger()
         # Any change in the input will trigger change in the
         # output

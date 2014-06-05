@@ -8,7 +8,7 @@ from __future__ import print_function
 import sys
 import random
 import itertools
-from BinPy.Algorithms.QuineMcCluskey import QM
+from BinPy.algorithms.QuineMcCluskey import QM
 
 
 class StateMachineSolver:

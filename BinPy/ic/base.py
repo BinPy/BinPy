@@ -3,30 +3,8 @@ This module includes all the base classes for different ICs.
 """
 from __future__ import print_function
 from BinPy import *
+from BinPy.draw import symbols
 import sys
-
-try:
-    _V = chr(9474)
-    _H = chr(9472)
-    _HVD = chr(9488)
-    _HVU = chr(9496)
-    _VHU = chr(9484)
-    _VHD = chr(9492)
-    _N = chr(10)
-    _U = chr(9697)
-    _LT = chr(9508)
-    _RT = chr(9500)
-except:
-    _V = unichr(9474)
-    _H = unichr(9472)
-    _HVD = unichr(9488)
-    _HVU = unichr(9496)
-    _VHU = unichr(9484)
-    _VHD = unichr(9492)
-    _N = unichr(10)
-    _U = unichr(9697)
-    _LT = unichr(9508)
-    _RT = unichr(9500)
 
 
 class IC:
@@ -34,22 +12,22 @@ class IC:
     """
     This is a base class for IC
     """
-    outputConnector = {}
+    output_connector = {}
 
     def __init__(self):
         pass
 
-    def setOutput(self, index, value):
+    def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a connector class object")
         value.tap(self, 'output')
-        self.outputConnector[index] = value
+        self.output_connector[index] = value
         try:
             output = self.run()
         except:
             print("Invalid Argument")
 
-    def setIC(self, param_dict):
+    def set_IC(self, param_dict):
         """
         If pin class is not used this method then it takes a dictionary with the format { PINNO:PINVALUE, ... }
         Else it takes a dictionary of dictionaries with the format ->
@@ -59,16 +37,17 @@ class IC:
             if not self.uses_pincls:
                 self.pins[pin] = param_dict[pin]
             else:
-                self.pins[pin].setPinParam(param_dict[pin])
+                self.pins[pin].set_pin_param(param_dict[pin])
 
-    def drawIC(self):
+    def draw_IC(self):
         try:
 
             if (self.total_pins in [14, 16]):
 
-                top = "\n\n              " + _VHU + \
-                    _H * 9 + _U + _H * 9 + _HVD + _N
-                bottom = "              " + _VHD + _H * 19 + _HVU + "  "
+                top = "\n\n              " + symbols._VHU + symbols._H * 9 + \
+                    symbols._U + symbols._H * 9 + symbols._HVD + symbols._N
+                bottom = "              " + symbols.symbols._VHD + \
+                    symbols._H * 19 + symbols._HVU + "  "
                 diag = top
 
                 ic_number = str(self.__class__.__name__.split('_')[-1])
@@ -108,15 +87,15 @@ class IC:
                 diag += bottom
                 diag = diag.replace(
                     "---|",
-                    _H *
+                    symbols._H *
                     2 +
                     _LT).replace(
                     "|---",
                     _RT +
-                    _H *
+                    symbols._H *
                     2).replace(
                     '|',
-                    _V)
+                    symbols._V)
                 print(diag)
 
             else:
@@ -124,7 +103,7 @@ class IC:
         except:
             print("ERROR: Draw Failed - " + sys.exc_info()[1].args[0])
 
-    def truthtable(self, pinConfig):
+    def truth_table(self, pin_config):
 
         if isinstance(self, Base_14pin):
             a = {
@@ -163,8 +142,8 @@ class IC:
         elif isinstance(self, Base_5pin):
             a = {1: 0, 2: 0, 3: 0, 4: 0, 5: 1}
 
-        i = pinConfig['i']
-        o = pinConfig['o']
+        i = pin_config['i']
+        o = pin_config['o']
 
         print ("   " + "INPUTS" + (" " * (5 * len(i) - 4)) + "|" + "OUTPUTS")
         print ("   " + "-" * (5 * len(i) + 2) + "|" + "-" * (5 * len(o)))
@@ -196,7 +175,7 @@ class IC:
                         if inputlist in self.invalidlist:
                             break
 
-                    self.setIC(a)
+                    self.set_IC(a)
                     outpins = self.run()
 
                     stdout.write("   ")
@@ -222,13 +201,13 @@ class Base_5pin(IC):
     total_pins = 5
     uses_pincls = False
 
-    def setPin(self, pin_no, pin_value):
+    def set_pin(self, pin_no, pin_value):
         if pin_no < 1 or pin_no > 5:
             raise Exception("ERROR: There are only 5 pins in this IC")
         if not self.uses_pincls:
             self.pins[pin_no] = pin_value
         else:
-            self.pins[pin_no].setPinParam(pin_value)
+            self.pins[pin_no].set_pin_param(pin_value)
 
 
 class Base_14pin(IC):
@@ -239,19 +218,19 @@ class Base_14pin(IC):
     total_pins = 14
     uses_pincls = False
 
-    def setPin(self, pin_no, pin_value):
+    def set_pin(self, pin_no, pin_value):
         if pin_no < 1 or pin_no > 14:
             raise Exception("ERROR: There are only 14 pins in this IC")
         if not self.uses_pincls:
             self.pins[pin_no] = pin_value
         else:
-            self.pins[pin_no].setPinParam(pin_value)
+            self.pins[pin_no].set_pin_param(pin_value)
 
-    def setPinParam(self, pin_no, parm_dict):
+    def set_pin_param(self, pin_no, parm_dict):
         if pin_no < 1 or pin_no > 14:
             raise Exception("ERROR: There are only 14 pins in this IC")
         if uses_pincls:
-            self.pins[pin_no].setPinParam(parm_dict)
+            self.pins[pin_no].set_pin_param(parm_dict)
         else:
             raise Exception("ERROR: IC Does not use Pinset class")
 
@@ -264,19 +243,19 @@ class Base_16pin(IC):
     total_pins = 16
     uses_pincls = False
 
-    def setPin(self, pin_no, pin_value):
+    def set_pin(self, pin_no, pin_value):
         if pin_no < 1 or pin_no > 16:
             raise Exception("ERROR: There are only 16 pins in this IC")
         if not self.uses_pincls:
             self.pins[pin_no] = pin_value
         else:
-            self.pins[pin_no].setPinParam(pin_value)
+            self.pins[pin_no].set_pin_param(pin_value)
 
-    def SetPinParam(self, pin_no, parm_dict):
+    def set_pin_param(self, pin_no, parm_dict):
         if pin_no < 1 or pin_no > 16:
             raise Exception("ERROR: There are only 16 pins in this IC")
         if uses_pincls:
-            self.pins[pin_no].setPinParam(parm_dict)
+            self.pins[pin_no].set_pin_param(parm_dict)
         else:
             raise Exception("ERROR: IC Does not use Pinset class")
 
@@ -290,18 +269,16 @@ class Pin():
     { 'value':0, 'desc':'IN1: Input 1 of Mux', 'can_vary':True }
 
     First 3 characters of desc will be used as pin_tag
-
     """
 
     def __init__(self, pin_no, param_dict={}):
 
         self.pin_no = pin_no
         self.pin_tag = '   '
-        self.__doc__ = ''
         self.can_vary = True
-        self.setPinParam(param_dict)
+        self.set_pin_param(param_dict)
 
-    def setPinParam(self, param_dict):
+    def set_pin_param(self, param_dict):
         if isinstance(param_dict, dict):
             # If a dictionary of parameters is passed, store the contents of the dictionary to the
             # respective parameters
@@ -330,25 +307,25 @@ class Pin():
         return str(self.value)
 
     def __call__(self):
-        """ The call method returns the logic value of the pin """
+        """ The call method returns the Logic value of the pin """
         # This method can be used in IC implementations
-        return logic(self.value)
+        return Logic(self.value)
 
 
 def pinlist_quick(first_arg):
-    """Defines a method to quickly convert a list of logic states to pin instances"""
+    """Defines a method to quickly convert a list of Logic states to pin instances"""
     if isinstance(first_arg, list):
         # Quickly converts a list of Logic values to a list of Pin instances
-        listofpins = list()
+        lst_of_pins = list()
         for i in range(len(first_arg)):
-            listofpins.append(
+            lst_of_pins.append(
                 Pin(i + 1, {'value': first_arg[i], 'desc': '   ', 'can_vary': True}))
-        return listofpins
+        return lst_of_pins
     else:
         raise Exception("ERROR: Unknown parameter type passed")
 
 
-class logic():
+class Logic():
 
     """
     Implements methods of AND OR and EXOR using BinPy library Gate modules
@@ -360,46 +337,46 @@ class logic():
             self.value = int(value)
         else:
             self.value = value
-        # Tri state logic can be introduced later on ...
+        # Tri state Logic can be introduced later on ...
 
     def __add__(self, right):
         '''OR Gate equivalent'''
-        return logic(OR(self.value, right.value).output())
-        # Returns a logic instance corresponding to the boolean value of the
+        return Logic(OR(self.value, right.value).output())
+        # Returns a Logic instance corresponding to the boolean value of the
         # output of BinPy's OR Gate implementation
 
     def __or__(self, right):
         '''OR Gate equivalent'''
-        return logic(OR(self.value, right.value).output())
-        # Returns a logic instance corresponding to the boolean value of the
+        return Logic(OR(self.value, right.value).output())
+        # Returns a Logic instance corresponding to the boolean value of the
         # output of BinPy's OR Gate implementation
 
     def __xor__(self, right):
         '''XOR Gate'''
-        return logic(XOR(self.value, right.value).output())
-        # Returns a logic instance corresponding to the boolean value of the
+        return Logic(XOR(self.value, right.value).output())
+        # Returns a Logic instance corresponding to the boolean value of the
         # output of BinPy's XOR Gate implementation
 
     def __mul__(self, right):
         '''AND Gate'''
-        return logic(AND(self.value, right.value).output())
-        # Returns a logic instance corresponding to the boolean value of the
+        return Logic(AND(self.value, right.value).output())
+        # Returns a Logic instance corresponding to the boolean value of the
         # output of BinPy's AND Gate implementation
 
     def __and__(self, right):
         '''AND Gate'''
-        return logic(AND(self.value, right.value).output())
-        # Returns a logic instance corresponding to the boolean value of the
+        return Logic(AND(self.value, right.value).output())
+        # Returns a Logic instance corresponding to the boolean value of the
         # output of BinPy's AND Gate implementation
 
     def __invert__(self):
         '''NOT Gate'''
-        return logic(NOT(self.value).output())
-        # Returns a logic instance corresponding to the boolean value of the
+        return Logic(NOT(self.value).output())
+        # Returns a Logic instance corresponding to the boolean value of the
         # output of BinPy's NOT Gate implementation
 
     def __call__(self):
-        '''Returns the binary equivalent of the logic value of self'''
+        '''Returns the binary equivalent of the Logic value of self'''
         return int(self.value)
 
     def __int__(self):

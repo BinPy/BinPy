@@ -10,19 +10,21 @@ except ImportError:
     BINPY_VERSION = ""
 
 
-def shellclear():
+def shell_clear():
     if platform.system() == "Windows":
         return
     subprocess.call("clear")
 
 
 def magic_clear(self, arg):
-    shellclear()
+    shell_clear()
 
-banner = '+-----------------------------------------------------------+\n'
+banner = '+-----------------------------------------------------------+\n\n'
 banner += ' BinPy '
 banner += BINPY_VERSION
-banner += ' [interactive shell]\n'
+banner += ' [interactive shell]\n\n'
+banner += ' Website: www.binpy.org\n\n'
+banner += ' Documentation: http://docs.binpy.org/\n\n'
 banner += '+-----------------------------------------------------------+\n'
 banner += '\n'
 banner += 'Commands: \n'
@@ -44,7 +46,7 @@ def self_update():
     sys.exit()
 
 
-def setupIpython():
+def setup_ipython():
 
     try:
         import IPython
@@ -58,22 +60,22 @@ def setupIpython():
         cfg = Config()
         cfg.PromptManager.in_template = "BinPy:\\#> "
         cfg.PromptManager.out_template = "BinPy:\\#: "
-        bpyShell = InteractiveShellEmbed(config=cfg, banner1=banner,
-                                         exit_msg=exit_msg)
-        bpyShell.define_magic("clear", magic_clear)
+        bpy_shell = InteractiveShellEmbed(config=cfg, banner1=banner,
+                                          exit_msg=exit_msg)
+        bpy_shell.define_magic("clear", magic_clear)
 
     except ImportError:
         try:
             from IPython.Shell import IPShellEmbed
             argsv = ['-pi1', 'BinPY:\\#>', '-pi2', '   .\\D.:', '-po',
                      'BinPy:\\#>', '-nosep']
-            bpyShell = IPShellEmbed(argsv)
-            bpyShell.set_banner(banner)
-            bpyShell.set_exit_msg(exit_msg)
+            bpy_shell = IPShellEmbed(argsv)
+            bpy_shell.set_banner(banner)
+            bpy_shell.set_exit_msg(exit_msg)
         except ImportError:
             raise
 
-    return bpyShell()
+    return bpy_shell()
 
 
 def run_notebook(mainArgs):
@@ -131,7 +133,7 @@ def run_notebook(mainArgs):
     sys.exit()
 
 
-def shellMain(*args):
+def shell_main(*args):
     log_level = logging.WARNING
     interface = None
 
@@ -153,5 +155,5 @@ def shellMain(*args):
             log_level = logging.DEBUG
 
     init_logging(log_level)
-    shellclear()
-    bpyShell = setupIpython()
+    shell_clear()
+    bpy_shell = setup_ipython()

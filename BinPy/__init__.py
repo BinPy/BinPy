@@ -1,13 +1,15 @@
 __version__ = "0.3"
 
-from BinPy.Gates import *
+from BinPy.connectors import *
+from BinPy.gates import *
 from BinPy.ic import *
-from BinPy.Algorithms import *
+from BinPy.algorithms import *
 from BinPy.tools import *
 from BinPy.base import *
-from BinPy.Operations import *
-from BinPy.Sequential import *
-from BinPy.Combinational import *
+from BinPy.operations import *
+from BinPy.sequential import *
+from BinPy.combinational import *
 from BinPy.dev import *
 from BinPy.base import *
-from BinPy.Analog import *
+from BinPy.config import *
+from BinPy.analog import *

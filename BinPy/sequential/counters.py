@@ -1,5 +1,5 @@
-from BinPy.Sequential import *
-from BinPy.Sequential.registers import *
+from BinPy.sequential import *
+from BinPy.sequential.registers import *
 
 
 class Counter(object):

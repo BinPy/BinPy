@@ -2,6 +2,7 @@
 *~
 # C extensions
 *.so
+*.swo
 
 # Packages
 *.egg
@@ -10,7 +11,6 @@ dist
 build
 eggs
 parts
-bin
 var
 sdist
 develop-eggs
@@ -36,3 +36,8 @@ nosetests.xml
 
 # IPython Notebook Checkpoints
 .ipynb_checkpoints/
+
+# Swap Files
+*.swp
+*-swp
+*~
