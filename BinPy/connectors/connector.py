@@ -211,6 +211,24 @@ class Bus(object):
     Objects of this class can be used :
     1. As input and output interfaces for modules and other blocks
     2. When a lot of connectors are needed
+
+    EXAMPLES
+    ========
+
+    a = Connector()
+    b = Connector()
+    c = Connector()
+    d = Connector()
+
+    # Equivalent
+    lst = Bus(4)
+
+    # Initializing and methods.
+
+    Bus.set_voltage_all()
+    Bus.get_voltage.all()
+    Bus.set_logic_all('1111')
+    Bus.get_logic_all()
     """
 
     def __init__(self, *inputs):
