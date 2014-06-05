@@ -1,5 +1,6 @@
 from BinPy.gates.gates import *
 from nose.tools import with_setup, nottest
+import time
 
 
 class Buffer_Block:
@@ -79,3 +80,14 @@ def connectors_test():
     c.trigger()
 
     assert c == [0, 1, 0, 1, 1, 0, 1, 1]
+
+    # Testing the linker module
+    
+    d = Bus(8)
+
+    AutoUpdater.add_link(c, d)
+    
+    # Allow for propagation of state - propagation delay.
+    time.sleep(0.1)
+
+    assert d == [0, 1, 0, 1, 1, 0, 1, 1]

@@ -7,7 +7,7 @@ import BinPy
 
 
 class AutoUpdater(threading.Thread):
-
+    _lock = threading.RLock()
     _graph = nx.DiGraph()
 
     @staticmethod
@@ -15,43 +15,45 @@ class AutoUpdater(threading.Thread):
         """
         Link a list of Connectors ( or  a Bus of connectors ) with another list / Bus for auto-updation.
         """
+        with AutoUpdater._lock:
 
-        if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
-            if len(a) != len(b):
-                raise Exception("ERROR: Lengths are not equal")
-            for i, j in zip(a, b):
-                if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
-                    raise Exception(
-                        "ERROR: Only Connector objects can be linked")
-                if not AutoUpdater._graph.has_edge(i, j):
-                    AutoUpdater._graph.add_edge(i, j)
+            if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
+                if len(a) != len(b):
+                    raise Exception("ERROR: Lengths are not equal")
+                for i, j in zip(a, b):
+                    if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
+                        raise Exception(
+                            "ERROR: Only Connector objects can be linked")
+                    if not AutoUpdater._graph.has_edge(i, j):
+                        AutoUpdater._graph.add_edge(i, j)
 
-                    if (not directed) and (not AutoUpdater._graph.has_edge(j, i)):
-                        AutoUpdater._graph.add_edge(j, i)
-        else:
-            raise Exception("Invalid Input")
+                        if (not directed) and (not AutoUpdater._graph.has_edge(j, i)):
+                            AutoUpdater._graph.add_edge(j, i)
+            else:
+                raise Exception("Invalid Input")
 
     @staticmethod
     def remove_link(a, b, directed=True):
         """
         Unlink a list of Connectors ( or  a Bus of connectors ) with another list / Bus.
         """
+        with AutoUpdater._lock:
 
-        if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
-            if len(a) != len(b):
-                raise Exception("ERROR: Lengths are not equal")
-            for i, j in zip(a, b):
-                if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
-                    raise Exception(
-                        "ERROR: Only Connector objects can be linked")
-                if AutoUpdater._graph.has_edge(i, j):
-                    AutoUpdater._graph.remove_edge(i, j)
+            if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
+                if len(a) != len(b):
+                    raise Exception("ERROR: Lengths are not equal")
+                for i, j in zip(a, b):
+                    if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
+                        raise Exception(
+                            "ERROR: Only Connector objects can be linked")
+                    if AutoUpdater._graph.has_edge(i, j):
+                        AutoUpdater._graph.remove_edge(i, j)
 
-                    if not directed and AutoUpdater._graph.has_edge(j, i):
-                        AutoUpdater._graph.remove_edge(j, i)
+                        if not directed and AutoUpdater._graph.has_edge(j, i):
+                            AutoUpdater._graph.remove_edge(j, i)
 
-        else:
-            raise Exception("Invalid Input")
+            else:
+                raise Exception("Invalid Input")
 
     def __init__(self):
         threading.Thread.__init__(self)
@@ -61,21 +63,21 @@ class AutoUpdater(threading.Thread):
 
     def run(self):
         while True:
-            nodes = AutoUpdater._graph.nodes()
-
+            with AutoUpdater._lock:
+                nodes = AutoUpdater._graph.nodes()
+            
             for i in nodes:
-                for pair in AutoUpdater._graph.edges(i):
-                    pair[1].set_voltage(pair[0])
-                    # Copies the value of the 0th index connector to the 1st
-                    # index connector
+                with AutoUpdater._lock:
+                    for pair in AutoUpdater._graph.edges(i):
+                        pair[1].set_voltage(pair[0])
+                        # Copies the value of the 0th index connector to the 1st
+                        # index connector
 
-                    time.sleep(0.01)
-
-            # One circuit has been traversed.
+                # One circuit has been traversed.
 
 
 # Initiating the auto updater.
-# auto_updater_instance = AutoUpdater()
+auto_updater_instance = AutoUpdater()
 
 
 class BinPyIndexer(object):
