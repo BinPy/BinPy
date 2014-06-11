@@ -2653,6 +2653,104 @@ class IC_7475(Base_16pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_7485(Base_16pin):
+
+    """4 bit magnitude comparator
+    Comparing two 4-bit binary numbers A3A2A1A0 & B3B2B1B0
+
+    Pin Number  Description
+    1   B3(MSB)
+    2   Cascade Input - A<B
+    3   Cascade Input - A=B
+    4   Cascade Input - A>B
+    5   Output A>B
+    6   Output A=B
+    7   Output A<B
+    8   Ground
+    9   B0
+    10  A0
+    11  B1
+    12  A1
+    13  A2
+    14  B2
+    15  A3(MSB)
+    16  VCC
+
+    We can compare 8,12,16... by cascading more of these ICs
+
+    """
+
+    # Datasheet available here,
+    # http://pdf1.alldatasheet.com/datasheet-pdf/view/8074/NSC/7485.html
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1]
+
+    def run(self):
+        temp = []
+        output = {}
+
+        temp.append(XOR(self.pins[10], self.pins[9]).output())
+        temp.append(XOR(self.pins[12], self.pins[11]).output())
+        temp.append(XOR(self.pins[14], self.pins[13]).output())
+        temp.append(XOR(self.pins[15], self.pins[1]).output())
+
+        output[6] = AND(
+            temp[0],
+            temp[1],
+            temp[2],
+            temp[3],
+            self.pins[3]).output()
+
+        output[5] = OR(
+            AND(
+                temp[0], temp[1], temp[2], temp[3], self.pins[4]).output(), AND(
+                temp[2], temp[3], self.pins[12], NOT(
+                    self.pins[11]).output()).output(), AND(
+                    temp[1], temp[2], temp[3], self.pins[10], NOT(
+                        self.pins[9]).output()).output(), AND(
+                            temp[3], self.pins[13], NOT(
+                                self.pins[14]).output()).output(), AND(
+                                    self.pins[15], NOT(
+                                        self.pins[1]).output()).output()).output()
+
+        output[7] = OR(
+            AND(
+                temp[0], temp[1], temp[2], temp[3], self.pins[2]).output(), AND(
+                temp[2], temp[3], self.pins[11], NOT(
+                    self.pins[12]).output()).output(), AND(
+                    temp[1], temp[2], temp[3], self.pins[9], NOT(
+                        self.pins[10]).output()).output(), AND(
+                            temp[3], self.pins[14], NOT(
+                                self.pins[13]).output()).output(), AND(
+                                    self.pins[1], NOT(
+                                        self.pins[15]).output()).output()).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
 ##############################################
 # Sequential Circuits
 ##############################################

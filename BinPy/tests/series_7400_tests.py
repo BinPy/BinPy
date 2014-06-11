@@ -603,6 +603,16 @@ def test_IC_7483():
         assert False
 
 
+def test_IC_7485():
+    test_IC = IC_7485()
+    p = {1: 0, 2: 0, 3: 0, 4: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0, 13: 1, 14: 0,
+         15: 1, 16: 1}
+    test_IC.set_IC(p)
+    q = {5: 1, 6: 0, 7: 0}
+    if q != test_IC.run():
+        assert False
+
+
 def test_IC_74151A():
     test_IC = IC_74151A()
     m = {
