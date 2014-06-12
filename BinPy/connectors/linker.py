@@ -131,12 +131,6 @@ class AutoUpdater(threading.Thread):
 # Initiating the auto updater.
 auto_updater_instance = AutoUpdater()
 
-# To make the call to link easier.
-auto_update_link = auto_updater_instance.add_link
-
-# To make call to unlink shorter.
-auto_update_unlink = auto_updater_instance.remove_link
-
 class BinPyIndexer(object):
 
     """

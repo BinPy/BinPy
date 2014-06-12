@@ -41,6 +41,8 @@ class Connector(object):
 
     def __init__(self, state=None, name=""):
         self.__dict__["_lock"] = threading.RLock()
+        self.__dict__["_enable"] = True # To bypass the __setattr__
+        
         self.connections = {"output": [], "input": []}
         # To store the all the taps onto this connection
         self.state = state  # To store the state of the connection
@@ -52,6 +54,7 @@ class Connector(object):
         self.name_set = (name != "")
         self._index = BinPyIndexer.index(self)
         self.analog = False
+        
 
     @property
     def index(self):
@@ -76,7 +79,10 @@ class Connector(object):
                 mode)
 
     def set_logic(self, val):
+        
         with self._lock:
+            if not self._enable :
+                return       
 
             if type(val) in [int, None, bool]:
                 self.state = val if val is not None else None
@@ -99,6 +105,8 @@ class Connector(object):
 
     def set_voltage(self, val):
         with self._lock:
+            if not self._enable :
+                return       
 
             if type(val) in [float, int]:
                 self.voltage = float(val)
@@ -148,7 +156,11 @@ class Connector(object):
 
     # This could replace the trigger method all together.
     def __setattr__(self, name, val):
+        # print name, " , ", val
         with self._lock:
+            if ( not self._enable ) and ( name != "_enable" ):  # To enable the connector when it is disabled.
+                return       
+            # print " recording "
             self.__dict__[name] = val
 
         # Using lock'd access in setattr implies that even if the parameter is changed externally `a.state = 1`
@@ -164,6 +176,20 @@ class Connector(object):
     # To be compatible with Python 2.x
     __nonzero__ = __bool__
 
+    def enable(self):
+        with self._lock:
+            self._enable = True;
+            
+    def disable(self):
+        with self._lock:
+            self._enable = False;
+            
+    def is_enabled(self):
+        return self._enable
+    
+    def is_disabled(self):
+        return ( not self._enable ) 
+            
     # Overloads the int() method
     def __int__(self):
         with self._lock:
