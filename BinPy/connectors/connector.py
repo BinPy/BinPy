@@ -201,7 +201,8 @@ class Connector(object):
     def __del__(self):
         try:
             BinPyIndexer.unindex(self)
-        except (AttributeError, KeyError) as e:
+            AutoUpdater.remove_link([self])
+        except (AttributeError, KeyError, ValueError) as e:
             pass
 
 
@@ -537,5 +538,6 @@ class Bus(object):
     def __del__(self):
         try:
             BinPyIndexer.unindex(self)
-        except (AttributeError, KeyError) as e:
+            AutoUpdater.remove_link(self)
+        except (AttributeError, KeyError, ValueError) as e:
             pass

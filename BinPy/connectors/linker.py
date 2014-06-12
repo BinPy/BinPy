@@ -57,28 +57,56 @@ class AutoUpdater(threading.Thread):
                 raise Exception("Invalid Input")
 
     @staticmethod
-    def remove_link(a, b, directed=True):
+    def remove_link(a, b = None, directed=True):
         """
         Unlink a list of Connectors ( or  a Bus of connectors ) with another list / Bus.
+        Give a single element list or a multi element single list ( a only ) to unlink all connections
+        to and from the node ( Connector )
+        
+        USAGE
+        =====
+        
+        >>> a = Bus(4)
+        >>> b = Bus(2)
+        >>> c = Bus(2)
+        >>> AutoUpdater.add_link(a[:2], b)
+        >>> AutoUpdater.add_link(a[2:], c)
+        >>> AutoUpdater.remove_link(a[:2], b)
+        >>> AutoUpdater.remove_link(a[2:]) # Single list (Bus) with multiple connector instance ..
+        
         """
-        with AutoUpdater._lock:
+        if b is not None:
+            with AutoUpdater._lock:
+                if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
+                    if len(a) != len(b):
+                        raise Exception("ERROR: Lengths are not equal")
+                    for i, j in zip(a, b):
+                        if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
+                            raise Exception(
+                                "ERROR: Only Connector objects can be Unlinked")
+                        if AutoUpdater._graph.has_edge(i, j):
+                            AutoUpdater._graph.remove_edge(i, j)
 
-            if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
-                if len(a) != len(b):
-                    raise Exception("ERROR: Lengths are not equal")
-                for i, j in zip(a, b):
-                    if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
-                        raise Exception(
-                            "ERROR: Only Connector objects can be linked")
-                    if AutoUpdater._graph.has_edge(i, j):
-                        AutoUpdater._graph.remove_edge(i, j)
+                            if not directed and AutoUpdater._graph.has_edge(j, i):
+                                AutoUpdater._graph.remove_edge(j, i)
 
-                        if not directed and AutoUpdater._graph.has_edge(j, i):
-                            AutoUpdater._graph.remove_edge(j, i)
-
-            else:
-                raise Exception("Invalid Input")
-
+                else:
+                    raise Exception("Invalid Input")
+         
+        else:
+            with AutoUpdater._lock:
+                # if only a is given remove all links to and from it.
+                if ( type(a) in [ BinPy.connectors.connector.Bus, list ] ):
+                    # Bus is passed:
+                    for conn in a:
+                        if isinstance(conn, BinPy.connectors.connector.Connector):
+                            AutoUpdater._graph.remove_node(conn)
+                        else:
+                            raise Exception(
+                                "ERROR: Only Connector objects can be Unlinked")
+                else:
+                    raise Exception("ERROR: Specify inputs as list of Connectors or a Bus")
+                         
     def __init__(self):
         threading.Thread.__init__(self)
 
@@ -103,6 +131,11 @@ class AutoUpdater(threading.Thread):
 # Initiating the auto updater.
 auto_updater_instance = AutoUpdater()
 
+# To make the call to link easier.
+auto_update_link = auto_updater_instance.add_link
+
+# To make call to unlink shorter.
+auto_update_unlink = auto_updater_instance.remove_link
 
 class BinPyIndexer(object):
 
