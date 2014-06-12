@@ -51,6 +51,7 @@ class Connector(object):
         self._name = name
         self.name_set = (name != "")
         self._index = BinPyIndexer.index(self)
+        self.analog = False
 
     @property
     def index(self):
