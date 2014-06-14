@@ -8,10 +8,10 @@ class Clock(threading.Thread):
 
     """
     This class uses threading technique to create a clock with a certain time period.
-    
+
     USAGE
     =====
-    
+
     >>> my_clock = Clock(0,time_period=2,name="My First Clock")
     >>> my_clock.get_state()
     0
@@ -27,24 +27,24 @@ class Clock(threading.Thread):
         If time_period and frequency both have been provided, then time_period
         will override frequency
         If nothing is provided, then it will set time_period = 1s by default
-        
+
     METHODS
     =======
-    
+
     start(), getState(), setState(value), getName(), getTimePeriod(), kill()
-    
+
     NOTE
     ====
-    
+
     Once you are done with the clock, use myClock.kill() to kill the clock.
     Running too many clocks will unnecessarily overload the CPU.
-    
+
     All operations are thread safe and synchronized between inter / intra thread calls.
 
     """
-    
+
     _lock = threading.RLock()
-    
+
     def __init__(
             self,
             init_state=1,
@@ -133,7 +133,7 @@ class Clock(threading.Thread):
         """
         with self._lock:
             return self.name
-        
+
     def kill(self):
         """
         Kills the clock(Thread)

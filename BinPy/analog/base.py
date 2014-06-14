@@ -2,5 +2,6 @@
 
 
 class Analog(object):
+
     def __init__(self):
         pass

@@ -39,22 +39,23 @@ class Connector(object):
     * trigger
     """
 
-    def __init__(self, state=None, name=""):
+    def __init__(self, state=None, voltage=None, analog=False, name=""):
         self.__dict__["_lock"] = threading.RLock()
-        self.__dict__["_enable"] = True # To bypass the __setattr__
-        
+        self.__dict__["_enable"] = True  # To bypass the __setattr__
+
         self.connections = {"output": [], "input": []}
         # To store the all the taps onto this connection
-        self.state = state  # To store the state of the connection
+        self.set_logic(state)
         self.oldstate = None
+
         # voltage for analog components
-        self.voltage = 0.0
+        if voltage is not None:
+            self.set_voltage(voltage)
         self.oldvoltage = 0.0
         self._name = name
         self.name_set = (name != "")
         self._index = BinPyIndexer.index(self)
-        self.analog = False
-        
+        self.analog = analog
 
     @property
     def index(self):
@@ -79,12 +80,12 @@ class Connector(object):
                 mode)
 
     def set_logic(self, val):
-        
-        with self._lock:
-            if not self._enable :
-                return       
 
-            if type(val) in [int, None, bool]:
+        with self._lock:
+            if not self._enable:
+                return
+
+            if type(val) in [int, type(None), bool]:
                 self.state = val if val is not None else None
                 self.voltage = constants.LOGIC_HIGH_VOLT if self.state == constants.LOGIC_HIGH_STATE else constants.LOGIC_LOW_VOLT
                 self.trigger()
@@ -105,8 +106,8 @@ class Connector(object):
 
     def set_voltage(self, val):
         with self._lock:
-            if not self._enable :
-                return       
+            if not self._enable:
+                return
 
             if type(val) in [float, int]:
                 self.voltage = float(val)
@@ -116,8 +117,7 @@ class Connector(object):
             else:
                 raise Exception("ERROR: Voltage must be a float or int")
 
-            state = constants.LOGIC_HIGH_STATE if self.voltage > constants.LOGIC_THRESHOLD_VOLT else constants.LOGIC_LOW_STATE
-            self.set_logic(state)
+            self.state = constants.LOGIC_HIGH_STATE if self.voltage > constants.LOGIC_THRESHOLD_VOLT else constants.LOGIC_LOW_STATE
 
     def get_voltage(self):
         with self._lock:
@@ -158,8 +158,9 @@ class Connector(object):
     def __setattr__(self, name, val):
         # print name, " , ", val
         with self._lock:
-            if ( not self._enable ) and ( name != "_enable" ):  # To enable the connector when it is disabled.
-                return       
+            # To enable the connector when it is disabled.
+            if (not self._enable) and (name != "_enable"):
+                return
             # print " recording "
             self.__dict__[name] = val
 
@@ -178,18 +179,18 @@ class Connector(object):
 
     def enable(self):
         with self._lock:
-            self._enable = True;
-            
+            self._enable = True
+
     def disable(self):
         with self._lock:
-            self._enable = False;
-            
+            self._enable = False
+
     def is_enabled(self):
         return self._enable
-    
+
     def is_disabled(self):
-        return ( not self._enable ) 
-            
+        return (not self._enable)
+
     # Overloads the int() method
     def __int__(self):
         with self._lock:
