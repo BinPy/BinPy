@@ -197,9 +197,9 @@ def connections_updater():
         return
 
 # Initiating the auto updater.
-connections_updator_thread = threading.Thread(target=connections_updater)
-connections_updator_thread.daemon = True
-connections_updator_thread.start()
+connections_updater_thread = threading.Thread(target=connections_updater)
+connections_updater_thread.daemon = True
+connections_updater_thread.start()
 
 
 class BinPyIndexer(object):

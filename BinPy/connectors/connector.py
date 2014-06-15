@@ -51,6 +51,8 @@ class Connector(object):
         # voltage for analog components
         if voltage is not None:
             self.set_voltage(voltage)
+            self.analog = True
+
         self.oldvoltage = 0.0
         self._name = name
         self.name_set = (name != "")
@@ -292,6 +294,10 @@ class Bus(object):
 
             else:
                 raise Exception("ERROR: Invalid input")
+
+        if self.analog:
+            for i in self:
+                i.analog = True
 
         # Each Bus will have an unique index. Good for debugging Connections.
         self._index = BinPyIndexer.index(self)
