@@ -92,6 +92,16 @@ class AutoUpdater(threading.Thread):
                         if (not directed) and (not AutoUpdater._graph.has_edge(j, i)):
                             AutoUpdater._graph.add_edge(j, i, object=bind_to)
                             AutoUpdater._graph[j][i]['params'] = list(params)
+
+            elif isinstance(a, BinPy.connectors.connector.Connector) and isinstance(b, BinPy.connectors.connector.Connector):
+                AutoUpdater.add_link([a], [b], bind_to=bind_to, params=params)
+
+            elif isinstance(a, BinPy.connectors.connector.Connector) and isinstance(b, BinPy.connectors.connector.Bus):
+                AutoUpdater.add_link([a], b, bind_to=bind_to, params=params)
+
+            elif isinstance(a, BinPy.connectors.connector.Bus) and isinstance(b, BinPy.connectors.connector.Connector):
+                AutoUpdater.add_link(a, [b], bind_to=bind_to, params=params)
+
             else:
                 raise Exception("Invalid Input")
 
