@@ -167,12 +167,23 @@ class AnalogBuffer(object):
         Set the enable input to be linked with the enable input of the buffer bank module
         """
         with AutoUpdater._lock:
-            AutoUpdater.remove_link(self.enable)
-            AutoUpdater.add_link(
-                enable,
-                self.enable,
-                bind_to=AnalogBuffer.trigger,
-                params=[self])
+            if isinstance(enable, Bus):
+                AutoUpdater.remove_link(self.enable)
+                AutoUpdater.add_link(
+                    enable,
+                    self.enable,
+                    bind_to=AnalogBuffer.trigger,
+                    params=[self])
+            elif isinstance(enable, Connector):
+                AutoUpdater.remove_link(self.enable)
+                AutoUpdater.add_link(
+                    [enable],
+                    self.enable,
+                    bind_to=AnalogBuffer.trigger,
+                    params=[self])
+            else:
+                raise Exception(
+                    "ERROR: Invalid Enable input. Enable must be a 1-bit Bus or a Connector.")
 
     def is_enabled(self):
         """
