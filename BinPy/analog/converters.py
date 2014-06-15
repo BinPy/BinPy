@@ -39,6 +39,35 @@ class A2D(object):
     scale           - scale factor to be multiplied with the voltage before conversion.
     valid           - 1-Bit digital Bus Indicating the end of conversion.
 
+    USAGE
+    =====
+
+        >>> input_analog   = Bus(Connector(voltage = 6.4))
+    >>> input_analog.set_type(analog = True)
+    >>> output_digital = Bus(16)
+    >>> VREF           = Connector(voltage = 5.0)
+    >>> GND            = Connector(voltage = 0)
+    >>> a2d_16bit = A2D(input_analog, output_digital, 3, VREF, GND, scale = 0.5)
+    >>> time.sleep(0.5) # To allow conversion to take place.
+    >>> print output_digital.get_logic_all(as_list = False)
+
+    0b1010001111010111
+
+    >>> input_analog[0].set_voltage(4.2)
+    >>> time.sleep(0.5) # To allow conversion to take place.
+    >>> print output_digital.get_logic_all(as_list = False)
+
+    0b0110101110000101
+
+    >>> ieee_64bit = Bus(64)
+    >>> a2d_IEEE64 = A2D(input_analog, ieee_64bit, 5)
+    >>> time.sleep(0.5) # To allow conversion to take place.
+    >>> print ieee_64bit.get_logic_all(as_list = False)
+
+    0b0100000000010000110011001100110011001100110011001100110011001101
+
+    http://babbage.cs.qc.cuny.edu/IEEE-754.old/Decimal.html
+
     """
 
     def __init__(
@@ -101,10 +130,10 @@ class A2D(object):
             return float(vref) / float(self.possible_states)
 
         elif self.typ == 4:
-            return 1.0e-06
+            return 1.0e-05
 
         else:
-            return 1.0e-12  # approximate resolutions.
+            return 1.0e-10  # approximate resolutions.
 
     def set_inputs(self, analog_input):
         """
@@ -335,6 +364,31 @@ class D2A(object):
     gnd            - Module reference.
     scale          - scale factor to be multiplied with the voltage before conversion.
 
+    USAGE:
+    =====
+
+    >>> output_analog   = Bus(Connector(voltage = 6.4))
+    >>> output_analog.set_type(analog = True)
+    >>> input_digital = Bus(16)
+    >>> input_digital.set_logic_all('0110101110000101')
+    >>> VREF           = Connector(voltage = 5.0)
+    >>> GND            = Connector(voltage = 0)
+    >>> d2a_16bit = D2A(input_digital, output_analog, 3, VREF, GND, scale = 2)
+    >>> time.sleep(0.1) # To allow conversion to take place.
+    >>> print output_analog[0].get_voltage()
+
+    4.19998168945
+
+    >>> ieee_64bit = Bus(64)
+    >>> ieee_64bit.set_logic_all('0b0100000000011001100110011001100110011001100110011001100110011010')
+    >>> ieee_packed = Bus(1)
+    >>> ieee_packed.set_type(analog = True)
+    >>> d2a_ieee64 = D2A(ieee_64bit, ieee_packed, 5)
+    >>> time.sleep(0.1)
+    >>> print  ieee_packed[0].get_voltage()
+
+    http://babbage.cs.qc.cuny.edu/IEEE-754.old/Decimal.html
+
     """
 
     def __init__(
@@ -398,10 +452,10 @@ class D2A(object):
             return float(vref) / float(self.possible_states)
 
         elif self.typ == 4:
-            return 1.1920928955078125e-07
+            return 1.0e-05
 
         else:
-            return 2.220446049250313e-16
+            return 1.0e-10  # approximate resolutions.
 
     def set_inputs(self, digital_inputs):
         """

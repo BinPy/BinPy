@@ -48,7 +48,7 @@ def test_A2D_AnalogBuffer_D2A():
                 analog_ip[0].set_voltage(test_vector[i])
 
             # linker delay
-            time.sleep(0.05 * typ)
+            time.sleep(0.1 * typ)
 
             # Timing the A2D Action:
             start = time.time()
@@ -59,7 +59,7 @@ def test_A2D_AnalogBuffer_D2A():
                     assert False
 
             # linker delay
-            time.sleep(0.05 * typ)
+            time.sleep(0.1 * typ)
 
             # Timing the Buffering action: - Timed test of linker module and
             # the AnalogBuffer Module
@@ -71,7 +71,7 @@ def test_A2D_AnalogBuffer_D2A():
                     assert False
 
             # linker delay
-            time.sleep(0.05 * typ)
+            time.sleep(0.1 * typ)
 
             # Timing the D2A Action:
             start = time.time()
