@@ -20,15 +20,16 @@ class AnalogBuffer(object):
     set_inputs(Bus)                   : link the 'Bus' with the Buffer's inputs.
     set_outputs(Bus)                  : link the 'Bus' with the Buffer's outputs.
     set_inouts(In_Bus, Out_Bus)       : Set the inputs and outputs ( used when the buffer bank width has to be varied )
-
     set_attenuation(float)            : set the voltage attenuation in decibels.
                                         Voltage attenuation determines the value by which input is attenuated by the buffer block.
-    get_attenuation()                 : get the voltage attenuation value ( in db )
-
-    is_enabled()                      : return true if the enable input is high.
-    is_disabled()                     : return true if the enable input is low.
-
     trigger()                         : update the outputs Bus with the value of inputs.
+
+    PROPERTIES
+    ==========
+
+    attenuation                       : get the voltage attenuation value ( in db )
+    enabled                           : return true if the enable input is high.
+    disabled                          : return true if the enable input is low.
 
     USAGE
     =====
@@ -71,7 +72,7 @@ class AnalogBuffer(object):
         with AutoUpdater._lock:
             self.inputs = Bus(inputs.width)
             self.outputs = Bus(inputs.width)
-            self.enable = Bus(1)
+            self._enable = Bus(1)
 
             self.set_attenuation(attenuation)
             self.set_inouts(inputs, outputs)
@@ -81,8 +82,8 @@ class AnalogBuffer(object):
         with AutoUpdater._lock:
             inp_voltages = self.inputs.get_voltage_all()
             inp_voltages_atten = [
-                float(float(v) * (10 ** (-self.attenuation / 20))) for v in self.inputs]
-            if self.enable[0].get_logic() == 1:
+                float(float(v) * (10 ** (-self._attenuation / 20))) for v in self.inputs]
+            if self._enable[0].get_logic() == 1:
                 self.outputs.set_voltage_all(inp_voltages_atten)
 
     def set_attenuation(self, attenuation):
@@ -94,15 +95,16 @@ class AnalogBuffer(object):
             if type(attenuation) not in [float, int]:
                 raise Exception(
                     "ERROR: Attenuation can be a float value only.")
-            self.attenuation = float(attenuation)
+            self._attenuation = float(attenuation)
             self.trigger()
 
-    def get_attenuation(self):
+    @property
+    def attenuation(self):
         """
         Get the voltage attenuation value in db for the buffer bank.
         Negative value indicates gain.
         """
-        return float(self.attenuation)
+        return float(self._attenuation)
 
     def set_inputs(self, inputs):
         """
@@ -168,33 +170,33 @@ class AnalogBuffer(object):
         """
         with AutoUpdater._lock:
             if isinstance(enable, Bus):
-                AutoUpdater.remove_link(self.enable)
+                AutoUpdater.remove_link(self._enable)
                 AutoUpdater.add_link(
                     enable,
-                    self.enable,
+                    self._enable,
                     bind_to=AnalogBuffer.trigger,
                     params=[self])
             elif isinstance(enable, Connector):
-                AutoUpdater.remove_link(self.enable)
+                AutoUpdater.remove_link(self._enable)
                 AutoUpdater.add_link(
                     [enable],
-                    self.enable,
+                    self._enable,
                     bind_to=AnalogBuffer.trigger,
                     params=[self])
             else:
                 raise Exception(
                     "ERROR: Invalid Enable input. Enable must be a 1-bit Bus or a Connector.")
 
-    def is_enabled(self):
+    @property
+    def enabled(self):
         """
         Return true if the buffer block is enabled
         """
-        with AutoUpdater._lock:
-            return (self.enable[0].get_logic() == 1)
+        return (self._enable[0].get_logic() == 1)
 
-    def is_disabled(self):
+    @property
+    def disabled(self):
         """
         Return true if the buffer block is disabled
         """
-        with AutoUpdater._lock:
-            return not self.is_enabled()
+        return not self.is_enabled()
