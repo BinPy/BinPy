@@ -42,7 +42,7 @@ class A2D(object):
     USAGE
     =====
 
-        >>> input_analog   = Bus(Connector(voltage = 6.4))
+    >>> input_analog   = Bus(Connector(voltage = 6.4))
     >>> input_analog.set_type(analog = True)
     >>> output_digital = Bus(16)
     >>> VREF           = Connector(voltage = 5.0)
@@ -120,7 +120,7 @@ class A2D(object):
 
     @property
     def possible_states(self):
-        return float(2 ** (self.outputs.width))
+        return 2 ** (self.outputs.width)
 
     @property
     def resolution(self):
@@ -442,7 +442,7 @@ class D2A(object):
 
     @property
     def possible_states(self):
-        return float(2 ** (self.inputs.width))
+        return 2 ** (self.inputs.width)
 
     @property
     def resolution(self):
