@@ -28,22 +28,29 @@ class Clock(threading.Thread):
         will override frequency
         If nothing is provided, then it will set time_period = 1s by default
 
-    METHODS
-    =======
+    METHODS/ PROPERTIES
+    ===================
 
-    start(), getState(), setState(value), getName(), getTimePeriod(), kill()
+        start()     : [ Depricated ] To start the clock thread.
+                      Clock starts at __init__ itself. This need not be used.
+        get_state() : Get the current state of the clock.
+        set_state() : To set the current state of the clock.
+        kill()      : To kill the clock thread.
+
+        state       : [ Property ] Return the state of the clock.
+        name        : [ Property ] Return the name of the clock.
+        time_period : [ Property ] Return the time period of the clock.
+        frequency   : [ Property ] Return the current frequency of the clock.
 
     NOTE
     ====
 
-    Once you are done with the clock, use myClock.kill() to kill the clock.
+    Once you are done with the clock, use my_clock.kill() to kill the clock.
     Running too many clocks will unnecessarily overload the CPU.
 
     All operations are thread safe and synchronized between inter / intra thread calls.
 
     """
-
-    _lock = threading.RLock()
 
     def __init__(
             self,
@@ -51,16 +58,17 @@ class Clock(threading.Thread):
             frequency=None,
             time_period=None,
             name=None):
+
         threading.Thread.__init__(self)
         if frequency is not None:
-            self.time_period = 1.0 / frequency
+            self._time_period = float(1) / float(frequency)
         if time_period is not None:
-            self.time_period = time_period
+            self._time_period = time_period
         if time_period is None and frequency is None:
-            self.time_period = 1
+            self._time_period = 1
 
-        self.name = name
-        self.curr_state = init_state
+        self._name = name
+        self._state = init_state
         self._exit = False
         self.daemon = True
 
@@ -72,24 +80,22 @@ class Clock(threading.Thread):
     def start(self):
         """ Do not use this method """
         # Kept to make it compatible with older versions of BinPy
-        with self._lock:
-            if not self._strtd:
-                threading.Thread.start(self)
-                self._strtd = True
+        if not self._strtd:
+            threading.Thread.start(self)
+            self._strtd = True
 
     def _toggle_state(self):
         """
         This is an internal method to toggle the state of the output
         """
-        with self._lock:
-            if self.curr_state == 1:
-                self.curr_state = 0
-                self.A.state = self.curr_state
-                # self.A.trigger()
-            else:
-                self.curr_state = 1
-                self.A.state = self.curr_state
-                # self.A.trigger()
+        if self._state == 1:
+            self._state = 0
+            self.A.state = self._state
+            # self.A.trigger()
+        else:
+            self._state = 1
+            self.A.state = self._state
+            # self.A.trigger()
 
     def run(self):
         while True:
@@ -97,8 +103,7 @@ class Clock(threading.Thread):
                 sys.exit()
             time.sleep(self.time_period)
             try:
-                with self._lock:
-                    self._toggle_state()
+                self._toggle_state()
             except:
                 pass
 
@@ -106,37 +111,42 @@ class Clock(threading.Thread):
         """
         Returns the current state of the clock
         """
-        with self._lock:
-            return self.curr_state
+        return self._state
+
+    @property
+    def state(self):
+        """
+        Returns the currentd state of the clock as a property.
+        """
+        return self._state
 
     def set_state(self, value):
         """
         Resets the state of the clock to the passed value
         """
-        with self._lock:
-            if self.curr_state == value:
-                return
-            self.curr_state = value
-            self.A.state = self.curr_state
-            # self.A.trigger()
+        if self._state == value:
+            return
+        self._state = value
+        self.A.state = self._state
+        # self.A.trigger()
 
+    @property
+    def frequency(self):
+        return (float(1) / float(self.time_period))
+
+    @property
     def time_period(self):
-        """
-        Returns the time period of the clock
-        """
-        with self._lock:
-            return self.time_period
+        return self._time_period
 
+    @property
     def name(self):
         """
         Returns the name of the clock
         """
-        with self._lock:
-            return self.name
+        return self._name
 
     def kill(self):
         """
         Kills the clock(Thread)
         """
-        with self._lock:
-            self._exit = True
+        self._exit = True
