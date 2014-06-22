@@ -59,51 +59,77 @@ class AutoUpdater(threading.Thread):
         >>> a = Bus(4)
         >>> b = Bus(2)
         >>> c = Bus(2)
+        >>> d = Connector(0)
+        >>> e = Connector(0)
         >>> def update_val(a, b)
         >>> AutoUpdater.add_link(a[:2], b)
         >>> AutoUpdater.add_link(a[2:], c)
-        >>> AutoUpdater.remove_link(a[:2], b)
-        >>> AutoUpdater.remove_link(a[2:]) # Single list (Bus) with multiple connector instance ..
+        >>> AutoUpdater.add_link((b+c),a)
+        >>> AutoUpdater.add_link(Bus(d,e),c)
 
         """
-        with AutoUpdater._lock:
+        try:
+            # Is a list ( of connectors ) or bus or connector ?
+            if type(a) not in [BinPy.connectors.connector.Connector, BinPy.connectors.connector.Bus, list]:
+                raise Exception("Invalid input. ( First argument )")
 
-            if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
-                if len(a) != len(b):
-                    raise Exception("ERROR: Lengths are not equal")
-                for i, j in zip(a, b):
-                    if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
+            # Is b list ( of connectors ) or bus or connector ?
+            if type(b) not in [BinPy.connectors.connector.Connector, BinPy.connectors.connector.Bus, list]:
+                raise Exception("Invalid input. ( Second argument )")
+
+            # If list, are all the contents Connectors ?
+            if isinstance(a, list):
+                for i in a:
+                    if not isinstance(i, BinPy.connectors.connector.Connector):
                         raise Exception(
-                            "ERROR: Only Connector objects can be linked")
+                            "Invalid input. List ( first argument ) contains non connector Objects")
 
-                    # Checking whether the bind_to object is '__call__' - able
-                    if (not hasattr(bind_to, '__call__')):
+            if isinstance(b, list):
+                for i in b:
+                    if not isinstance(i, BinPy.connectors.connector.Connector):
                         raise Exception(
-                            "ERROR: Only  functions can be bound to links.")
+                            "Invalid input. List ( second argument ) contains non connector Objects")
 
-                    if (not isinstance(params, list)):
-                        raise Exception(
-                            "ERROR: Pass parameters to the bind_to function as a list.")
-
-                    if not AutoUpdater._graph.has_edge(i, j):
-                        AutoUpdater._graph.add_edge(i, j, object=bind_to)
-                        AutoUpdater._graph[i][j]['params'] = list(params)
-
-                        if (not directed) and (not AutoUpdater._graph.has_edge(j, i)):
-                            AutoUpdater._graph.add_edge(j, i, object=bind_to)
-                            AutoUpdater._graph[j][i]['params'] = list(params)
-
-            elif isinstance(a, BinPy.connectors.connector.Connector) and isinstance(b, BinPy.connectors.connector.Connector):
-                AutoUpdater.add_link([a], [b], bind_to=bind_to, params=params)
-
-            elif isinstance(a, BinPy.connectors.connector.Connector) and isinstance(b, BinPy.connectors.connector.Bus):
-                AutoUpdater.add_link([a], b, bind_to=bind_to, params=params)
-
-            elif isinstance(a, BinPy.connectors.connector.Bus) and isinstance(b, BinPy.connectors.connector.Connector):
-                AutoUpdater.add_link(a, [b], bind_to=bind_to, params=params)
-
+            # After all validation convert them to Bus containers (if not
+            # already) to add to graph.
+            if not isinstance(a, BinPy.connectors.connector.Bus):
+                Bus_a = BinPy.connectors.connector.Bus(a)
             else:
-                raise Exception("Invalid Input")
+                Bus_a = a
+
+            if not isinstance(b, BinPy.connectors.connector.Bus):
+                Bus_b = BinPy.connectors.connector.Bus(b)
+            else:
+                Bus_b = b
+
+            # Final check - Check if a and b are of equal lengths
+            if len(Bus_a) != len(Bus_b):
+                raise Exception("Unequal lengths")
+
+        except (Exception) as e:
+            raise Exception(
+                "ERROR: Unable to convert inputs to Bus. : " +
+                str(e))
+
+        # Checking whether the bind_to object is '__call__' - able
+        if (not hasattr(bind_to, '__call__')):
+            raise Exception(
+                "ERROR: Only  functions can be bound to links.")
+
+        if (not isinstance(params, list)):
+            raise Exception(
+                "ERROR: Pass parameters to the bind_to function as a list.")
+
+        with AutoUpdater._lock:
+            if not AutoUpdater._graph.has_edge(Bus_a, Bus_b):
+                # This check of presence of already existing edge does not work
+                # if the connectors are wrapped in different bus containers
+                AutoUpdater._graph.add_edge(Bus_a, Bus_b, object=bind_to)
+                AutoUpdater._graph[Bus_a][Bus_b]['params'] = list(params)
+
+                if (not directed) and (not AutoUpdater._graph.has_edge(Bus_b, Bus_a)):
+                    AutoUpdater._graph.add_edge(Bus_b, Bus_a, object=bind_to)
+                    AutoUpdater._graph[Bus_b][Bus_a]['params'] = list(params)
 
     @staticmethod
     def remove_link(a, b=None, directed=True):
@@ -125,33 +151,56 @@ class AutoUpdater(threading.Thread):
 
         """
         try:
-
             if b is not None:
-                with AutoUpdater._lock:
-                    if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
-                        if len(a) != len(b):
-                            raise Exception("ERROR: Lengths are not equal")
-                        for i, j in zip(a, b):
-                            if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
-                                raise Exception(
-                                    "ERROR: Only Connector objects can be Unlinked")
-                            if AutoUpdater._graph.has_edge(i, j):
-                                AutoUpdater._graph.remove_edge(i, j)
+                if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
+                    if len(a) != len(b):
+                        raise Exception("ERROR: Lengths are not equal")
+                    for i, j in zip(a, b):
+                        if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
+                            raise Exception(
+                                "ERROR: Only Connector objects can be Unlinked")
+                        with AutoUpdater._lock:
+                            for pair in AutoUpdater._graph.edges():
+                                # pair is ( bus_0, bus_1 )
+                                for index in range(len(pair[0])):
+                                    # Traverse through the bus_0 ( = pair[0] )
+                                    if ((pair[0])[index] is i) and ((pair[1])[index] is j):
+                                        # If ( i , j ) is ( bus_0[index] , bus_1[index] )
+                                        # Where ( i, j ) is the input link to
+                                        # be removed ( i --> j )
+                                        del (pair[0])[index]
+                                        del (
+                                            pair[1])[index]  # Remove the connectors from the bus_0 and bus_1
 
-                                if not directed and AutoUpdater._graph.has_edge(j, i):
-                                    AutoUpdater._graph.remove_edge(j, i)
+                                    if not directed:
+                                        if ((pair[0])[index] is j) and ((pair[1])[index] is i):
+                                            del (pair[1])[index]
+                                            del (
+                                                pair[0])[index]  # Remove the connectors from the bus_1 and bus_0
 
-                    else:
-                        raise Exception("Invalid Input")
+                else:
+                    raise Exception(
+                        "ERROR: Specify inputs as list of Connectors or a Bus")
 
             else:
+                # If b is None delete all links containing connectors from Bus
+                # / list of Connectors
                 with AutoUpdater._lock:
                     # if only a is given remove all links to and from it.
                     if (type(a) in [BinPy.connectors.connector.Bus, list]):
                         # Bus is passed:
                         for conn in a:
                             if isinstance(conn, BinPy.connectors.connector.Connector):
-                                AutoUpdater._graph.remove_node(conn)
+                                for pair in AutoUpdater._graph.edges():
+                                    # pair is ( bus_0, bus_1 )
+                                    for index in range(len(pair[0])):
+                                        if (((pair[0])[index] is conn) or ((pair[1])[index] is conn)):
+                                            # if the conn is found either as
+                                            # the start / end point of the link
+                                            # ...
+                                            del (pair[0])[index]
+                                            del (
+                                                pair[1])[index]  # Remove the connectors from the bus_0 and bus_1
                             else:
                                 raise Exception(
                                     "ERROR: Only Connector objects can be Unlinked")
@@ -177,33 +226,30 @@ def connections_updater():
     try:
         while True:
             with AutoUpdater._lock:
-                nodes = AutoUpdater._graph.nodes()
+                edges = AutoUpdater._graph.edges()
 
-                for i in nodes:
-                    for pair in AutoUpdater._graph.edges(i):
-                            # call the bind_to function before updation
-                        params = AutoUpdater._graph[pair[0]][pair[1]]['params']
-                        # print "before call"
-                        # print repr(params)
-                        bind_to_function = AutoUpdater._graph[
+            for pair in edges:
+                # call the bind_to function before updation
+                with AutoUpdater._lock:
+                    AutoUpdater._graph[
+                        pair[0]][
+                        pair[1]]['object'](
+                        *
+                        AutoUpdater._graph[
                             pair[0]][
-                            pair[1]]['object']
-                        # print repr(*params)
-                        # print bind_to_function
-                        bind_to_function(*params)
-                        # print "after call"
-                        # print pair[1], pair[0]
-                        pair[1].set_voltage(pair[0])
-                        # print pair[1], pair[0]
-                        # time.sleep(0.5)
-                        # Copies the value of the 0th index connector to the 1st
-                        # index connector
+                            pair[1]]['params'])
+
+                with AutoUpdater._lock:
+                    pair[1].set_voltage_all(pair[0])
+
+                # time.sleep(0.001) # To make the _lock available for other
+                # operations ...
 
             # One circuit has been traversed.
 
     # To avoid errors when elements have been garbage collected
     except (AttributeError, KeyError, ValueError, TypeError) as e:
-        print("Hi there I ran into a bug :/ ", e)
+        # print("DEBUG: Linker - Critical error : ", e)
         return
 
 # Initiating the auto updater.
