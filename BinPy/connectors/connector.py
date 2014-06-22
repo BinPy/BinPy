@@ -24,19 +24,35 @@ class Connector(object):
 
     >>> from BinPy import *
     >>> conn = Connector(1)  #Initializing connector with initial state = 1
-    >>> conn.state
+    >>> conn.get_logic()
     1
     >>> gate = OR(0, 1)
     >>> conn.tap(gate, 'output')  #Tapping the connector
 
-    Methods
+    METHODS
     =======
 
-    * tap
-    * untap
-    * is_input_of
-    * is_output_of
-    * trigger
+    set_logic         :      To set the logic state of the connector.
+    get_logic         :      To get the logic state of the connector.
+    set_voltage       :      To set the floating point volatage of the connector.
+    get_voltage       :      To get the floating point volatage of the connector.
+    is_input_of       :      To check whether this connector is the input of the given element.
+    is_output_of      :      To check whether this connector is the output of the given element.
+    tap               :      Tap this connector as input / output of another element
+    untap             :      Untap this connector from another element
+
+
+
+    PROPERTIES
+    ==========
+
+    index             :      The index of the connector instance registered with the BinPyIndexer
+    name              :      Get the name of the connector
+    state             :      [ Currently read / write supported. In future versions this will be read-only ]
+                             To get ( and set ) the logic state of the connector.
+    enabled           :      Return True if the connector is enabled.
+    disabled          :      Return True if the connector is not enabled.
+
     """
 
     def __init__(self, state=None, voltage=None, analog=False, name=""):
@@ -187,10 +203,12 @@ class Connector(object):
         with self._lock:
             self._enable = False
 
-    def is_enabled(self):
+    @property
+    def enabled(self):
         return self._enable
 
-    def is_disabled(self):
+    @property
+    def disabled(self):
         return (not self._enable)
 
     # Overloads the int() method
@@ -238,28 +256,58 @@ class Connector(object):
 class Bus(object):
 
     """
-    This class provides an array of Connector Objects.
-    Objects of this class can be used :
+    Bus is a container class for  Connectors.
+    It maintains a list of Connectors on which a variety of operations can be performed.
+
+    Busses can be used :
     1. As input and output interfaces for modules and other blocks
     2. When a lot of connectors are needed
 
     EXAMPLES
     ========
 
-    a = Connector()
-    b = Connector()
-    c = Connector()
-    d = Connector()
+    >>> a = Connector()
+    >>> b = Connector()
+    >>> c = Connector()
+    >>> d = Connector()
 
-    # Equivalent
-    lst = Bus(4)
+    # Initiating Bus from connectors
+    >>> a = Bus(a, b, c, d)
+
+    # Creating a Bus from another Bus
+    >>> b = Bus(a)
 
     # Initializing and methods.
+    >>> b.set_voltage_all()
+    >>> b.get_voltage.all()
+    [ None, None, None, None ]
+    >>> b.set_logic_all('1011')
+    >>> b.get_logic_all()
+    [ 1, 0, 1, 1 ]
 
-    Bus.set_voltage_all()
-    Bus.get_voltage.all()
-    Bus.set_logic_all('1111')
-    Bus.get_logic_all()
+    # Since busses only wrap around Connectors the original connectors are referenced by the Bus objects
+    # Hence any change to the containing Bus also exhibits in the Connectors
+
+    >>> a.get_logic()
+    1
+    >>> b.get_logic()
+    0
+
+    # Busses can be sliced, iterated, inplace modified ( removal ), index-retrieved etc like lists
+
+    >>> for connector in a[1:3] :
+    ...     print ( connector.get_logic_all() )
+    ...
+
+    0
+    1
+
+    >>> del a[1:3]   # Deletes connectors a.bus[1] and a.bus[2]
+    >>> a.pop()   # pop without argument removes the last connector
+    1
+    >>> print a.get_logic_all()
+    [ 1 ]
+
     """
 
     def __init__(self, *inputs):
@@ -326,6 +374,7 @@ class Bus(object):
 
         self._width = width
 
+    # DEV NOTE:
     # PLEASE DO NOT ADD A SET INPUT METHOD. WE DO NOT WANT TO CHANGE THE BUS CONNECTORS DYNAMICALLY.
     # IT CAN ONLY BE APPENDED OR DELETED BUT NOT UPDATED.
 
@@ -360,7 +409,7 @@ class Bus(object):
             word = values[0]
             if word < 0:
                 raise Exception("ERROR: Negative value passed")
-            word = bin(word)[2:0].zfill(self._width)
+            word = bin(word)[2:].zfill(self._width)
 
         elif isinstance(values[0], str):
             word = values[0]
@@ -375,7 +424,7 @@ class Bus(object):
             word = "".join(list(map(str_int_bool, word)))
 
         elif isinstance(values[0], Bus):
-            word = values.get_logic_all(as_list=False)
+            word = values[0].get_logic_all(as_list=False)[2:]
 
         elif isinstance(values[0], Connector):
             str_int_bool = lambda o: str(int(bool(o)))
@@ -419,7 +468,8 @@ class Bus(object):
             # them.
 
         if isinstance(values[0], Bus):
-            values = float(values[0])
+            self.set_voltage_all(values[0].get_voltage_all())
+            return
 
         if len(values) != self._width:
             raise Exception(
@@ -467,6 +517,12 @@ class Bus(object):
             raise Exception("ERROR: Invalid Index Value")
         self.bus[index].untap(element, mode)
 
+    def pop(self, index=-1):
+        """ Remove connectors with the specified index ( or last connector if None specified ) from Bus """
+        popped = self.bus.pop(index)
+        self._width = len(self.bus)  # update the new length
+        return popped
+
     def __repr__(self):
         return str(self.bus)
 
@@ -507,14 +563,12 @@ class Bus(object):
     def __getitem__(self, index):
         return self.bus[index]
 
+    def __delitem__(self, index):
+        del self.bus[index]
+        self._width = len(self.bus)
+
     def __len__(self):
         return self._width
-
-    def __int__(self):
-        return list(map(int, self.bus))
-
-    def __float__(self):
-        return list(map(float, self.bus))
 
     def __str__(self):
         return str(self.bus)
@@ -544,12 +598,7 @@ class Bus(object):
         raise Exception("ERROR: Invalid Comparison")
 
     def __hash__(self):
-        return hash(
-            (self.width, int(
-                self.analog), max(
-                self.get_voltage_all()), int(
-                self.get_logic_all(
-                    as_list=False), 2), id(self)))
+        return id(self)
 
     def __rshift__(self):
         """ Clock wise right shift """
