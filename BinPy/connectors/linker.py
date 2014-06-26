@@ -3,8 +3,6 @@ import networkx as nx
 import re
 import time
 import BinPy
-# Cannot import from connector module since connector module requires
-# linker ( this ) module to be available first.
 
 
 class AutoUpdater(threading.Thread):
@@ -34,6 +32,8 @@ class AutoUpdater(threading.Thread):
     """
     _lock = threading.RLock()
     _graph = nx.DiGraph()
+    modified = False
+    imported = False
 
     @staticmethod
     def add_link(
@@ -69,38 +69,35 @@ class AutoUpdater(threading.Thread):
 
         """
         try:
+            Bus = BinPy.connectors.connector.Bus
+            Connector = BinPy.connectors.connector.Connector
+
             # Is a list ( of connectors ) or bus or connector ?
-            if type(a) not in [BinPy.connectors.connector.Connector, BinPy.connectors.connector.Bus, list]:
+            if type(a) not in [Connector, Bus, list]:
                 raise Exception("Invalid input. ( First argument )")
 
             # Is b list ( of connectors ) or bus or connector ?
-            if type(b) not in [BinPy.connectors.connector.Connector, BinPy.connectors.connector.Bus, list]:
+            if type(b) not in [Connector, Bus, list]:
                 raise Exception("Invalid input. ( Second argument )")
 
             # If list, are all the contents Connectors ?
             if isinstance(a, list):
                 for i in a:
-                    if not isinstance(i, BinPy.connectors.connector.Connector):
+                    if not isinstance(i, Connector):
                         raise Exception(
                             "Invalid input. List ( first argument ) contains non connector Objects")
 
             if isinstance(b, list):
                 for i in b:
-                    if not isinstance(i, BinPy.connectors.connector.Connector):
+                    if not isinstance(i, Connector):
                         raise Exception(
                             "Invalid input. List ( second argument ) contains non connector Objects")
 
-            # After all validation convert them to Bus containers (if not
-            # already) to add to graph.
-            if not isinstance(a, BinPy.connectors.connector.Bus):
-                Bus_a = BinPy.connectors.connector.Bus(a)
-            else:
-                Bus_a = a
+            # After all validation convert them to Bus containers to add to
+            # graph.
 
-            if not isinstance(b, BinPy.connectors.connector.Bus):
-                Bus_b = BinPy.connectors.connector.Bus(b)
-            else:
-                Bus_b = b
+            Bus_a = Bus(a)
+            Bus_b = Bus(b)
 
             # Final check - Check if a and b are of equal lengths
             if len(Bus_a) != len(Bus_b):
@@ -126,6 +123,7 @@ class AutoUpdater(threading.Thread):
                 # if the connectors are wrapped in different bus containers
                 AutoUpdater._graph.add_edge(Bus_a, Bus_b, object=bind_to)
                 AutoUpdater._graph[Bus_a][Bus_b]['params'] = list(params)
+                AutoUpdater.modified = True
 
                 if (not directed) and (not AutoUpdater._graph.has_edge(Bus_b, Bus_a)):
                     AutoUpdater._graph.add_edge(Bus_b, Bus_a, object=bind_to)
@@ -151,12 +149,15 @@ class AutoUpdater(threading.Thread):
 
         """
         try:
+            Bus = BinPy.connectors.connector.Bus
+            Connector = BinPy.connectors.connector.Connector
+
             if b is not None:
-                if (type(a) in (list, BinPy.connectors.connector.Bus)) and (type(b) in (list, BinPy.connectors.connector.Bus)):
+                if (type(a) in (list, Bus)) and (type(b) in (list, Bus)):
                     if len(a) != len(b):
                         raise Exception("ERROR: Lengths are not equal")
                     for i, j in zip(a, b):
-                        if (isinstance(i, BinPy.connectors.connector.Connector), isinstance(j, BinPy.connectors.connector.Connector)) != (True, True):
+                        if (isinstance(i, Connector), isinstance(j, Connector)) != (True, True):
                             raise Exception(
                                 "ERROR: Only Connector objects can be Unlinked")
                         with AutoUpdater._lock:
@@ -168,15 +169,21 @@ class AutoUpdater(threading.Thread):
                                         # If ( i , j ) is ( bus_0[index] , bus_1[index] )
                                         # Where ( i, j ) is the input link to
                                         # be removed ( i --> j )
-                                        del (pair[0])[index]
-                                        del (
-                                            pair[1])[index]  # Remove the connectors from the bus_0 and bus_1
+                                        del pair[0][index]
+                                        del pair[1][index]
+                                        break
 
-                                    if not directed:
-                                        if ((pair[0])[index] is j) and ((pair[1])[index] is i):
-                                            del (pair[1])[index]
-                                            del (
-                                                pair[0])[index]  # Remove the connectors from the bus_1 and bus_0
+                                # Separate for loop since when the first pair (
+                                # above ) is deleted the length of pair[0]
+                                # varies.
+                                if not directed:
+                                    for index in range(len(pair[0])):
+                                        if (((pair[0])[index] is j) and ((pair[1])[index] is i)):
+                                            del pair[1][index]
+                                            del pair[0][index]
+
+                                            AutoUpdater.modified = True
+                                            break
 
                 else:
                     raise Exception(
@@ -187,20 +194,29 @@ class AutoUpdater(threading.Thread):
                 # / list of Connectors
                 with AutoUpdater._lock:
                     # if only a is given remove all links to and from it.
-                    if (type(a) in [BinPy.connectors.connector.Bus, list]):
+                    if (type(a) in [Bus, list]):
                         # Bus is passed:
                         for conn in a:
-                            if isinstance(conn, BinPy.connectors.connector.Connector):
+                            if isinstance(conn, Connector):
                                 for pair in AutoUpdater._graph.edges():
                                     # pair is ( bus_0, bus_1 )
                                     for index in range(len(pair[0])):
-                                        if (((pair[0])[index] is conn) or ((pair[1])[index] is conn)):
+                                        if ((pair[0])[index] is conn) or ((pair[1])[index] is conn):
                                             # if the conn is found either as
                                             # the start / end point of the link
                                             # ...
-                                            del (pair[0])[index]
-                                            del (
-                                                pair[1])[index]  # Remove the connectors from the bus_0 and bus_1
+
+                                            if (pair[0])[index] is conn:
+                                                del pair[0][index]
+                                                del pair[1][index]
+
+                                            else:
+                                                del pair[1][index]
+                                                del pair[0][index]
+
+                                            AutoUpdater.modified = True
+
+                                            break
                             else:
                                 raise Exception(
                                     "ERROR: Only Connector objects can be Unlinked")
@@ -209,45 +225,83 @@ class AutoUpdater(threading.Thread):
                             "ERROR: Specify inputs as list of Connectors or a Bus")
 
             with AutoUpdater._lock:
-                # Clean up the graph removing isolated connectors.
+                # Clean up the graph removing isolated Busses ( if any )
+
                 isolated_connectors = [
                     n for n,
                     d in AutoUpdater._graph.degree_iter() if d == 0]
                 AutoUpdater._graph.remove_nodes_from(isolated_connectors)
+                AutoUpdater.modified = True
+
+                # clean up empty busses.
+                for pair in AutoUpdater._graph.edges():
+                    if (len(pair[0]) == 0):
+                        AutoUpdater._graph.remove_edge(pair[0], pair[1])
+                        continue
+
+                    if (len(pair[1]) == 0):
+                        AutoUpdater._graph.remove_edge(pair[1], pair[0])
 
         except (nx.NetworkXError) as e:
-            if re.search(r'not in the digraph', repr(e)):
+            if re.search(r'not in', repr(e)):
                 pass
             else:
                 raise nx.NetworkXError(str(e))
 
 
 def connections_updater():
+    AutoUpdater.lap = 0
+    # lap indicates the no of times the entire graph has been traversed and updated.
+    # This variable can be used to check if all the circuit elements have been
+    # updated ( once or twice as per the requirement )
     try:
         while True:
             with AutoUpdater._lock:
                 edges = AutoUpdater._graph.edges()
 
+            AutoUpdater.lap = AutoUpdater.lap % 999 + 1  # Range is 1 to 999
+
             for pair in edges:
                 # call the bind_to function before updation
-                with AutoUpdater._lock:
-                    AutoUpdater._graph[
-                        pair[0]][
-                        pair[1]]['object'](
-                        *
+                try:
+                    if not AutoUpdater.modified:
+
                         AutoUpdater._graph[
                             pair[0]][
-                            pair[1]]['params'])
+                            pair[1]]['object'](
+                            *
+                            AutoUpdater._graph[
+                                pair[0]][
+                                pair[1]]['params'])
 
-                with AutoUpdater._lock:
-                    pair[1].set_voltage_all(pair[0])
+                        pair[1].set_voltage_all(pair[0])
 
-                # time.sleep(0.001) # To make the _lock available for other
+                    else:
+
+                        # The circuit did not complete ...
+                        AutoUpdater.lap -= 1
+                        # Break and refresh nodes if the graph has been updated
+                        # ...
+                        AutoUpdater.modified = False
+                        break
+
+                # This exception is since there is no lock implemented to access the data
+                # The graph size could vary ( if any element is removed or
+                # added ) leading to
+                except (IndexError, TypeError, ValueError, KeyError, AttributeError):
+                    pass
+
+                # modified flag reduces the occurrences of the same ...
+                # but this cannot be avoided completely without lock
+
+                # time.sleep(0.001)
+                # To make the _lock available for other
                 # operations ...
 
             # One circuit has been traversed.
 
-    # To avoid errors when elements have been garbage collected
+    # To avoid errors when the graph itself is garbage collected - Due to
+    # interpreter shutdown...
     except (AttributeError, KeyError, ValueError, TypeError) as e:
         # print("DEBUG: Linker - Critical error : ", e)
         return
