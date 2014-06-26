@@ -5,6 +5,13 @@ import time
 import BinPy
 
 
+class simulated_lock:
+    def __enter__(*inputs):
+        pass
+    
+    def __exit__(*inputs):
+        pass
+
 class AutoUpdater(threading.Thread):
 
     """
@@ -30,7 +37,8 @@ class AutoUpdater(threading.Thread):
     * remove_link(a,b)
     * run(b,a) # The main execution loop to keep the connections updated.
     """
-    _lock = threading.RLock()
+    #_lock = threading.RLock()
+    _lock = simulated_lock()
     _graph = nx.DiGraph()
     modified = False
     imported = False

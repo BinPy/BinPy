@@ -48,7 +48,7 @@ def test_A2D_AnalogBuffer_D2A():
             analog_ip[0].set_voltage(test_vector[i])
 
             # linker delay
-            time.sleep(0.5)
+            time.sleep(1)
 
             # Timing the A2D Action:
             start = time.time()
