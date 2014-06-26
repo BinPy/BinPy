@@ -29,8 +29,7 @@ def test_A2D_AnalogBuffer_D2A():
         REFN = Connector(voltage=-2.5)       # Acts as -REF
 
         # Initialization of A2D.
-        with AutoUpdater._lock:
-            test_a2d = A2D(analog_ip, digital_ip, typ, REFP, REFN, scale=1)
+        test_a2d = A2D(analog_ip, digital_ip, typ, REFP, REFN, scale=1)
 
         en = Connector(1)
 
@@ -49,22 +48,18 @@ def test_A2D_AnalogBuffer_D2A():
             analog_ip[0].set_voltage(test_vector[i])
 
             # linker delay
-            time.sleep(0.2 * typ)
+            time.sleep(0.5)
 
             # Timing the A2D Action:
             start = time.time()
             valid = False
 
             while not valid:
-                with AutoUpdater._lock:
-                    valid = bool(test_a2d.valid[0])
+                valid = bool(test_a2d.valid[0])
                 now = time.time() - start
                 # If conversion takes more than 1 second Assert False
                 if now > 1:
                     assert False
-
-            # linker delay
-            time.sleep(0.2 * typ)
 
             # Timing the Buffering action: - Timed test of linker module and
             # the AnalogBuffer Module
@@ -75,16 +70,12 @@ def test_A2D_AnalogBuffer_D2A():
                 if now > 1:
                     assert False
 
-            # linker delay
-            time.sleep(0.2 * typ)
-
             # Timing the D2A Action:
             start = time.time()
             valid = False
 
             while not valid:
-                with AutoUpdater._lock:
-                    valid = bool(test_d2a.valid[0])
+                valid = bool(test_d2a.valid[0])
                 now = time.time() - start
                 # If conversion takes more than 1 second Assert False
                 if now > 1:
@@ -95,7 +86,6 @@ def test_A2D_AnalogBuffer_D2A():
             assert digital_ip.get_logic_all(
                 as_list=False) == digital_op.get_logic_all(
                 as_list=False)
-
             if typ in [1, 2, 3]:
                 # Testing the a2d functionality in typ 1, 2, 3
                 # To allow for error margin of abs(resolution of the dac /
