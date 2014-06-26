@@ -547,61 +547,61 @@ class D2A(object):
         self.valid[0].set_logic(bool(val))
 
     def trigger(self):
-        with AutoUpdater._lock:
-            if (self.inputs.get_logic_all()) == self._history:
-                return
-            # return if the input has not changed.
 
-            if not bool(self.enable[0]):
-                self.set_valid(True)
-                return
+        if (self.inputs.get_logic_all()) == self._history:
+            return
+        # return if the input has not changed.
 
-            self._history = self.inputs.get_logic_all()
-            self.set_valid(False)
+        if not bool(self.enable[0]):
+            self.set_valid(True)
+            return
 
-            ref = float(self.ref[0]) - float(self.ref[1])
-            dig = self.inputs.get_logic_all(as_list=False)
+        self._history = self.inputs.get_logic_all()
+        self.set_valid(False)
 
-            if self.typ in range(1, 4):
+        ref = float(self.ref[0]) - float(self.ref[1])
+        dig = self.inputs.get_logic_all(as_list=False)
 
-                analog = float(int(dig, 2)) * float(self.resolution)
-                self.outputs[0].set_voltage(
-                    (analog +
-                     float(
-                         self.ref[1])) *
-                    float(
-                        self.scale))
-                self.set_valid(True)
-                return
+        if self.typ in range(1, 4):
 
-            dig = dig[2:]
-
-            if self.typ == 4:
-
-                len_mant = 23
-                len_exp = 8
-                excess = 127
-
-            elif self.typ == 5:
-
-                len_mant = 52
-                len_exp = 11
-                excess = 1023
-
-            s = 1 if dig[0] == '0' else -1
-            exp = 2 ** (int(dig[1:(len_exp + 1)], 2) - excess)
-            man = (float(1) / ((2 ** len_mant) - 1)) * \
-                float(int(dig[len_exp + 1:], 2))
-
-            analog = s * exp * (man + 1)
-
+            analog = float(int(dig, 2)) * float(self.resolution)
             self.outputs[0].set_voltage(
                 (analog +
-                 float(
-                     self.ref[1])) *
+                    float(
+                        self.ref[1])) *
                 float(
                     self.scale))
             self.set_valid(True)
+            return
+
+        dig = dig[2:]
+
+        if self.typ == 4:
+
+            len_mant = 23
+            len_exp = 8
+            excess = 127
+
+        elif self.typ == 5:
+
+            len_mant = 52
+            len_exp = 11
+            excess = 1023
+
+        s = 1 if dig[0] == '0' else -1
+        exp = 2 ** (int(dig[1:(len_exp + 1)], 2) - excess)
+        man = (float(1) / ((2 ** len_mant) - 1)) * \
+            float(int(dig[len_exp + 1:], 2))
+
+        analog = s * exp * (man + 1)
+
+        self.outputs[0].set_voltage(
+            (analog +
+                float(
+                    self.ref[1])) *
+            float(
+                self.scale))
+        self.set_valid(True)
 
     def __del__(self):
         try:
