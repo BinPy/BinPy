@@ -5,13 +5,6 @@ import time
 import BinPy
 
 
-class simulated_lock:
-    def __enter__(*inputs):
-        pass
-    
-    def __exit__(*inputs):
-        pass
-
 class AutoUpdater(threading.Thread):
 
     """
@@ -37,11 +30,11 @@ class AutoUpdater(threading.Thread):
     * remove_link(a,b)
     * run(b,a) # The main execution loop to keep the connections updated.
     """
-    #_lock = threading.RLock()
-    _lock = simulated_lock()
+    _lock = threading.RLock()
     _graph = nx.DiGraph()
     modified = False
     imported = False
+    delay = 0.0
 
     @staticmethod
     def add_link(
@@ -263,11 +256,17 @@ def connections_updater():
     # This variable can be used to check if all the circuit elements have been
     # updated ( once or twice as per the requirement )
     try:
+        # - 1 to give a 1 second delay at the start and progressively calculate the accurate delay ...
+        old_time = time.time() - 1
         while True:
             with AutoUpdater._lock:
                 edges = AutoUpdater._graph.edges()
 
             AutoUpdater.lap = AutoUpdater.lap % 999 + 1  # Range is 1 to 999
+
+            # time delay for 10 laps ...
+            AutoUpdater.delay = (time.time() - old_time) * 10
+            old_time = time.time()  # To time the average delay ...
 
             for pair in edges:
                 # call the bind_to function before updation
@@ -282,12 +281,15 @@ def connections_updater():
                                 pair[0]][
                                 pair[1]]['params'])
 
-                        pair[1].set_voltage_all(pair[0])
+                        with AutoUpdater._lock:
+                            pair[1].set_voltage_all(pair[0])
+                        # time.sleep(0.001)
 
                     else:
 
                         # The circuit did not complete ...
                         AutoUpdater.lap -= 1
+                        old_time = time.time()  # To reset the timing variable
                         # Break and refresh nodes if the graph has been updated
                         # ...
                         AutoUpdater.modified = False
@@ -295,16 +297,12 @@ def connections_updater():
 
                 # This exception is since there is no lock implemented to access the data
                 # The graph size could vary ( if any element is removed or
-                # added ) leading to
-                except (IndexError, TypeError, ValueError, KeyError, AttributeError):
+                # added ) leading to :
+                except (IndexError, TypeError, ValueError, KeyError, AttributeError) as e:
                     pass
 
                 # modified flag reduces the occurrences of the same ...
                 # but this cannot be avoided completely without lock
-
-                # time.sleep(0.001)
-                # To make the _lock available for other
-                # operations ...
 
             # One circuit has been traversed.
 
