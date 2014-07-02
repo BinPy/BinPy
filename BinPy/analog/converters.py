@@ -217,16 +217,11 @@ class A2D(object):
             cur_ref = (float(self.ref[0]), float(self.ref[1]))
             cur_enable = bool(self.enable[0])
 
-        if (cur_inputs - cur_ref[1] == self._history) and (cur_enable == self._enable_history):
-            return
         # return if the input has not changed.
 
         if not cur_enable:
             self.set_valid(True)
             return
-
-        self._history = (cur_inputs - cur_ref[1])
-        self._enable_history = cur_enable
 
         ref = 0
         self.set_valid(False)
@@ -534,17 +529,10 @@ class D2A(object):
             cur_ref = (float(self.ref[0]), float(self.ref[1]))
             cur_resl = self.resolution
 
-        if (cur_inputs == self._history):
-            return
-        # return if the input has not changed.
-
         if not cur_enable:
             # The output is valid for the given inputs ( enable set to false )
             self.set_valid(True)
             return
-
-        self._history = cur_inputs
-        self._enable_history = cur_enable
 
         self.set_valid(False)
 
