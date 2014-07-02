@@ -49,13 +49,17 @@ def test_A2D_AnalogBuffer_D2A():
             # To create a copy of the current lap number
             b_lap = AutoUpdater.lap + 1
 
-            time.sleep(AutoUpdater.delay * 30)
+            if (AutoUpdater.delay < 0.01):
+                time.sleep(0.1)
+            else:
+                time.sleep(AutoUpdater.delay * 10)
 
             # Testing if the attenuation level of analog Buffer Block is
             # within the limits.
             assert digital_ip.get_logic_all(
                 as_list=False) == digital_op.get_logic_all(
                 as_list=False)
+
             if typ in [1, 2, 3]:
                 # Testing the a2d functionality in typ 1, 2, 3
                 # To allow for error margin of abs(resolution of the dac /
