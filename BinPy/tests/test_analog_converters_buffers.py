@@ -31,55 +31,25 @@ def test_A2D_AnalogBuffer_D2A():
         # Initialization of A2D.
         test_a2d = A2D(analog_ip, digital_ip, typ, REFP, REFN, scale=1)
 
-        en = Connector(1)
-
         # Analog Buffer Block
-        AnalogBuffer(digital_ip, digital_op, en, attenuation=0.1)
         # An analog Buffer Block with 0.1 db attenuation
+        AnalogBuffer(digital_ip, digital_op, Connector(1), attenuation=0.1)
 
         # Initialization of D2A.
         test_d2a = D2A(digital_op, analog_op, typ, REFP, REFN, scale=1)
+
         test_vector = [0.54321, -0.54321, 0, 1.23456, 5.78882, -5.78882, 2, -2]
         result_vect = [0.54321, -0.54321, 0, 1.23456, 2.50000, -2.5, 2, -2]
         # Both +5.7 and -5.7 Saturates the A2D converter.
         # The output must be Positive and negative maxima and minima
-
         for i in range(len(test_vector)):
-            analog_ip[0].set_voltage(test_vector[i])
+            with AutoUpdater._lock:
+                analog_ip[0].set_voltage(test_vector[i])
 
-            # linker delay
-            time.sleep(1)
+            # To create a copy of the current lap number
+            b_lap = AutoUpdater.lap + 1
 
-            # Timing the A2D Action:
-            start = time.time()
-            valid = False
-
-            while not valid:
-                valid = bool(test_a2d.valid[0])
-                now = time.time() - start
-                # If conversion takes more than 1 second Assert False
-                if now > 1:
-                    assert False
-
-            # Timing the Buffering action: - Timed test of linker module and
-            # the AnalogBuffer Module
-            start = time.time()
-            while digital_ip.get_logic_all(as_list=False) != digital_op.get_logic_all(as_list=False):
-                now = time.time() - start
-                # If Buffering takes more than 1 second Assert False
-                if now > 1:
-                    assert False
-
-            # Timing the D2A Action:
-            start = time.time()
-            valid = False
-
-            while not valid:
-                valid = bool(test_d2a.valid[0])
-                now = time.time() - start
-                # If conversion takes more than 1 second Assert False
-                if now > 1:
-                    assert False
+            time.sleep(AutoUpdater.delay * 30)
 
             # Testing if the attenuation level of analog Buffer Block is
             # within the limits.
