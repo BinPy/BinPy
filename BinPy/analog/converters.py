@@ -85,6 +85,7 @@ class A2D(object):
 
         self.valid = Bus(1)
         self._history = None
+        self._enable_history = None
 
         self.inputs = Bus(1)
         self.inputs.set_type(analog=True)
@@ -146,18 +147,14 @@ class A2D(object):
                     self.inputs)  # Remove old links to the inputs
                 AutoUpdater.add_link(
                     analog_input,
-                    self.inputs,
-                    bind_to=A2D.trigger,
-                    params=[self])
+                    self.inputs)
 
             elif isinstance(analog_input, Connector) and (analog_input.analog):
                 AutoUpdater.remove_link(
                     self.inputs)  # Remove old links to the inputs
                 AutoUpdater.add_link(
                     [analog_input],
-                    self.inputs,
-                    bind_to=A2D.trigger,
-                    params=[self])
+                    self.inputs)
 
             else:
                 raise Exception(
@@ -190,9 +187,7 @@ class A2D(object):
             if isinstance(enable, Bus) or isinstance(enable, Connector):
                 AutoUpdater.add_link(
                     enable,
-                    self.enable,
-                    bind_to=A2D.trigger,
-                    params=[self])
+                    self.enable)
 
             else:
                 raise Exception(
@@ -207,41 +202,39 @@ class A2D(object):
             AutoUpdater.remove_link(self.ref)
             AutoUpdater.add_link(
                 refp,
-                self.ref[0],
-                bind_to=A2D.trigger,
-                params=[self])
+                self.ref[0])
             AutoUpdater.add_link(
                 refn,
-                self.ref[1],
-                bind_to=A2D.trigger,
-                params=[self])
+                self.ref[1])
 
     def set_valid(self, val):
         self.valid[0].set_logic(bool(val))
 
     def trigger(self):
+
         with AutoUpdater._lock:
-            if (float(self.inputs[0]) - float(self.ref[1])) == self._history:
-                return
-            # return if the input has not changed.
+            cur_inputs = float(self.inputs[0])
+            cur_ref = (float(self.ref[0]), float(self.ref[1]))
+            cur_enable = bool(self.enable[0])
 
-        if not bool(self.enable[0]):
-            with AutoUpdater._lock:
-                self.set_valid(True)
-                return
+        if (cur_inputs - cur_ref[1] == self._history) and (cur_enable == self._enable_history):
+            return
+        # return if the input has not changed.
 
-        self._history = (float(self.inputs[0]) - float(self.ref[1]))
+        if not cur_enable:
+            self.set_valid(True)
+            return
+
+        self._history = (cur_inputs - cur_ref[1])
+        self._enable_history = cur_enable
 
         ref = 0
-        with AutoUpdater._lock:
-            self.set_valid(False)
-            ref = float(self.ref[0]) - float(self.ref[1])
+        self.set_valid(False)
+        ref = cur_ref[0] - cur_ref[1]
 
         outp = ''
 
-        with AutoUpdater._lock:
-            analog_val = (
-                float(self.inputs[0]) - float(self.ref[1])) * float(self.scale)
+        analog_val = (cur_inputs - cur_ref[1]) * float(self.scale)
 
         cumulative_op = 0.0
 
@@ -254,22 +247,18 @@ class A2D(object):
                     outp += '1'
                 else:
                     outp += '0'
+
             with AutoUpdater._lock:
                 self.outputs.set_logic_all(outp)
                 self.set_valid(True)
-                return
+
+            return
 
         if analog_val == 0.0:
             with AutoUpdater._lock:
                 self.outputs.set_logic_all('0' * self.outputs.width)
                 self.set_valid(True)
-                return
-
-        if analog_val == 0.0:
-            with AutoUpdater._lock:
-                self.outputs.set_logic_all('0' * self.outputs.width)
-                self.set_valid(True)
-                return
+            return
 
         if self.typ == 4:
             len_mant = 23
@@ -400,12 +389,16 @@ class D2A(object):
             refn=None,
             scale=1):
 
+        if typ not in range(1, 6):
+            raise Exception("ERROR: Invalid output type")
+
         # Input signal attenuation factor
         self.scale = float(scale)
+
         self.typ = typ
-        self.valid = Bus(1)
-        self.valid[0].set_logic(1)
+        self.valid = Bus(Connector(1))
         self._history = None
+        self._enable_history = None
 
         self.outputs = Bus(1)
         self.outputs.set_type(analog=True)
@@ -416,11 +409,8 @@ class D2A(object):
         self.ref = Bus(2)  # ref+, ref-
         self.ref.set_type(analog=True)
 
-        if typ not in range(1, 6):
-            raise Exception("ERROR: Invalid output type")
-
         self.inputs = Bus(2 ** (typ + 1))
-        self.inputs.set_type(analog=True)
+        self.inputs.set_type(analog=False)
 
         if not isinstance(digital_inputs, Bus):
             raise Exception(
@@ -434,8 +424,8 @@ class D2A(object):
             else:
                 self.set_ref(refp, refn)
 
-        self.set_outputs(analog_output)
         self.set_inputs(digital_inputs)
+        self.set_outputs(analog_output)
 
         # Update the values.
         self.trigger()
@@ -468,9 +458,7 @@ class D2A(object):
                     self.inputs)  # Remove old links to the inputs
                 AutoUpdater.add_link(
                     digital_inputs,
-                    self.inputs,
-                    bind_to=D2A.trigger,
-                    params=[self])
+                    self.inputs)
 
             else:
                 raise Exception(
@@ -512,16 +500,12 @@ class D2A(object):
             if isinstance(enable, Bus):
                 AutoUpdater.add_link(
                     enable,
-                    self.enable,
-                    bind_to=D2A.trigger,
-                    params=[self])
+                    self.enable)
 
             elif isinstance(enable, Connector):
                 AutoUpdater.add_link(
                     [enable],
-                    self.enable,
-                    bind_to=D2A.trigger,
-                    params=[self])
+                    self.enable)
             else:
                 raise Exception(
                     "ERROR: Invalid input. Only Analog Connnector / Bus can be linked to input")
@@ -534,43 +518,46 @@ class D2A(object):
             AutoUpdater.remove_link(self.ref)
             AutoUpdater.add_link(
                 refp,
-                self.ref[0],
-                bind_to=D2A.trigger,
-                params=[self])
+                self.ref[0])
             AutoUpdater.add_link(
                 refn,
-                self.ref[1],
-                bind_to=D2A.trigger,
-                params=[self])
+                self.ref[1])
 
     def set_valid(self, val):
         self.valid[0].set_logic(bool(val))
 
     def trigger(self):
+        with AutoUpdater._lock:
+            cur_inputs = self.inputs.get_logic_all()
+            cur_inputsb = self.inputs.get_logic_all(as_list=False)
+            cur_enable = bool(self.enable[0])
+            cur_ref = (float(self.ref[0]), float(self.ref[1]))
+            cur_resl = self.resolution
 
-        if (self.inputs.get_logic_all()) == self._history:
+        if (cur_inputs == self._history):
             return
         # return if the input has not changed.
 
-        if not bool(self.enable[0]):
+        if not cur_enable:
+            # The output is valid for the given inputs ( enable set to false )
             self.set_valid(True)
             return
 
-        self._history = self.inputs.get_logic_all()
+        self._history = cur_inputs
+        self._enable_history = cur_enable
+
         self.set_valid(False)
 
-        ref = float(self.ref[0]) - float(self.ref[1])
-        dig = self.inputs.get_logic_all(as_list=False)
+        ref = cur_ref[0] - cur_ref[1]
+        dig = cur_inputsb
 
         if self.typ in range(1, 4):
 
-            analog = float(int(dig, 2)) * float(self.resolution)
-            self.outputs[0].set_voltage(
-                (analog +
-                    float(
-                        self.ref[1])) *
-                float(
-                    self.scale))
+            analog = float(int(dig, 2)) * float(cur_resl)
+            result = (analog + float(cur_ref[1])) * float(self.scale)
+            with AutoUpdater._lock:
+                self.outputs[0].set_voltage(result)
+
             self.set_valid(True)
             return
 
@@ -595,12 +582,11 @@ class D2A(object):
 
         analog = s * exp * (man + 1)
 
-        self.outputs[0].set_voltage(
-            (analog +
-                float(
-                    self.ref[1])) *
-            float(
-                self.scale))
+        result = (analog + float(cur_ref[1])) * float(self.scale)
+
+        with AutoUpdater._lock:
+            self.outputs[0].set_voltage(result)
+
         self.set_valid(True)
 
     def __del__(self):

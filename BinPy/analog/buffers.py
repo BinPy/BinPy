@@ -69,21 +69,34 @@ class AnalogBuffer(object):
     """
 
     def __init__(self, inputs, outputs, enable, attenuation=0.0):
-        with AutoUpdater._lock:
-            self.inputs = Bus(inputs.width)
-            self.outputs = Bus(inputs.width)
-            self._enable = Bus(1)
+        self.inputs = Bus(inputs.width)
+        self.outputs = Bus(inputs.width)
+        self._enable = Bus(1)
 
-            self.set_attenuation(attenuation)
-            self.set_inouts(inputs, outputs)
-            self.set_enable(enable)
+        self.set_attenuation(attenuation)
+        self.set_inouts(inputs, outputs)
+        self.set_enable(enable)
+
+        self._history = None
+        self._enable_history = None
 
     def trigger(self):
+
         with AutoUpdater._lock:
             inp_voltages = self.inputs.get_voltage_all()
-            inp_voltages_atten = [
-                float(float(v) * (10 ** (-self._attenuation / 20))) for v in self.inputs]
-            if self._enable[0].get_logic() == 1:
+            cur_enable = bool(self._enable[0])
+
+        if (self._history == inp_voltages) and (self._enable_history == cur_enable):
+            return
+        # if inputs unchanged...
+
+        self._history = inp_voltages
+        self._enable_history = cur_enable
+
+        inp_voltages_atten = [
+            float(float(v) * (10 ** (-self._attenuation / 20))) for v in inp_voltages]
+        if cur_enable:
+            with AutoUpdater._lock:
                 self.outputs.set_voltage_all(inp_voltages_atten)
 
     def set_attenuation(self, attenuation):
@@ -91,12 +104,10 @@ class AnalogBuffer(object):
         Set the voltage attenuation value in db for the buffer bank.
         Negative value indicates gain.
         """
-        with AutoUpdater._lock:
-            if type(attenuation) not in [float, int]:
-                raise Exception(
-                    "ERROR: Attenuation can be a float value only.")
-            self._attenuation = float(attenuation)
-            self.trigger()
+        if type(attenuation) not in [float, int]:
+            raise Exception(
+                "ERROR: Attenuation can be a float value only.")
+        self._attenuation = float(attenuation)
 
     @property
     def attenuation(self):
@@ -117,11 +128,7 @@ class AnalogBuffer(object):
             AutoUpdater.remove_link(self.inputs)
             AutoUpdater.add_link(
                 inputs,
-                self.inputs,
-                bind_to=AnalogBuffer.trigger,
-                params=[self])
-
-            self.trigger()
+                self.inputs)
 
     def set_outputs(self, outputs):
         """
@@ -138,8 +145,6 @@ class AnalogBuffer(object):
                 bind_to=AnalogBuffer.trigger,
                 params=[self])
 
-            self.trigger()
-
     def set_inouts(self, inputs, outputs):
         """
         Set the inputs and ouputs to be linked with the inputs and the outputs of the buffer bank module
@@ -151,9 +156,7 @@ class AnalogBuffer(object):
             AutoUpdater.remove_link(self.inputs)
             AutoUpdater.add_link(
                 inputs,
-                self.inputs,
-                bind_to=AnalogBuffer.trigger,
-                params=[self])
+                self.inputs)
 
             AutoUpdater.remove_link(self.outputs)
             AutoUpdater.add_link(
@@ -161,8 +164,6 @@ class AnalogBuffer(object):
                 outputs,
                 bind_to=AnalogBuffer.trigger,
                 params=[self])
-
-            self.trigger()
 
     def set_enable(self, enable):
         """
@@ -173,16 +174,12 @@ class AnalogBuffer(object):
                 AutoUpdater.remove_link(self._enable)
                 AutoUpdater.add_link(
                     enable,
-                    self._enable,
-                    bind_to=AnalogBuffer.trigger,
-                    params=[self])
+                    self._enable)
             elif isinstance(enable, Connector):
                 AutoUpdater.remove_link(self._enable)
                 AutoUpdater.add_link(
                     [enable],
-                    self._enable,
-                    bind_to=AnalogBuffer.trigger,
-                    params=[self])
+                    self._enable)
             else:
                 raise Exception(
                     "ERROR: Invalid Enable input. Enable must be a 1-bit Bus or a Connector.")
