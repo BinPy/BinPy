@@ -22,7 +22,7 @@ class GATES:
     Base Class implementing all common functions used by Logic Gates
     '''
 
-    def __init__(self, inputs):
+    def __init__(self, *inputs):
 
         # Clean Connections before updating new connections
         self.history_active = 0  # Ignore history for first computation
@@ -183,21 +183,6 @@ class GATES:
             return False
         return True
 
-
-class MIGATES(GATES):
-
-    """
-    This class makes GATES compatible with multiple inputs.
-    """
-
-    def __init__(self, *inputs):
-        if len(inputs) < 2:
-            raise Exception(
-                "ERROR: Too few inputs given. Needs at least 2 or\
-                 more inputs.")
-
-        GATES.__init__(self, list(inputs))
-
     def add_input(self, value):
         """
         This method adds an input to an existing gate
@@ -225,7 +210,7 @@ class MIGATES(GATES):
         self._update_history()
 
 
-class AND(MIGATES):
+class AND(GATES):
 
     """
     This class implements AND gate
@@ -248,7 +233,7 @@ class AND(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compare_history():
@@ -272,7 +257,7 @@ class AND(MIGATES):
         return self.build_str("AND")
 
 
-class OR(MIGATES):
+class OR(GATES):
 
     """
     This class implements OR gate
@@ -295,7 +280,7 @@ class OR(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compare_history():
@@ -376,7 +361,7 @@ class NOT(GATES):
         return self.build_str("NOT")
 
 
-class XOR(MIGATES):
+class XOR(GATES):
 
     """
     This class implements XOR gate
@@ -399,7 +384,7 @@ class XOR(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compare_history():
@@ -424,7 +409,7 @@ class XOR(MIGATES):
         return self.build_str("XOR")
 
 
-class XNOR(MIGATES):
+class XNOR(GATES):
 
     """
     This class implements XNOR gate
@@ -447,7 +432,7 @@ class XNOR(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compare_history():
@@ -472,7 +457,7 @@ class XNOR(MIGATES):
         return self.build_str("XNOR")
 
 
-class NAND(MIGATES):
+class NAND(GATES):
 
     """
     This class implements NAND gate
@@ -487,7 +472,7 @@ class NAND(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compare_history():
@@ -512,7 +497,7 @@ class NAND(MIGATES):
         return self.build_str("NAND")
 
 
-class NOR(MIGATES):
+class NOR(GATES):
 
     """
     This class implements NOR gate
@@ -527,7 +512,7 @@ class NOR(MIGATES):
     """
 
     def __init__(self, *inputs):
-        MIGATES.__init__(self, *inputs)
+        GATES.__init__(self, *inputs)
 
     def trigger(self):
         if self._compare_history():
