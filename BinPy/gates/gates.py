@@ -29,7 +29,7 @@ class GATES:
         self.output_type = 0  # 1->output goes to a connector class
         self.result = None  # To store the result
         self.output_connector = None  # Valid only if output_type = 1
-        self.inputs = inputs[:]  # Set the inputs
+        self.inputs = list(inputs)[:]  # Set the inputs
         self.history_inputs = []  # Save a copy of the inputs
         self._update_connections()
         self._update_history()
