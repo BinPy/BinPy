@@ -12,7 +12,7 @@ class FlipFlop:
         self.a = a
         self.b = b
         self.clk = clk
-        self.clkoldval = 1
+        self.clk_old_val = 1
         self.enable = enable
 
     def Enable(self):
@@ -72,7 +72,7 @@ class SRLatch(FlipFlop):
         self.enabledR = Connector(1)
 
         # Initiating the gates with inputs - Will be overwritten when the
-        # self.setInputs() is called 4 lines hence.
+        # self.set_inputs() is called 4 lines hence.
 
         # This is just to initiate the gates.
         self.en1 = AND(S, enable)
@@ -81,16 +81,16 @@ class SRLatch(FlipFlop):
         self.g1 = NOR(self.enabledS, a)
         self.g2 = NOR(self.enabledR, b)
 
-        self.setInputs(S=S, R=R, enable=enable, preset=preset, clear=clear)
-        self.setOutputs(A=a, B=b)
+        self.set_inputs(S=S, R=R, enable=enable, preset=preset, clear=clear)
+        self.set_outputs(A=a, B=b)
 
-    def setInputs(self, **inputs):
+    def set_inputs(self, **inputs):
         """
         Sets the input connectors of SRLatch.
         Give input parameters as a dictionary
 
-        Ex.: sr1.setInputs(S = S, R = R)
-        Ex.2: sr2.setInputs(enable = en1)
+        Ex.: sr1.set_inputs(S = S, R = R)
+        Ex.2: sr2.set_inputs(enable = en1)
 
         [ where S, R, foo are all Connector class instances. ]
 
@@ -152,21 +152,21 @@ class SRLatch(FlipFlop):
             self.preset.state = 1
             self.clear.state = 1
 
-        self.en1.setInput(0, self.S)
-        self.en1.setInput(1, self.enable)
-        self.en1.setOutput(self.enabledS)
+        self.en1.set_input(0, self.S)
+        self.en1.set_input(1, self.enable)
+        self.en1.set_output(self.enabledS)
 
-        self.en2.setInput(0, self.R)
-        self.en2.setInput(1, self.enable)
-        self.en2.setOutput(self.enabledR)
+        self.en2.set_input(0, self.R)
+        self.en2.set_input(1, self.enable)
+        self.en2.set_output(self.enabledR)
 
-        self.g1.setInput(0, self.enabledS)
-        self.g1.setInput(1, self.a)
+        self.g1.set_input(0, self.enabledS)
+        self.g1.set_input(1, self.a)
 
-        self.g2.setInput(0, self.enabledR)
-        self.g2.setInput(1, self.b)
+        self.g2.set_input(0, self.enabledR)
+        self.g2.set_input(1, self.b)
 
-    def setOutputs(self, **outputs):
+    def set_outputs(self, **outputs):
 
         for key in outputs:
             if not isinstance(outputs[key], Connector):
@@ -178,11 +178,11 @@ class SRLatch(FlipFlop):
             else:
                 print("ERROR: Unknow parameter passed" + str(key))
 
-        self.g1.setOutput(self.b)
-        self.g1.setInput(1, self.a)
+        self.g1.set_output(self.b)
+        self.g1.set_input(1, self.a)
 
-        self.g2.setOutput(self.a)
-        self.g2.setInput(1, self.b)
+        self.g2.set_output(self.a)
+        self.g2.set_input(1, self.b)
 
     def trigger(self):
         if self.clear.state == 1 and self.preset.state == 0:
@@ -194,7 +194,7 @@ class SRLatch(FlipFlop):
             self.clear.state = 1
             self.preset.state = 1
         else:
-            if self.clkoldval == 1 and self.clk.state == 0:
+            if self.clk_old_val == 1 and self.clk.state == 0:
                 if bool(self.S) and bool(self.R):
                     print("ERROR: Invalid State - Resetting the Latch")
                     self.S.state = 0
@@ -203,7 +203,7 @@ class SRLatch(FlipFlop):
                 self.enable.trigger()
                 # This will trigger the gates which will trigger the a and b
 
-        self.clkoldval = self.clk.state
+        self.clk_old_val = self.clk.state
         # stores the current clock state
 
         return [self.a(), self.b()]
@@ -248,16 +248,16 @@ class DFlipFlop(FlipFlop):
         self.preset = Connector(1)
         self.clear = Connector(1)
 
-        self.setInputs(D=D, enable=enable, preset=preset, clear=clear)
-        self.setOutputs(A=a, B=b)
+        self.set_inputs(D=D, enable=enable, preset=preset, clear=clear)
+        self.set_outputs(A=a, B=b)
 
-    def setInputs(self, **inputs):
+    def set_inputs(self, **inputs):
         """
         Sets the input connectors of DFlipFlop.
         Give input parameters as a dictionary
 
-        Ex.: dff.setInputs(D = dconnector, enable = enable_connector)
-        Ex.2: dff.setInputs(enable = foo)
+        Ex.: dff.set_inputs(D = dconnector, enable = enable_connector)
+        Ex.2: dff.set_inputs(enable = foo)
 
         Usage of **inputs is to pass parameters as dict to to support \
         partial change in input [ D or enable alone ]
@@ -306,14 +306,14 @@ class DFlipFlop(FlipFlop):
             self.preset.state = 1
             self.clear.state = 1
 
-        self.g1.setInput(0, self.D)
-        self.g1.setInput(1, self.enable)
-        self.g1.setOutput(self.a)
+        self.g1.set_input(0, self.D)
+        self.g1.set_input(1, self.enable)
+        self.g1.set_output(self.a)
 
-        self.g2.setInput(self.a)
-        self.g2.setOutput(self.b)
+        self.g2.set_input(self.a)
+        self.g2.set_output(self.b)
 
-    def setOutputs(self, **outputs):
+    def set_outputs(self, **outputs):
 
         for key in outputs:
             if not isinstance(outputs[key], Connector):
@@ -325,10 +325,10 @@ class DFlipFlop(FlipFlop):
             else:
                 print("ERROR: Unknow parameter passed" + str(key))
 
-        self.g1.setOutput(self.a)
+        self.g1.set_output(self.a)
 
-        self.g2.setInput(self.a)
-        self.g2.setOutput(self.b)
+        self.g2.set_input(self.a)
+        self.g2.set_output(self.b)
 
     def trigger(self):
         if self.clear.state == 1 and self.preset.state == 0:
@@ -340,9 +340,9 @@ class DFlipFlop(FlipFlop):
             self.clear.state = 1
             self.preset.state = 1
         else:
-            if self.clkoldval == 1 and self.clk.state == 0:
+            if self.clk_old_val == 1 and self.clk.state == 0:
                 self.D.trigger()
-        self.clkoldval = self.clk.state
+        self.clk_old_val = self.clk.state
         return [self.a(), self.b()]
 
     def __call__(self, **inputs):
@@ -389,8 +389,8 @@ class JKFlipFlop(FlipFlop):
         self.K = Connector(0)
         self.preset = Connector(1)
         self.clear = Connector(1)
-        self.setInputs(J=J, K=K, enable=enable, preset=preset, clear=clear)
-        self.setOutputs(A=a, B=b)
+        self.set_inputs(J=J, K=K, enable=enable, preset=preset, clear=clear)
+        self.set_outputs(A=a, B=b)
 
         self.J.tap(self, "input")
         self.K.tap(self, "input")
@@ -400,13 +400,13 @@ class JKFlipFlop(FlipFlop):
         self.a.tap(self, "output")
         self.b.tap(self, "output")
 
-    def setInputs(self, **inputs):
+    def set_inputs(self, **inputs):
         """
         Sets the input connectors of Jk Flip flop.
         Give input parameters as a dictionary
 
-        Ex.: jk1.setInputs(J = J, K = K)
-        Ex.2: jk2.setInputs(enable = foo)
+        Ex.: jk1.set_inputs(J = J, K = K)
+        Ex.2: jk2.set_inputs(enable = foo)
 
         Where J, K, foo are all Connector class instances.
 
@@ -468,7 +468,7 @@ class JKFlipFlop(FlipFlop):
         self.enable.tap(self, "input")
         self.clk.tap(self, "input")
 
-    def setOutputs(self, **outputs):
+    def set_outputs(self, **outputs):
 
         for key in outputs:
             if not isinstance(outputs[key], Connector):
@@ -497,7 +497,7 @@ class JKFlipFlop(FlipFlop):
             self.preset.state = 1
         else:
             # Using behavioural Modelling
-            if self.clkoldval == 1 and self.clk.state == 0:
+            if self.clk_old_val == 1 and self.clk.state == 0:
 
                 if bool(self.enable):
                     if bool(self.J) and bool(self.K):
@@ -513,7 +513,7 @@ class JKFlipFlop(FlipFlop):
 
                 self.a.trigger()
                 self.b.trigger()
-        self.clkoldval = self.clk.state
+        self.clk_old_val = self.clk.state
         return [self.a(), self.b()]
 
     def __call__(self):
@@ -548,8 +548,8 @@ class TFlipFlop(JKFlipFlop):
 
         JKFlipFlop.__init__(self, T, T, enable, clk, preset, clear, a, b)
 
-    def setOutputs(self, **outputs):
-        JKFlipFlop.setOutputs(self, **outputs)
+    def set_outputs(self, **outputs):
+        JKFlipFlop.set_outputs(self, **outputs)
 
     def trigger(self):
         JKFlipFlop.trigger(self)

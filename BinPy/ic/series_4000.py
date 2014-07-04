@@ -1616,8 +1616,8 @@ class IC_4028(Base_16pin):
     def run(self):
         output = {}
         d = DEMUX(1)
-        d.selectLines(self.pins[10], self.pins[13], self.pins[12],
-                      self.pins[11])
+        d.select_lines(self.pins[10], self.pins[13], self.pins[12],
+                       self.pins[11])
         d = d.output()[:10]
         output[1] = d[4]
         output[2] = d[2]

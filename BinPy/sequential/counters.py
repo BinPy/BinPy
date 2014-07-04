@@ -14,12 +14,12 @@ class Counter(object):
         self.out = []
         for i in range(self.bits):
             self.out.append(Connector(data))
-        self.outinv = []
+        self.out_inv = []
         for i in range(self.bits):
-            self.outinv.append(Connector(NOT(data).output()))
+            self.out_inv.append(Connector(NOT(data).output()))
 
-        self.outold = self.out[:]
-        self.outoldinv = self.outinv[:]
+        self.out_old = self.out[:]
+        self.out_old_inv = self.out_inv[:]
         self.ff = [None] * self.bits
         self.enable = Connector(1)
         self.t = Connector(1)
@@ -31,7 +31,7 @@ class Counter(object):
         self.preset = preset
         self.clear = clear
 
-    def setInput(self, t, enable):
+    def set_input(self, t, enable):
         if isinstance(t, Connector):
             self.t = t
         else:
@@ -43,7 +43,7 @@ class Counter(object):
 
     def trigger(self, ffnumber=None):
 
-        self.outold = self.out[:]
+        self.out_old = self.out[:]
         if ffnumber is None:
             ffnumber = self.bits - 1
 
@@ -69,16 +69,16 @@ class Counter(object):
         # This completes one full pulse.
 
         if self.clear.state == 1 and self.preset.state == 0:
-            self.setCounter()
+            self.set_counter()
         elif self.preset.state == 1 and self.clear.state == 0:
-            self.resetCounter()
+            self.reset_counter()
 
         return self.state()
 
     def __call__(self):
         self.trigger()
 
-    def setCounter(self):
+    def set_counter(self):
         inset = self.clear.state
         if self.bits_fixed:
             self.__init__(self.clk, 1, self.preset, self.clear)
@@ -87,7 +87,7 @@ class Counter(object):
         if not self.set_once:
             self.clear.state = inset
 
-    def resetCounter(self):
+    def reset_counter(self):
         reset = self.preset.state
         if self.bits_fixed:
             self.__init__(self.clk, 0, self.preset, self.clear)
@@ -147,7 +147,7 @@ class BinaryCounter(Counter):
             self.preset,
             self.clear,
             self.out[self.bits - 1],
-            self.outinv[self.bits - 1])
+            self.out_inv[self.bits - 1])
         for i in range(self.bits - 2, -1, -1):
             self.ff[i] = TFlipFlop(
                 self.t,
@@ -156,7 +156,7 @@ class BinaryCounter(Counter):
                 self.preset,
                 self.clear,
                 self.out[i],
-                self.outinv[i])
+                self.out_inv[i])
 
         # <self.bit> nos of TFlipFlop instances are appended in the ff array
         # output of previous stage becomes the input clock for next flip flop
@@ -221,7 +221,7 @@ class NBitRippleCounter(Counter):
             self.out[
                 self.bits -
                 1],
-            self.outinv[
+            self.out_inv[
                 self.bits -
                 1])
 
@@ -234,7 +234,7 @@ class NBitRippleCounter(Counter):
                 self.preset,
                 self.clear,
                 self.out[i],
-                self.outinv[i])
+                self.out_inv[i])
 
 
 class NBitDownCounter(Counter):
@@ -296,7 +296,7 @@ class NBitDownCounter(Counter):
             self.out[
                 self.bits -
                 1],
-            self.outinv[
+            self.out_inv[
                 self.bits -
                 1])
 
@@ -304,12 +304,12 @@ class NBitDownCounter(Counter):
             self.ff[i] = TFlipFlop(
                 self.t,
                 self.enable,
-                self.outinv[
+                self.out_inv[
                     i + 1],
                 self.preset,
                 self.clear,
                 self.out[i],
-                self.outinv[i])
+                self.out_inv[i])
 
 
 class DecadeCounter(Counter):
@@ -340,7 +340,7 @@ class DecadeCounter(Counter):
             self.preset,
             self.clear,
             self.out[3],
-            self.outinv[3])
+            self.out_inv[3])
         self.ff[2] = TFlipFlop(
             self.t,
             self.enable,
@@ -348,7 +348,7 @@ class DecadeCounter(Counter):
             self.preset,
             self.clear,
             self.out[2],
-            self.outinv[2])
+            self.out_inv[2])
         self.ff[1] = TFlipFlop(
             self.t,
             self.enable,
@@ -356,7 +356,7 @@ class DecadeCounter(Counter):
             self.preset,
             self.clear,
             self.out[1],
-            self.outinv[1])
+            self.out_inv[1])
         self.ff[0] = TFlipFlop(
             self.t,
             self.enable,
@@ -364,10 +364,10 @@ class DecadeCounter(Counter):
             self.preset,
             self.clear,
             self.out[0],
-            self.outinv[0])
+            self.out_inv[0])
 
         self.g1 = NAND(self.out[0], self.out[2])
-        self.g1.setOutput(self.clear)
+        self.g1.set_output(self.clear)
 
         self.bits_fixed = True
         self.reset_once = True
@@ -401,7 +401,7 @@ class OctalCounter(Counter):
             self.preset,
             self.clear,
             self.out[3],
-            self.outinv[3])
+            self.out_inv[3])
         self.ff[2] = TFlipFlop(
             self.t,
             self.enable,
@@ -409,7 +409,7 @@ class OctalCounter(Counter):
             self.preset,
             self.clear,
             self.out[2],
-            self.outinv[2])
+            self.out_inv[2])
         self.ff[1] = TFlipFlop(
             self.t,
             self.enable,
@@ -417,7 +417,7 @@ class OctalCounter(Counter):
             self.preset,
             self.clear,
             self.out[1],
-            self.outinv[1])
+            self.out_inv[1])
         self.ff[0] = TFlipFlop(
             self.t,
             self.enable,
@@ -425,10 +425,10 @@ class OctalCounter(Counter):
             self.preset,
             self.clear,
             self.out[0],
-            self.outinv[0])
+            self.out_inv[0])
 
         self.g1 = NOT(self.out[0])
-        self.g1.setOutput(self.clear)
+        self.g1.set_output(self.clear)
 
         self.bits_fixed = True
         self.reset_once = True
@@ -462,7 +462,7 @@ class Stage14Counter(Counter):
             self.preset,
             self.clear,
             self.out[3],
-            self.outinv[3])
+            self.out_inv[3])
         self.ff[2] = TFlipFlop(
             self.t,
             self.enable,
@@ -470,7 +470,7 @@ class Stage14Counter(Counter):
             self.preset,
             self.clear,
             self.out[2],
-            self.outinv[2])
+            self.out_inv[2])
         self.ff[1] = TFlipFlop(
             self.t,
             self.enable,
@@ -478,7 +478,7 @@ class Stage14Counter(Counter):
             self.preset,
             self.clear,
             self.out[1],
-            self.outinv[1])
+            self.out_inv[1])
         self.ff[0] = TFlipFlop(
             self.t,
             self.enable,
@@ -486,10 +486,10 @@ class Stage14Counter(Counter):
             self.preset,
             self.clear,
             self.out[0],
-            self.outinv[0])
+            self.out_inv[0])
 
         self.g1 = NAND(self.out[0], self.out[1], self.out[2])
-        self.g1.setOutput(self.clear)
+        self.g1.set_output(self.clear)
 
         self.bits_fixed = True
         self.reset_once = True

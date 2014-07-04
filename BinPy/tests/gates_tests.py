@@ -6,9 +6,9 @@ from nose.tools import with_setup, nottest
 def NOT_test():
     lgate = NOT(1)
     output_logic = []
-    
+
     input_logic = [1, 0]
-    
+
     for logic in input_logic:
         lgate.set_inputs(logic)
         output_logic.append(lgate.output())
