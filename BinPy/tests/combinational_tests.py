@@ -63,91 +63,91 @@ def FullSubtractor_test():
 
 def MUX_test():
     mux = MUX(0, 1)
-    mux.selectLines(0)
+    mux.select_lines(0)
     if mux.output() != 0:
         assert False
-    mux.selectLines(1)
+    mux.select_lines(1)
     if mux.output() != 1:
         assert False
 
     mux = MUX(0, 1, 0, 1)
-    mux.selectLines(0, 0)
+    mux.select_lines(0, 0)
     if mux.output() != 0:
         assert False
-    mux.selectLines(0, 1)
+    mux.select_lines(0, 1)
     if mux.output() != 1:
         assert False
-    mux.selectLines(1, 0)
+    mux.select_lines(1, 0)
     if mux.output() != 0:
         assert False
-    mux.selectLines(1, 1)
+    mux.select_lines(1, 1)
     if mux.output() != 1:
         assert False
 
     a = Connector()
     b = Connector()
-    NOT(1).setOutput(a)
-    NOT(0).setOutput(b)
+    NOT(1).set_output(a)
+    NOT(0).set_output(b)
     mux = MUX(0, 1, 0, 1)
-    mux.selectLines(a, b)
+    mux.select_lines(a, b)
     if mux.output() != 1:
         assert False
-    mux.selectLine(1, a)
+    mux.select_line(1, a)
     if mux.output() != 0:
         assert False
-    mux.setInput(0, 1)
+    mux.set_input(0, 1)
     if mux.output() != 1:
         assert False
 
 
 def DEMUX_test():
     demux = DEMUX(0)
-    demux.selectLines(0)
+    demux.select_lines(0)
     q = [0, 0]
     if demux.output() != q:
         assert False
-    demux.selectLines(1)
+    demux.select_lines(1)
     if demux.output() != q:
         assert False
     demux = DEMUX(1)
-    demux.selectLines(0)
+    demux.select_lines(0)
     q = [1, 0]
     if demux.output() != q:
         assert False
-    demux.selectLines(1)
+    demux.select_lines(1)
     q = [0, 1]
     if demux.output() != q:
         assert False
 
     demux = DEMUX(0)
-    demux.selectLines(0, 0)
+    demux.select_lines(0, 0)
     q = [0, 0, 0, 0]
     if demux.output() != q:
         assert False
-    demux.selectLines(0, 1)
+    demux.select_lines(0, 1)
     if demux.output() != q:
         assert False
     demux = DEMUX(1)
-    demux.selectLines(1, 0)
+    demux.select_lines(1, 0)
     q = [0, 0, 1, 0]
     if demux.output() != q:
         assert False
-    demux.selectLines(1, 1)
+    demux.select_lines(1, 1)
     q = [0, 0, 0, 1]
     if demux.output() != q:
         assert False
 
     a = Connector()
     b = Connector()
-    NOT(1).setOutput(a)
-    NOT(0).setOutput(b)
+    NOT(1).set_output(a)
+    NOT(0).set_output(b)
     demux = DEMUX(0)
-    demux.selectLines(a, 0)
+    demux.select_lines(a, 0)
     q = [0, 0, 0, 0]
     if demux.output() != q:
         assert False
-    demux.setInputs(b)
-    demux.selectLine(1, b)
+    demux.set_inputs(b)
+    demux.select_line(1, b)
     q = [0, 1, 0, 0]
     if demux.output() != q:
         assert False
@@ -162,7 +162,7 @@ def Decoder_test():
 
     decoder = Decoder(0)
     try:
-        decoder.setInputs()
+        decoder.set_inputs()
         assert False
     except Exception:
         pass
@@ -195,13 +195,13 @@ def Decoder_test():
 
     a = Connector()
     b = Connector()
-    NOT(1).setOutput(a)
-    NOT(0).setOutput(b)
+    NOT(1).set_output(a)
+    NOT(0).set_output(b)
     decoder = Decoder(a, a)
     q = [1, 0, 0, 0]
     if decoder.output() != q:
         assert False
-    decoder.setInput(1, b)
+    decoder.set_input(1, b)
     q = [0, 1, 0, 0]
     if decoder.output() != q:
         assert False
@@ -236,13 +236,13 @@ def Encoder_test():
 
     a = Connector()
     b = Connector()
-    NOT(1).setOutput(a)
-    NOT(0).setOutput(b)
+    NOT(1).set_output(a)
+    NOT(0).set_output(b)
     encoder = Encoder(a, 0, 0, 1)
     q = [1, 1]
     if encoder.output() != q:
         assert False
-    encoder.setInputs(b, 0, 0, a)
+    encoder.set_inputs(b, 0, 0, a)
     q = [0, 0]
     if encoder.output() != q:
         assert False

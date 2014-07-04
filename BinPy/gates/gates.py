@@ -327,7 +327,7 @@ class NOT(GATES):
         if len(inputs) != 1:
             raise Exception("ERROR: NOT Gates takes only one input")
         else:
-            GATES.__init__(self, list(inputs))
+            GATES.__init__(self, *inputs)
 
     def set_inputs(self, *inputs):
         # Clean Connections before updating new connections
