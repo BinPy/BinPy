@@ -12,7 +12,7 @@ Testing backtrack() function for depths from 0 to 4.
 '''
 
 
-def getTreeForDepthTesting(depth):
+def get_tree_for_depth_checking(depth):
     # Gates for depth test
     g1 = AND(True, False)
     g2 = AND(True, False)
@@ -41,7 +41,7 @@ def getTreeForDepthTesting(depth):
     return tree_inst, tree_testing
 
 
-def compareTrees(tree_inst, tree_testing, depth):
+def compare_trees(tree_inst, tree_testing, depth):
     if isinstance(tree_testing, tuple):
         if not tree_testing[0] == tree_inst.element:
             assert False
@@ -51,7 +51,7 @@ def compareTrees(tree_inst, tree_testing, depth):
                 assert False
         else:
             for i in range(len(tree_testing[1])):
-                compareTrees(tree_inst.sons[i], tree_testing[1][i], depth - 1)
+                compare_trees(tree_inst.sons[i], tree_testing[1][i], depth - 1)
 
     else:
         if not tree_testing == tree_inst.element:
@@ -60,21 +60,21 @@ def compareTrees(tree_inst, tree_testing, depth):
 
 def backtrack_depth_test():
     for i in range(6):
-        tree_inst, tree_testing = getTreeForDepthTesting(i)
-        compareTrees(tree_inst, tree_testing, i)
+        tree_inst, tree_testing = get_tree_for_depth_checking(i)
+        compare_trees(tree_inst, tree_testing, i)
 
 '''
-Test to see if the setDepth method works
+Test to see if the set_depth method works
 '''
 
 
 def set_depth_test():
-    tree_inst, tree_testing = getTreeForDepthTesting(0)
+    tree_inst, tree_testing = get_tree_for_depth_checking(0)
 
     for i in range(1, 6):
-        tree_inst.setDepth(i)
+        tree_inst.set_depth(i)
         tree_inst.backtrack()
-        compareTrees(tree_inst, tree_testing, i)
+        compare_trees(tree_inst, tree_testing, i)
 
 '''
 Test not following Cycles functionality
@@ -85,7 +85,7 @@ def not_following_cycles_test():
     c1 = Connector(True)
     g1 = AND(c1, True)
     g2 = AND(g1, False)
-    g2.setOutput(c1)
+    g2.set_output(c1)
 
     t_no_cycle = Tree(g2, 5, False)
     t_cycle = Tree(g2, 5, True)

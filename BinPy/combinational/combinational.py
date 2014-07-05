@@ -29,24 +29,24 @@ class HalfAdder():
             raise Exception("ERROR: Not a valid index value")
         self.inputs[index] = value
         if index == 0:
-            self.S.setInput(0, self.inputs[0])
-            self.C.setInput(0, self.inputs[0])
+            self.S.set_input(0, self.inputs[0])
+            self.C.set_input(0, self.inputs[0])
         elif index == 1:
-            self.S.setInput(1, self.inputs[1])
-            self.C.setInput(1, self.inputs[1])
+            self.S.set_input(1, self.inputs[1])
+            self.C.set_input(1, self.inputs[1])
 
     def set_inputs(self, *inputs):
         self.inputs = list(inputs)[:]
-        self.S.setInputs(*inputs)
-        self.C.setInputs(*inputs)
+        self.S.set_inputs(*inputs)
+        self.C.set_inputs(*inputs)
 
     def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         if index == 0:
-            self.C.setOutput(value)
+            self.C.set_output(value)
         elif index == 1:
-            self.S.setOutput(value)
+            self.S.set_output(value)
 
     def output(self):
         return [self.C.output(), self.S.output()]
@@ -103,7 +103,7 @@ class FullAdder():
             raise Exception("ERROR: Expecting a Connector Class Object")
 
         if index == 0:
-            self.or1.setOutput(value)
+            self.or1.set_output(value)
         elif index == 1:
             self.ha2.set_output(1, value)
         else:
@@ -133,7 +133,7 @@ class HalfSubtractor():
         self.D = XOR(self.inputs[0], self.inputs[1])
         self.N = NOT(self.inputs[0])
         self.con = Connector()
-        self.N.setOutput(self.con)
+        self.N.set_output(self.con)
         self.B = AND(self.con, self.inputs[1])
 
     def set_input(self, index, value):
@@ -141,27 +141,27 @@ class HalfSubtractor():
             raise Exception("ERROR: Invalid Index passed")
         self.inputs[index] = value
         if index == 0:
-            self.D.setInput(0, self.inputs[0])
-            self.N.setInput(self.inputs[0])
+            self.D.set_input(0, self.inputs[0])
+            self.N.set_input(self.inputs[0])
         elif index == 1:
-            self.D.setInput(1, self.inputs[1])
-            self.B.setInput(1, self.inputs[1])
+            self.D.set_input(1, self.inputs[1])
+            self.B.set_input(1, self.inputs[1])
 
     def set_inputs(self, *inputs):
         if len(inputs) is not 2:
             raise Exception("Number of arguments are inconsistent")
         self.inputs = list(inputs)[:]
-        self.D.setInputs(self.inputs[0], self.inputs[1])
-        self.N.setInput(self.inputs[0])
-        self.B.setInputs(self.con, self.inputs[1])
+        self.D.set_inputs(self.inputs[0], self.inputs[1])
+        self.N.set_input(self.inputs[0])
+        self.B.set_inputs(self.con, self.inputs[1])
 
     def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         if index == 0:
-            self.B.setOutput(value)
+            self.B.set_output(value)
         elif index == 1:
-            self.D.setOutput(value)
+            self.D.set_output(value)
         else:
             raise Exception("ERROR: Invalid Index passed")
 
@@ -217,7 +217,7 @@ class FullSubtractor(GATES):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         if index == 0:
-            self.or1.setOutput(value)
+            self.or1.set_output(value)
         elif index == 1:
             self.hs2.set_output(1, value)
         else:
@@ -241,13 +241,13 @@ class MUX(GATES):
     Example:
         >>> from BinPy import *
         >>> mux = MUX(0, 1)            "MUX takes its 2^n inputs (digital or Connector)"
-        >>> mux.selectLines(0)         "Put select Line"
+        >>> mux.select_lines(0)         "Put select Line"
         >>> mux.output()
         0
-        >>> mux.selectLine(0, 1)       "Select line at index 0 is changed to 1"
+        >>> mux.select_line(0, 1)       "Select line at index 0 is changed to 1"
         >>> mux.output()
         1
-        >>> mux.setInput(1, 0)         "Input line at index 1 is changed to 0"
+        >>> mux.set_input(1, 0)         "Input line at index 1 is changed to 0"
         >>> mux.output()
         0
 
@@ -257,17 +257,17 @@ class MUX(GATES):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number inputs should be a power of 2")
         self.selects = []
-        GATES.__init__(self, list(inputs))
+        GATES.__init__(self, *inputs)
 
-    def selectLines(self, *select):
+    def select_lines(self, *select):
         if not pow(2, len(select)) == len(self.inputs):
             raise Exception(
                 "ERROR: No. of Select lines are inconsistent with the inputs")
         self.selects = list(select)
-        self._updateSelectConnections()
+        self._update_select_connections()
         self.trigger()
 
-    def selectLine(self, index, value):
+    def select_line(self, index, value):
         if index >= len(self.selects):
             self.selects.append(value)
         else:
@@ -276,7 +276,7 @@ class MUX(GATES):
             value.tap(self, 'input')
             self.trigger()
 
-    def setInput(self, index, value):
+    def set_input(self, index, value):
         if index >= len(self.inputs):
             self.inputs.append(value)
         else:
@@ -298,22 +298,22 @@ class MUX(GATES):
                 bstr = bstr + str(i)
         try:
             if isinstance(self.inputs[int(bstr, 2)], Connector):
-                self._updateResult(self.inputs[int(bstr, 2)].state)
+                self._update_result(self.inputs[int(bstr, 2)].state)
             else:
-                self._updateResult(self.inputs[int(bstr, 2)])
+                self._update_result(self.inputs[int(bstr, 2)])
         except IndexError:
             raise Exception(
                 "Error: Select lines are inconsistent with Input lines")
-        if self.outputType:
-            self.outputConnector.trigger()
+        if self.output_type:
+            self.output_connector.trigger()
 
-    def _updateSelectConnections(self):
+    def _update_select_connections(self):
         for i in self.selects:
             if isinstance(i, Connector):
                 i.tap(self, 'input')
 
     def __str__(self):
-        return self.buildStr("MUX")
+        return self.build_str("MUX")
 
 
 class DEMUX(GATES):
@@ -329,10 +329,10 @@ class DEMUX(GATES):
     Example:
         >>> from BinPy import *
         >>> demux = DEMUX(0)             "DEMUX takes 1 input (digital or Connector)"
-        >>> demux.selectLines(0)         "Put select Lines"
+        >>> demux.select_lines(0)         "Put select Lines"
         >>> demux.output()
         [0, 0]
-        >>> demux.selectLine(0, 1)       "Select line at index 0 is changed to 1"
+        >>> demux.select_line(0, 1)       "Select line at index 0 is changed to 1"
         >>> demux.output()
         [0, 1]
     """
@@ -341,34 +341,35 @@ class DEMUX(GATES):
         if not len(inputs) == 1:
             raise Exception("ERROR: Input should be 0/1")
         self.selects = []
-        GATES.__init__(self, list(inputs))
-        self.outputType = []
-        self.outputConnector = []
+        GATES.__init__(self, *inputs)
+        self.inputs = list(inputs)[:]
+        self.output_type = []
+        self.output_connector = []
 
-    def selectLines(self, *select):
+    def select_lines(self, *select):
         if not len(select) != 0:
             raise Exception(
                 "ERROR: Number of select lines should be greater than zero")
         self.selects = list(select)
         for i in range(pow(2, len(select))):
-            self.outputType.append(0)
-            self.outputConnector.append(None)
-        self._updateConnections()
+            self.output_type.append(0)
+            self.output_connector.append(None)
+        self._update_connections()
         self.trigger()
 
-    def selectLine(self, index, value):
+    def select_line(self, index, value):
         if index >= len(self.selects):
             self.selects.append(value)
-            for i in range(len(self.outputType), pow(2, len(self.selects))):
-                self.outputType.append(0)
-                self.outputConnector.append(None)
+            for i in range(len(self.output_type), pow(2, len(self.selects))):
+                self.output_type.append(0)
+                self.output_connector.append(None)
         else:
             self.selects[index] = value
         if isinstance(value, Connector):
             value.tap(self, 'input')
             self.trigger()
 
-    def setInput(self, index, value):
+    def set_input(self, index, value):
         if not index == 0:
             raise Exception("ERROR: There should be a single input")
         self.inputs[index] = value
@@ -390,39 +391,39 @@ class DEMUX(GATES):
                 bstr = bstr + str(i)
         if isinstance(self.inputs[0], Connector):
             out[int(bstr, 2)] = self.inputs[0].state
-            self._updateResult(out)
+            self._update_result(out)
         else:
             out[int(bstr, 2)] = self.inputs[0]
-            self._updateResult(out)
+            self._update_result(out)
 
-    def setInputs(self, *inputs):
+    def set_inputs(self, *inputs):
         if not len(inputs) == 1:
             raise Exception("ERROR: There should be a single Input")
         self.inputs = list(inputs)
-        self._updateConnections()
+        self._update_connections()
         self.trigger()
 
-    def setOutput(self, index, value):
+    def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         value.tap(self, 'output')
-        self.outputType[index] = 1
-        self.outputConnector[index] = value
+        self.output_type[index] = 1
+        self.output_connector[index] = value
         self.trigger()
 
-    def _updateResult(self, value):
+    def _update_result(self, value):
         self.result = value
         for i in range(len(value)):
-            if self.outputType[i] == 1:
-                self.outputConnector[i].state = value[i]
+            if self.output_type[i] == 1:
+                self.output_connector[i].state = value[i]
 
-    def _updateSelectConnections(self):
+    def _update_select_connections(self):
         for i in self.selects:
             if isinstance(i, Connector):
                 i.tap(self, 'input')
 
     def __str__(self):
-        return self.buildStr("DEMUX")
+        return self.build_str("DEMUX")
 
 
 class Decoder(GATES):
@@ -437,7 +438,7 @@ class Decoder(GATES):
         >>> decoder = Decoder(0)            "Decoder with 1 input, 0"
         >>> decoder.output()
         [1, 0]
-        >>> decoder.setInputs(0, 1)         "sets the new inputs to the decoder"
+        >>> decoder.set_inputs(0, 1)         "sets the new inputs to the decoder"
         [0, 1, 0, 1]
 
     """
@@ -445,15 +446,15 @@ class Decoder(GATES):
     def __init__(self, *inputs):
         if len(inputs) == 0:
             raise Exception("ERROR: Input Length should be greater than zero")
-        GATES.__init__(self, list(inputs))
-        self.outputType = []
-        self.outputConnector = []
+        GATES.__init__(self, *inputs)
+        self.output_type = []
+        self.output_connector = []
         for i in range(pow(2, len(inputs))):
-            self.outputType.append(0)
-            self.outputConnector.append(None)
+            self.output_type.append(0)
+            self.output_connector.append(None)
 
     def trigger(self):
-        if isinstance(self.outputType, int):
+        if isinstance(self.output_type, int):
             return
         out = []
         for i in range(pow(2, len(self.inputs))):
@@ -465,46 +466,46 @@ class Decoder(GATES):
             else:
                 bstr = bstr + str(i)
         out[int(bstr, 2)] = 1
-        self._updateResult(out)
+        self._update_result(out)
 
-    def setInputs(self, *inputs):
+    def set_inputs(self, *inputs):
         if len(inputs) == 0:
             raise Exception("ERROR: Input length must be greater than zero")
         self.inputs = list(inputs)
-        for i in range(len(self.outputType), pow(2, len(self.inputs))):
-            self.outputType.append(0)
-            self.outputConnector.append(None)
-        self._updateConnections()
+        for i in range(len(self.output_type), pow(2, len(self.inputs))):
+            self.output_type.append(0)
+            self.output_connector.append(None)
+        self._update_connections()
         self.trigger()
 
-    def setInput(self, index, value):
+    def set_input(self, index, value):
         if index >= len(self.inputs):
             self.inputs.append(value)
-            for i in range(len(self.outputType), pow(2, len(self.inputs))):
-                self.outputType.append(0)
-                self.outputConnector.append(None)
+            for i in range(len(self.output_type), pow(2, len(self.inputs))):
+                self.output_type.append(0)
+                self.output_connector.append(None)
         else:
             self.inputs[index] = value
         if isinstance(value, Connector):
             value.tap(self, 'input')
             self.trigger()
 
-    def setOutput(self, index, value):
+    def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         value.tap(self, 'output')
-        self.outputType[index] = 1
-        self.outputConnector[index] = value
+        self.output_type[index] = 1
+        self.output_connector[index] = value
         self.trigger()
 
-    def _updateResult(self, value):
+    def _update_result(self, value):
         self.result = value
         for i in range(len(value)):
-            if self.outputType[i] == 1:
-                self.outputConnector[i].state = value[i]
+            if self.output_type[i] == 1:
+                self.output_connector[i].state = value[i]
 
     def __str__(self):
-        return self.buildStr("Decoder")
+        return self.build_str("Decoder")
 
 
 class Encoder(GATES):
@@ -520,7 +521,7 @@ class Encoder(GATES):
         >>> encoder = Encoder(0, 1)             "Encoder with BCD input 01 "
         >>> encoder.output()                    "Binary Form"
         [1]
-        >>> encoder.setInputs(0, 0, 0, 1)       "Sets the new inputs"
+        >>> encoder.set_inputs(0, 0, 0, 1)       "Sets the new inputs"
         [1 , 1]
     """
 
@@ -530,15 +531,15 @@ class Encoder(GATES):
         if not (inputs.count(1) == 1 or list(x.state for x in
                                              filter(lambda i: isinstance(i, Connector), inputs)).count(1) == 1):
             raise Exception("Invalid Input")
-        GATES.__init__(self, list(inputs))
-        self.outputType = []
-        self.outputConnector = []
+        GATES.__init__(self, *inputs)
+        self.output_type = []
+        self.output_connector = []
         for i in range(int(math.log(len(self.inputs), 2))):
-            self.outputType.append(0)
-            self.outputConnector.append(None)
+            self.output_type.append(0)
+            self.output_connector.append(None)
 
     def trigger(self):
-        if isinstance(self.outputType, int):
+        if isinstance(self.output_type, int):
             return
         if not (len(self.inputs) > 1 and (len(self.inputs) & (len(self.inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
@@ -551,22 +552,22 @@ class Encoder(GATES):
             bstr = '0' + bstr
         out = list(bstr)
         out = map(int, out)
-        self._updateResult(list(out))
+        self._update_result(list(out))
 
-    def setInputs(self, *inputs):
+    def set_inputs(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
         if not (inputs.count(1) == 1 or list(x.state for x in
                                              filter(lambda i: isinstance(i, Connector), inputs)).count(1) == 1):
             raise Exception("ERROR: Invalid Input")
         self.inputs = list(inputs)
-        for i in range(len(self.outputType), int(math.log(len(self.inputs), 2))):
-            self.outputType.append(0)
-            self.outputConnector.append(None)
-            self._updateConnections()
+        for i in range(len(self.output_type), int(math.log(len(self.inputs), 2))):
+            self.output_type.append(0)
+            self.output_connector.append(None)
+            self._update_connections()
             self.trigger()
 
-    def setInput(self, index, value):
+    def set_input(self, index, value):
         temp = self.inputs[:]
         if index >= len(temp):
             temp.append(value)
@@ -574,9 +575,9 @@ class Encoder(GATES):
                                                filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs.append(value)
-            for i in range(len(self.outputType), int(math.log(len(self.inputs), 2))):
-                self.outputType.append(0)
-                self.outputConnector.append(None)
+            for i in range(len(self.output_type), int(math.log(len(self.inputs), 2))):
+                self.output_type.append(0)
+                self.output_connector.append(None)
         else:
             temp[index] = value
             if not (temp.count(1) == 1 or list(x.state for x in
@@ -588,19 +589,19 @@ class Encoder(GATES):
             value.tap(self, 'input')
             self.trigger()
 
-    def setOutput(self, index, value):
+    def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("ERROR: Expecting a Connector Class Object")
         value.tap(self, 'output')
-        self.outputType[index] = 1
-        self.outputConnector[index] = value
+        self.output_type[index] = 1
+        self.output_connector[index] = value
         self.trigger()
 
-    def _updateResult(self, value):
+    def _update_result(self, value):
         self.result = value
         for i in range(len(value)):
-            if self.outputType[i] == 1:
-                self.outputConnector[i].state = value[i]
+            if self.output_type[i] == 1:
+                self.output_connector[i].state = value[i]
 
     def __str__(self):
-        return self.buildStr("Encoder")
+        return self.build_str("Encoder")

@@ -25,7 +25,7 @@ class Tree:
     The tree construction has the possibility to not follow cycles so the final
     output is simpler.
 
-    The printTree() function can be used to print the Tree in a readable way.
+    The print_tree() function can be used to print the Tree in a readable way.
     The following examples show two use cases, one of which shows what happens
     if cycles are not being followed.
 
@@ -37,7 +37,7 @@ class Tree:
     >>> g3 = AND(g1, g2)
     >>> tree = Tree(g3, 2)
     >>> tree.backtrack()
-    >>> tree.printTree()
+    >>> tree.print_tree()
     |- AND Gate; Output: 0; Inputs: [0, 0];
        |- AND Gate; Output: 0; Inputs: [True, False];
           |- True
@@ -57,8 +57,8 @@ class Tree:
     >>> g2 = AND(c2, False)
     >>> g3 = AND(g1, g2)
     >>> g4 = AND(g3, True)
-    >>> g3.setOutput(c1)
-    >>> g4.setOutput(c2)
+    >>> g3.set_output(c1)
+    >>> g4.set_output(c2)
     |- [1] AND Gate; Output: 0; Inputs: [0, True];
        |- [0] AND Gate; Output: 0; Inputs: [0, 0];
           |- AND Gate; Output: 0; Inputs: [True, 0];
@@ -88,7 +88,7 @@ class Tree:
 
         self.sons = []
 
-    def setDepth(self, val):
+    def set_depth(self, val):
         '''
         Sets depth until which the tree is constructed.
 
@@ -96,9 +96,9 @@ class Tree:
         '''
 
         self.depth = val
-        self.resetTree()
+        self.reset_tree()
 
-    def resetTree(self):
+    def reset_tree(self):
         self.sons = []
         self.hist = None
 
@@ -134,9 +134,9 @@ class Tree:
         # If the algorithm is not following cycles and this element is not in
         # the history, add it
         if not self.cycles and type(self.element) not in [bool, int]:
-            self.hist.regOccurrence(self.element)
+            self.hist.reg_occurrence(self.element)
 
-            if self.hist.isRepeated(self.element):
+            if self.hist.is_repeated(self.element):
                 return
 
         # If the element is a gate
@@ -157,7 +157,7 @@ class Tree:
                     son.backtrack(self.hist)
                     self.sons.append(son)
 
-    def printTree(self, space=0):
+    def print_tree(self, space=0):
         '''
         This function prints the tree in a readable way.
         The way a gate, or a mux or any other digital element gets
@@ -167,33 +167,33 @@ class Tree:
         space -- Number of spaces which are going to be printed in each
                  recursive step. Should only be used internally. (default 0)
         '''
-        self.printTuple(self.node)
+        self.print_tuple(self.node)
 
-    def printTuple(self, tree_node, space=0):
+    def print_tuple(self, tree_node, space=0):
 
         # Print a few spaces
-        self.printSpaces(space)
+        self.print_spaces(space)
         stdout.write("|- ")
 
         # Print the element
         if not self.cycles:
             if type(self.element) not in [int, bool] and\
-                    self.hist.isRepeated(self.element):
+                    self.hist.is_repeated(self.element):
                 stdout.write(
-                    "[" + str(self.hist.getIndex(self.element)) + "] ")
+                    "[" + str(self.hist.get_index(self.element)) + "] ")
 
         print(self.element)
 
         # Print the sons
         for i in self.sons:
-            i.printTree(space + 1)
+            i.print_tree(space + 1)
 
-    def printSpaces(self, space):
+    def print_spaces(self, space):
         for i in range(space):
             stdout.write("   ")
 
     def __call__(self):
-        self.printTree()
+        self.print_tree()
 
 
 class CycleHist:
@@ -208,7 +208,7 @@ class CycleHist:
         self.hist = {}
         self.current_index = 0
 
-    def regOccurrence(self, element):
+    def reg_occurrence(self, element):
         '''
         Register an occurrence for an element. If the element has been seen
         before, mark that element has a repeating element.
@@ -223,16 +223,16 @@ class CycleHist:
 
             # If it has been seen before and this is the first repetition, mark
             # it has repeating and give it an index
-            if not val.isRepeated():
-                val.setRepeated()
-                val.setIndex(self.current_index)
+            if not val.is_repeated():
+                val.set_repeated()
+                val.set_index(self.current_index)
                 self.current_index += 1
 
         # If not, create a CycleHistValue object for it
         else:
             self.hist[element] = CycleHistValue()
 
-    def getIndex(self, element):
+    def get_index(self, element):
         '''
         Get the repetition index for the given element
 
@@ -240,9 +240,9 @@ class CycleHist:
         element -- A digital element in the dictionary
         '''
 
-        return self.hist[element].getIndex()
+        return self.hist[element].get_index()
 
-    def isRepeated(self, element):
+    def is_repeated(self, element):
         '''
         Check if the given element is repeating or not
 
@@ -250,7 +250,7 @@ class CycleHist:
         element -- The element that is being check if it is repeated or not.
         '''
 
-        return self.hist[element].isRepeated()
+        return self.hist[element].is_repeated()
 
 
 class CycleHistValue:
@@ -264,7 +264,7 @@ class CycleHistValue:
         self.repeated = False
         self.index = 0
 
-    def setIndex(self, index):
+    def set_index(self, index):
         '''
         Set the index of the element for which this instance is associated.
 
@@ -274,21 +274,21 @@ class CycleHistValue:
 
         self.index = index
 
-    def getIndex(self):
+    def get_index(self):
         '''
         Get index of the element of this instance.
         '''
 
         return self.index
 
-    def setRepeated(self):
+    def set_repeated(self):
         '''
         Set is the element of this instance is repeated or not.
         '''
 
         self.repeated = True
 
-    def isRepeated(self):
+    def is_repeated(self):
         '''
         Check if the element for which this instance is associated is repeated
         or not.

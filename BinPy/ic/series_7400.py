@@ -2003,7 +2003,7 @@ class IC_74152(Base_14pin):
         13     D5
         14  Positive Supply
 
-        Selectlines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7
+        select_lines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7
     """
 
     def __init__(self):
@@ -2022,7 +2022,7 @@ class IC_74152(Base_14pin):
             self.pins[13],
             self.pins[12],
             self.pins[11])
-        mux.selectLines(self.pins[8], self.pins[9], self.pins[10])
+        mux.select_lines(self.pins[8], self.pins[9], self.pins[10])
 
         output[6] = NOT(mux.output()).output()
 
@@ -2429,7 +2429,7 @@ class IC_7445(Base_16pin):
             raise Exception("ERROR: Invalid Pin configuration")
 
         dem = DEMUX(1)
-        dem.selectLines(
+        dem.select_lines(
             self.pins[12],
             self.pins[13],
             self.pins[14],
@@ -3193,7 +3193,7 @@ class IC_74138(Base_16pin):
         output = {}
 
         demux = DEMUX(1)
-        demux.selectLines(self.pins[3], self.pins[2], self.pins[1])
+        demux.select_lines(self.pins[3], self.pins[2], self.pins[1])
 
         if (self.pins[6] == 0 or (self.pins[4] == 1 and self.pins[5] == 1)):
             output = {15: 1, 14: 1, 13: 1, 12: 1, 11: 1, 10: 1, 9: 1, 7: 1}
@@ -3248,10 +3248,10 @@ class IC_74139(Base_16pin):
         output = {}
 
         demux1 = DEMUX(1)
-        demux1.selectLines(self.pins[3], self.pins[2])
+        demux1.select_lines(self.pins[3], self.pins[2])
 
         demux2 = DEMUX(1)
-        demux2.selectLines(self.pins[13], self.pins[14])
+        demux2.select_lines(self.pins[13], self.pins[14])
 
         if (self.pins[1] == 1 and self.pins[15] == 1):
             output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
@@ -3336,7 +3336,7 @@ class IC_74151A(Base_16pin):
             self.pins[14],
             self.pins[13],
             self.pins[12])
-        mux.selectLines(self.pins[9], self.pins[10], self.pins[11])
+        mux.select_lines(self.pins[9], self.pins[10], self.pins[11])
 
         if self.pins[7] == 1:
             output = {5: 0, 6: 1}
@@ -3375,7 +3375,7 @@ class IC_74153(Base_16pin):
         15     Strobe2
         16  Positive Supply
 
-        Selectlines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3
+        select_lines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3
     """
 
     def __init__(self):
@@ -3408,7 +3408,7 @@ class IC_74153(Base_16pin):
         elif (self.pins[1] == 0 and self.pins[15] == 1):
 
             mux = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
-            mux.selectLines(self.pins[2], self.pins[14])
+            mux.select_lines(self.pins[2], self.pins[14])
 
             output[9] = 0
             output[7] = mux.output()
@@ -3420,7 +3420,7 @@ class IC_74153(Base_16pin):
                 self.pins[11],
                 self.pins[12],
                 self.pins[13])
-            mux.selectLines(self.pins[2], self.pins[14])
+            mux.select_lines(self.pins[2], self.pins[14])
 
             output[7] = 0
             output[9] = mux.output()
@@ -3428,14 +3428,14 @@ class IC_74153(Base_16pin):
         elif (self.pins[1] == 0 and self.pins[15] == 0):
 
             mux1 = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
-            mux1.selectLines(self.pins[2], self.pins[14])
+            mux1.select_lines(self.pins[2], self.pins[14])
 
             mux2 = MUX(
                 self.pins[10],
                 self.pins[11],
                 self.pins[12],
                 self.pins[13])
-            mux2.selectLines(self.pins[2], self.pins[14])
+            mux2.select_lines(self.pins[2], self.pins[14])
 
             output[7] = mux1.output()
             output[9] = mux2.output()
@@ -3480,10 +3480,10 @@ class IC_74155(Base_16pin):
         output = {}
 
         demux1 = DEMUX(self.pins[1])
-        demux1.selectLines(self.pins[3], self.pins[13])
+        demux1.select_lines(self.pins[3], self.pins[13])
 
         demux2 = DEMUX(NOT(self.pins[15]).output())
-        demux2.selectLines(self.pins[3], self.pins[13])
+        demux2.select_lines(self.pins[3], self.pins[13])
 
         if (self.pins[2] == 1 and self.pins[14] == 1):
             output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
@@ -3561,10 +3561,10 @@ class IC_74156(Base_16pin):
         output = {}
 
         demux1 = DEMUX(self.pins[1])
-        demux1.selectLines(self.pins[3], self.pins[13])
+        demux1.select_lines(self.pins[3], self.pins[13])
 
         demux2 = DEMUX(NOT(self.pins[15]).output())
-        demux2.selectLines(self.pins[3], self.pins[13])
+        demux2.select_lines(self.pins[3], self.pins[13])
 
         if (self.pins[2] == 1 and self.pins[14] == 1):
             output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
