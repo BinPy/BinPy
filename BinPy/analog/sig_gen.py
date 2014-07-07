@@ -1,6 +1,7 @@
 from BinPy import *
 import threading
 import math
+import time
 
 
 class SignalGenerator(threading.Thread):
@@ -85,6 +86,11 @@ class SignalGenerator(threading.Thread):
     amplitude                        : Current amplitude level
     enabled                          : Returns true if the enable input is HIGH
     disabled                         : Returns true if the enable input is LOW
+    sampling_time_interval           : Returns the updation time interval of the output
+    last_updated_time                : Returns a floating point value corresponding
+                                       to the last updated time
+    updating                         : Returns true if the updation is not yet over
+
 
     CONSTANTS
     =========
@@ -102,8 +108,7 @@ class SignalGenerator(threading.Thread):
     SQUARE                           : 1
     RAMP                             : 2
     TRIANGULAR                       : 3
-    SAWTOOTH                         : 4
-    TTL                              : 5
+    TTL                              : 4
 
     FREQ_RANGE                       : {
                                          0 : ( 0.1, 10   ),
@@ -196,6 +201,8 @@ class SignalGenerator(threading.Thread):
         # This will calculate the ampl range / amplitude percent ( equiv. to
         # amplitude knob ) and update them accordingly
 
+        self._last_updated_time = 0
+
         self._exit = False
         # Auto start the thread
         self.start()
@@ -239,6 +246,14 @@ class SignalGenerator(threading.Thread):
     @property
     def sampling_time_interval(self):
         return self._sampling_time_interval
+
+    @property
+    def last_updated_time(self):
+        return self._last_updated_time
+
+    @property
+    def updating(self):
+        return self._updating
 
     def set_amplitude_exact(self, ampl):
         """ Set the amplitude of the output signal """
@@ -346,8 +361,8 @@ class SignalGenerator(threading.Thread):
             self._time_period = float(1) / self._frequency
         else:
             self._time_period = float("inf")
-            
-        self._sampling_time_interval = self._frequency / 500
+
+        self._sampling_time_interval = self._time_period / float(500)
 
     def set_frequency_exact(self, frequency):
         """
@@ -376,8 +391,8 @@ class SignalGenerator(threading.Thread):
 
         else:
             self._time_period = float("inf")
-            
-        self._sampling_time_interval = self._frequency / 500
+
+        self._sampling_time_interval = self._time_period / float(500)
         # Much greater than the nyquist rate for an accurate output with the
         # least deviation.
 
@@ -483,13 +498,13 @@ class SignalGenerator(threading.Thread):
         The main run module which periodically updates the output.
         """
 
-        cur_time_offset = time.time() % self._time_period
-        old_time_offset = cur_time_offset - self._time_period
-
         while not self._exit:
-            cur_time_offset = time.time() % self._time_period
-        
             # Update the time varying value of the output.
+
+            # The current time offset
+            cur_time_offset = time.time() % self._time_period
+
+            self._updating = True
 
             # Getting the modulating input
             m_t = (float(self.mod_ip[0]) - float(self.mod_ip[1]))
@@ -509,11 +524,11 @@ class SignalGenerator(threading.Thread):
 
             # If sine wave
             if (self.type == 0):
-                voltage = math.sin(
+                voltage = 0.5 * math.sin(
                     2 * math.pi * freq * cur_time_offset) + 0.5
 
             # If square wave
-            elif (self.type == 1 || self.type == 4):
+            elif (self.type == 1 or self.type == 4):
                 voltage = 1 if (
                     (cur_time_offset) < time_p /
                     float(2)) else 0
@@ -522,27 +537,26 @@ class SignalGenerator(threading.Thread):
             elif (self.type == 2):
                 voltage = cur_time_offset / time_p
 
-            # If Triangular
-            elif (self.type == 3):
-                voltage = 2 * \
-                    ((cur_time_offset / time_p) - ((cur_time_offset / time_p) + 0.5))
-
             # If triangular
-            else (self.type == 3):
-                voltage = abs(voltage)
+            else:
+                voltage = 2 * cur_time_offset / time_p if (
+                    (cur_time_offset) < time_p /
+                    float(2)) else (2 * (time_p - cur_time_offset) / time_p)
 
             if (self._mod_type == 1):
                 c_t = voltage
-
                 voltage = (1 + m_t) * c_t
 
-            if ( self.type != 4
-            self.outputs.set_voltage_all(
-                (voltage * self._amplitude) + self._offset,
-                0)
+            if (self.type != 4):
+                self._last_updated_time = cur_time_offset
+                self.outputs.set_voltage_all(
+                    (voltage * self._amplitude), -self._offset)
 
-            old_time_offset = cur_time_offset
+            else:
+                self._last_updated_time = cur_time_offset
+                self.outputs.set_voltage_all((voltage * 5), -self._offset)
 
+            self._updating = False
             time.sleep(self._sampling_time_interval)
 
     def kill(self):
