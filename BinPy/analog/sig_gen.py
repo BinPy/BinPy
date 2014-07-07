@@ -28,8 +28,7 @@ class SignalGenerator(threading.Thread):
                                        |   1       |    Square       |    SignalGenerator.SQUARE      |
                                        |   2       |    Ramp         |    SignalGenerator.RAMP        |
                                        |   3       |    Triangular   |    SignalGenerator.TRIANGULAR  |
-                                       |   4       |    Saw Tooth    |    SignalGenerator.SAWTOOTH    |
-                                       |   5       |    TTL          |    SignalGenerator.TTL         |
+                                       |   4       |    TTL          |    SignalGenerator.TTL         |
                                        ================================================================
 
     set_attenuation(float)           : The integer_level decides the attenuation level.
@@ -156,8 +155,7 @@ class SignalGenerator(threading.Thread):
     SQUARE = 1
     RAMP = 2
     TRIANGULAR = 3
-    SAWTOOTH = 4
-    TTL = 5
+    TTL = 4
 
     FREQ_RANGE = {
         0: (0.1, 10),
@@ -239,10 +237,8 @@ class SignalGenerator(threading.Thread):
         return self._frequency_range
 
     @property
-    def SAMPLING_TIME_INTERVAL(self):
-        # Much greater than the nyquist rate for an accurate output with the
-        # least deviation.
-        return self._time_period / float(500)
+    def sampling_time_interval(self):
+        return self._sampling_time_interval
 
     def set_amplitude_exact(self, ampl):
         """ Set the amplitude of the output signal """
@@ -350,6 +346,8 @@ class SignalGenerator(threading.Thread):
             self._time_period = float(1) / self._frequency
         else:
             self._time_period = float("inf")
+            
+        self._sampling_time_interval = self._frequency / 500
 
     def set_frequency_exact(self, frequency):
         """
@@ -378,6 +376,10 @@ class SignalGenerator(threading.Thread):
 
         else:
             self._time_period = float("inf")
+            
+        self._sampling_time_interval = self._frequency / 500
+        # Much greater than the nyquist rate for an accurate output with the
+        # least deviation.
 
     def set_type(self, typ):
         """
@@ -390,18 +392,17 @@ class SignalGenerator(threading.Thread):
         |   1       |    Square       |    SignalGenerator.SQUARE      |
         |   2       |    Ramp         |    SignalGenerator.RAMP        |
         |   3       |    Triangular   |    SignalGenerator.TRIANGULAR  |
-        |   4       |    Saw Tooth    |    SignalGenerator.SAWTOOTH    |
-        |   5       |    TTL          |    SignalGenerator.TTL         |
+        |   4       |    TTL          |    SignalGenerator.TTL         |
         ================================================================
 
         It is recommended to use the Build-in Constants as inputs.
         """
-        if typ in range(6):
+        if typ in range(5):
             self._type = typ
 
         else:
             raise Exception(
-                "ERROR: Invalid input. Please give a numerical value between 0 and 5 ( both inclusive ) ")
+                "ERROR: Invalid input. Please give a numerical value between 0 and 4 ( both inclusive ) ")
 
     def set_offset(self, offset):
         """
@@ -487,65 +488,62 @@ class SignalGenerator(threading.Thread):
 
         while not self._exit:
             cur_time_offset = time.time() % self._time_period
-            if abs(cur_time_offset - old_time_offset) >= self.SAMPLING_TIME_INTERVAL:
-                # Update the time varying value of the output.
+        
+            # Update the time varying value of the output.
 
-                # Getting the modulating input
-                m_t = (float(self.mod_ip[0]) - float(self.mod_ip[1]))
+            # Getting the modulating input
+            m_t = (float(self.mod_ip[0]) - float(self.mod_ip[1]))
 
-                # If modulation is selected as FM
-                if (self._mod_type == 2):
-                    freq = self._frequency + m_t
-                    if freq != 0:
-                        time_p = 1 / freq
-
-                    else:
-                        time_p = float("inf")
+            # If modulation is selected as FM
+            if (self._mod_type == 2):
+                freq = self._frequency + m_t
+                if freq != 0:
+                    time_p = 1 / freq
 
                 else:
-                    freq = self._frequency
-                    time_p = self._time_period
+                    time_p = float("inf")
 
-                # If sine wave
-                if (self.type == 0):
-                    voltage = math.sin(
-                        2 * math.pi * freq * cur_time_offset) + 0.5
+            else:
+                freq = self._frequency
+                time_p = self._time_period
 
-                # If square wave
-                if (self.type == 1):
-                    voltage = 1 if (
-                        (cur_time_offset) < time_p /
-                        float(2)) else 0
+            # If sine wave
+            if (self.type == 0):
+                voltage = math.sin(
+                    2 * math.pi * freq * cur_time_offset) + 0.5
 
-                # If Ramp
-                if (self.type == 2):
-                    voltage = cur_time_offset / time_p
+            # If square wave
+            elif (self.type == 1 || self.type == 4):
+                voltage = 1 if (
+                    (cur_time_offset) < time_p /
+                    float(2)) else 0
 
-                # If Sawtooth or triangular
-                if (self.type == 3 or self.type == 4):
-                    voltage = 2 * \
-                        ((cur_time_offset / time_p) - ((cur_time_offset / time_p) + 0.5))
+            # If Ramp
+            elif (self.type == 2):
+                voltage = cur_time_offset / time_p
 
-                # If triangular
-                if (self.type == 3):
-                    voltage = abs(voltage)
+            # If Triangular
+            elif (self.type == 3):
+                voltage = 2 * \
+                    ((cur_time_offset / time_p) - ((cur_time_offset / time_p) + 0.5))
 
-                # If Sawtooth
-                if (self.type == 4):
-                    voltage += 1
+            # If triangular
+            else (self.type == 3):
+                voltage = abs(voltage)
 
-                if (self._mod_type == 1):
-                    c_t = voltage
+            if (self._mod_type == 1):
+                c_t = voltage
 
-                    voltage = (1 + m_t) * c_t
+                voltage = (1 + m_t) * c_t
 
-                self.outputs.set_voltage_all(
-                    (voltage * self._amplitude) + self._offset,
-                    0)
+            if ( self.type != 4
+            self.outputs.set_voltage_all(
+                (voltage * self._amplitude) + self._offset,
+                0)
 
-                old_time_offset = cur_time_offset
+            old_time_offset = cur_time_offset
 
-                time.sleep(self.SAMPLING_TIME_INTERVAL)
+            time.sleep(self._sampling_time_interval)
 
     def kill(self):
         """ To terminate this thread """
