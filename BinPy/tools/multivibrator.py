@@ -80,7 +80,7 @@ class Multivibrator(threading.Thread):
     def start(self):
         """ Do not use this method """
         # Kept to make it compatible with older versions of BinPy
-        if not self._strtd.is_set():
+        if not self._strtd:
             threading.Thread.start(self)
             self._strtd = True
 
@@ -135,7 +135,7 @@ class Multivibrator(threading.Thread):
                     self.update = False
 
                 elif self.mode == 2:
-                    while (self.mode == 2) and (self.update) and (not self.exitFlag):
+                    while (self.mode == 2) and (self.update) and (not self._exit):
                         self._toggle_state()
                         if self.A.state == 1:
                             time.sleep(self.on_time)
