@@ -508,11 +508,11 @@ class SignalGenerator(threading.Thread):
 
                 self._updating = True
 
-                # Getting the modulating input
-                m_t = (float(self.mod_ip[0]) - float(self.mod_ip[1]))
-
                 # If modulation is selected as FM
                 if (self._mod_type == 2):
+                    # Getting the modulating input
+                    m_t = self.mod_ip[0].voltage - self.mod_ip[1].voltage
+
                     freq = self._frequency + m_t
                     if freq != 0:
                         time_p = 1 / freq
@@ -526,42 +526,47 @@ class SignalGenerator(threading.Thread):
 
                 # If sine wave
                 if (self.type == 0):
+                    self._last_updated_time = cur_time_offset
                     voltage = 0.5 * math.sin(
-                        2 * math.pi * freq * cur_time_offset) + 0.5
+                        2 * 3.145926 * freq * cur_time_offset) + 0.5
 
                 # If square wave
                 elif (self.type == 1 or self.type == 4):
+                    self._last_updated_time = cur_time_offset
                     voltage = 1 if (
                         (cur_time_offset) < time_p /
                         float(2)) else 0
 
                 # If Ramp
                 elif (self.type == 2):
+                    self._last_updated_time = cur_time_offset
                     voltage = cur_time_offset / time_p
 
                 # If triangular
                 else:
+                    self._last_updated_time = cur_time_offset
                     voltage = 2 * cur_time_offset / time_p if (
                         (cur_time_offset) < time_p /
                         float(2)) else (2 * (time_p - cur_time_offset) / time_p)
 
                 if (self._mod_type == 1):
+                    m_t = self.mod_ip[0].voltage - self.mod_ip[1].voltage
                     c_t = voltage
                     voltage = (1 + m_t) * c_t
 
                 if (self.type != 4):
-                    self._last_updated_time = cur_time_offset
-                    self.outputs.set_voltage_all(
-                        (voltage * self._amplitude), -self._offset)
+                    voltage *= self._amplitude
 
                 else:
-                    self._last_updated_time = cur_time_offset
-                    self.outputs.set_voltage_all((voltage * 5), -self._offset)
+                    voltage *= 5.0  # TTL amplitude is constant at 5v
+
+                self.outputs[0].voltage = voltage
+                self.outputs[1].voltage = -self.offset
 
                 self._updating = False
                 time.sleep(self._sampling_time_interval)
 
-        except:
+        except Exception as e:
             return
 
     def kill(self):
