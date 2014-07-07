@@ -36,6 +36,7 @@ nosetests -v analog_devices_tests.py; chk;
 nosetests -v analog_source_tests.py; chk;
 nosetests -v test_makebooleanfunction.py; chk;
 nosetests -v test_analog_converters_buffers.py; chk;
+nosetests -v test_signal_generator.py; chk;
 nosetests3 -v gates_tests.py; chk;
 nosetests3 -v combinational_tests.py; chk;
 nosetests3 -v operations_tests.py; chk;
@@ -53,6 +54,7 @@ nosetests3 -v analog_devices_tests.py; chk;
 nosetests3 -v analog_source_tests.py; chk;
 nosetests3 -v test_makebooleanfunction.py; chk;
 nosetests3 -v test_analog_converters_buffers.py; chk;
+nosetests3 -v test_signal_generator.py; chk;
 nosetests3 -v  --with-coverage --cover-package=BinPy
 exit $status_code;
 
