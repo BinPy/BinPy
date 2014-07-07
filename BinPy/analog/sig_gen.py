@@ -2,6 +2,7 @@ from BinPy import *
 import threading
 import math
 import time
+import sys
 
 
 class SignalGenerator(threading.Thread):
@@ -498,66 +499,70 @@ class SignalGenerator(threading.Thread):
         The main run module which periodically updates the output.
         """
 
-        while not self._exit:
-            # Update the time varying value of the output.
+        try:
+            while not self._exit:
+                # Update the time varying value of the output.
 
-            # The current time offset
-            cur_time_offset = time.time() % self._time_period
+                # The current time offset
+                cur_time_offset = time.time() % self._time_period
 
-            self._updating = True
+                self._updating = True
 
-            # Getting the modulating input
-            m_t = (float(self.mod_ip[0]) - float(self.mod_ip[1]))
+                # Getting the modulating input
+                m_t = (float(self.mod_ip[0]) - float(self.mod_ip[1]))
 
-            # If modulation is selected as FM
-            if (self._mod_type == 2):
-                freq = self._frequency + m_t
-                if freq != 0:
-                    time_p = 1 / freq
+                # If modulation is selected as FM
+                if (self._mod_type == 2):
+                    freq = self._frequency + m_t
+                    if freq != 0:
+                        time_p = 1 / freq
+
+                    else:
+                        time_p = float("inf")
 
                 else:
-                    time_p = float("inf")
+                    freq = self._frequency
+                    time_p = self._time_period
 
-            else:
-                freq = self._frequency
-                time_p = self._time_period
+                # If sine wave
+                if (self.type == 0):
+                    voltage = 0.5 * math.sin(
+                        2 * math.pi * freq * cur_time_offset) + 0.5
 
-            # If sine wave
-            if (self.type == 0):
-                voltage = 0.5 * math.sin(
-                    2 * math.pi * freq * cur_time_offset) + 0.5
+                # If square wave
+                elif (self.type == 1 or self.type == 4):
+                    voltage = 1 if (
+                        (cur_time_offset) < time_p /
+                        float(2)) else 0
 
-            # If square wave
-            elif (self.type == 1 or self.type == 4):
-                voltage = 1 if (
-                    (cur_time_offset) < time_p /
-                    float(2)) else 0
+                # If Ramp
+                elif (self.type == 2):
+                    voltage = cur_time_offset / time_p
 
-            # If Ramp
-            elif (self.type == 2):
-                voltage = cur_time_offset / time_p
+                # If triangular
+                else:
+                    voltage = 2 * cur_time_offset / time_p if (
+                        (cur_time_offset) < time_p /
+                        float(2)) else (2 * (time_p - cur_time_offset) / time_p)
 
-            # If triangular
-            else:
-                voltage = 2 * cur_time_offset / time_p if (
-                    (cur_time_offset) < time_p /
-                    float(2)) else (2 * (time_p - cur_time_offset) / time_p)
+                if (self._mod_type == 1):
+                    c_t = voltage
+                    voltage = (1 + m_t) * c_t
 
-            if (self._mod_type == 1):
-                c_t = voltage
-                voltage = (1 + m_t) * c_t
+                if (self.type != 4):
+                    self._last_updated_time = cur_time_offset
+                    self.outputs.set_voltage_all(
+                        (voltage * self._amplitude), -self._offset)
 
-            if (self.type != 4):
-                self._last_updated_time = cur_time_offset
-                self.outputs.set_voltage_all(
-                    (voltage * self._amplitude), -self._offset)
+                else:
+                    self._last_updated_time = cur_time_offset
+                    self.outputs.set_voltage_all((voltage * 5), -self._offset)
 
-            else:
-                self._last_updated_time = cur_time_offset
-                self.outputs.set_voltage_all((voltage * 5), -self._offset)
+                self._updating = False
+                time.sleep(self._sampling_time_interval)
 
-            self._updating = False
-            time.sleep(self._sampling_time_interval)
+        except:
+            return
 
     def kill(self):
         """ To terminate this thread """
