@@ -63,6 +63,7 @@ class Connector(object):
         self.set_logic(state)
         self.oldstate = None
 
+        self.analog = analog
         # voltage for analog components
         if voltage is not None:
             self.set_voltage(voltage)
@@ -72,7 +73,6 @@ class Connector(object):
         self._name = name
         self.name_set = (name != "")
         self._index = BinPyIndexer.index(self)
-        self.analog = analog
 
     @property
     def index(self):
@@ -198,7 +198,10 @@ class Connector(object):
         return float(self.voltage)
 
     def __repr__(self):
-        return str(self.state)
+        if (self.analog):
+            return str(float(self))
+        else:
+            return str(self.state)
 
     def __str__(self):
         return "Connector; Name: %s; Index: %d; State: " % (
