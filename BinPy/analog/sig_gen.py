@@ -363,7 +363,7 @@ class SignalGenerator(threading.Thread):
         else:
             self._time_period = float("inf")
 
-        self._sampling_time_interval = self._time_period / float(500)
+        self._sampling_time_interval = self._time_period / 500.0
 
     def set_frequency_exact(self, frequency):
         """
@@ -393,7 +393,7 @@ class SignalGenerator(threading.Thread):
         else:
             self._time_period = float("inf")
 
-        self._sampling_time_interval = self._time_period / float(500)
+        self._sampling_time_interval = self._time_period / 500.0
         # Much greater than the nyquist rate for an accurate output with the
         # least deviation.
 
@@ -551,8 +551,9 @@ class SignalGenerator(threading.Thread):
 
                 if (self._mod_type == 1):
                     m_t = self.mod_ip[0].voltage - self.mod_ip[1].voltage
-                    c_t = voltage
+                    c_t = voltage * self._amplitude + self.offset
                     voltage = (1 + m_t) * c_t
+                    voltage /= self._amplitude
 
                 if (self.type != 4):
                     voltage *= self._amplitude
