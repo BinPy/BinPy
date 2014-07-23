@@ -19,7 +19,7 @@ class BitTools(object):
         result = None
 
         if type(input_data) not in [str, int, BitArray]:
-            raise TypeError
+            raise TypeError(
                 "Input must be given as integer or binary strings or bitarray objects")
 
         input_data = input_data.replace("0b", "")
@@ -47,7 +47,7 @@ class BitTools(object):
                 result = BitArray(int=-input_data, length=bits)
 
         else:
-            raise TypeError
+            raise TypeError(
                 "Input  must be given as binary strings or integers.")
 
         return result
