@@ -43,6 +43,9 @@ def test_bittools():
     assert bit_array_signed.bin == "11111011"
     assert bit_array_signed.int == -5
 
+    # Testing creation of BitArray with input binary string of 0 length
+    assert repr(BitTools.to_BitArray('', 5)) == "BitArray('0b00000')"
+
 
 def test_convertors():
     assert BitTools.to_unsigned_int("11111111") == 255
