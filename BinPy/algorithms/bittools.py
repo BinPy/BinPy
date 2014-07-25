@@ -18,14 +18,17 @@ class BitTools(object):
         """
         result = None
 
-        if type(input_data) not in [str, int, BitArray]:
+        if type(input_data) not in [str, int]:
             raise TypeError(
                 "Input must be given as integer or binary strings or bitarray objects")
 
         # Convert to Bit Array Objects
         if isinstance(input_data, int):
-            result = BitArray(int=input_data, length=bits)
-            # Sign is taken care by the sign of input_data
+            if signed:
+                result = BitArray(int=input_data, length=bits)
+                # Sign is taken care by the sign of input_data
+            else:
+                result = BitArray(uint=abs(input_data), length=bits)
 
         elif isinstance(input_data, str):
             # Sign is decided by the "signed" parameter or - in the input_data
@@ -36,19 +39,23 @@ class BitTools(object):
             if len(input_data) == 0:
                 return BitArray(int=0, length=bits)
 
-            # First priority to - in the string "-0b111" ( -7 )
-            if "-" in input_data or ((input_data[0] == "1") and not signed) or (input_data[0] == "0"):
+            # First priority to - in the string "-0b111" ( -7 ) or a signed
+            # binary number starting with 0
+            if "-" in input_data or ((input_data[0] == "0") and signed):
                 result = BitArray(int=int(input_data, 2), length=bits)
 
             # Next priority to 2s complement signed binary explicitly mentined
             # as signed
-            else:
+            elif signed:
                 input_data = input_data.replace("-", "")
                 length = len(input_data)
                 mask = int(("1" * length), 2)
                 input_data = (int(input_data, 2) ^ mask) + 1
                 result = BitArray(int=-input_data, length=bits)
 
+            # Unsigned binary
+            else:
+                result = BitArray(uint=int(input_data, 2), length=bits)
         else:
             raise TypeError(
                 "Input  must be given as binary strings or integers.")
