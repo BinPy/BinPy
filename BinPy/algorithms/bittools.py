@@ -30,12 +30,11 @@ class BitTools(object):
         elif isinstance(input_data, str):
             # Sign is decided by the "signed" parameter or - in the input_data
             # string
-            
+
             input_data = input_data.replace("0b", "")
 
             if len(input_data) == 0:
                 return BitArray(int=0, length=bits)
-
 
             # First priority to - in the string "-0b111" ( -7 )
             if "-" in input_data or ((input_data[0] == "1") and not signed) or (input_data[0] == "0"):
