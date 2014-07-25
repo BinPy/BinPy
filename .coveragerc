@@ -1,0 +1,12 @@
+[run]
+branch = true
+source = BinPy
+include = */BinPy/*
+
+omit =
+    */BinPy/Shell/*
+    */docs/*
+    */setup.py
+
+[report]
+ignore_errors = true
