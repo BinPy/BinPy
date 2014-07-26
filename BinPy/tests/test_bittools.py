@@ -34,6 +34,13 @@ def test_bittools():
     except:
         assert True
 
+    try:
+        bit_array_signed = BitTools.to_BitArray(binary_string, 5, signed=False)
+        # This should hovever work
+        assert True
+    except:
+        assert False
+
     # Giving a signed input with - sign ( Python signed binary )
     binary_string = bin(-5)
 
