@@ -183,8 +183,6 @@ class Multipliers(object):
 
         """
 
-        # Use bit array only to calculate 2's complement of signed binaries.
-
         if bits is None:
             multiplier = multiplier.replace('0b', '')
             if not signed:
@@ -195,53 +193,45 @@ class Multipliers(object):
                 multiplicand = multiplicand.lstrip("0")
             bits = max(len(multiplier), len(multiplicand)) + 1
 
-        len_input = bits
-
-        if (bits % 2) == 0:
-            bits += 1
-
         multiplicand = BitTools.to_BitArray(multiplicand, bits, signed)
         multiplier = BitTools.to_BitArray(multiplier, bits, signed)
 
         sign_bit = None
 
         if (signed or (multiplicand.int < 0) or (multiplier.int < 0)):
+            # The following set of operations will run only during the first 
+            # pass, if the signed is set to True
+
             # Calculating the sign of the product
             if ((multiplicand.bin[0] == "1") ^ (multiplier.bin[0] == "1")):
                 sign_bit = 1
             else:
                 sign_bit = 0
 
-            # Strip off the sign bit
-            multiplicand.int = abs(multiplicand.int)
-            multiplier.int = abs(multiplier.int)
+            # Strip off the sign bit and convert to a BitArray with unsigned binary string.
+            multiplicand = BitTools.to_BitArray(abs(multiplicand.int), bits, signed=False)
+            multiplier = BitTools.to_BitArray(abs(multiplier.int), bits, signed=False)
 
-        # Binary without the sign bit
-        multiplier_abs = multiplier.bin[1:]
-        multiplicand_abs = multiplicand.bin[1:]
-
-        if len(multiplier_abs) == 0 or len(multiplicand_abs) == 0:
+        if len(multiplier) == 0 or len(multiplicand) == 0:
             return "0"
 
         # Base case of 1 bit multiplication
-        if len(multiplier_abs) == 1:
+        if len(multiplier) == 1:
             return "1" if (
-                multiplier_abs == "1" and multiplicand_abs == "1") else "0"
+                multiplier == "1" and multiplicand == "1") else "0"
 
-        # Base case for 2 bit multiplication
-        if len(multiplier_abs) == 2:
-            return bin(multiplicand.int * multiplier.int).replace("0b", "")
-
-        m = (bits - 1) / 2
+        m = bits / 2
+        if (bits % 2) != 0:
+            m += 1
 
         # x = x1*(2**m) + x0
         # y = y1*(2**m) + y0
 
-        x1 = multiplicand_abs[:m]
-        x0 = multiplicand_abs[m:]
+        x1 = multiplicand.bin[:m]
+        x0 = multiplicand.bin[m:]
 
-        y1 = multiplier_abs[:m]
-        y0 = multiplier_abs[m:]
+        y1 = multiplier.bin[:m]
+        y0 = multiplier.bin[m:]
 
         # print x1, x0
         # print y1, y0
