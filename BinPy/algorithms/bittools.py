@@ -15,6 +15,22 @@ class BitTools(object):
         """
         Returns a bit array object, from the input_data.
         Validation and exception handling is taken care of by this method, to assist in DRY coding principle
+
+        input_data for signed numbers can be any one of the following :
+
+        15 : 1111, signed = False
+        15 : 01111, signed = True
+        15 : 0b1111, signed = False
+        15 : 0b01111, signed = True
+
+        -7 : -0b111, signed = True
+        -7 : -0b111, signed = False
+        -7 : 1001, signed = True
+
+        Prepending with 0b defaults the representation to unsigned, unless prepended by a -1
+
+        i.e Do not give input_data as -7 : 0b1001, signed=True, it will be understood as +9
+
         """
         result = None
 
@@ -34,7 +50,17 @@ class BitTools(object):
             # Sign is decided by the "signed" parameter or - in the input_data
             # string
 
-            input_data = input_data.replace("0b", "")
+            # Signed binary with 0b is understood by default
+            # to be unsigned unless other wise prepended by -
+            # DEV NOTE: This is so that input_data = bin(7), singed=True
+            #           is not misinterpreted as -1
+            #           But as a consequence -1 cannot be given as 0b111, signed = True
+            #           It can be given as only as :
+            #                                 -0b0001 or -0001
+            #                                  1111, signed = True
+            if "0b" in input_data:
+                input_data = input_data.replace("0b", "")
+                signed = False
 
             if len(input_data) == 0:
                 return BitArray(int=0, length=bits)
@@ -45,7 +71,7 @@ class BitTools(object):
                 result = BitArray(int=int(input_data, 2), length=bits)
 
             # Next priority to 2s complement signed binary explicitly mentined
-            # as signed
+            # as signed and whose string does not contain 0b
             elif signed:
                 input_data = input_data.replace("-", "")
                 length = len(input_data)
