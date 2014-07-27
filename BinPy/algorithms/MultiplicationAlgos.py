@@ -4,8 +4,6 @@ This module implements various types of multipliers using algorithms like Booth'
 
 from bitstring import *
 from BinPy.algorithms.bittools import *
-import sys
-import random
 import itertools
 
 
@@ -48,9 +46,27 @@ class Multipliers(object):
         """
 
         if bits is None:
-            multiplier = multiplier.replace('0b', '')
-            multiplicand = multiplicand.replace('0b', '')
-            bits = max(len(multiplier), len(multiplicand)) + 1
+
+            # DEV NOTE: Do not replace 0b in the inputs, the BitTools will
+            # handle the same.
+
+            if not signed:
+                if "0b" not in multiplier:
+                    multiplier = multiplier.lstrip("0")
+
+                if "0b" not in multiplicand:
+                    multiplicand = multiplicand.lstrip("0")
+
+            bits = max(len(multiplier), len(multiplicand))
+
+            if bits == len(multiplier) and "0b" in multiplier:
+                bits -= 2
+
+            elif bits == len(multiplicand) and "0b" in multiplicand:
+                bits -= 2
+
+            if bits == 0:
+                bits = 1
 
         len_input = bits
 
@@ -107,9 +123,27 @@ class Multipliers(object):
         """
 
         if bits is None:
-            multiplier = multiplier.replace('0b', '')
-            multiplicand = multiplicand.replace('0b', '')
-            bits = max(len(multiplier), len(multiplicand)) + 1
+
+            # DEV NOTE: Do not replace 0b in the inputs, the BitTools will
+            # handle the same.
+
+            if not signed:
+                if "0b" not in multiplier:
+                    multiplier = multiplier.lstrip("0")
+
+                if "0b" not in multiplicand:
+                    multiplicand = multiplicand.lstrip("0")
+
+            bits = max(len(multiplier), len(multiplicand))
+
+            if bits == len(multiplier) and "0b" in multiplier:
+                bits -= 2
+
+            elif bits == len(multiplicand) and "0b" in multiplicand:
+                bits -= 2
+
+            if bits == 0:
+                bits = 1
 
         len_input = bits
 
@@ -184,22 +218,35 @@ class Multipliers(object):
         """
 
         if bits is None:
-            multiplier = multiplier.replace('0b', '')
-            if not signed:
-                multiplier = multiplier.lstrip("0")
 
-            multiplicand = multiplicand.replace('0b', '')
+            # DEV NOTE: Do not replace 0b in the inputs, the BitTools will
+            # handle the same.
+
             if not signed:
-                multiplicand = multiplicand.lstrip("0")
-            bits = max(len(multiplier), len(multiplicand)) + 1
+                if "0b" not in multiplier:
+                    multiplier = multiplier.lstrip("0")
+
+                if "0b" not in multiplicand:
+                    multiplicand = multiplicand.lstrip("0")
+
+            bits = max(len(multiplier), len(multiplicand))
+
+            if bits == len(multiplier) and "0b" in multiplier:
+                bits -= 2
+
+            elif bits == len(multiplicand) and "0b" in multiplicand:
+                bits -= 2
+
+            if bits == 0:
+                bits = 1
 
         multiplicand = BitTools.to_BitArray(multiplicand, bits, signed)
         multiplier = BitTools.to_BitArray(multiplier, bits, signed)
 
         sign_bit = None
 
-        if (signed or (multiplicand.int < 0) or (multiplier.int < 0)):
-            # The following set of operations will run only during the first 
+        if (signed):
+            # The following set of operations will run only during the first
             # pass, if the signed is set to True
 
             # Calculating the sign of the product
@@ -208,21 +255,23 @@ class Multipliers(object):
             else:
                 sign_bit = 0
 
-            # Strip off the sign bit and convert to a BitArray with unsigned binary string.
-            multiplicand = BitTools.to_BitArray(abs(multiplicand.int), bits, signed=False)
-            multiplier = BitTools.to_BitArray(abs(multiplier.int), bits, signed=False)
+            # Strip off the sign bit and convert to a BitArray with unsigned
+            # binary string.
+            multiplicand = BitTools.to_BitArray(
+                abs(multiplicand.int), bits, signed=False)
+            multiplier = BitTools.to_BitArray(
+                abs(multiplier.int), bits, signed=False)
 
-        if len(multiplier) == 0 or len(multiplicand) == 0:
+        # Base case of 0 bit multiplication. If length is 0 product is 0.
+        if len(multiplier.bin) == 0 or len(multiplicand.bin) == 0:
             return "0"
 
         # Base case of 1 bit multiplication
         if len(multiplier) == 1:
             return "1" if (
-                multiplier == "1" and multiplicand == "1") else "0"
+                multiplier.bin == "1" and multiplicand.bin == "1") else "0"
 
         m = bits / 2
-        if (bits % 2) != 0:
-            m += 1
 
         # x = x1*(2**m) + x0
         # y = y1*(2**m) + y0
@@ -233,44 +282,35 @@ class Multipliers(object):
         y1 = multiplier.bin[:m]
         y0 = multiplier.bin[m:]
 
-        # print x1, x0
-        # print y1, y0
-        # print "m ", m
-
         # Upper half of the bits
         z2 = Multipliers.karatsuba_multiply(x1, y1)
         # Lower half of the bits
         z0 = Multipliers.karatsuba_multiply(x0, y0)
+
         # ( x1 + x0 )( y1 + y0 )
         sum_term1 = int(x1, 2) + int(x0, 2)
-        sum_term1 = bin(sum_term1)
+        sum_term1 = bin(sum_term1).replace("0b", "").lstrip("0")
 
         sum_term2 = int(y1, 2) + int(y0, 2)
-        sum_term2 = bin(sum_term2)
-
-        # print "sum terms: ", sum_term1.replace('0b',''),
-        # sum_term2.replace('0b','0')
+        sum_term2 = bin(sum_term2).replace("0b", "").lstrip("0")
 
         z1 = Multipliers.karatsuba_multiply(sum_term1, sum_term2)
         z1 = bin(int(z1, 2) - int(z2, 2) - int(z0, 2))
-        # print "z1: ", z1
 
         # The "0" padding at the right is binary equivalent of left shift or
         # muliply with 2**bits
-        abs_result = int((z2 + "0" * (2 * m)),
-                         2) + int((z1 + "0" * (m)),
+        abs_result = int((z2 + "0" * (2 * (bits - m))),
+                         2) + int((z1 + "0" * (bits - m)),
                                   2) + int(z0,
                                            2)
 
         # len_result = 2*length of multiplicand / multiplier
-
-        len_result = 2 * len_input
+        len_result = 2 * bits
 
         # Converting to binary of 2ce the bit length of inputs
-        abs_result = BitTools.to_BitArray(abs_result, len_result)
+        abs_result = BitTools.to_BitArray(abs_result, len_result, signed=False)
 
         if sign_bit == 1:
             abs_result.int *= -1
 
-        # print "res: ", abs_result.bin
         return abs_result.bin
