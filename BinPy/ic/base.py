@@ -229,7 +229,7 @@ class Base_14pin(IC):
     def set_pin_param(self, pin_no, parm_dict):
         if pin_no < 1 or pin_no > 14:
             raise Exception("ERROR: There are only 14 pins in this IC")
-        if uses_pincls:
+        if self.uses_pincls:
             self.pins[pin_no].set_pin_param(parm_dict)
         else:
             raise Exception("ERROR: IC Does not use Pinset class")
@@ -254,7 +254,7 @@ class Base_16pin(IC):
     def set_pin_param(self, pin_no, parm_dict):
         if pin_no < 1 or pin_no > 16:
             raise Exception("ERROR: There are only 16 pins in this IC")
-        if uses_pincls:
+        if self.uses_pincls:
             self.pins[pin_no].set_pin_param(parm_dict)
         else:
             raise Exception("ERROR: IC Does not use Pinset class")
@@ -279,7 +279,7 @@ class Base_24pin(IC):
     def set_pin_param(self, pin_no, parm_dict):
         if pin_no < 1 or pin_no > 24:
             raise Exception("ERROR: There are only 24 pins in this IC")
-        if uses_pincls:
+        if self.uses_pincls:
             self.pins[pin_no].set_pin_param(parm_dict)
         else:
             raise Exception("ERROR: IC Does not use Pinset class")
