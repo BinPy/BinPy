@@ -3,13 +3,14 @@ The BitTools module consists of static methods to assist operations on binary st
 The bitstring package is used extensively to make the conversions efficient.
 """
 from bitstring import BitArray
+import BinPy
 import sys  # For version checking
 
 
 # DEV NOTE : BitArray is the class name so pep8 naming ( bit_array ) is
 # not used
 
-class BinPyBits():
+class BinPyBits(BitArray):
 
     """
     This class inherits from bitstring.BitArray class to create a BitArray with customized features
@@ -34,21 +35,20 @@ class BinPyBits():
 
     """
 
-    def __init__(self, input_data, length, signed=False):
+    def __new__(class_type, input_data=None, length=0, signed=False, uint = 0):
+        if sys.version[0] == "2":
+            int = long
 
-        if sys.version[0] == "3":
-            long = int
-
-        if not isinstance(input_data, (int, long, str, BinPy.bits.BinPyBits)):
+        if not isinstance(input_data, (int, str, class_type)):
             raise TypeError(
                 "Input must be given as integer or binary strings or BinPyBits object")
 
         if isinstance(input_data, (int, long)):
             if signed:
-                result = BitArray(int=input_data, length=bits)
+                result = BitArray(int=input_data, length=length)
                 # Sign is taken care by the sign of input_data
             else:
-                result = BitArray(uint=abs(input_data), length=bits)
+                result = BitArray(uint=abs(input_data), length=length)
 
         elif isinstance(input_data, str):
             # Sign is decided by the "signed" parameter or - in the input_data
@@ -80,22 +80,25 @@ class BinPyBits():
             elif signed:
                 # and input_data[0] == "1" ( this check was redundant, hence removed.
                 # Included as comment to improve code clarity )
-                input_data = input_data.replace("-", "")
-                # This is equivalent to 2's complement of input_data
                 input_int = BitArray(bin=input_data).int
+                # This is equivalent to 2's complement of input_data
+            
+            # Unsigned
+            else:
+                input_int = int(input_data, 2)
 
+        # Copying the value from the input_data BinPyBits object
         else:
             input_int = input_data.int if signed else input_data.uint
 
         # Initializating the super class
         if signed:
-            bitstring.BitArray(int=input_int, length=bits)
+            return BitArray.__new__(class_type, int=input_int, length=length)
 
         else:
-            bitstring.BitArray(uint=input_int, length=bits)
+            return BitArray.__new__(class_type, uint=input_int, length=length)
 
         self.signed = signed
-
 
 def to_signed_int(signed_binary):
     """
