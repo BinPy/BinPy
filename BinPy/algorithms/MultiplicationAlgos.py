@@ -270,7 +270,7 @@ class Multipliers(object):
             return "1" if (
                 multiplier.bin == "1" and multiplicand.bin == "1") else "0"
 
-        m = bits / 2
+        m = int(bits / 2)
 
         # x = x1*(2**m) + x0
         # y = y1*(2**m) + y0
