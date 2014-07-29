@@ -35,7 +35,7 @@ class BinPyBits(BitArray):
 
     """
 
-    def __new__(class_type, input_data=None, length=0, signed=False, uint = 0):
+    def __new__(class_type, input_data=None, length=0, signed=False, uint=0):
         if sys.version[0] == "2":
             int = long
 
@@ -82,7 +82,7 @@ class BinPyBits(BitArray):
                 # Included as comment to improve code clarity )
                 input_int = BitArray(bin=input_data).int
                 # This is equivalent to 2's complement of input_data
-            
+
             # Unsigned
             else:
                 input_int = int(input_data, 2)
@@ -99,6 +99,7 @@ class BinPyBits(BitArray):
             return BitArray.__new__(class_type, uint=input_int, length=length)
 
         self.signed = signed
+
 
 def to_signed_int(signed_binary):
     """
