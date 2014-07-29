@@ -3,41 +3,41 @@ from BinPy import *
 
 def test_robertsons():
 
-    assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(bin(-7), bin(5), 4, signed=True)) == -35
+    assert to_signed_int(
+        robertsons_multiply(bin(-7), bin(5), 4, signed=True)) == -35
 
-    assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(bin(-7), bin(-5), 4, signed=True)) == 35
+    assert to_signed_int(
+        robertsons_multiply(bin(-7), bin(-5), 4, signed=True)) == 35
 
-    assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(
+    assert to_signed_int(
+        robertsons_multiply(
             '111111',
             '111111',
             7)) == 3969
 
-    assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(
+    assert to_signed_int(
+        robertsons_multiply(
             '111111',
             '111111',
             5,
             signed=True)) == 1
 
-    assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(
+    assert to_signed_int(
+        robertsons_multiply(
             '1111',
             '0111',
             5,
             signed=False)) == 105
 
-    assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(
+    assert to_signed_int(
+        robertsons_multiply(
             '1111',
             '0111',
             5,
             signed=True)) == -7
 
-    assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(
+    assert to_signed_int(
+        robertsons_multiply(
             '-1',
             '0111',
             5,
@@ -45,8 +45,8 @@ def test_robertsons():
 
     try:
         # If no of bits explicitly specified
-        BitTools.to_signed_int(
-            Multipliers.robertsons_multiply(
+        to_signed_int(
+            robertsons_multiply(
                 '111111',
                 '111111',
                 5,
@@ -58,41 +58,41 @@ def test_robertsons():
 
 def test_booths():
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(bin(-7), bin(5), 4)) == -35
+    assert to_signed_int(
+        booths_multiply(bin(-7), bin(5), 4)) == -35
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(bin(-7), bin(-5), 4)) == 35
+    assert to_signed_int(
+        booths_multiply(bin(-7), bin(-5), 4)) == 35
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '111111',
             '111111',
             7)) == 3969
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '111111',
             '111111',
             5,
             signed=True)) == 1
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '1111',
             '0111',
             5,
             signed=False)) == 105
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '1111',
             '0111',
             5,
             signed=True)) == -7
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '-1',
             '0111',
             5,
@@ -100,8 +100,8 @@ def test_booths():
 
     try:
         # If no of bits explicitly specified
-        BitTools.to_signed_int(
-            Multipliers.booths_multiply(
+        to_signed_int(
+            booths_multiply(
                 '111111',
                 '111111',
                 5,
@@ -113,41 +113,41 @@ def test_booths():
 
 def test_karatsuba():
 
-    assert BitTools.to_signed_int(
-        Multipliers.karatsuba_multiply(bin(-7), bin(5), signed=True)) == -35
+    assert to_signed_int(
+        karatsuba_multiply(bin(-7), bin(5), signed=True)) == -35
 
-    assert BitTools.to_signed_int(
-        Multipliers.karatsuba_multiply(bin(-7), bin(-5), signed=True)) == 35
+    assert to_signed_int(
+        karatsuba_multiply(bin(-7), bin(-5), signed=True)) == 35
 
-    assert BitTools.to_signed_int(
-        Multipliers.karatsuba_multiply(
+    assert to_signed_int(
+        karatsuba_multiply(
             '111111',
             '111111',
             7)) == 3969
 
-    assert BitTools.to_signed_int(
-        Multipliers.karatsuba_multiply(
+    assert to_signed_int(
+        karatsuba_multiply(
             '111111',
             '111111',
             5,
             signed=True)) == 1
 
-    assert BitTools.to_signed_int(
-        Multipliers.karatsuba_multiply(
+    assert to_signed_int(
+        karatsuba_multiply(
             '1111',
             '0111',
             5,
             signed=False)) == 105
 
-    assert BitTools.to_signed_int(
-        Multipliers.karatsuba_multiply(
+    assert to_signed_int(
+        karatsuba_multiply(
             '1111',
             '0111',
             5,
             signed=True)) == -7
 
-    assert BitTools.to_signed_int(
-        Multipliers.karatsuba_multiply(
+    assert to_signed_int(
+        karatsuba_multiply(
             '-1',
             '0111',
             5,
@@ -155,8 +155,8 @@ def test_karatsuba():
 
     try:
         # If no of bits explicitly specified
-        BitTools.to_signed_int(
-            Multipliers.karatsuba_multiply(
+        to_signed_int(
+            karatsuba_multiply(
                 '111111',
                 '111111',
                 5,
@@ -168,41 +168,41 @@ def test_karatsuba():
 
 def test_booths():
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(bin(-7), bin(5), 4)) == -35
+    assert to_signed_int(
+        booths_multiply(bin(-7), bin(5), 4)) == -35
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(bin(-7), bin(-5), 4)) == 35
+    assert to_signed_int(
+        booths_multiply(bin(-7), bin(-5), 4)) == 35
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '111111',
             '111111',
             7)) == 3969
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '111111',
             '111111',
             5,
             signed=True)) == 1
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '1111',
             '0111',
             5,
             signed=False)) == 105
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '1111',
             '0111',
             5,
             signed=True)) == -7
 
-    assert BitTools.to_signed_int(
-        Multipliers.booths_multiply(
+    assert to_signed_int(
+        booths_multiply(
             '-1',
             '0111',
             5,
@@ -210,8 +210,8 @@ def test_booths():
 
     try:
         # If no of bits explicitly specified
-        BitTools.to_signed_int(
-            Multipliers.booths_multiply(
+        to_signed_int(
+            booths_multiply(
                 '111111',
                 '111111',
                 5,

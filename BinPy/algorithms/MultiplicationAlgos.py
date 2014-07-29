@@ -1,9 +1,7 @@
 """
 This module implements various types of multipliers using algorithms like Booth's and Robertson's
 """
-
-from bitstring import *
-from BinPy.algorithms.bittools import *
+from BinPy.bittools.bittools import *
 import itertools
 
 
@@ -25,14 +23,14 @@ def booths_multiply(multiplicand, multiplier, bits=None, signed=False):
     >>> product = booths_multiply('0101','1001', 5, signed=True)
     >>> print ( product )
     '1111011101'
-    >>> BitTools.to_signed_int(product)
+    >>> to_signed_int(product)
     -35
 
     # Passing - signed binary string
     >>> product = booths_multiply('101','-111', 5)
     >>> print ( product )
     '1111011101'
-    >>> BitTools.to_signed_int(product)
+    >>> to_signed_int(product)
     -35
 
     """
@@ -62,8 +60,8 @@ def booths_multiply(multiplicand, multiplier, bits=None, signed=False):
 
     len_input = bits
 
-    multiplicand = BitTools.to_BitArray(multiplicand, bits, signed)
-    multiplier = BitTools.to_BitArray(multiplier, bits, signed)
+    multiplicand = BinPyBits(multiplicand, bits, signed)
+    multiplier = BinPyBits(multiplier, bits, signed)
 
     product = BitArray(int=0, length=bits)
     product += multiplier
@@ -83,6 +81,7 @@ def booths_multiply(multiplicand, multiplier, bits=None, signed=False):
 
     return product.bin
 
+
 def robertsons_multiply(multiplicand, multiplier, bits=None, signed=False):
     """
     Multiply the multiplicand ( binary represented ) and multiplier ( binary represented )
@@ -101,14 +100,14 @@ def robertsons_multiply(multiplicand, multiplier, bits=None, signed=False):
     >>> product =  robertsons_multiply('0101','1001', 5, signed=True)
     >>> print ( product )
     '1111011101'
-    >>> BitTools.to_signed_int(product)
+    >>> to_signed_int(product)
     -35
 
     # Passing - signed binary string
     >>> product =  robertsons_multiply('101','-111', 5)
     >>> print ( product )
     '1111011101'
-    >>> BitTools.to_signed_int(product)
+    >>> to_signed_int(product)
     -35
 
     """
@@ -140,8 +139,8 @@ def robertsons_multiply(multiplicand, multiplier, bits=None, signed=False):
 
     bits += 1
 
-    multiplicand = BitTools.to_BitArray(multiplicand, bits, signed)
-    multiplier = BitTools.to_BitArray(multiplier, bits, signed)
+    multiplicand = BinPyBits(multiplicand, bits, signed)
+    multiplier = BinPyBits(multiplier, bits, signed)
 
     product = BitArray(int=0, length=bits)
     product += multiplier
@@ -174,7 +173,8 @@ def robertsons_multiply(multiplicand, multiplier, bits=None, signed=False):
 
     len_result = 2 * len_input
 
-    return BitTools.to_BitArray(product.bin, len_result, signed).bin
+    return BinPyBits(product.bin, len_result, signed).bin
+
 
 def karatsuba_multiply(multiplier, multiplicand, bits=None, signed=False):
     """
@@ -187,21 +187,21 @@ def karatsuba_multiply(multiplier, multiplicand, bits=None, signed=False):
     USAGE:
 
     # Both Positive inputs
-    >>> karatsuba_multiply('0101', '0111')
+    >>>  karatsuba_multiply('0101', '0111')
     '0000100011'
 
     # Passing 2s Complement Signed binary string as one input
-    >>> product = karatsuba_multiply('0101','1001')
+    >>> product =  karatsuba_multiply('0101','1001')
     >>> print ( product )
     '1111011101'
-    >>> BitTools.to_signed_int(product)
+    >>> to_signed_int(product)
     -35
 
     # Passing - signed binary string
-    >>> product = karatsuba_multiply('101','-111')
+    >>> product =  karatsuba_multiply('101','-111')
     >>> print ( product )
     '1111011101'
-    >>> BitTools.to_signed_int(product)
+    >>> to_signed_int(product)
     -35
 
     """
@@ -229,8 +229,8 @@ def karatsuba_multiply(multiplier, multiplicand, bits=None, signed=False):
         if bits == 0:
             bits = 1
 
-    multiplicand = BitTools.to_BitArray(multiplicand, bits, signed)
-    multiplier = BitTools.to_BitArray(multiplier, bits, signed)
+    multiplicand = BinPyBits(multiplicand, bits, signed)
+    multiplier = BinPyBits(multiplier, bits, signed)
 
     sign_bit = None
 
@@ -246,9 +246,9 @@ def karatsuba_multiply(multiplier, multiplicand, bits=None, signed=False):
 
         # Strip off the sign bit and convert to a BitArray with unsigned
         # binary string.
-        multiplicand = BitTools.to_BitArray(
+        multiplicand = BinPyBits(
             abs(multiplicand.int), bits, signed=False)
-        multiplier = BitTools.to_BitArray(
+        multiplier = BinPyBits(
             abs(multiplier.int), bits, signed=False)
 
     # Base case of 0 bit multiplication. If length is 0 product is 0.
@@ -272,9 +272,9 @@ def karatsuba_multiply(multiplier, multiplicand, bits=None, signed=False):
     y0 = multiplier.bin[m:]
 
     # Upper half of the bits
-    z2 =karatsuba_multiply(x1, y1)
+    z2 = karatsuba_multiply(x1, y1)
     # Lower half of the bits
-    z0 =karatsuba_multiply(x0, y0)
+    z0 = karatsuba_multiply(x0, y0)
 
     # ( x1 + x0 )( y1 + y0 )
     sum_term1 = int(x1, 2) + int(x0, 2)
@@ -283,7 +283,7 @@ def karatsuba_multiply(multiplier, multiplicand, bits=None, signed=False):
     sum_term2 = int(y1, 2) + int(y0, 2)
     sum_term2 = bin(sum_term2).replace("0b", "").lstrip("0")
 
-    z1 =karatsuba_multiply(sum_term1, sum_term2)
+    z1 = karatsuba_multiply(sum_term1, sum_term2)
     z1 = bin(int(z1, 2) - int(z2, 2) - int(z0, 2))
 
     # The "0" padding at the right is binary equivalent of left shift or
@@ -297,7 +297,7 @@ def karatsuba_multiply(multiplier, multiplicand, bits=None, signed=False):
     len_result = 2 * bits
 
     # Converting to binary of 2ce the bit length of inputs
-    abs_result = BitTools.to_BitArray(abs_result, len_result, signed=False)
+    abs_result = BinPyBits(abs_result, len_result, signed=False)
 
     if sign_bit == 1:
         abs_result.int *= -1
