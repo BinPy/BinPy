@@ -147,8 +147,7 @@ class Multipliers(object):
 
         len_input = bits
 
-        if bits % 2 != 0:
-            bits += 1
+        bits += 1
 
         multiplicand = BitTools.to_BitArray(multiplicand, bits, signed)
         multiplier = BitTools.to_BitArray(multiplier, bits, signed)
@@ -184,7 +183,7 @@ class Multipliers(object):
 
         len_result = 2 * len_input
 
-        return BitArray(bin=product.bin, length=len_result)
+        return BitTools.to_BitArray(product.bin, len_result, signed).bin
 
     @staticmethod
     def karatsuba_multiply(multiplier, multiplicand, bits=None, signed=False):
