@@ -8,7 +8,7 @@ def test_bittools():
     bit_array_object = BinPyBits(binary_string, 8, signed=False)
 
     assert isinstance(bit_array_object, BinPyBits)
-    assert isinstance(bit_array_object, BitArray)
+    assert isinstance(bit_array_object, BinPyBits)
     assert bit_array_object.bin == "00011011"
     assert bit_array_object.int == 27
 
@@ -51,8 +51,19 @@ def test_bittools():
     assert bit_array_signed.bin == "11111011"
     assert bit_array_signed.int == -5
 
-    # Testing creation of BitArray with input binary string of 0 length
+    # Testing creation of BinPyBits with input binary string of 0 length
     assert BinPyBits('', 5).bin == "00000"
+
+    # Testing creation of BinPyBits from numerals
+    try:
+        assert BinPyBits(5, length=5, signed=False).bin == "00101"
+    except:
+        assert False
+
+    try:
+        assert BinPyBits(-3, length=5, signed=True).bin == "11101"
+    except:
+        assert False
 
 
 def test_convertors():

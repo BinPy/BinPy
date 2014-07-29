@@ -36,19 +36,19 @@ class BinPyBits(BitArray):
     """
 
     def __new__(class_type, input_data=None, length=0, signed=False, uint=0):
-        if sys.version[0] == "2":
-            int = long
 
         if not isinstance(input_data, (int, str, class_type)):
             raise TypeError(
-                "Input must be given as integer or binary strings or BinPyBits object")
+                "Input must be given as integer or binary strings or BinPyBits object. The given type was : " +
+                str(
+                    type(input_data)))
 
-        if isinstance(input_data, (int, long)):
+        if isinstance(input_data, int):
             if signed:
-                result = BitArray(int=input_data, length=length)
+                input_int = input_data
                 # Sign is taken care by the sign of input_data
             else:
-                result = BitArray(uint=abs(input_data), length=length)
+                input_int = abs(input_data)
 
         elif isinstance(input_data, str):
             # Sign is decided by the "signed" parameter or - in the input_data
