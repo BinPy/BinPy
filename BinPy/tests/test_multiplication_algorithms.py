@@ -4,10 +4,10 @@ from BinPy import *
 def test_robertsons():
 
     assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(bin(-7), bin(5), 4)) == -35
+        Multipliers.robertsons_multiply(bin(-7), bin(5), 4, signed=True)) == -35
 
     assert BitTools.to_signed_int(
-        Multipliers.robertsons_multiply(bin(-7), bin(-5), 4)) == 35
+        Multipliers.robertsons_multiply(bin(-7), bin(-5), 4, signed=True)) == 35
 
     assert BitTools.to_signed_int(
         Multipliers.robertsons_multiply(
