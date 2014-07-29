@@ -35,7 +35,7 @@ class BinPyBits(BitArray):
 
     """
 
-    def __new__(class_type, input_data=None, length=0, signed=False, uint=0):
+    def __new__(class_type, input_data, length, signed=False):
 
         if not isinstance(input_data, (int, str, class_type)):
             raise TypeError(
@@ -97,6 +97,8 @@ class BinPyBits(BitArray):
 
         else:
             return BitArray.__new__(class_type, uint=input_int, length=length)
+
+    def __init__(self, input_data, length, signed=False):
 
         self.signed = signed
 
