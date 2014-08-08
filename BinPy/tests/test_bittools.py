@@ -65,6 +65,22 @@ def test_bittools():
     except:
         assert False
 
+     # Testing creation of BinPyBits without explicit length parameter
+    assert BinPyBits(64).bin == "1000000"
+    assert BinPyBits(64).signed == False
+    assert BinPyBits(-64).bin == "1000000"
+    assert BinPyBits(-64).signed
+
+    try:
+        assert BinPyBits().bin == ""
+    except:
+        assert False
+
+    assert BinPyBits(0).length == 1
+
+    assert BinPyBits("0011", length=3).bin == "011"
+    assert BinPyBits("0011").bin == "0011"
+
 
 def test_convertors():
     assert to_unsigned_int("11111111") == 255
