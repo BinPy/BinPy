@@ -3,12 +3,11 @@ The BitTools module consists of static methods to assist operations on binary st
 The bitstring package is used extensively to make the conversions efficient.
 """
 from bitstring import BitArray
-import BinPy
-import sys  # For version checking
-
+from math import ceil, floor, log
 
 # DEV NOTE : BitArray is the class name so pep8 naming ( bit_array ) is
 # not used
+
 
 class BinPyBits(BitArray):
 
@@ -35,20 +34,32 @@ class BinPyBits(BitArray):
 
     """
 
-    def __new__(class_type, input_data, length, signed=False):
+    def __new__(class_type, input_data=None, length=None, signed=False):
+
+        if input_data is None:
+            return BitArray.__new__(class_type)
 
         if not isinstance(input_data, (int, str, class_type)):
+
             raise TypeError(
                 "Input must be given as integer or binary strings or BinPyBits object. The given type was : " +
-                str(
-                    type(input_data)))
+                str(type(input_data)))
 
         if isinstance(input_data, int):
-            if signed:
+            if input_data < 0 or signed:
+                if length is None:
+                    length = int(floor(log(abs(input_data), 2)) + 1)
+
                 input_int = input_data
+                signed = True
                 # Sign is taken care by the sign of input_data
             else:
                 input_int = abs(input_data)
+                if length is None:
+                    if input_data == 0:
+                        length = 1
+                    else:
+                        length = int(floor(log(input_int, 2)) + 1)
 
         elif isinstance(input_data, str):
             # Sign is decided by the "signed" parameter or - in the input_data
@@ -68,12 +79,13 @@ class BinPyBits(BitArray):
 
             if len(input_data) == 0:
                 input_int = 0
+                if length is None:
+                    length = 0
 
             # First priority to - in the string "-0b111" ( -7 ) or a signed
             # binary number starting with 0
             elif "-" in input_data or ((input_data[0] == "0") and signed):
                 input_int = int(input_data, 2)
-                signed = True
 
             # Next priority to 2s complement signed binary explicitly mentined
             # as signed and whose string does not contain 0b
@@ -91,6 +103,12 @@ class BinPyBits(BitArray):
         else:
             input_int = input_data.int if signed else input_data.uint
 
+            if length is None:
+                length = input_data.length
+
+        if length is None:
+            length = len(input_data)
+
         # Initializating the super class
         if signed:
             return BitArray.__new__(class_type, int=input_int, length=length)
@@ -98,9 +116,12 @@ class BinPyBits(BitArray):
         else:
             return BitArray.__new__(class_type, uint=input_int, length=length)
 
-    def __init__(self, input_data, length, signed=False):
+    def __init__(self, input_data=None, length=None, signed=False):
 
         self.signed = signed
+
+        if isinstance(input_data, int):
+            self.signed = self.signed or input_data < 0
 
 
 def to_signed_int(signed_binary):
