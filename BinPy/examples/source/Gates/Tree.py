@@ -1,15 +1,16 @@
+# -*- coding: utf-8 -*-
+# <nbformat>3.0</nbformat>
 
-# coding: utf-8
+# <headingcell level=2>
 
 # Examples for Tree class.
 
-# In[1]:
+# <codecell>
 
 from __future__ import print_function
-from BinPy.Gates import *
+from BinPy.gates import *
 
-
-# In[2]:
+# <codecell>
 
 # Initializing the Tree class
 
@@ -27,19 +28,17 @@ tree = Tree(g3, 2)
 
 print (tree.backtrack())
 
-
-# In[3]:
+# <codecell>
 
 # Print tree traversed
 
-# print (tree.printTree())
+print (tree.print_tree())
 
-
-# In[4]:
+# <codecell>
 
 # print (tree())
 
-
-# In[5]:
+# <codecell>
 
 print (tree)
+
