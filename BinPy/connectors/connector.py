@@ -157,6 +157,9 @@ class Connector(object):
                     self.name = k
             self.name_set = True
 
+        elif self.name is not None:
+            self._name = name
+
     @property
     def name(self):
         return self._name
