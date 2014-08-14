@@ -13,7 +13,8 @@ from BinPy.algorithms.makebooleanfunction import *
 # <codecell>
 
 # Usage of make_boolean() function
-logical_expression, gate_form = make_boolean(['A', 'B', 'C'], [1, 4, 7], minterms=True)
+logical_expression, gate_form = make_boolean(
+    ['A', 'B', 'C'], [1, 4, 7], minterms=True)
 
 # <codecell>
 
@@ -28,7 +29,8 @@ print(gate_form)
 # <codecell>
 
 # Another example
-logical_expression, gate_form = make_boolean(['A', 'B', 'C', 'D'], [1, 4, 7, 0], maxterms=True)
+logical_expression, gate_form = make_boolean(
+    ['A', 'B', 'C', 'D'], [1, 4, 7, 0], maxterms=True)
 
 # <codecell>
 
@@ -39,4 +41,3 @@ print(logical_expression)
 
 # Print the gate form
 print(gate_form)
-

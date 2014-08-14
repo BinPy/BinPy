@@ -7,7 +7,7 @@
 
 # <codecell>
 
-# Imports 
+# Imports
 
 from __future__ import print_function
 from BinPy import Bus, Connector
@@ -55,7 +55,9 @@ bus_c
 
 # Copying values between buses
 
-bus_d = Bus(8) # 8 indicates the length of the Bus. By default all busses will be digital in type
+# 8 indicates the length of the Bus. By default all busses will be digital
+# in type
+bus_d = Bus(8)
 
 print (bus_d)
 
@@ -69,15 +71,15 @@ print (bus_d)
 # Iterating through a bus and setting names ( TAG's ) for connectors
 i = 7
 for connector in bus_d:
-    connector.set_name("B"+str(i))
-    print ( connector )
+    connector.set_name("B" + str(i))
+    print (connector)
     i -= 1
 
 # <codecell>
 
 # Probing the connector tags
-    
-print (" ".join( [ connector.name for connector in bus_d ]))
+
+print (" ".join([connector.name for connector in bus_d]))
 
 # <codecell>
 
@@ -101,9 +103,13 @@ print (bus_e == bus_b)
 
 print ("Before rotation, bus_e : ", bus_e)
 
-print ("After circularly rotating right by 3 positions, bits of bus_e: ", bus_e >> 3) 
+print (
+    "After circularly rotating right by 3 positions, bits of bus_e: ",
+    bus_e >> 3)
 
-# Note that this returns a list of the Connectors and not a bus object. Use Bus(bus_e>>2) to return a Bus object
+# Note that this returns a list of the Connectors and not a bus object.
+# Use Bus(bus_e>>2) to return a Bus object
 
-print ("After circularly rotating left by 3 positions, bits of bus_e: ", bus_e << 3)
-
+print (
+    "After circularly rotating left by 3 positions, bits of bus_e: ",
+    bus_e << 3)

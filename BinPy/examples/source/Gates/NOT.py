@@ -62,4 +62,3 @@ print (gate1.output())
 # Information about gate instance
 
 print (gate)
-

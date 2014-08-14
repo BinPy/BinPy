@@ -7,7 +7,7 @@
 
 # <codecell>
 
-# Imports 
+# Imports
 
 from __future__ import print_function
 from BinPy import *
@@ -54,16 +54,16 @@ print (bus_b)
 
 CNTRL_V = Bus(4)
 
-CNTRL_V.set_logic_all(1,1,1,1)
+CNTRL_V.set_logic_all(1, 1, 1, 1)
 
-VCC = Bus(Connector(voltage = 5.2), Connector(voltage=0))
+VCC = Bus(Connector(voltage=5.2), Connector(voltage=0))
 
 # <codecell>
 
 SLAVE0, SLAVE1 = Bus(4), Bus(4)
 
-SLAVE0.set_type(analog = True)
-SLAVE1.set_type(analog = True)
+SLAVE0.set_type(analog=True)
+SLAVE1.set_type(analog=True)
 
 # Connecting the first two bits of CNTRL_V to the middle two bits of SLAVE0
 AutoUpdater.add_link(CNTRL_V[:2], SLAVE0[1:-1])
@@ -105,7 +105,8 @@ print (SLAVE1.get_voltage_all())
 
 # Unlinking the SLAVE0 from CNTRL_V
 
-AutoUpdater.remove_link(SLAVE0[1:-1]) # Only the middle 2 ports are connected to CNTRL_V
+# Only the middle 2 ports are connected to CNTRL_V
+AutoUpdater.remove_link(SLAVE0[1:-1])
 # VCC is still connected to SLAVE0
 
 # <codecell>
@@ -133,4 +134,3 @@ VCC[0].set_voltage(5.5)
 print (SLAVE0[0].get_voltage())
 
 print (SLAVE1[0].get_voltage())
-

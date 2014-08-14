@@ -82,4 +82,3 @@ print (gate1.output())
 # Information about conn instance
 
 print (conn)
-
