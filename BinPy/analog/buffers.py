@@ -38,7 +38,7 @@ class AnalogBuffer(object):
     >>> a.set_voltage_all(3.5, 4.6, 2.6, 1.1)
     >>> b = Bus(4)
     >>> e = Bus(1)
-    >>> e.set_logic(1) # Set enable high
+    >>> e.set_logic_all(1) # Set enable high
 
     >>> buf1 = AnalogBuffer(a, b, e, 0.8)
 
@@ -48,7 +48,7 @@ class AnalogBuffer(object):
     >>> b.get_logic_all()
     [1, 1, 0, 0]
 
-    >>> b.set_attenuation(0) # Change the attenuation value
+    >>> buf1.set_attenuation(0) # Change the attenuation value
 
     >>> b.get_voltage_all()
     [3.5, 4.6, 2.6, 1.1]
@@ -79,6 +79,7 @@ class AnalogBuffer(object):
 
         self._history = None
         self._enable_history = None
+        self._atten_history = None
 
     def trigger(self):
 
@@ -86,12 +87,12 @@ class AnalogBuffer(object):
             inp_voltages = self.inputs.get_voltage_all()
             cur_enable = bool(self._enable[0])
 
-        if (self._history == inp_voltages) and (self._enable_history == cur_enable):
+        if (self._history == inp_voltages) and (self._enable_history == cur_enable) and (self._atten_history == self._attenuation):
             return
-        # if inputs unchanged...
 
         self._history = inp_voltages
         self._enable_history = cur_enable
+        self._atten_history = self._attenuation
 
         inp_voltages_atten = [
             float(float(v) * (10 ** (-self._attenuation / 20))) for v in inp_voltages]
