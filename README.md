@@ -2,10 +2,10 @@
 
 [![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy) [![Version](https://pypip.in/v/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3) [![Downloads](https://pypip.in/d/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3)
 
- * [About](#about)
+ * [About](#what-is-binpy)
  * [Installation](#installation)
  * [Documentation](#documentation)
- * [Contribute](#contribute)
+ * [Contribute](#how-to-contribute)
 
 
 <a id="about"></a>
