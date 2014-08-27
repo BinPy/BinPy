@@ -1,13 +1,13 @@
 
 # coding: utf-8
 
-# Example for Half Subtractor class
+### Example for Half Subtractor class
 
 # In[1]:
 
 # Imports
 from __future__ import print_function
-from BinPy.Combinational.combinational import *
+from BinPy.combinational.combinational import *
 
 
 # In[2]:
@@ -29,7 +29,7 @@ print (hs.output())
 
 # Input at index 1 is changed to 0
 
-hs.setInput(1, 0)
+hs.set_input(1, 0)
 
 # New Output of the HalfSubtractor
 
@@ -44,11 +44,7 @@ print (hs.output())
 
 # Input length must be two
 
-hs.setInputs(1, 1)
-
-# To get the input states
-
-print (hs.getInputStates())
+hs.set_inputs(1, 1)
 
 
 # In[5]:
@@ -68,7 +64,7 @@ conn = Connector()
 
 # Set Output at index to Connector conn
 
-hs.setOutput(0, conn)
+hs.set_output(0, conn)
 
 # Put this connector as the input to gate1
 
@@ -78,9 +74,3 @@ gate1 = AND(conn, 0)
 
 print (gate1.output())
 
-
-# In[7]:
-
-# Information about hs instance can be found by
-
-print (hs)

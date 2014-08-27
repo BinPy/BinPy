@@ -1,13 +1,13 @@
 
 # coding: utf-8
 
-# Example for Decoder class
+### Example for Decoder class
 
 # In[1]:
 
 # Imports
 from __future__ import print_function
-from BinPy.Combinational.combinational import *
+from BinPy.combinational.combinational import *
 
 
 # In[2]:
@@ -27,7 +27,7 @@ print (decoder.output())
 
 # Input at index 1 is changed to 0
 
-decoder.setInput(1, 0)
+decoder.set_input(1, 0)
 
 # New Output of the decoder
 
@@ -40,18 +40,21 @@ print (decoder.output())
 # No need to set the number, just change the inputs
 # Input must be power of 2
 
-decoder.setInputs(1, 0, 0)
+decoder.set_inputs(1, 0, 0)
 
 # To get the input states
 
-print (decoder.getInputStates())
+print (decoder.get_input_states())
+
+
+# In[5]:
 
 # New output of decoder
 
 print (decoder.output())
 
 
-# In[5]:
+# In[6]:
 
 # Using Connectors as the input lines
 
@@ -59,7 +62,7 @@ conn = Connector()
 
 # Set Output of decoder to Connector conn
 
-decoder.setOutput(1, conn)
+decoder.set_output(1, conn)
 
 # Put this connector as the input to gate1
 
@@ -70,8 +73,9 @@ gate1 = AND(conn, 1)
 print (gate1.output())
 
 
-# In[6]:
+# In[7]:
 
 # Information about decoder instance can be found by
 
 print (decoder)
+

@@ -1,12 +1,12 @@
 
 # coding: utf-8
 
-# Example for Encoder class
+### Example for Encoder class
 
 # In[1]:
 
 from __future__ import print_function
-from BinPy.Combinational.combinational import *
+from BinPy.combinational.combinational import *
 
 
 # In[2]:
@@ -28,13 +28,13 @@ print (encoder.output())
 
 # No need to set the number, just change the inputs
 # Input must be power of 2
-# encoder.setInputs(1, 0, 0) #Inputs must be power of 2
+#Inputs must be power of 2
 
-encoder.setInputs(0, 0, 0, 1)
+encoder.set_inputs(0, 0, 0, 1)
 
 # To get the input states
 
-print (encoder.getInputStates())
+print (encoder.get_input_states())
 
 
 # In[4]:
@@ -53,7 +53,7 @@ conn = Connector()
 
 # Set Output of decoder to Connector conn
 
-encoder.setOutput(1, conn)
+encoder.set_output(1, conn)
 
 # Put this connector as the input to gate1
 
@@ -69,3 +69,4 @@ print (gate1.output())
 # Information about encoder instance can be found by
 
 print (encoder)
+

@@ -1,13 +1,13 @@
 
 # coding: utf-8
 
-# Example for MUX class.
+### Example for MUX class.
 
 # In[1]:
 
 # Imports
 from __future__ import print_function
-from BinPy.Combinational.combinational import *
+from BinPy.combinational.combinational import *
 
 
 # In[2]:
@@ -18,7 +18,7 @@ mux = MUX(0, 1)
 
 # Put select lines
 
-mux.selectLines(0)
+mux.select_lines(0)
 
 # Output of mux
 
@@ -31,7 +31,7 @@ print (mux.output())
 
 # Input at index 1 is changed to 0
 
-mux.setInput(1, 0)
+mux.set_input(1, 0)
 
 # New Output of the mux
 
@@ -46,11 +46,7 @@ print (mux.output())
 
 # Input must be power of 2
 
-mux.setInputs(1, 0, 0, 1)
-
-# To get the input states
-
-print (mux.getInputStates())
+mux.set_inputs(1, 0, 0, 1)
 
 
 # In[5]:
@@ -70,7 +66,7 @@ conn = Connector()
 
 # Set Output of mux to Connector conn
 
-mux.setOutput(conn)
+mux.set_output(conn)
 
 # Put this connector as the input to gate1
 
@@ -87,7 +83,7 @@ print (gate1.output())
 
 # Selects input line 2
 
-mux.selectLine(0, 1)
+mux.select_line(0, 1)
 
 # New output of mux
 
@@ -99,3 +95,4 @@ print (mux.output())
 # Information about mux instance can be found by
 
 print (mux)
+

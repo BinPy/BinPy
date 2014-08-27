@@ -1,12 +1,12 @@
 
 # coding: utf-8
 
-# Example for DEMUX class.
+### Example for DEMUX class.
 
 # In[1]:
 
 from __future__ import print_function
-from BinPy.Combinational.combinational import *
+from BinPy.combinational.combinational import *
 
 
 # In[2]:
@@ -21,7 +21,7 @@ demux = DEMUX(1)
 
 # Select Lines must be power of 2
 
-demux.selectLines(0)
+demux.select_lines(0)
 
 # Output of demux
 
@@ -34,7 +34,7 @@ print (demux.output())
 
 # Input at index 1 is changed to 0
 
-demux.setInput(0, 0)
+demux.set_input(0, 0)
 
 # New Output of the demux
 
@@ -45,7 +45,7 @@ print (demux.output())
 
 # Get Input States
 
-print (demux.getInputStates())
+print (demux.get_input_states())
 
 
 # In[5]:
@@ -60,7 +60,7 @@ conn = Connector()
 
 # sets conn as the output at index 0
 
-demux.setOutput(0, conn)
+demux.set_output(0, conn)
 
 # Put this connector as the input to gate1
 
@@ -75,9 +75,9 @@ print (gate1.output())
 
 # Changing select lines
 
-# selects input line 2
+#selects input line 2
 
-demux.selectLine(0, 1)
+demux.select_line(0, 1)
 
 # New output of demux
 
@@ -89,3 +89,4 @@ print (demux.output())
 # Information about demux instance can be found by
 
 print (demux)
+
