@@ -1,7 +1,0 @@
-Operations
-==========
-
-
-.. toctree::
-
-    Operations
