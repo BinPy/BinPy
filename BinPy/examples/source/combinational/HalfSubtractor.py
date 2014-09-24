@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Half Subtractor class
+# Example for Half Subtractor class
 
 # In[1]:
 
@@ -73,4 +73,3 @@ gate1 = AND(conn, 0)
 # Output of the gate1
 
 print (gate1.output())
-

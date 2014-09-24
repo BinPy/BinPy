@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Subtractors from combinational module
+# Example for Subtractors from combinational module
 
 # In[1]:
 
@@ -11,7 +11,7 @@ from __future__ import print_function
 from BinPy.combinational.combinational import *
 
 
-#### Half Subtractor
+# Half Subtractor
 
 # In[2]:
 
@@ -76,7 +76,7 @@ conn_2.set_logic(0)
 print (hs.output())
 
 
-#### Full Adder
+# Full Adder
 
 # In[7]:
 
@@ -85,7 +85,8 @@ print(FullSubtractor.__doc__)
 
 # In[8]:
 
-a, b, bi, d, bo = Connector(0), Connector(1), Connector(1), Connector(), Connector()
+a, b, bi, d, bo = Connector(0), Connector(
+    1), Connector(1), Connector(), Connector()
 
 # Initializing full adder using connectors
 fa = FullSubtractor(a, b, bi)
@@ -98,4 +99,3 @@ fa.set_output(1, d)
 # In[9]:
 
 print (bo.get_logic(), d.get_logic())
-

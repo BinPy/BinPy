@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Decoder class
+# Example for Decoder class
 
 # In[1]:
 
@@ -78,4 +78,3 @@ print (gate1.output())
 # Information about decoder instance can be found by
 
 print (decoder)
-

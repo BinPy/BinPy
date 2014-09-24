@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-### Example for Encoder class
+# Example for Encoder class
 
 # In[1]:
 
@@ -28,7 +28,7 @@ print (encoder.output())
 
 # No need to set the number, just change the inputs
 # Input must be power of 2
-#Inputs must be power of 2
+# Inputs must be power of 2
 
 encoder.set_inputs(0, 0, 0, 1)
 
@@ -69,4 +69,3 @@ print (gate1.output())
 # Information about encoder instance can be found by
 
 print (encoder)
-
