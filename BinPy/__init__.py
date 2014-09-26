@@ -13,3 +13,4 @@ from BinPy.dev import *
 from BinPy.base import *
 from BinPy.config import *
 from BinPy.analog import *
+from BinPy.bittools import *

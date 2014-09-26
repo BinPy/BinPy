@@ -34,6 +34,7 @@ nt analog_source_tests.py; chk;
 nt test_makebooleanfunction.py; chk;
 nt test_analog_converters_buffers.py; chk;
 nt test_signal_generator.py; chk;
+nt test_multiplication_algorithms.py; chk;
 nosetests --with-coverage --cover-package=BinPy
 
 exit $status_code;

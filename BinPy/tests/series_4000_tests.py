@@ -346,7 +346,7 @@ def test_IC_4015():
 
 def test_IC_4017():
     test_IC = IC_4017()
-    c = Clock(1, 500)
+    c = Clock(1, 1000)
     c.start()
     p = {8: 0, 16: 1, 13: c, 14: c, 15: 0}
     test_IC.set_IC(p)
@@ -592,7 +592,7 @@ def test_IC_2028():
 
 
 def test_IC_4029():
-    clk = Clock(1, 500)
+    clk = Clock(1, 1000)
     clk.start()
 
     p = {

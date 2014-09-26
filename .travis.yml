@@ -30,6 +30,7 @@ install:
  - pip install coverage
  - pip install --use-mirrors python-coveralls
  - pip install networkx
+ - pip install bitstring
 
 script:
 
