@@ -7,6 +7,7 @@ from math import ceil, floor, log
 
 
 class BinPyBits(BitArray):
+
     """
     This class inherits from bitstring.BitArray class to create a BitArray with customized features
     that could be used across BinPy for various operations.

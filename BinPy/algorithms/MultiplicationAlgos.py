@@ -335,7 +335,7 @@ def toom3_multiply(multiplier, multiplicand, bits=None, signed=False):
 
     """
 
-    print multiplicand, multiplier
+    # print multiplicand, multiplier
 
     if bits is None:
 

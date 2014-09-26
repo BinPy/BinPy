@@ -8,6 +8,7 @@ def test_make_booelan():
     assert a == '((A AND C AND (NOT D)) OR (A AND (NOT B) AND (NOT D)))'
     assert b == 'OR(AND(A, C, NOT(D)), AND(A, NOT(B), NOT(D)))'
     a, b = make_boolean(['A', 'B', 'C', 'D'], [1, 5, 7], maxterms=True)
+
     try:
         assert a == '((NOT A) OR (B AND (NOT C)) OR D)'
         assert b == 'OR(NOT(A), AND(B, NOT(C)), D)'
