@@ -65,9 +65,9 @@ def test_bittools():
     except:
         assert False
 
-     # Testing creation of BinPyBits without explicit length parameter
+    # Testing creation of BinPyBits without explicit length parameter
     assert BinPyBits(64).bin == "1000000"
-    assert BinPyBits(64).signed == False
+    assert BinPyBits(64).signed is False
     assert BinPyBits(-64).bin == "1000000"
     assert BinPyBits(-64).signed
 
