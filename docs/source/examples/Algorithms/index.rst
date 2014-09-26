@@ -1,7 +1,0 @@
-Algorithms
-==========
-
-
-.. toctree::
-
-   ExpressionConvertExample
