@@ -45,7 +45,7 @@ def test_bittools():
     # Giving a signed input with - sign ( Python signed binary )
     binary_string = bin(-5)
 
-    bit_array_signed = BinPyBits(binary_string, 8)
+    bit_array_signed = BinPyBits(binary_string, 8, signed=True)
     # Passing signed will have no effect
 
     assert bit_array_signed.bin == "11111011"

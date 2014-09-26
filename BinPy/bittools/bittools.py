@@ -71,7 +71,6 @@ class BinPyBits(BitArray):
             #                            *      1111, signed = True
             if "0b" in input_data:
                 input_data = input_data.replace("0b", "")
-                signed = False
 
             if len(input_data) == 0:
                 input_int = 0
