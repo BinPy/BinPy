@@ -5,12 +5,8 @@ The bitstring package is used extensively to make the conversions efficient.
 from bitstring import BitArray
 from math import ceil, floor, log
 
-# DEV NOTE : BitArray is the class name so pep8 naming ( bit_array ) is
-# not used
-
 
 class BinPyBits(BitArray):
-
     """
     This class inherits from bitstring.BitArray class to create a BitArray with customized features
     that could be used across BinPy for various operations.
