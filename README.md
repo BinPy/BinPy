@@ -2,22 +2,31 @@
 
 [![Build Status](https://travis-ci.org/BinPy/BinPy.png?branch=develop)](https://travis-ci.org/BinPy/BinPy) [![Version](https://pypip.in/v/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3) [![Downloads](https://pypip.in/d/BinPy/badge.png)](https://pypi.python.org/pypi/BinPy/0.3)
 
- * [About](#about)
+ * [About](#what-is-binpy)
  * [Installation](#installation)
  * [Documentation](#documentation)
- * [Contribute](#contribute)
+ * [Contribute](#how-to-contribute)
 
 
 <a id="about"></a>
 What is BinPy?
 ---------------
-It is a library which will serve as a base to develop circuit based applications and educational software on top of it. BinPy is a clear representation of fundamentals. Everything has been written from scratch such as gates, logical operations, etc. This package does not depend on any external library other than pure Python. It aims to extend the hardware programming concepts to Python.
+BinPy is a digital electronics simulation library with a bunch of digital devices ( and a few experimental analog devices ) and tools / algorithms under its hood. BinPy is aimed towards students, helping them learn about digital logic in an interactive way. Being an open source project makes it easier for one to get an indepth understanding of the the underlying concepts by glossing at the source.
+
+BinPy focusses on the fundamentals. Everything has been written from scratch such as gates, logical operations, etc. 
+
+Our future goals include a GUI tool to help easily build simple digital circuts and the implementation of the core using SPICE or equivalent tools for precise simulations.
 
 How to use
 ----------
 
 Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
-![SR latch | Source: Wikipedia](https://upload.wikimedia.org/wikipedia/commons/c/c6/R-S_mk2.gif)
+
+[ Image of SR Latch taken from Wikipedia ]
+
+![SR latch | Source: Wikipedia =200px](https://upload.wikimedia.org/wikipedia/commons/c/c6/R-S_mk2.gif)
+
+[ BinPy Code to Simulate an SR Latch ]
 
 ```python
 
@@ -32,25 +41,25 @@ R = 0 # Reset input for the SR-Latch
 S = 0 # Set input for the SR-Lacth
 
 NOR1 = NOR(con1, R)  #First NOR gate
-NOR1.setOutput(con2) # Set output for NOR gate
+NOR1.set_output(con2) # Set output for NOR gate
 
 NOR2 = NOR(con2, S)  #Second NOR gate
-NOR2.setOutput(con1) # Set output for NOR gate
+NOR2.set_output(con1) # Set output for NOR gate
 
 
-NOR1.setInput(1, 1); NOR2.setInput(1, 0) #Set state
+NOR1.set_input(1, 1); NOR2.set_input(1, 0) #Set state
 print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
 
 
-NOR1.setInput(1, 0); NOR2.setInput(1, 1) #Reset state
+NOR1.set_input(1, 0); NOR2.set_input(1, 1) #Reset state
 print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
 
 
-NOR1.setInput(1, 0); NOR2.setInput(1, 0) #Hold state
+NOR1.set_input(1, 0); NOR2.set_input(1, 0) #Hold state
 print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
 
 
-NOR1.setInput(1, 1); NOR2.setInput(1, 1) #Invalid state
+NOR1.set_input(1, 1); NOR2.set_input(1, 1) #Invalid state
 print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
 
 

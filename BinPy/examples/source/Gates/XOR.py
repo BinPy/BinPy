@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
+# <nbformat>3.0</nbformat>
 
-# coding: utf-8
+# <headingcell level=2>
 
 # Examples for XOR class
 
-# In[1]:
+# <codecell>
 
 # imports
 from __future__ import print_function
-from BinPy.Gates import *
+from BinPy.gates import *
 
-
-# In[2]:
+# <codecell>
 
 # Initializing the XOR class
 
@@ -20,40 +21,36 @@ gate = XOR(0, 1)
 
 print (gate.output())
 
-
-# In[3]:
+# <codecell>
 
 # Input changes
 # Input at index 1 is changed to 0
 
-gate.setInput(1, 0)
+gate.set_input(1, 0)
 
 # New Output of the XOR gate
 
 print (gate.output())
 
-
-# In[4]:
+# <codecell>
 
 # Changing the number of inputs
 
 # No need to set the number, just change the inputs
 
-gate.setInputs(1, 1, 1, 1)
+gate.set_inputs(1, 1, 1, 1)
 
 # To get the input states
 
-print (gate.getInputStates())
+print (gate.get_input_states())
 
-
-# In[5]:
+# <codecell>
 
 # New output of the XOR gate
 
 print (gate.output())
 
-
-# In[6]:
+# <codecell>
 
 # Using Connectors as the input lines
 
@@ -61,29 +58,25 @@ print (gate.output())
 
 conn = Connector()
 
-
-# In[7]:
+# <codecell>
 
 # Set Output of gate to Connector conn
 
-gate.setOutput(conn)
+gate.set_output(conn)
 
-
-# In[8]:
+# <codecell>
 
 # Put this connector as the input to gate1
 
 gate1 = XOR(conn, 0)
 
-
-# In[9]:
+# <codecell>
 
 # Output of the gate1
 
 print (gate1.output())
 
-
-# In[10]:
+# <codecell>
 
 # Information about gate instance
 

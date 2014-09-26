@@ -157,6 +157,9 @@ class Connector(object):
                     self.name = k
             self.name_set = True
 
+        elif self.name is not None:
+            self._name = name
+
     @property
     def name(self):
         return self._name
@@ -574,13 +577,23 @@ class Bus(object):
     def __hash__(self):
         return id(self)
 
-    def __rshift__(self):
-        """ Clock wise right shift """
-        return self.bus[-1] + self.bus[1:-1]
+    def __rshift__(self, times):
+        """ Circular right shift """
+        times = times % self._width
 
-    def __lshift__(self):
-        """ Clock wise left shift """
-        return self.bus[1:] + self.bus[:1]
+        if times == 0:
+            return self.bus[:]
+        else:
+            return self.bus[-times:] + self.bus[:self._width - times]
+
+    def __lshift__(self, times):
+        """ Circular left shift """
+        times = times % self._width
+
+        if times == 0:
+            return self.bus[:]
+        else:
+            return self.bus[times:] + self.bus[:times]
 
     def __add__(self, other):
         """ Returns the concatenated Bus with the passed bus"""

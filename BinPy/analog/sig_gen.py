@@ -136,20 +136,7 @@ class SignalGenerator(threading.Thread):
 
     >>> sig1 = SignalGenerator(typ = SignalGenerator.SIN, freq = 1000, ampl = 5.0)
     >>> a = Bus(2); a.set_type(analog=True);
-    >>> sig1.set_output(a)
-
-    Checking the output
-
-    >>> start_time = time.time()
-    >>> table = []
-    >>> while((time.time() - start_time) <= a.time_period):
-    ... # Print values for 1 time period
-    ... table.append(len(table), (float(a[0]) - float(a[1]))) # Sampling table
-    ... time.sleep(a.time_period/float(10))
-
-    >>> print table
-    (0, 0.2), ()
-
+    >>> sig1.set_outputs(a)
 
     AM SYNTHESIS USING 2 SIGNAL GENERATOR INSTANCES
     ===============================================
@@ -165,11 +152,10 @@ class SignalGenerator(threading.Thread):
     >>> c_t.set_modulation_input(m_t.outputs)
     >>> c_t.set_modulation_type(1)
     >>> time.sleep(0.5) # To allow setup time
-    >>> c_t.last_updated_time, (c_t.outputs[0].voltage - c_t.outputs[1].voltage)
     >>> data = np.zeros(shape = (2, math.ceil(m_t.time_period / c_t.sampling_time_interval)))
     >>> for i in range(data.shape[1]):
     ... data[0][i] = m_t.last_updated_time + m_t.time_period * i
-    ... data[1][i] = c_t.outputs[0].voltage - c_t.outputs[1].voltage
+    ... data[1][i] = c_t.outputs[0].voltage
     ... time.sleep(c_t.sampling_time_interval)
     >>> fig, ax = plt.subplots()
     >>> ax.plot(data[0], data[1])

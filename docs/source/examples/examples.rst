@@ -4,13 +4,14 @@ Examples
 
 .. toctree::
 
-    Algorithms/index
-    Combinational/index
-    Sequential/index
-    dev/index
-    Gates/index
+    algorithms/index
+    combinational/index
+    sequential/index
+    gates/index
     ic/index
-    Operations/index
-    Sequential/index
+    analog/index
+    bittools/index
+    operations/index
+    sequential/index
     tools/index
     
