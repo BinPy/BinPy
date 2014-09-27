@@ -28,8 +28,9 @@ install:
 
  - sudo apt-get install pep8 python-nose
  - pip install coverage
- - pip install --use-mirrors coveralls
+ - pip install --use-mirrors python-coveralls
  - pip install networkx
+ - pip install bitstring
 
 script:
 

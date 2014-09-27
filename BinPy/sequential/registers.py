@@ -15,23 +15,23 @@ class Register(object):
         self.clock = clock
         self.clear = clear
         self.result = None
-        self.outputType = {}
-        self.outputConnector = {}
-        self._updateConnections(self.inputs)
+        self.output_type = {}
+        self.output_connector = {}
+        self._update_connections(self.inputs)
 
-    def _updateConnections(self, inputs):
+    def _update_connections(self, inputs):
         for i in inputs:
             if isinstance(i, Connector):
                 i.tap(self, 'input')
 
-    def setInputs(self, *inputs):
+    def set_inputs(self, *inputs):
         if len(list(inputs)) < len(self.inputs):
             raise Exception("Error: Invalid Arguments")
         else:
             self.inputs = list(inputs)
-            self._updateConnections(self.inputs)
+            self._update_connections(self.inputs)
 
-    def setInput(self, index, value):
+    def set_input(self, index, value):
         if index >= len(self.inputs):
             self.inputs.append(value)
         else:
@@ -47,7 +47,7 @@ class Register(object):
     def setClear(self, clr):
         self.clear = clr
 
-    def getInputStates(self):
+    def get_input_states(self):
         input_states = []
         for i in self.inputs:
             if isinstance(i, Connector):
@@ -56,20 +56,20 @@ class Register(object):
                 input_states.append(i)
         return input_states
 
-    def _updateResult(self, value):
+    def _update_result(self, value):
         self.result = value
-        for i in self.outputType:
-            if self.outputType[i] == 1:
-                self.outputConnector[i].state = self.result[i]
-                self.outputConnector[i].trigger()
+        for i in self.output_type:
+            if self.output_type[i] == 1:
+                self.output_connector[i].state = self.result[i]
+                self.output_connector[i].trigger()
 
-    def setOutput(self, index, value):
+    def set_output(self, index, value):
         if not isinstance(value, Connector):
             raise Exception("Error: Expecting a Connector Class Object")
-        self.outputType[index] = 1
-        self.outputConnector[index] = value
+        self.output_type[index] = 1
+        self.output_connector[index] = value
         value.tap(self, 'output')
-        self._updateResult(self.result)
+        self._update_result(self.result)
 
     def output(self):
         self.trigger()
@@ -113,7 +113,7 @@ class FourBitRegister(Register):
                     break
             out.append(ff1.state()[0])
 
-        self._updateResult(out)
+        self._update_result(out)
 
 
 class FourBitLoadRegister(Register):
@@ -150,7 +150,7 @@ class FourBitLoadRegister(Register):
             ff1 = DFlipFlop(self.inputs[i], Connector(1), self.clock.A,
                             clear=self.clear)
             if self.load == 0:
-                ff1.setInputs(d=self.old[i])
+                ff1.set_inputs(d=self.old[i])
             while True:
                 if self.clock.A.state == 1:
                     ff1.trigger()
@@ -161,7 +161,7 @@ class FourBitLoadRegister(Register):
                     break
             out.append(ff1.state()[0])
         self.old = out
-        self._updateResult(out)
+        self._update_result(out)
 
 
 class ShiftRegister(Register):
@@ -208,4 +208,4 @@ class ShiftRegister(Register):
                     break
             a0 = ff1.state()[0]
         out = self.inputs
-        self._updateResult(out)
+        self._update_result(out)

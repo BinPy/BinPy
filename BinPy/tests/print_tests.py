@@ -50,14 +50,14 @@ def NOR_print_test():
 
 def MUX_print_test():
     gate = MUX(1, 1)
-    gate.selectLines(0)
+    gate.select_lines(0)
     if not re.search("MUX Gate; Output: 1; Inputs: \[1, 1];", gate.__str__()):
         assert False
 
 
 def DEMUX_print_test():
     gate = DEMUX(1)
-    gate.selectLines(1)
+    gate.select_lines(1)
     if not re.search("DEMUX Gate; Output: \[0, 1]; Inputs: \[1];", gate.__str__()):
         assert False
 

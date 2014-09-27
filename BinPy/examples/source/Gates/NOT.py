@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
+# <nbformat>3.0</nbformat>
 
-# coding: utf-8
+# <headingcell level=2>
 
 # Examples for NOT class
 
-# In[1]:
+# <codecell>
 
 # imports
 from __future__ import print_function
-from BinPy.Gates import *
+from BinPy.gates import *
 
-
-# In[2]:
+# <codecell>
 
 # Initializing the NOT class
 
@@ -20,26 +21,23 @@ gate = NOT(0)
 
 print (gate.output())
 
-
-# In[3]:
+# <codecell>
 
 # Input is changed to 0
 
-gate.setInput(1)
+gate.set_input(1)
 
 # To get the input states
 
-print (gate.getInputStates())
+print (gate.get_input_states())
 
-
-# In[4]:
+# <codecell>
 
 # New Output of the NOT gate
 
 print (gate.output())
 
-
-# In[5]:
+# <codecell>
 
 # Using Connectors as the input lines
 
@@ -49,7 +47,7 @@ conn = Connector()
 
 # Set Output of gate to Connector conn
 
-gate.setOutput(conn)
+gate.set_output(conn)
 
 # Put this connector as the input to gate1
 
@@ -59,8 +57,7 @@ gate1 = NOT(conn)
 
 print (gate1.output())
 
-
-# In[6]:
+# <codecell>
 
 # Information about gate instance
 

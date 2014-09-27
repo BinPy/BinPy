@@ -42,7 +42,7 @@ class IC:
     def draw_IC(self):
         try:
 
-            if (self.total_pins in [14, 16]):
+            if (self.total_pins in [14, 24]):
 
                 top = "\n\n              " + symbols._VHU + symbols._H * 9 + \
                     symbols._U + symbols._H * 9 + symbols._HVD + symbols._N
@@ -145,21 +145,21 @@ class IC:
         i = pin_config['i']
         o = pin_config['o']
 
-        print ("   " + "INPUTS" + (" " * (5 * len(i) - 4)) + "|" + "OUTPUTS")
-        print ("   " + "-" * (5 * len(i) + 2) + "|" + "-" * (5 * len(o)))
+        print("   " + "INPUTS" + (" " * (5 * len(i) - 4)) + "|" + "OUTPUTS")
+        print("   " + "-" * (5 * len(i) + 2) + "|" + "-" * (5 * len(o)))
         stdout.write("   ")
         for j in range(len(i)):
             if len(str(i[j])) == 1:
-                print ("   " + str(i[j]), end=" ")
+                print("   " + str(i[j]), end=" ")
             elif len(str(i[j])) == 2:
-                print ("  " + str(i[j]), end=" ")
+                print("  " + str(i[j]), end=" ")
         stdout.write("  |")
         for j in range(len(o)):
             if len(str(o[j])) == 1:
-                print ("   " + str(o[j]), end=" ")
+                print("   " + str(o[j]), end=" ")
             elif len(str(o[j])) == 2:
-                print ("  " + str(o[j]), end=" ")
-        print ("\n   " + "-" * (5 * len(i) + 2) + "|" + "-" * (5 * len(o)))
+                print("  " + str(o[j]), end=" ")
+        print("\n   " + "-" * (5 * len(i) + 2) + "|" + "-" * (5 * len(o)))
 
         def f(l):
 
@@ -180,11 +180,11 @@ class IC:
 
                     stdout.write("   ")
                     for u in range(len(i)):
-                        print ("   " + str(a[i[u]]), end=" ")
+                        print("   " + str(a[i[u]]), end=" ")
                     stdout.write("  |")
                     for u in range(len(o)):
-                        print ("   " + str(outpins[o[u]]), end=" ")
-                    print ("")
+                        print("   " + str(outpins[o[u]]), end=" ")
+                    print("")
 
             else:
                 for q in range(2):
@@ -229,7 +229,7 @@ class Base_14pin(IC):
     def set_pin_param(self, pin_no, parm_dict):
         if pin_no < 1 or pin_no > 14:
             raise Exception("ERROR: There are only 14 pins in this IC")
-        if uses_pincls:
+        if self.uses_pincls:
             self.pins[pin_no].set_pin_param(parm_dict)
         else:
             raise Exception("ERROR: IC Does not use Pinset class")
@@ -254,7 +254,32 @@ class Base_16pin(IC):
     def set_pin_param(self, pin_no, parm_dict):
         if pin_no < 1 or pin_no > 16:
             raise Exception("ERROR: There are only 16 pins in this IC")
-        if uses_pincls:
+        if self.uses_pincls:
+            self.pins[pin_no].set_pin_param(parm_dict)
+        else:
+            raise Exception("ERROR: IC Does not use Pinset class")
+
+
+class Base_24pin(IC):
+
+    """
+    This method takes base class for IC's having 24 pins
+    """
+    total_pins = 24
+    uses_pincls = False
+
+    def set_pin(self, pin_no, pin_value):
+        if pin_no < 1 or pin_no > 24:
+            raise Exception("ERROR: There are only 24 pins in this IC")
+        if not self.uses_pincls:
+            self.pins[pin_no] = pin_value
+        else:
+            self.pins[pin_no].set_pin_param(pin_value)
+
+    def set_pin_param(self, pin_no, parm_dict):
+        if pin_no < 1 or pin_no > 24:
+            raise Exception("ERROR: There are only 24 pins in this IC")
+        if self.uses_pincls:
             self.pins[pin_no].set_pin_param(parm_dict)
         else:
             raise Exception("ERROR: IC Does not use Pinset class")

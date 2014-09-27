@@ -2003,7 +2003,7 @@ class IC_74152(Base_14pin):
         13     D5
         14  Positive Supply
 
-        Selectlines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7
+        select_lines = CBA and Inputlines = D0 D1 D2 D3 D4 D5 D6 D7
     """
 
     def __init__(self):
@@ -2022,7 +2022,7 @@ class IC_74152(Base_14pin):
             self.pins[13],
             self.pins[12],
             self.pins[11])
-        mux.selectLines(self.pins[8], self.pins[9], self.pins[10])
+        mux.select_lines(self.pins[8], self.pins[9], self.pins[10])
 
         output[6] = NOT(mux.output()).output()
 
@@ -2429,7 +2429,7 @@ class IC_7445(Base_16pin):
             raise Exception("ERROR: Invalid Pin configuration")
 
         dem = DEMUX(1)
-        dem.selectLines(
+        dem.select_lines(
             self.pins[12],
             self.pins[13],
             self.pins[14],
@@ -2646,6 +2646,104 @@ class IC_7475(Base_16pin):
 
         if self.pins[12] == 0 and self.pins[5] == 1:
             self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+class IC_7485(Base_16pin):
+
+    """4 bit magnitude comparator
+    Comparing two 4-bit binary numbers A3A2A1A0 & B3B2B1B0
+
+    Pin Number  Description
+    1   B3(MSB)
+    2   Cascade Input - A<B
+    3   Cascade Input - A=B
+    4   Cascade Input - A>B
+    5   Output A>B
+    6   Output A=B
+    7   Output A<B
+    8   Ground
+    9   B0
+    10  A0
+    11  B1
+    12  A1
+    13  A2
+    14  B2
+    15  A3(MSB)
+    16  VCC
+
+    We can compare 8,12,16... by cascading more of these ICs
+
+    """
+
+    # Datasheet available here,
+    # http://pdf1.alldatasheet.com/datasheet-pdf/view/8074/NSC/7485.html
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1]
+
+    def run(self):
+        temp = []
+        output = {}
+
+        temp.append(XOR(self.pins[10], self.pins[9]).output())
+        temp.append(XOR(self.pins[12], self.pins[11]).output())
+        temp.append(XOR(self.pins[14], self.pins[13]).output())
+        temp.append(XOR(self.pins[15], self.pins[1]).output())
+
+        output[6] = AND(
+            temp[0],
+            temp[1],
+            temp[2],
+            temp[3],
+            self.pins[3]).output()
+
+        output[5] = OR(
+            AND(
+                temp[0], temp[1], temp[2], temp[3], self.pins[4]).output(), AND(
+                temp[2], temp[3], self.pins[12], NOT(
+                    self.pins[11]).output()).output(), AND(
+                    temp[1], temp[2], temp[3], self.pins[10], NOT(
+                        self.pins[9]).output()).output(), AND(
+                            temp[3], self.pins[13], NOT(
+                                self.pins[14]).output()).output(), AND(
+                                    self.pins[15], NOT(
+                                        self.pins[1]).output()).output()).output()
+
+        output[7] = OR(
+            AND(
+                temp[0], temp[1], temp[2], temp[3], self.pins[2]).output(), AND(
+                temp[2], temp[3], self.pins[11], NOT(
+                    self.pins[12]).output()).output(), AND(
+                    temp[1], temp[2], temp[3], self.pins[9], NOT(
+                        self.pins[10]).output()).output(), AND(
+                            temp[3], self.pins[14], NOT(
+                                self.pins[13]).output()).output(), AND(
+                                    self.pins[1], NOT(
+                                        self.pins[15]).output()).output()).output()
+
+        if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.output_connector:
                 self.output_connector[i].state = output[i]
             return output
@@ -3193,7 +3291,7 @@ class IC_74138(Base_16pin):
         output = {}
 
         demux = DEMUX(1)
-        demux.selectLines(self.pins[3], self.pins[2], self.pins[1])
+        demux.select_lines(self.pins[3], self.pins[2], self.pins[1])
 
         if (self.pins[6] == 0 or (self.pins[4] == 1 and self.pins[5] == 1)):
             output = {15: 1, 14: 1, 13: 1, 12: 1, 11: 1, 10: 1, 9: 1, 7: 1}
@@ -3248,10 +3346,10 @@ class IC_74139(Base_16pin):
         output = {}
 
         demux1 = DEMUX(1)
-        demux1.selectLines(self.pins[3], self.pins[2])
+        demux1.select_lines(self.pins[3], self.pins[2])
 
         demux2 = DEMUX(1)
-        demux2.selectLines(self.pins[13], self.pins[14])
+        demux2.select_lines(self.pins[13], self.pins[14])
 
         if (self.pins[1] == 1 and self.pins[15] == 1):
             output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
@@ -3336,7 +3434,7 @@ class IC_74151A(Base_16pin):
             self.pins[14],
             self.pins[13],
             self.pins[12])
-        mux.selectLines(self.pins[9], self.pins[10], self.pins[11])
+        mux.select_lines(self.pins[9], self.pins[10], self.pins[11])
 
         if self.pins[7] == 1:
             output = {5: 0, 6: 1}
@@ -3375,7 +3473,7 @@ class IC_74153(Base_16pin):
         15     Strobe2
         16  Positive Supply
 
-        Selectlines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3
+        select_lines = BA ; Inputlines1 = 1C0 1C1 1C2 1C3 ; Inputlines2 = 2C0 2C1 2C2 2C3
     """
 
     def __init__(self):
@@ -3408,7 +3506,7 @@ class IC_74153(Base_16pin):
         elif (self.pins[1] == 0 and self.pins[15] == 1):
 
             mux = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
-            mux.selectLines(self.pins[2], self.pins[14])
+            mux.select_lines(self.pins[2], self.pins[14])
 
             output[9] = 0
             output[7] = mux.output()
@@ -3420,7 +3518,7 @@ class IC_74153(Base_16pin):
                 self.pins[11],
                 self.pins[12],
                 self.pins[13])
-            mux.selectLines(self.pins[2], self.pins[14])
+            mux.select_lines(self.pins[2], self.pins[14])
 
             output[7] = 0
             output[9] = mux.output()
@@ -3428,14 +3526,14 @@ class IC_74153(Base_16pin):
         elif (self.pins[1] == 0 and self.pins[15] == 0):
 
             mux1 = MUX(self.pins[6], self.pins[5], self.pins[4], self.pins[3])
-            mux1.selectLines(self.pins[2], self.pins[14])
+            mux1.select_lines(self.pins[2], self.pins[14])
 
             mux2 = MUX(
                 self.pins[10],
                 self.pins[11],
                 self.pins[12],
                 self.pins[13])
-            mux2.selectLines(self.pins[2], self.pins[14])
+            mux2.select_lines(self.pins[2], self.pins[14])
 
             output[7] = mux1.output()
             output[9] = mux2.output()
@@ -3480,10 +3578,10 @@ class IC_74155(Base_16pin):
         output = {}
 
         demux1 = DEMUX(self.pins[1])
-        demux1.selectLines(self.pins[3], self.pins[13])
+        demux1.select_lines(self.pins[3], self.pins[13])
 
         demux2 = DEMUX(NOT(self.pins[15]).output())
-        demux2.selectLines(self.pins[3], self.pins[13])
+        demux2.select_lines(self.pins[3], self.pins[13])
 
         if (self.pins[2] == 1 and self.pins[14] == 1):
             output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
@@ -3561,10 +3659,10 @@ class IC_74156(Base_16pin):
         output = {}
 
         demux1 = DEMUX(self.pins[1])
-        demux1.selectLines(self.pins[3], self.pins[13])
+        demux1.select_lines(self.pins[3], self.pins[13])
 
         demux2 = DEMUX(NOT(self.pins[15]).output())
-        demux2.selectLines(self.pins[3], self.pins[13])
+        demux2.select_lines(self.pins[3], self.pins[13])
 
         if (self.pins[2] == 1 and self.pins[14] == 1):
             output = {12: 1, 11: 1, 10: 1, 9: 1, 7: 1, 6: 1, 5: 1, 4: 1}
@@ -3605,6 +3703,172 @@ class IC_74156(Base_16pin):
         if self.pins[8] == 0 and self.pins[16] == 1:
             for i in self.output_connector:
                 self.output_connector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
+##########################################
+# Base_24 Pins
+##########################################
+
+class IC_74181(Base_24pin):
+
+    """This is a 4-bit Arithmetic Logic Unit which performs 16 diff functions.
+    It has two modes active high input mode and active low input mode(Active high mode is used here)
+
+    Pin Number  Description
+        1       Input - B0
+        2       Input - A0
+        3       Input - Select Line - S3
+        4       Input - Select Line - S2
+        5       Input - Select Line - S1
+        6       Input - Select Line - S0
+        7       Input - Carry
+        8       Input - Mode Input(M)
+        9       Output- F0
+        10      Output- F1
+        11      Output- F2
+        12      Ground
+        13      Output- F3
+        14      Output- A=B
+        15      Output- P
+        16      Output- NOT(C(n+4))
+        17      Output- G
+        18      Input - B3
+        19      Input - A3
+        20      Input - B2
+        21      Input - A2
+        22      Input - B1
+        23      Input - A1
+        24      VCC
+
+        Mode and Select Lines are used to select the function to be performed by the ALU on
+        the two 4-bit input data A3 A2 A1 A0 & B3 B2 B1 B0(Inputs A0-A3 and
+        B0-B3 have to be complemented and given).
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            None,
+            None,
+            None,
+            0,
+            None,
+            None,
+            None,
+            None,
+            None,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0]
+
+    def run(self):
+        temp = []
+        output = {}
+
+        temp.append(NOT(OR(AND(self.pins[1], self.pins[3], self.pins[2]).output(), AND(
+            self.pins[2], self.pins[4], NOT(self.pins[1]).output()).output()).output()).output())
+
+        temp.append(NOT(OR(AND(NOT(self.pins[1]).output(), self.pins[5]).output(), AND(
+            self.pins[6], self.pins[1]).output(), self.pins[2]).output()).output())
+
+        temp.append(NOT(OR(AND(self.pins[22], self.pins[3], self.pins[23]).output(), AND(
+            self.pins[23], self.pins[4], NOT(self.pins[22]).output()).output()).output()).output())
+
+        temp.append(NOT(OR(AND(NOT(self.pins[22]).output(), self.pins[5]).output(), AND(
+            self.pins[6], self.pins[22]).output(), self.pins[23]).output()).output())
+
+        temp.append(NOT(OR(AND(self.pins[20], self.pins[3], self.pins[21]).output(), AND(
+            self.pins[21], self.pins[4], NOT(self.pins[20]).output()).output()).output()).output())
+
+        temp.append(NOT(OR(AND(NOT(self.pins[20]).output(), self.pins[5]).output(), AND(
+            self.pins[6], self.pins[20]).output(), self.pins[21]).output()).output())
+
+        temp.append(NOT(OR(AND(self.pins[18], self.pins[3], self.pins[19]).output(), AND(
+            self.pins[19], self.pins[4], NOT(self.pins[18]).output()).output()).output()).output())
+
+        temp.append(NOT(OR(AND(NOT(self.pins[18]).output(), self.pins[5]).output(), AND(
+            self.pins[6], self.pins[18]).output(), self.pins[19]).output()).output())
+
+        output[9] = XOR(
+            NAND(
+                self.pins[7], NOT(
+                    self.pins[8]).output()).output(), XOR(
+                temp[1], temp[0]).output()).output()
+
+        output[10] = XOR(XOR(temp[2],
+                             temp[3]).output(),
+                         NOT(OR(AND(self.pins[7],
+                                    NOT(self.pins[8]).output()).output(),
+                                AND(NOT(self.pins[8]).output(),
+                                    temp[1]).output()).output()).output()).output()
+
+        output[11] = XOR(XOR(temp[4],
+                             temp[5]).output(),
+                         NOT(OR(AND(self.pins[7],
+                                    temp[0],
+                                    temp[2],
+                                    NOT(self.pins[8]).output()).output(),
+                                AND(temp[2],
+                                    temp[1],
+                                    NOT(self.pins[8]).output()).output(),
+                                AND(temp[3],
+                                    NOT(self.pins[8]).output()).output()).output()).output()).output()
+
+        output[13] = XOR(XOR(temp[6],
+                             temp[7]).output(),
+                         NOT(OR(AND(self.pins[7],
+                                    temp[0],
+                                    temp[2],
+                                    temp[4],
+                                    NOT(self.pins[8]).output()).output(),
+                                AND(temp[2],
+                                    temp[4],
+                                    NOT(self.pins[8]).output(),
+                                    temp[1]).output(),
+                                AND(NOT(self.pins[8]).output(),
+                                    temp[3],
+                                    temp[4]).output(),
+                                AND(NOT(self.pins[8]).output(),
+                                    temp[5]).output()).output()).output()).output()
+
+        output[14] = AND(
+            output[9],
+            output[10],
+            output[11],
+            output[13]).output()
+
+        output[15] = NAND(temp[0], temp[2], temp[4], temp[6]).output()
+
+        output[17] = NOT(
+            OR(
+                temp[7], AND(
+                    temp[6], temp[5]).output(), AND(
+                    temp[6], temp[4], temp[3]).output(), AND(
+                    temp[6], temp[4], temp[2], temp[1]).output()).output()).output()
+
+        output[16] = OR(NOT(output[17]).output(),
+                        AND(self.pins[7],
+                            temp[0],
+                            temp[2],
+                            temp[4],
+                            temp[6]).output()).output()
+
+        if self.pins[12] == 0 and self.pins[24] == 1:
             return output
         else:
             print("Ground and VCC pins have not been configured correctly.")
