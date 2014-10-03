@@ -30,11 +30,12 @@ Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
 
 ```python
 
+from __future__ import print_function
 from BinPy import *
 
-# Connector for connecting output of second NOR gate with input of first NOR gate
+# Connector to connect output of second NOR gate with input of first NOR gate
 con1 = Connector()
-# Connector for connecting output of first NOR gate with input of second NOR gate
+# Connector to connect output of first NOR gate with input of second NOR gate
 con2 = Connector()
 
 R = 0  # Reset input for the SR-Latch
@@ -49,22 +50,22 @@ NOR2.setOutput(con1)  # Set output for NOR gate
 
 NOR1.setInput(1, 1)
 NOR2.setInput(1, 0)  # Set state
-print 'Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output()
+print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
 
 
 NOR1.setInput(1, 0)
 NOR2.setInput(1, 1)  # Reset state
-print 'Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output()
+print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
 
 
 NOR1.setInput(1, 0)
 NOR2.setInput(1, 0)  # Hold state
-print 'Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output()
+print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
 
 
 NOR1.setInput(1, 1)
 NOR2.setInput(1, 1)  # Invalid state
-print 'Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output()
+print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
 
 
 ```
