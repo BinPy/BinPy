@@ -71,10 +71,10 @@ print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
 ```
 <strong>Output</strong>
 ```python
-Q:  True 	Q':  False
-Q:  False 	Q':  True
-Q:  False 	Q':  True
-Q:  False 	Q':  False	#Invalid State
+Q:  1 	Q':  0
+Q:  0 	Q':  1
+Q:  0 	Q':  1
+Q:  0 	Q':  0	#Invalid State
 ```
 
 <strong>Operations, Combinatonal Logic and Algorithms</strong>
