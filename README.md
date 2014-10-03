@@ -30,46 +30,51 @@ Here's an example of SR latch constructed from a pair of cross-coupled NOR gates
 
 ```python
 
+from __future__ import print_function
 from BinPy import *
 
-# Connector for connecting output of second NOR gate with input of first NOR gate
+# Connector to connect output of second NOR gate with input of first NOR gate
 con1 = Connector()
-# Connector for connecting output of first NOR gate with input of second NOR gate
+# Connector to connect output of first NOR gate with input of second NOR gate
 con2 = Connector()
 
-R = 0 # Reset input for the SR-Latch
-S = 0 # Set input for the SR-Lacth
+R = 0  # Reset input for the SR-Latch
+S = 0  # Set input for the SR-Lacth
 
-NOR1 = NOR(con1, R)  #First NOR gate
-NOR1.set_output(con2) # Set output for NOR gate
+NOR1 = NOR(con1, R)  # First NOR gate
+NOR1.setOutput(con2)  # Set output for NOR gate
 
-NOR2 = NOR(con2, S)  #Second NOR gate
-NOR2.set_output(con1) # Set output for NOR gate
-
-
-NOR1.set_input(1, 1); NOR2.set_input(1, 0) #Set state
-print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
+NOR2 = NOR(con2, S)  # Second NOR gate
+NOR2.setOutput(con1)  # Set output for NOR gate
 
 
-NOR1.set_input(1, 0); NOR2.set_input(1, 1) #Reset state
-print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
+NOR1.setInput(1, 1)
+NOR2.setInput(1, 0)  # Set state
+print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
 
 
-NOR1.set_input(1, 0); NOR2.set_input(1, 0) #Hold state
-print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
+NOR1.setInput(1, 0)
+NOR2.setInput(1, 1)  # Reset state
+print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
 
 
-NOR1.set_input(1, 1); NOR2.set_input(1, 1) #Invalid state
-print 'Q: ',NOR2.output(), '\t','Q\': ',NOR1.output()
+NOR1.setInput(1, 0)
+NOR2.setInput(1, 0)  # Hold state
+print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
+
+
+NOR1.setInput(1, 1)
+NOR2.setInput(1, 1)  # Invalid state
+print('Q: ', NOR2.output(), '\t', 'Q\': ', NOR1.output())
 
 
 ```
 <strong>Output</strong>
 ```python
-Q:  True 	Q':  False
-Q:  False 	Q':  True
-Q:  False 	Q':  True
-Q:  False 	Q':  False	#Invalid State
+Q:  1 	Q':  0
+Q:  0 	Q':  1
+Q:  0 	Q':  1
+Q:  0 	Q':  0	#Invalid State
 ```
 
 <strong>Operations, Combinatonal Logic and Algorithms</strong>
