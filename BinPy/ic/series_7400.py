@@ -541,6 +541,45 @@ class IC_7405(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+class IC_7406(Base_14pin):
+
+    """
+    This is Hex Inverter/Buffer with Hi-Volt Open Collector Output
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        output[2] = NOT(self.pins[1]).output()
+        output[4] = NOT(self.pins[3]).output()
+        output[6] = NOT(self.pins[5]).output()
+        output[8] = NOT(self.pins[9]).output()
+        output[10] = NOT(self.pins[11]).output()
+        output[12] = NOT(self.pins[13]).output()
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
 
 class IC_7408(Base_14pin):
 
