@@ -3,7 +3,7 @@ This module includes all the base classes for different ICs.
 """
 from __future__ import print_function
 from BinPy import *
-from BinPy.draw import symbols
+import BinPy.draw.symbols as symbols
 import sys
 
 
@@ -46,7 +46,7 @@ class IC:
 
                 top = "\n\n              " + symbols._VHU + symbols._H * 9 + \
                     symbols._U + symbols._H * 9 + symbols._HVD + symbols._N
-                bottom = "              " + symbols.symbols._VHD + \
+                bottom = "              " + symbols._VHD + \
                     symbols._H * 19 + symbols._HVU + "  "
                 diag = top
 
@@ -89,9 +89,9 @@ class IC:
                     "---|",
                     symbols._H *
                     2 +
-                    _LT).replace(
+                    symbols._LT).replace(
                     "|---",
-                    _RT +
+                    symbols._RT +
                     symbols._H *
                     2).replace(
                     '|',
