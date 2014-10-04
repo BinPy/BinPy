@@ -107,7 +107,8 @@ class A2D(object):
 
         if typ not in [4, 5]:
             # Linking the reference inputs.
-            if (type(refp) not in [Bus, Connector]) or (type(refn) not in [Bus, Connector]):
+            if (type(refp) not in [Bus, Connector]) or (
+                    type(refn) not in [Bus, Connector]):
                 raise Exception("ERROR: Invalid reference inputs")
 
             else:
@@ -142,7 +143,10 @@ class A2D(object):
         """
         with AutoUpdater._lock:
 
-            if isinstance(analog_input, Bus) and analog_input.analog and (analog_input.width == 1):
+            if isinstance(
+                    analog_input,
+                    Bus) and analog_input.analog and (
+                    analog_input.width == 1):
                 AutoUpdater.remove_link(
                     self.inputs)  # Remove old links to the inputs
                 AutoUpdater.add_link(
@@ -413,7 +417,8 @@ class D2A(object):
 
         if typ not in [4, 5]:
             # Linking the reference inputs.
-            if (type(refp) not in [Bus, Connector]) or (type(refn) not in [Bus, Connector]):
+            if (type(refp) not in [Bus, Connector]) or (
+                    type(refn) not in [Bus, Connector]):
                 raise Exception("ERROR: Invalid reference inputs")
 
             else:
@@ -448,7 +453,8 @@ class D2A(object):
         """
         with AutoUpdater._lock:
 
-            if isinstance(digital_inputs, Bus) and (not digital_inputs.analog) and (digital_inputs.width == 2 ** (self.typ + 1)):
+            if isinstance(digital_inputs, Bus) and (not digital_inputs.analog) and (
+                    digital_inputs.width == 2 ** (self.typ + 1)):
                 AutoUpdater.remove_link(
                     self.inputs)  # Remove old links to the inputs
                 AutoUpdater.add_link(

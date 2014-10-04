@@ -77,7 +77,8 @@ def decToBin_test():
         assert False
     if Operations.decToBin(56789) != '1101110111010101':
         assert False
-    if Operations.decToBin(13.9876) != '1101.1111110011010011010110101000010110000111100101':
+    if Operations.decToBin(
+            13.9876) != '1101.1111110011010011010110101000010110000111100101':
         assert False
     if Operations.decToBin(13.00) != '1101':
         assert False

@@ -288,7 +288,8 @@ class MUX(GATES):
     def trigger(self):
         if len(self.selects) == 0:
             return
-        if not (len(self.inputs) > 1 and (len(self.inputs) & (len(self.inputs) - 1) == 0)):
+        if not (len(self.inputs) > 1 and (
+                len(self.inputs) & (len(self.inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
         bstr = ''
         for i in self.selects:
@@ -528,8 +529,13 @@ class Encoder(GATES):
     def __init__(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
-        if not (inputs.count(1) == 1 or list(x.state for x in
-                                             filter(lambda i: isinstance(i, Connector), inputs)).count(1) == 1):
+        if not (
+            inputs.count(1) == 1 or list(
+                x.state for x in filter(
+                    lambda i: isinstance(
+                i,
+                Connector),
+                    inputs)).count(1) == 1):
             raise Exception("Invalid Input")
         GATES.__init__(self, *inputs)
         self.output_type = []
@@ -541,7 +547,8 @@ class Encoder(GATES):
     def trigger(self):
         if isinstance(self.output_type, int):
             return
-        if not (len(self.inputs) > 1 and (len(self.inputs) & (len(self.inputs) - 1) == 0)):
+        if not (len(self.inputs) > 1 and (
+                len(self.inputs) & (len(self.inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
         temp = self.inputs[:]
         for i in range(len(temp)):
@@ -557,11 +564,17 @@ class Encoder(GATES):
     def set_inputs(self, *inputs):
         if not (len(inputs) > 1 and (len(inputs) & (len(inputs) - 1) == 0)):
             raise Exception("ERROR: Number of inputs should be a power of 2")
-        if not (inputs.count(1) == 1 or list(x.state for x in
-                                             filter(lambda i: isinstance(i, Connector), inputs)).count(1) == 1):
+        if not (
+            inputs.count(1) == 1 or list(
+                x.state for x in filter(
+                    lambda i: isinstance(
+                i,
+                Connector),
+                    inputs)).count(1) == 1):
             raise Exception("ERROR: Invalid Input")
         self.inputs = list(inputs)
-        for i in range(len(self.output_type), int(math.log(len(self.inputs), 2))):
+        for i in range(
+                len(self.output_type), int(math.log(len(self.inputs), 2))):
             self.output_type.append(0)
             self.output_connector.append(None)
             self._update_connections()
@@ -571,17 +584,28 @@ class Encoder(GATES):
         temp = self.inputs[:]
         if index >= len(temp):
             temp.append(value)
-            if not (temp.count(1) == 1 or list(x.state for x in
-                                               filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
+            if not (
+                temp.count(1) == 1 or list(
+                    x.state for x in filter(
+                        lambda i: isinstance(
+                            i,
+                            Connector),
+                        temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs.append(value)
-            for i in range(len(self.output_type), int(math.log(len(self.inputs), 2))):
+            for i in range(
+                    len(self.output_type), int(math.log(len(self.inputs), 2))):
                 self.output_type.append(0)
                 self.output_connector.append(None)
         else:
             temp[index] = value
-            if not (temp.count(1) == 1 or list(x.state for x in
-                                               filter(lambda i: isinstance(i, Connector), temp)).count(1) == 1):
+            if not (
+                temp.count(1) == 1 or list(
+                    x.state for x in filter(
+                        lambda i: isinstance(
+                            i,
+                            Connector),
+                        temp)).count(1) == 1):
                 raise Exception("ERROR: Invalid Input")
                 self.inputs[index] = value
 

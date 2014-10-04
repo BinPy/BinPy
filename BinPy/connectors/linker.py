@@ -126,7 +126,8 @@ class AutoUpdater(threading.Thread):
                 AutoUpdater._graph[Bus_a][Bus_b]['params'] = list(params)
                 AutoUpdater.modified = True
 
-                if (not directed) and (not AutoUpdater._graph.has_edge(Bus_b, Bus_a)):
+                if (not directed) and (
+                        not AutoUpdater._graph.has_edge(Bus_b, Bus_a)):
                     AutoUpdater._graph.add_edge(Bus_b, Bus_a, object=bind_to)
                     AutoUpdater._graph[Bus_b][Bus_a]['params'] = list(params)
 
@@ -158,7 +159,8 @@ class AutoUpdater(threading.Thread):
                     if len(a) != len(b):
                         raise Exception("ERROR: Lengths are not equal")
                     for i, j in zip(a, b):
-                        if (isinstance(i, Connector), isinstance(j, Connector)) != (True, True):
+                        if (isinstance(i, Connector), isinstance(j, Connector)) != (
+                                True, True):
                             raise Exception(
                                 "ERROR: Only Connector objects can be Unlinked")
                         with AutoUpdater._lock:
@@ -166,7 +168,8 @@ class AutoUpdater(threading.Thread):
                                 # pair is ( bus_0, bus_1 )
                                 for index in range(len(pair[0])):
                                     # Traverse through the bus_0 ( = pair[0] )
-                                    if ((pair[0])[index] is i) and ((pair[1])[index] is j):
+                                    if ((pair[0])[index] is i) and (
+                                            (pair[1])[index] is j):
                                         # If ( i , j ) is ( bus_0[index] , bus_1[index] )
                                         # Where ( i, j ) is the input link to
                                         # be removed ( i --> j )
@@ -179,7 +182,8 @@ class AutoUpdater(threading.Thread):
                                 # varies.
                                 if not directed:
                                     for index in range(len(pair[0])):
-                                        if (((pair[0])[index] is j) and ((pair[1])[index] is i)):
+                                        if (((pair[0])[index] is j) and (
+                                                (pair[1])[index] is i)):
                                             del pair[1][index]
                                             del pair[0][index]
 
@@ -202,7 +206,8 @@ class AutoUpdater(threading.Thread):
                                 for pair in AutoUpdater._graph.edges():
                                     # pair is ( bus_0, bus_1 )
                                     for index in range(len(pair[0])):
-                                        if ((pair[0])[index] is conn) or ((pair[1])[index] is conn):
+                                        if ((pair[0])[index] is conn) or (
+                                                (pair[1])[index] is conn):
                                             # if the conn is found either as
                                             # the start / end point of the link
                                             # ...
@@ -424,5 +429,6 @@ class BinPyIndexer(object):
         the various elements of BinPy by its index ( the id ).
 
         """
-        if (cls in BinPyIndexer._indices) and (index in BinPyIndexer._indices[cls]):
+        if (cls in BinPyIndexer._indices) and (
+                index in BinPyIndexer._indices[cls]):
             return BinPyIndexer._indices[cls][index]

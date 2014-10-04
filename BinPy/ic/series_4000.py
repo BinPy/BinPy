@@ -1705,7 +1705,9 @@ class IC_4029(Base_16pin):
         elif self.pins[10] == 0:
             if self.pins[9] == 0:
                 d = NBitDownCounter(4, self.pins[15].A)
-                while self.arraytoint(self.state) != self.arraytoint(d.trigger()):
+                while self.arraytoint(
+                        self.state) != self.arraytoint(
+                        d.trigger()):
                     pass
                 arr = d.trigger()
                 output[6], output[11], output[14], output[2] = arr
@@ -1715,7 +1717,9 @@ class IC_4029(Base_16pin):
                     output[6], output[11], output[14], output[2] = [1, 0, 0, 1]
             elif self.pins[9] == 1:
                 d = NBitDownCounter(4, self.pins[15].A)
-                while self.arraytoint(self.state) != self.arraytoint(d.trigger()):
+                while self.arraytoint(
+                        self.state) != self.arraytoint(
+                        d.trigger()):
                     pass
                 arr = d.trigger()
                 output[6], output[11], output[14], output[2] = arr

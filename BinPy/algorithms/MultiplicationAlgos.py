@@ -388,7 +388,9 @@ def toom3_multiply(multiplier, multiplicand, bits=None, signed=False):
             abs(multiplier.int), bits, signed=False)
 
     # Base case of 0 bit multiplication. If length is 0 product is 0.
-    if len(multiplier.bin.lstrip("0")) == 0 or len(multiplicand.bin.lstrip("0")) == 0:
+    if len(
+            multiplier.bin.lstrip("0")) == 0 or len(
+            multiplicand.bin.lstrip("0")) == 0:
         return "0"
 
     # Base case of 1 bit multiplication

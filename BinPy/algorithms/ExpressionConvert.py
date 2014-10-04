@@ -203,8 +203,8 @@ def convertExpression(expr, two_input=0, only_nand=0,
                 previous_gate = previous_gate.upper()
                 next_gate = op2[:len(gate)]
                 next_gate = next_gate.upper()
-                if (two_input == 0 and gate != 'NAND'and gate != 'NOR')and \
-                        (only_nand == 0 and only_nor == 0 and only_and_or_not == 0):
+                if (two_input == 0 and gate != 'NAND'and gate != 'NOR')and (
+                        only_nand == 0 and only_nor == 0 and only_and_or_not == 0):
                     if (gate == previous_gate) and (gate == next_gate.upper()):
                         new_element = gate + \
                             '(' + op1[len(gate) + 1:-1] + \

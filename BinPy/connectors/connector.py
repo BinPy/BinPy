@@ -296,7 +296,8 @@ class Bus(object):
         self.analog = False
 
         # width specified
-        if (len(inputs) == 1) and (isinstance(inputs[0], int)) and (inputs[0] >= 0):
+        if (len(inputs) == 1) and (isinstance(inputs[0], int)) and (
+                inputs[0] >= 0):
             self.bus += [Connector() for i in range(inputs[0])]
             self._width = inputs[0]
 
@@ -313,7 +314,8 @@ class Bus(object):
                 inputs = inputs[0]
 
             # if inputs is an unpacked list of connectors
-            if (len(inputs) > 0) and (False not in [isinstance(i, Connector) for i in inputs]):
+            if (len(inputs) > 0) and (
+                    False not in [isinstance(i, Connector) for i in inputs]):
                 self.bus += inputs
                 self._width = len(self.bus)
 

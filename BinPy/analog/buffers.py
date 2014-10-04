@@ -87,7 +87,8 @@ class AnalogBuffer(object):
             inp_voltages = self.inputs.get_voltage_all()
             cur_enable = bool(self._enable[0])
 
-        if (self._history == inp_voltages) and (self._enable_history == cur_enable) and (self._atten_history == self._attenuation):
+        if (self._history == inp_voltages) and (self._enable_history == cur_enable) and (
+                self._atten_history == self._attenuation):
             return
 
         self._history = inp_voltages

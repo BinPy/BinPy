@@ -135,7 +135,10 @@ class Multivibrator(threading.Thread):
                     self.update = False
 
                 elif self.mode == 2:
-                    while (self.mode == 2) and (self.update) and (not self._exit):
+                    while (
+                            self.mode == 2) and (
+                            self.update) and (
+                            not self._exit):
                         self._toggle_state()
                         if self.A.state == 1:
                             time.sleep(self.on_time)
