@@ -700,6 +700,82 @@ class IC_7408(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+class IC_7409(Base_14pin):
+
+    """
+    This is a Quad 2 input AND gate IC with open collector outputs
+
+    Pin Number  Description
+        1   A Input Gate 1
+        2   B Input Gate 1
+        3   Y Output Gate 1
+        4   A Input Gate 2
+        5   B Input Gate 2
+        6   Y Output Gate 2
+        7   Ground
+        8   Y Output Gate 3
+        9   B Input Gate 3
+        10  A Input Gate 3
+        11  Y Output Gate 4
+        12  B Input Gate 4
+        13  A Input Gate 4
+        14  Positive Supply
+
+    This class needs 14 parameters. Each parameter being the pin value. The input has to be defined as a dictionary
+    with pin number as the key and its value being either 1 or 0
+
+    To initialise the ic 7409:
+        1. set pin 7:0
+        2. set pin 14:1
+
+    How to use:
+
+        >>> ic = IC_7409()
+        >>> pin_config = {1: 1, 2: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 12: 0, 13: 0, 14: 1}
+        >>> ic.set_IC(pin_cofig)
+        >>> ic.drawIC()
+        >>> ic.run()
+        >>> ic.set_IC(ic.run())
+        >>> ic.drawIC()
+
+    Default pins:
+        pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
+
+
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            None,
+            0,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            None,
+            0,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        output[3] = AND(self.pins[1], self.pins[2]).output()
+        output[6] = AND(self.pins[4], self.pins[5]).output()
+        output[8] = AND(self.pins[9], self.pins[10]).output()
+        output[11] = AND(self.pins[12], self.pins[13]).output()
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
 
 class IC_7410(Base_14pin):
 
