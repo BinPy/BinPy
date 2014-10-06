@@ -107,7 +107,14 @@ class Oscilloscope(threading.Thread):
 
         try:
             for i in inputs:
-                if not (isinstance(i, tuple) and isinstance(i[0], Connector) and isinstance(i[1], str)):
+                if not (
+                    isinstance(
+                        i,
+                        tuple) and isinstance(
+                        i[0],
+                        Connector) and isinstance(
+                        i[1],
+                        str)):
                     raise Exception("ERROR: Invalid input format")
         except:
             raise Exception("ERROR: Invalid input format")

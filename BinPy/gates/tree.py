@@ -126,8 +126,15 @@ class Tree:
 
         # Check if the element is a gate, connector or a final value, bool or
         # int
-        if not (isinstance(self.element, GATES) or isinstance(self.element, Connector)
-                or type(self.element) in [bool, int]):
+        if not (
+            isinstance(
+                self.element,
+                GATES) or isinstance(
+                self.element,
+                Connector) or type(
+                self.element) in [
+                    bool,
+                int]):
             raise Exception(
                 "ERROR: Element must be either a Gate or Connector")
 

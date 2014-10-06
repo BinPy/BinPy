@@ -238,7 +238,9 @@ class StateMachineOptimizer_AllPermutations(StateMachineOptimizer):
         min_complexity = 99999999
         counter = 0
         elements = range(1 << self.state_word_len)
-        for permutation in itertools.permutations(elements, len(self.state_tran)):
+        for permutation in itertools.permutations(
+            elements, len(
+                self.state_tran)):
             counter += 1
             if counter & 0xff == 0:
                 sys.stderr.write('%%%3.2f done\r' % (100.0 * counter / total))

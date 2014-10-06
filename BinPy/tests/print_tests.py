@@ -58,17 +58,23 @@ def MUX_print_test():
 def DEMUX_print_test():
     gate = DEMUX(1)
     gate.select_lines(1)
-    if not re.search("DEMUX Gate; Output: \[0, 1]; Inputs: \[1];", gate.__str__()):
+    if not re.search(
+            "DEMUX Gate; Output: \[0, 1]; Inputs: \[1];",
+            gate.__str__()):
         assert False
 
 
 def Encoder_print_test():
     gate = Encoder(0, 0, 0, 1)
-    if not re.search("Encoder Gate; Output: \[1, 1]; Inputs: \[0, 0, 0, 1];", gate.__str__()):
+    if not re.search(
+            "Encoder Gate; Output: \[1, 1]; Inputs: \[0, 0, 0, 1];",
+            gate.__str__()):
         assert False
 
 
 def Decoder_print_test():
     gate = Decoder(0, 0)
-    if not re.search("Decoder Gate; Output: \[1, 0, 0, 0]; Inputs: \[0, 0];", gate.__str__()):
+    if not re.search(
+            "Decoder Gate; Output: \[1, 0, 0, 0]; Inputs: \[0, 0];",
+            gate.__str__()):
         assert False

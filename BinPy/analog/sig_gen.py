@@ -407,7 +407,8 @@ class SignalGenerator(threading.Thread):
 
         # Choose the appropriate frequency range based on the passed value.
         for i in range(len(self.FREQ_RANGE)):
-            if (frequency <= self.FREQ_RANGE[i][0] and frequency >= self.FREQ_RANGE[i][0]):
+            if (frequency <= self.FREQ_RANGE[i][
+                    0] and frequency >= self.FREQ_RANGE[i][0]):
                 self._frequency_range = self.FREQ_RANGE[i]
                 break
 
