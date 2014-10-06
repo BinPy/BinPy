@@ -700,6 +700,7 @@ class IC_7408(Base_14pin):
         else:
             print("Ground and VCC pins have not been configured correctly.")
 
+
 class IC_7409(Base_14pin):
 
     """
