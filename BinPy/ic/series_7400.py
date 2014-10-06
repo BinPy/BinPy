@@ -742,8 +742,7 @@ class IC_7409(Base_14pin):
     Default pins:
         pins = [None,0,0,None,0,0,None,0,None,0,0,None,0,0,0]
 
-
-    """
+      """
 
     def __init__(self):
         self.pins = [
