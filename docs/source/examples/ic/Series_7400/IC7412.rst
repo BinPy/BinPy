@@ -47,11 +47,11 @@ Usage of IC 7412
     
             >>> ic = IC_7412()
             >>> pin_config = {1: 1, 2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 1, 10: 1, 11: 1, 13: 0, 14: 1}
-            >>> ic.setIC(pin_cofig)
-            >>> ic.drawIC()
+            >>> ic.set_IC(pin_cofig)
+            >>> ic.draw_IC()
             >>> ic.run()
-            >>> ic.setIC(ic.run())
-            >>> ic.drawIC()
+            >>> ic.set_IC(ic.run())
+            >>> ic.draw_IC()
     
         Default pins:
             pins = [None,0,0,0,0,0,None,0,None,0,0,0,None,0,0]
@@ -69,15 +69,15 @@ Usage of IC 7412
     
     # Powering up the IC - using -- ic.setIC({14: 1, 7: 0})
     
-    ic.setIC({14: 1, 7: 0})
+    ic.set_IC({14: 1, 7: 0})
     
     # Setting the inputs of the ic
     
-    ic.setIC(inp)
+    ic.set_IC(inp)
     
     # Draw the IC with the current configuration\n
     
-    ic.drawIC()
+    ic.draw_IC()
 
 .. parsed-literal::
 
@@ -125,11 +125,11 @@ Usage of IC 7412
 
     # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n
     
-    ic.setIC(ic.run())
+    ic.set_IC(ic.run())
     
     # Draw the final configuration
     
-    ic.drawIC()
+    ic.draw_IC()
 
 .. parsed-literal::
 
@@ -168,7 +168,7 @@ Usage of IC 7412
     
     # Draw the final configuration
     
-    ic.drawIC()
+    ic.draw_IC()
     
     # Run the IC
     
@@ -210,7 +210,7 @@ Usage of IC 7412
     c = Connector()
     
     # Set the output connector to a particular pin of the ic
-    ic.setOutput(8, c)
+    ic.set_Output(8, c)
     
     print(c)
 
