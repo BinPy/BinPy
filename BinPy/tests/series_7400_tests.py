@@ -318,6 +318,15 @@ def test_IC_7438():
         assert False
 
 
+def test_IC_7439():
+    test_IC = IC_7439()
+    m = {2: 1, 3: 1, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 11: 0, 12: 1, 14: 1}
+    test_IC.set_IC(m)
+    n = {1: 0, 4: 1, 10: 1, 13: 1}
+    if n != test_IC.run():
+        assert False
+
+
 def test_IC_7440():
     test_IC = IC_7440()
     p = {1: 1, 2: 0, 4: 0, 5: 0, 9: 1, 10: 1, 12: 1, 13: 1, 14: 1, 7: 0}

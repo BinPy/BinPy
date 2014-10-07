@@ -1690,6 +1690,45 @@ class IC_7438(Base_14pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_7439(Base_14pin):
+
+    """
+    This is a Quad 2-Input NAND Buffer with Open Collector Output, input and output terminals flipped, otherwise functionally identical to 7438
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            0,
+            None,
+            0,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0,
+            None,
+            0,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        output[1] = NAND(self.pins[3], self.pins[2]).output()
+        output[4] = NAND(self.pins[6], self.pins[5]).output()
+        output[10] = NAND(self.pins[9], self.pins[8]).output()
+        output[13] = NAND(self.pins[12], self.pins[11]).output()
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
 class IC_7440(Base_14pin):
 
     """
