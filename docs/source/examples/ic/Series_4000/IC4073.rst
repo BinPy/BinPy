@@ -32,17 +32,17 @@ Usage of IC 4073
     
     # Pin initinalization
     
-    # Powering up the IC - using -- ic.setIC({14: 1, 7: 0}) -- \n
+    # Powering up the IC - using -- ic.set_IC({14: 1, 7: 0}) -- \n
     
-    ic.setIC({14: 1, 7: 0})
+    ic.set_IC({14: 1, 7: 0})
     
     # Setting the inputs of the ic
     
-    ic.setIC(inp)
+    ic.set_IC(inp)
     
     # Draw the IC with the current configuration\n
     
-    ic.drawIC()
+    ic.draw_IC()
 
 .. parsed-literal::
 
@@ -88,13 +88,13 @@ Usage of IC 4073
 
 .. code:: python
 
-    # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n
+    # Seting the outputs to the current IC configuration using -- ic.set_IC(ic.run()) --\n
     
-    ic.setIC(ic.run())
+    ic.set_IC(ic.run())
     
     # Draw the final configuration
     
-    ic.drawIC()
+    ic.draw_IC()
 
 .. parsed-literal::
 
@@ -127,13 +127,13 @@ Usage of IC 4073
 
 .. code:: python
 
-    # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --
+    # Seting the outputs to the current IC configuration using -- ic.set_IC(ic.run()) --
     
-    ic.setIC(ic.run())
+    ic.set_IC(ic.run())
     
     # Draw the final configuration
     
-    ic.drawIC()
+    ic.draw_IC()
     
     # Run the IC
     
@@ -175,7 +175,7 @@ Usage of IC 4073
     c = Connector()
     
     # Set the output connector to a particular pin of the ic
-    ic.setOutput(9, c)
+    ic.set_Output(9, c)
     
     print(c)
 
