@@ -174,7 +174,7 @@ Usage of IC 4078
     c = Connector()
     
     # Set the output -- ic.setOutput(8, c)
-    ic.set_Output(13, c)
+    ic.set_output(13, c)
     
     print(c)
 

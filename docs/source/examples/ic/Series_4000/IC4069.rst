@@ -178,7 +178,7 @@ Usage of IC 4069
     c = Connector()
     
     # Set the output connector to a particular pin of the ic
-    ic.set_Output(2, c)
+    ic.set_output(2, c)
     
     print(c)
 

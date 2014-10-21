@@ -176,7 +176,7 @@ Usage of IC 4077
     c = Connector()
     
     # Set the output connector to a particular pin of the ic
-    ic.set_Output(11, c)
+    ic.set_output(11, c)
     
     print(c)
 

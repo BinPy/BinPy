@@ -176,7 +176,7 @@ Usage of IC 4070
     c = Connector()
     
     # Set the output connector to a particular pin of the ic
-    ic.set_Output(3, c)
+    ic.set_output(3, c)
     
     print(c)
 

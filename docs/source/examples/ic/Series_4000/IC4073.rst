@@ -175,7 +175,7 @@ Usage of IC 4073
     c = Connector()
     
     # Set the output connector to a particular pin of the ic
-    ic.set_Output(9, c)
+    ic.set_output(9, c)
     
     print(c)
 

@@ -176,7 +176,7 @@ Usage of IC 4081
     c = Connector()
     
     # Set the output -- ic.setOutput(8, c)
-    ic.set_Output(11, c)
+    ic.set_output(11, c)
     
     print(c)
 
