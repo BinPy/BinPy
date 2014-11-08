@@ -244,8 +244,8 @@ Visit our [roadmap](https://github.com/BinPy/BinPy/wiki/roadmap) and [ideas page
 
 <a id="contribute"></a>
 
-How To Contribute
------------------
+Contribute to BinPy
+-------------------
 
 For a detailed summary of all the coding guidelines and [development workflow](https://github.com/BinPy/BinPy/wiki/Development-workflow), visit our [Wiki page](http://github.com/BinPy/BinPy/wiki).
 
