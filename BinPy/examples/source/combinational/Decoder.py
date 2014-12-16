@@ -18,7 +18,7 @@ decoder = Decoder(0, 1)
 
 # Output of decoder
 
-print (decoder.output())
+print(decoder.output())
 
 
 # In[3]:
@@ -31,7 +31,7 @@ decoder.set_input(1, 0)
 
 # New Output of the decoder
 
-print (decoder.output())
+print(decoder.output())
 
 
 # In[4]:
@@ -44,14 +44,14 @@ decoder.set_inputs(1, 0, 0)
 
 # To get the input states
 
-print (decoder.get_input_states())
+print(decoder.get_input_states())
 
 
 # In[5]:
 
 # New output of decoder
 
-print (decoder.output())
+print(decoder.output())
 
 
 # In[6]:
@@ -70,11 +70,11 @@ gate1 = AND(conn, 1)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())
 
 
 # In[7]:
 
 # Information about decoder instance can be found by
 
-print (decoder)
+print(decoder)

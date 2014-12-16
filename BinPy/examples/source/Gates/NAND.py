@@ -18,7 +18,7 @@ gate = NAND(0, 1)
 
 # Output of the NAND gate
 
-print (gate.output())
+print(gate.output())
 
 # <codecell>
 
@@ -30,7 +30,7 @@ gate.set_input(1, 0)
 
 # New Output of the NAND gate
 
-print (gate.output())
+print(gate.output())
 
 # <codecell>
 
@@ -42,11 +42,11 @@ gate.set_inputs(1, 1, 1, 1)
 
 # To get the input states
 
-print (gate.get_input_states())
+print(gate.get_input_states())
 
 # New output of the NAND gate
 
-print (gate.output())
+print(gate.output())
 
 # <codecell>
 
@@ -65,10 +65,10 @@ gate1 = NAND(conn, 0)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())
 
 # <codecell>
 
 # Information about gate instance
 
-print (gate)
+print(gate)

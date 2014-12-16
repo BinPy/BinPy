@@ -38,7 +38,7 @@ class Ground:
                     connector.connections['output'].remove(self)
                     connector.trigger()
                 except:
-                    print (
+                    print(
                         "The specified connector is not tapped to this ground")
             else:
                 raise Exception("Error: Input given is not a connector")

@@ -22,7 +22,7 @@ mux.select_lines(0)
 
 # Output of mux
 
-print (mux.output())
+print(mux.output())
 
 
 # In[3]:
@@ -35,7 +35,7 @@ mux.set_input(1, 0)
 
 # New Output of the mux
 
-print (mux.output())
+print(mux.output())
 
 
 # In[4]:
@@ -53,7 +53,7 @@ mux.set_inputs(1, 0, 0, 1)
 
 # New output of mux
 
-print (mux.output())
+print(mux.output())
 
 
 # In[6]:
@@ -74,7 +74,7 @@ gate1 = AND(conn, 0)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())
 
 
 # In[7]:
@@ -87,11 +87,11 @@ mux.select_line(0, 1)
 
 # New output of mux
 
-print (mux.output())
+print(mux.output())
 
 
 # In[8]:
 
 # Information about mux instance can be found by
 
-print (mux)
+print(mux)

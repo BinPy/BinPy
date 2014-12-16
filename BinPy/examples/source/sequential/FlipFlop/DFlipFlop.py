@@ -51,14 +51,14 @@ o.unhold()
 
 # <codecell>
 
-print ("Data is 1")
+print("Data is 1")
 data.state = 1
 while True:
     if clk_conn.state == 0:
         # Falling edge will trigger the FF
         dff.trigger()
         break
-print (dff.state())
+print(dff.state())
 
 # Sending a positive edge to dff
 while True:
@@ -69,14 +69,14 @@ while True:
 
 # <codecell>
 
-print ("Data is 0")
+print("Data is 0")
 data.state = 0
 while True:
     if clk_conn.state == 0:
         # Falling edge will trigger the FF
         dff.trigger()
         break
-print (dff.state())
+print(dff.state())
 # Sending a positive edge to dff
 while True:
     if clk_conn.state == 1:
@@ -86,14 +86,14 @@ while True:
 
 # <codecell>
 
-print ("Data is 1")
+print("Data is 1")
 data.state = 1
 while True:
     if clk_conn.state == 0:
         # Falling edge will trigger the FF
         dff.trigger()
         break
-print (dff.state())
+print(dff.state())
 # Sending a positive edge to dff
 while True:
     if clk_conn.state == 1:

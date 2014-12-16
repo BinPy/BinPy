@@ -18,7 +18,7 @@ expr = Expr('A & B | C')
 
 # Parsing the expression
 
-print (expr.parse())
+print(expr.parse())
 
 
 # In[3]:
@@ -29,7 +29,7 @@ print (expr.parse())
 
 expr1 = Expr('AND(NOT(A), B)', 'A', 'B')
 
-print (expr.parse())
+print(expr.parse())
 
 
 # In[4]:

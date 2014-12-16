@@ -52,7 +52,7 @@ o.unhold()
 
 # <codecell>
 
-print ("SET STATE - S = 1, R = 0")
+print("SET STATE - S = 1, R = 0")
 # Set State
 s.state = 1
 r.state = 0
@@ -62,7 +62,7 @@ while True:
         # Falling edge will trigger the FF
         srff.trigger()
         break
-print (srff.state())
+print(srff.state())
 # Sending a positive edge to srff
 while True:
     if clk_conn.state == 1:
@@ -72,7 +72,7 @@ while True:
 
 # <codecell>
 
-print ("RESET STATE - S = 0, R = 1")
+print("RESET STATE - S = 0, R = 1")
 # Reset State
 s.state = 0
 r.state = 1
@@ -83,7 +83,7 @@ while True:
         srff.trigger()
         break
 # Displaying the output using the connector instances
-print ("[", p(), ",", q(), "]")
+print("[", p(), ",", q(), "]")
 
 # Sending a positive edge to srff
 while True:
@@ -94,7 +94,7 @@ while True:
 
 # <codecell>
 
-print ("INVALID STATE - S = 1, R = 1")
+print("INVALID STATE - S = 1, R = 1")
 # Invalid state
 s.state = 1
 r.state = 1
@@ -104,7 +104,7 @@ while True:
         # Falling edge will trigger the FF
         srff.trigger()
         break
-print (srff.state())
+print(srff.state())
 
 # Sending a positive edge to srff
 while True:
@@ -115,7 +115,7 @@ while True:
 
 # <codecell>
 
-print ("2nd INVALID STATE - S = 0, R = 0")
+print("2nd INVALID STATE - S = 0, R = 0")
 # Invalid state
 s.state = 1
 r.state = 1
@@ -125,7 +125,7 @@ while True:
         # Falling edge will trigger the FF
         srff.trigger()
         break
-print (srff.state())
+print(srff.state())
 
 # Sending a positive edge to srff
 while True:

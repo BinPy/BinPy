@@ -77,13 +77,13 @@ o.unhold()
 
 # Initial State
 
-print (b.state())
+print(b.state())
 
 # Triggering the counter sequentially 2^4 times
 
 for i in range(1, 2 ** 4):
     b.trigger()
-    print (b.state())
+    print(b.state())
 
 # Display the oscilloscope - Implicitly the o.hold() will be called first
 # to stop the recording.

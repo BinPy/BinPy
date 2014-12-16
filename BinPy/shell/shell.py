@@ -139,10 +139,10 @@ def shell_main(*args):
 
     if len(sys.argv) > 1 and len(sys.argv[1]) > 1:
         flag = sys.argv[1]
-        print (flag)
+        print(flag)
 
         if flag == 'update':
-            print ("Updating BinPy...")
+            print("Updating BinPy...")
             self_update()
 
         elif flag == 'notebook':

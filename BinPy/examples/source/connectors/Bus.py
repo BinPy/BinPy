@@ -59,12 +59,12 @@ bus_c
 # in type
 bus_d = Bus(8)
 
-print (bus_d)
+print(bus_d)
 
 # <codecell>
 
 bus_d.copy_values_from(bus_c)
-print (bus_d)
+print(bus_d)
 
 # <codecell>
 
@@ -72,14 +72,14 @@ print (bus_d)
 i = 7
 for connector in bus_d:
     connector.set_name("B" + str(i))
-    print (connector)
+    print(connector)
     i -= 1
 
 # <codecell>
 
 # Probing the connector tags
 
-print (" ".join([connector.name for connector in bus_d]))
+print(" ".join([connector.name for connector in bus_d]))
 
 # <codecell>
 
@@ -87,7 +87,7 @@ print (" ".join([connector.name for connector in bus_d]))
 
 VCC = Bus(Connector(voltage=5.2), Connector(voltage=0))
 
-print (VCC)
+print(VCC)
 
 # <codecell>
 
@@ -95,21 +95,21 @@ print (VCC)
 
 bus_e = Bus(bus_d[:-4])
 
-print (bus_e == bus_b)
+print(bus_e == bus_b)
 
 # <codecell>
 
 # Circulary rotating the bits of the Bus-es
 
-print ("Before rotation, bus_e : ", bus_e)
+print("Before rotation, bus_e : ", bus_e)
 
-print (
+print(
     "After circularly rotating right by 3 positions, bits of bus_e: ",
     bus_e >> 3)
 
 # Note that this returns a list of the Connectors and not a bus object.
 # Use Bus(bus_e>>2) to return a Bus object
 
-print (
+print(
     "After circularly rotating left by 3 positions, bits of bus_e: ",
     bus_e << 3)

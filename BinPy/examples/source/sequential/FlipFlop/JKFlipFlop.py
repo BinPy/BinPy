@@ -51,7 +51,7 @@ o.unhold()
 
 # <codecell>
 
-print ("SET STATE - J = 1, K = 0")
+print("SET STATE - J = 1, K = 0")
 
 # Set State
 j.state = 1
@@ -63,7 +63,7 @@ while True:
         # Falling edge will trigger the FF
         jkff.trigger()
         break
-print (jkff.state())
+print(jkff.state())
 
 # Sending a positive edge to jkff
 while True:
@@ -74,7 +74,7 @@ while True:
 
 # <codecell>
 
-print ("RESET STATE - J = 0, K = 1")
+print("RESET STATE - J = 0, K = 1")
 
 # Reset State
 j.state = 0
@@ -87,7 +87,7 @@ while True:
         jkff.trigger()
         break
 
-        print (
+        print(
             "[Printing the output using the output connectors:]\n",
             p(),
             q())
@@ -101,7 +101,7 @@ while True:
 
 # <codecell>
 
-print ("TOGGLE STATE - J = 1, K = 1")
+print("TOGGLE STATE - J = 1, K = 1")
 # Toggle State
 j.state = 1
 k.state = 1
@@ -111,7 +111,7 @@ while True:
         # Falling edge will trigger the FF
         jkff.trigger()
         break
-print (jkff.state())
+print(jkff.state())
 
 # Sending a positive edge to jkff
 while True:
@@ -122,7 +122,7 @@ while True:
 
 # <codecell>
 
-print ("NO CHANGE STATE - J = 0, K = 0")
+print("NO CHANGE STATE - J = 0, K = 0")
 # No change state
 j.state = 0
 k.state = 0
@@ -132,7 +132,7 @@ while True:
         # Falling edge will trigger the FF
         jkff.trigger()
         break
-print (jkff.state())
+print(jkff.state())
 
 # Sending a positive edge to jkff
 while True:

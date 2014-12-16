@@ -56,7 +56,7 @@ ic.drawIC()
 
 # Note that the ic.run() returns a dict of pin configuration similar to
 
-print (ic.run())
+print(ic.run())
 
 # <codecell>
 
@@ -82,7 +82,7 @@ ic.drawIC()
 
 # Run the IC
 
-print (ic.run())
+print(ic.run())
 
 # <codecell>
 

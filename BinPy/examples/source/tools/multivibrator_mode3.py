@@ -72,7 +72,7 @@ m.trigger()
 
 time.sleep(0.001)  # This is done to synchronize the multivibrator thread ...
 
-print (out())
+print(out())
 
 # <codecell>
 

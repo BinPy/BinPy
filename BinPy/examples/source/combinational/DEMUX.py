@@ -25,7 +25,7 @@ demux.select_lines(0)
 
 # Output of demux
 
-print (demux.output())
+print(demux.output())
 
 
 # In[3]:
@@ -38,14 +38,14 @@ demux.set_input(0, 0)
 
 # New Output of the demux
 
-print (demux.output())
+print(demux.output())
 
 
 # In[4]:
 
 # Get Input States
 
-print (demux.get_input_states())
+print(demux.get_input_states())
 
 
 # In[5]:
@@ -68,7 +68,7 @@ gate1 = AND(conn, 0)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())
 
 
 # In[6]:
@@ -81,11 +81,11 @@ demux.select_line(0, 1)
 
 # New output of demux
 
-print (demux.output())
+print(demux.output())
 
 
 # In[7]:
 
 # Information about demux instance can be found by
 
-print (demux)
+print(demux)

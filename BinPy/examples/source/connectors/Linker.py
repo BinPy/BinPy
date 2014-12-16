@@ -46,7 +46,7 @@ AutoUpdater.add_link(bus_a, bus_b)
 # <codecell>
 
 # Run this after a leaving a minor update interval
-print (bus_b)
+print(bus_b)
 
 # <codecell>
 
@@ -81,11 +81,11 @@ AutoUpdater.add_link(VCC[1], SLAVE1[-1])
 
 # <codecell>
 
-print (SLAVE0.get_voltage_all())
+print(SLAVE0.get_voltage_all())
 
 # <codecell>
 
-print (SLAVE1.get_voltage_all())
+print(SLAVE1.get_voltage_all())
 
 # <codecell>
 
@@ -95,11 +95,11 @@ CNTRL_V.set_voltage_all(5.0, 6.0, 2.0, 1.1)
 
 # The Slave Bus-es have been updated with the updated voltage in CNTRL_V
 
-print (SLAVE0.get_voltage_all())
+print(SLAVE0.get_voltage_all())
 
 # <codecell>
 
-print (SLAVE1.get_voltage_all())
+print(SLAVE1.get_voltage_all())
 
 # <codecell>
 
@@ -117,13 +117,13 @@ CNTRL_V.set_voltage_all(3.0, 2, 1, 6.2)
 
 # SLAVE0 Retains the last held value
 
-print (SLAVE0.get_voltage_all())
+print(SLAVE0.get_voltage_all())
 
 # <codecell>
 
 # SLAVE1 however is updated
 
-print (SLAVE1.get_voltage_all())
+print(SLAVE1.get_voltage_all())
 
 # <codecell>
 
@@ -131,6 +131,6 @@ print (SLAVE1.get_voltage_all())
 
 VCC[0].set_voltage(5.5)
 
-print (SLAVE0[0].get_voltage())
+print(SLAVE0[0].get_voltage())
 
-print (SLAVE1[0].get_voltage())
+print(SLAVE1[0].get_voltage())

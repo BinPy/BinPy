@@ -28,7 +28,7 @@ hs = HalfSubtractor(1, 1)
 # Output of HalfSubtractor
 # Output is of the form [BORROW, DIFFERENCE]
 
-print (hs.output())
+print(hs.output())
 
 
 # In[4]:
@@ -39,7 +39,7 @@ hs.set_input(1, 0)
 
 # New Output of the HalfSubtractor
 
-print (hs.output())
+print(hs.output())
 
 
 # In[5]:
@@ -64,7 +64,7 @@ hs.set_output(0, conn_3)
 gate1 = NOT(conn_3)
 
 # Output of the gate1
-print (gate1.output())
+print(gate1.output())
 
 
 # In[6]:
@@ -73,7 +73,7 @@ print (gate1.output())
 conn_2.set_logic(0)
 
 # Verify with the output of the HalfAdder
-print (hs.output())
+print(hs.output())
 
 
 # Full Adder
@@ -98,4 +98,4 @@ fa.set_output(1, d)
 
 # In[9]:
 
-print (bo.get_logic(), d.get_logic())
+print(bo.get_logic(), d.get_logic())

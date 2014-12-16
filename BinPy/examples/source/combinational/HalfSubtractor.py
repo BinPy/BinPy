@@ -18,7 +18,7 @@ hs = HalfSubtractor(0, 1)
 
 # Output of HalfSubtractor
 
-print (hs.output())
+print(hs.output())
 
 
 # In[3]:
@@ -33,7 +33,7 @@ hs.set_input(1, 0)
 
 # New Output of the HalfSubtractor
 
-print (hs.output())
+print(hs.output())
 
 
 # In[4]:
@@ -51,7 +51,7 @@ hs.set_inputs(1, 1)
 
 # New output of HalfSubtractor
 
-print (hs.output())
+print(hs.output())
 
 
 # In[6]:
@@ -72,4 +72,4 @@ gate1 = AND(conn, 0)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())

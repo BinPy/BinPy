@@ -56,13 +56,13 @@ o.unhold()
 
 # Initial State
 
-print (b.state())
+print(b.state())
 
 # Triggering the counter sequentially 2^4 + 1 times
 
 for i in range(1, 2 ** 4 + 1):
     b.trigger()
-    print (b.state())
+    print(b.state())
 
 o.display()
 

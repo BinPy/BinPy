@@ -144,7 +144,7 @@ class Expr:
                     break
                 pos = self.findMatchingBrace(i, eqn)
                 if pos == -1:
-                    print ('ERROR: Equation error - Unmatched braces')
+                    print('ERROR: Equation error - Unmatched braces')
                     no_error = False
                     break
                 tmp = self.eqnParse(eqn[i + 1:pos])
@@ -160,7 +160,7 @@ class Expr:
                     # Check if the operand is a two letter operand, in the next
                     # iteration.
             else:
-                print ('ERROR: Unrecognized characters in equation ' + eqn[i])
+                print('ERROR: Unrecognized characters in equation ' + eqn[i])
                 self.no_error = False
             i += 1
 
