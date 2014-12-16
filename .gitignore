@@ -41,3 +41,5 @@ nosetests.xml
 *.swp
 *-swp
 *~
+
+.fuse*
