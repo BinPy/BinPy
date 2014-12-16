@@ -1750,7 +1750,7 @@ class IC_4043(Base_16pin):
     """
 
     def __init__(self):
-        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, None, 0, 0, 0]
+        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, None, 0, 0, 0]
         self.pins = pinlist_quick(self.pins)
         self.uses_pincls = True
         self.set_IC({1: {'desc': '4Q: Output Q of Latch 4'},
@@ -1783,22 +1783,22 @@ class IC_4043(Base_16pin):
                 print("Input values of pins 4,3 of Latch 1 are not allowed.")
             else:
                 output[2] = OR(self.pins[4].value, AND(
-                    NOT(self.pins[3].value), self.pins[2].value))
+                    NOT(self.pins[3].value), self.pins[2].value)).output()
             if AND(self.pins[6].value, self.pins[7].value) == 1:
                 print("Input values of pins 6,7 of Latch 1 are not allowed.")
             else:
                 output[9] = OR(self.pins[6].value, AND(
-                    NOT(self.pins[7].value), self.pins[9].value))
+                    NOT(self.pins[7].value), self.pins[9].value)).output()
             if AND(self.pins[12].value, self.pins[11].value) == 1:
                 print("Input values of pins 12,11 of Latch 1 are not allowed.")
             else:
                 output[10] = OR(self.pins[12].value, AND(
-                                NOT(self.pins[11].value), self.pins[10].value))
+                    NOT(self.pins[11].value), self.pins[10].value)).output()
             if AND(self.pins[14].value, self.pins[15].value) == 1:
                 print("Input values of pins 14,15 of Latch 1 are not allowed.")
             else:
                 output[1] = OR(self.pins[14].value, AND(
-                    NOT(self.pins[15].value), self.pins[1].value))
+                    NOT(self.pins[15].value), self.pins[1].value)).output()
 
         if self.pins[8].value == 0 and self.pins[16].value == 1:
             self.set_IC(output)
