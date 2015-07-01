@@ -140,7 +140,7 @@ To start it, simply issue ```$ binpy``` if BinPy is installed in your path.
 <a id="documentation"></a>
 Documentation
 -------------
-Auto-generated documentation is available for reference at [BinPy docs](http://docs.binpy.org)
+Auto-generated documentation is available for reference at [BinPy docs](http://binpy.readthedocs.org/en/latest/)
 
 <a id="wiki"></a>
 Wiki
