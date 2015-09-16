@@ -11,8 +11,6 @@ function nt()
     python $(which nosetests) $1;
 }
 
-pep8 --exclude="build/*" --ignore=E501 ./; chk;
-
 cd BinPy/tests/;
 
 nt .; chk;
