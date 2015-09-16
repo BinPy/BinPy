@@ -37,7 +37,7 @@ install:
 
 script:
 
- - sudo chmod 777 test_travis.sh
+ - chmod 777 test_travis.sh
  - ./test_travis.sh
 
 after_success:
