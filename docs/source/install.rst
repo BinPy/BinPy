@@ -8,7 +8,7 @@ Linux
 -----
 
 .. note::
-   We support python 2.6, 2.7, 3.2, 3.3 and pypy. If you have any of these
+   We support python 2.7, 3.2, 3.3 and 3.4. If you have any of these
    versions of python you are good to go.
 
 **Dependencies**

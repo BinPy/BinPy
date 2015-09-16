@@ -16,8 +16,11 @@ addons:
   apt:
     packages:
 
+cache:
+  directories:
+    - $HOME/.cache/pip
+
 python:
-  - 2.6
   - 2.7
   - 3.2
   - 3.3
@@ -25,9 +28,10 @@ python:
 
 install:
 
+ - pip install --upgrade pip
  - pip install pep8
  - pip install coverage
- - pip install --use-mirrors python-coveralls
+ - pip install python-coveralls
  - pip install networkx
  - pip install bitstring
 
