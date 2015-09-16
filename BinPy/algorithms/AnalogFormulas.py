@@ -1,3 +1,5 @@
+from __future__ import division
+
 class OhmsLaw:
 
     '''
@@ -22,29 +24,33 @@ class OhmsLaw:
         DictKeys: 'i', 'v', 'r', 'p'
         '''
         values = [i, v, r, p]
+        
+        if sum(j is None for j in values)>2:
+            raise Exception('Atleast two parameters required')
+    
         if (any((j is not None and j < 0) for j in values)):
             raise Exception('enter positive values')
         else:
             if not p:
                 if not r:
-                    r = float(v / i)
-                    p = float(v) * i
+                    r = v / i
+                    p = v * i
                 if not v:
-                    v = float(i) * r
-                    p = float(i) ** 2 * r
+                    v = i * r
+                    p = (i ** 2) * r
                 if not i:
-                    i = float(v) / r
-                    p = float(v) ** 2 / r
+                    i = v / r
+                    p = (v ** 2) / r
             else:
                 if not v and not r:
-                    v = float(p) / i
-                    r = float(p) / i ** 2
+                    v = p / i
+                    r = p / (i ** 2)
                 if not i and not r:
-                    i = float(p) / v
-                    r = float(p) / i ** 2
+                    i = p / v
+                    r = p / (i ** 2)
                 if not i and not v:
-                    i = sqrt(float(p) / r)
-                    v = float(i) * r
+                    i = sqrt(p / r)
+                    v = i * r
             print(values)
             return {'i': i, 'v': v, 'r': r, 'p': p}
 
@@ -71,40 +77,44 @@ class OhmsLaw_AC:
         DictKeys: 'i', 'v', 'z', 'p','c'
         '''
         values = [i, v, z, p, c]
+
+        if sum(j is None for j in values)>3:
+            raise Exception('Atleast three parameters required')
+        
         if (any((j is not None and j < 0) for j in values)):
             raise Exception('enter positive values')
         else:
             if not p:
                 if not z:
-                    z = float(v) / i
-                    p = float(v) * i * c
+                    z = v / i
+                    p = v * i * c
                 if not v:
-                    v = float(i) * z
-                    p = float(i) ** 2 * z * c
+                    v = i * z
+                    p = i ** 2 * z * c
                 if not i:
-                    i = float(v / z)
-                    p = float((v ** 2 * c) / z)
+                    i = v / z
+                    p = (v ** 2 * c) / z
                 if not c:
                     raise Exception('Enter value of \'c\' .Since \'p\' \
                         and \'c\' cant be unknowns at the same time. ')
             else:
                 if not v and not z:
-                    v = float(p) / (i * c)
-                    z = float(p) / (i ** 2)
+                    v = p / (i * c)
+                    z = p / (i ** 2)
                 if not i and not z:
-                    i = float(p) / v
-                    z = float(p) / ((i ** 2) * c)
+                    i = p / v
+                    z = p / ((i ** 2) * c)
                 if not i and not v:
-                    i = sqrt(float(p) / (z * c))
-                    v = float(i) * z
+                    i = sqrt(p / (z * c))
+                    v = i * z
                 if not c and not v:
-                    c = float(p) / (i ** 2 * z)
-                    v = float(i) * z
+                    c = p / (i ** 2 * z)
+                    v = i * z
                 if not c and not i:
-                    i = float(v / z)
-                    c = float(p / (v * i))
+                    i = v / z
+                    c = p / (v * i)
                 if not c and not z:
-                    z = float(v / i)
-                    c = float(p / (v * i))
+                    z = v / i
+                    c = p / (v * i)
             print(values)
             return {'i': i, 'v': v, 'z': z, 'p': p, 'c': c}
