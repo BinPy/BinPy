@@ -1,5 +1,6 @@
 from __future__ import division
 
+
 class OhmsLaw:
 
     '''
@@ -24,10 +25,10 @@ class OhmsLaw:
         DictKeys: 'i', 'v', 'r', 'p'
         '''
         values = [i, v, r, p]
-        
-        if sum(j is None for j in values)>2:
+
+        if sum(j is None for j in values) > 2:
             raise Exception('Atleast two parameters required')
-    
+
         if (any((j is not None and j < 0) for j in values)):
             raise Exception('enter positive values')
         else:
@@ -78,9 +79,9 @@ class OhmsLaw_AC:
         '''
         values = [i, v, z, p, c]
 
-        if sum(j is None for j in values)>3:
+        if sum(j is None for j in values) > 3:
             raise Exception('Atleast three parameters required')
-        
+
         if (any((j is not None and j < 0) for j in values)):
             raise Exception('enter positive values')
         else:

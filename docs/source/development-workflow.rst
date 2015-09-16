@@ -143,7 +143,7 @@ Python 3
 --------
 
 BinPy uses a single codebase for Python 2 and Python 3 (the current supported
-versions are Python 2.7, 3.2, 3.3 and 3.4). This means that your code needs
+versions are Python 2.6, 2.7, 3.2, 3.3 and pypy). This means that your code needs
 to run in both Python 2 and Python 3.
 
 You may refer `this <http://stackoverflow.com/questions/8498823/how-to-write-python-2-x-as-much-compatible-with-python-3-x-as-possible>`_. as a ready reference to implement code that is both python 2 and 3 compatible.
@@ -181,7 +181,7 @@ In Windows systems, first of all, install Python from::
 
     http://python.org/download/
 
-by downloading the "Python 2.7 Windows installer" and running it. Then do not
+by downloading the "Python 2.7 Windows installer" (or Python 2.6 or 2.5) and running it. Then do not
 forget to add Python to the $PATH environment.
 
 On Windows and Mac OS X, the easiest way to get git is to download GitHub's
