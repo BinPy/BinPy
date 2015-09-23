@@ -1,3 +1,5 @@
+sudo : false
+
 language: python
 
 notifications:
@@ -10,30 +12,31 @@ notifications:
     on_failure: always
     on_start: false
 
+addons:
+  apt:
+    packages:
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+
 python:
-  - 2.6
   - 2.7
   - 3.2
   - 3.3
   - 3.4
 
-before_install:
-
- - sudo apt-get update
- - sudo apt-get install wget build-essential
- - sudo apt-get install python3-setuptools python-setuptools
-
 install:
 
- - sudo apt-get install pep8 python-nose
+ - pip install --upgrade pip
  - pip install coverage
- - pip install --use-mirrors python-coveralls
+ - pip install python-coveralls
  - pip install networkx
  - pip install bitstring
 
 script:
 
- - sudo chmod 777 test_travis.sh
+ - chmod 777 test_travis.sh
  - ./test_travis.sh
 
 after_success:
