@@ -1,5 +1,5 @@
-from BinPy.algorithms.ExpressionConvert import *
-from BinPy.algorithms.QuineMcCluskey import *
+from BinPy.Algorithms.ExpressionConvert import *
+from BinPy.Algorithms.QuineMcCluskey import *
 import sys
 
 
@@ -26,13 +26,13 @@ def make_boolean(vars, min_max, dont_care=None, **kwargs):
         if 'minterms' in kwargs:
             if kwargs['minterms'] is True:
                 ones = min_max
-                if ones[-1] >= pow(2, len(vars)):
+                if any(term >= pow(2, len(vars)) for term in ones):
                     raise Exception("Error: Invalid minterms")
                 break
         elif 'maxterms' in kwargs:
             if kwargs['maxterms'] is True:
                 zeros = min_max
-                if zeros[-1] >= pow(2, len(vars)):
+                if any(term >= pow(2, len(vars)) for term in zeros):
                     raise Exception("Error: Invalid maxterms")
                 for i in range(pow(2, len(vars))):
                     if i not in zeros:
