@@ -1,4 +1,4 @@
-Copyright(c) 2013 - 2015 BinPy Development Team
+Copyright(c) 2013 - 2016 BinPy Development Team
 
 All rights reserved.
 
