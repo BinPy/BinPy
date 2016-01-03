@@ -583,6 +583,47 @@ class IC_7406(Base_14pin):
             print("Ground and VCC pins have not been configured correctly.")
 
 
+class IC_7407(Base_14pin):
+
+    """
+    This is hex buffer/driver with 30 V open collector outputs
+    """
+
+    def __init__(self):
+        self.pins = [
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            None,
+            0,
+            0]
+
+    def run(self):
+        output = {}
+        output[2] = self.pins[1]
+        output[4] = self.pins[3]
+        output[6] = self.pins[5]
+        output[8] = self.pins[9]
+        output[10] = self.pins[11]
+        output[12] = self.pins[13]
+        if self.pins[7] == 0 and self.pins[14] == 1:
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")
+
+
 class IC_7408(Base_14pin):
 
     """
