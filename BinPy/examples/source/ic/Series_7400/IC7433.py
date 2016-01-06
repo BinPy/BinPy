@@ -26,17 +26,17 @@ inp = {2: 0, 3: 0, 5: 0, 6: 0, 7: 0, 8: 1, 9: 1, 11: 1, 12: 1, 14: 1}
 
 # Pin initinalization
 
-# Powering up the IC - using -- ic.setIC({14: 1, 7: 0})
+# Powering up the IC - using -- ic.set_IC({14: 1, 7: 0})
 
-ic.setIC({14: 1, 7: 0})
+ic.set_IC({14: 1, 7: 0})
 
 # Setting the inputs of the ic
 
-ic.setIC(inp)
+ic.set_IC(inp)
 
 # Draw the IC with the current configuration\n
 
-ic.drawIC()
+ic.draw_IC()
 
 # <codecell>
 
@@ -49,24 +49,24 @@ print (ic.run())
 # <codecell>
 
 # Seting the outputs to the current IC configuration using --
-# ic.setIC(ic.run()) --\n
+# ic.set_IC(ic.run()) --\n
 
-ic.setIC(ic.run())
+ic.set_IC(ic.run())
 
 # Draw the final configuration
 
-ic.drawIC()
+ic.draw_IC()
 
 # <codecell>
 
 # Seting the outputs to the current IC configuration using --
-# ic.setIC(ic.run()) --
+# ic.set_IC(ic.run()) --
 
-ic.setIC(ic.run())
+ic.set_IC(ic.run())
 
 # Draw the final configuration
 
-ic.drawIC()
+ic.draw_IC()
 
 # Run the IC
 
@@ -78,6 +78,6 @@ print (ic.run())
 c = Connector()
 
 # Set the output connector to a particular pin of the ic
-ic.setOutput(1, c)
+ic.set_output(1, c)
 
 print(c)
