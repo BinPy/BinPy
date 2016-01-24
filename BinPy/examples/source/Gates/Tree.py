@@ -26,13 +26,13 @@ tree = Tree(g3, 2)
 
 # Backtrack traversal of tree upto a depth given
 
-print (tree.backtrack())
+print(tree.backtrack())
 
 # <codecell>
 
 # Print tree traversed
 
-print (tree.print_tree())
+print(tree.print_tree())
 
 # <codecell>
 
@@ -40,4 +40,4 @@ print (tree.print_tree())
 
 # <codecell>
 
-print (tree)
+print(tree)

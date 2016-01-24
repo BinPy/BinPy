@@ -19,7 +19,7 @@ gate = NOT(0)
 
 # Output of the NOT gate
 
-print (gate.output())
+print(gate.output())
 
 # <codecell>
 
@@ -29,13 +29,13 @@ gate.set_input(1)
 
 # To get the input states
 
-print (gate.get_input_states())
+print(gate.get_input_states())
 
 # <codecell>
 
 # New Output of the NOT gate
 
-print (gate.output())
+print(gate.output())
 
 # <codecell>
 
@@ -55,10 +55,10 @@ gate1 = NOT(conn)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())
 
 # <codecell>
 
 # Information about gate instance
 
-print (gate)
+print(gate)

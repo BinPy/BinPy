@@ -39,7 +39,7 @@ b = RingCounter(8, clock)
 
 # Initial State
 
-print (b.state())
+print(b.state())
 
 
 # In[6]:
@@ -48,7 +48,7 @@ print (b.state())
 
 for i in range(8):
     b.trigger()
-    print (b.state())
+    print(b.state())
 
 
 # In[7]:

@@ -19,14 +19,14 @@ conn = Connector()
 
 # State of the Connector object
 
-print (conn.state)
+print(conn.state)
 
 
 # In[3]:
 
 # Calling the connector intance returns its state
 
-print (conn())
+print(conn())
 
 
 # In[4]:
@@ -80,11 +80,11 @@ gate1 = AND(conn, 0)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())
 
 
 # In[11]:
 
 # Information about conn instance
 
-print (conn)
+print(conn)

@@ -71,7 +71,7 @@ class DigitDisplay:
             for i in data:
                 if test == data[i]:
                     return int(i)
-            print ('Not a valid combination')
+            print('Not a valid combination')
             return None
         else:
             return None

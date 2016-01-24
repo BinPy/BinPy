@@ -6,8 +6,9 @@ actual pins. This is so because pin0 is not used as a general term referring
 to the first pin of the IC. Zeroth index of the self.pins is not being used.
 
 ICs in this module:
-[4000, 4001, 4002, 4008, 4009, 4010, 4011, 4012, 4013, 4015, 4017, 4019, 4020, 4023, 4025, 4068, 4069, 4070, 4071, 4072, 4073
- 4075, 4077, 4078, 4081, 4082]
+[4000, 4001, 4002, 4008, 4009, 4010, 4011, 4012, 4013, 4015, 4017, 4019, 4020, 4022,
+4023, 4025, 4027, 4028, 4029, 4030, 4043, 4068, 4069, 4070, 4071, 4072, 4073, 4075,
+4077, 4078, 4081, 4082]
 """
 
 from __future__ import print_function
@@ -66,7 +67,7 @@ class IC_4000(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4001(Base_14pin):
@@ -112,7 +113,7 @@ class IC_4001(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4002(Base_14pin):
@@ -156,7 +157,7 @@ class IC_4002(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4011(Base_14pin):
@@ -201,7 +202,7 @@ class IC_4011(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4012(Base_14pin):
@@ -244,7 +245,7 @@ class IC_4012(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4013(Base_14pin):
@@ -311,7 +312,7 @@ class IC_4013(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4023(Base_14pin):
@@ -357,7 +358,7 @@ class IC_4023(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4025(Base_14pin):
@@ -403,7 +404,7 @@ class IC_4025(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4030(Base_14pin):
@@ -444,7 +445,7 @@ class IC_4030(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4068(Base_14pin):
@@ -486,7 +487,7 @@ class IC_4068(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4069(Base_14pin):
@@ -535,7 +536,7 @@ class IC_4069(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4070(Base_14pin):
@@ -580,7 +581,7 @@ class IC_4070(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4071(Base_14pin):
@@ -625,7 +626,7 @@ class IC_4071(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4072(Base_14pin):
@@ -668,7 +669,7 @@ class IC_4072(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4073(Base_14pin):
@@ -714,7 +715,7 @@ class IC_4073(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4075(Base_14pin):
@@ -760,7 +761,7 @@ class IC_4075(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4077(Base_14pin):
@@ -805,7 +806,7 @@ class IC_4077(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4078(Base_14pin):
@@ -847,7 +848,7 @@ class IC_4078(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4081(Base_14pin):
@@ -892,7 +893,7 @@ class IC_4081(Base_14pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4082(Base_14pin):
@@ -936,7 +937,7 @@ class IC_4082(Base_14pin):
             return output
         else:
 
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 #################################
 # IC's with 16 pins
@@ -1026,7 +1027,7 @@ class IC_4008(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4009(Base_16pin):
@@ -1089,7 +1090,7 @@ class IC_4009(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4010(Base_16pin):
@@ -1152,7 +1153,7 @@ class IC_4010(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4015(Base_16pin):
@@ -1219,7 +1220,7 @@ class IC_4015(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4017(Base_16pin):
@@ -1300,7 +1301,7 @@ class IC_4017(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4019(Base_16pin):
@@ -1352,7 +1353,7 @@ class IC_4019(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4020(Base_16pin):
@@ -1433,7 +1434,7 @@ class IC_4020(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4022(Base_16pin):
@@ -1510,7 +1511,7 @@ class IC_4022(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4027(Base_16pin):
@@ -1580,7 +1581,7 @@ class IC_4027(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4028(Base_16pin):
@@ -1636,7 +1637,7 @@ class IC_4028(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
 
 class IC_4029(Base_16pin):
@@ -1733,10 +1734,76 @@ class IC_4029(Base_16pin):
                 self.output_connector[i].state = output[i]
             return output
         else:
-            print ("Ground and VCC pins have not been configured correctly.")
+            print("Ground and VCC pins have not been configured correctly.")
 
     def arraytoint(self, inputs):
         inputs = list(map(str, inputs))
         inputs = ''.join(inputs)
         inputs = int(inputs, 2)
         return inputs
+
+
+class IC_4043(Base_16pin):
+
+    """
+    Quad SR Latch with 3-state logic output.
+    """
+
+    def __init__(self):
+        self.pins = [None, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, None, 0, 0, 0]
+        self.pins = pinlist_quick(self.pins)
+        self.uses_pincls = True
+        self.set_IC({1: {'desc': '4Q: Output Q of Latch 4'},
+                     2: {'desc': '1Q: Output Q of Latch 1'},
+                     3: {'desc': '1R: Input R of Latch 1'},
+                     4: {'desc': '1S: Input S of Latch 1'},
+                     5: {'desc': 'OE: Enable pin'},
+                     6: {'desc': '2S: Input S of Latch 2'},
+                     7: {'desc': '2R: Input R of Latch 2'},
+                     8: {'desc': 'GND'},
+                     9: {'desc': '2Q: Output Q of Latch 2'},
+                     10: {'desc': '3Q: Output Q of Latch 3'},
+                     11: {'desc': '3R: Input R of Latch 3'},
+                     12: {'desc': '3S: Input S of Latch 3'},
+                     13: {'desc': 'NC: No Connection'},
+                     14: {'desc': '4S: Input S of Latch 4'},
+                     15: {'desc': '4R: Input R of Latch 4'},
+                     16: {'desc': 'VCC'}
+                     })
+
+    def run(self):
+        output = {}
+        if self.pins[5].value == 0:
+            output[2] = 0
+            output[9] = 0
+            output[10] = 0
+            output[1] = 0
+        else:
+            if AND(self.pins[4].value, self.pins[3].value) == 1:
+                print("Input values of pins 4,3 of Latch 1 are not allowed.")
+            else:
+                output[2] = OR(self.pins[4].value, AND(
+                    NOT(self.pins[3].value), self.pins[2].value)).output()
+            if AND(self.pins[6].value, self.pins[7].value) == 1:
+                print("Input values of pins 6,7 of Latch 1 are not allowed.")
+            else:
+                output[9] = OR(self.pins[6].value, AND(
+                    NOT(self.pins[7].value), self.pins[9].value)).output()
+            if AND(self.pins[12].value, self.pins[11].value) == 1:
+                print("Input values of pins 12,11 of Latch 1 are not allowed.")
+            else:
+                output[10] = OR(self.pins[12].value, AND(
+                    NOT(self.pins[11].value), self.pins[10].value)).output()
+            if AND(self.pins[14].value, self.pins[15].value) == 1:
+                print("Input values of pins 14,15 of Latch 1 are not allowed.")
+            else:
+                output[1] = OR(self.pins[14].value, AND(
+                    NOT(self.pins[15].value), self.pins[1].value)).output()
+
+        if self.pins[8].value == 0 and self.pins[16].value == 1:
+            self.set_IC(output)
+            for i in self.output_connector:
+                self.output_connector[i].state = output[i]
+            return output
+        else:
+            print("Ground and VCC pins have not been configured correctly.")

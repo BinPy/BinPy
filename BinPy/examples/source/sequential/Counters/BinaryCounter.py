@@ -52,7 +52,7 @@ print(b.state())
 # Triggering the Binary Counter 10 times.
 for i in range(10):
     b.trigger()
-    print (b.state())
+    print(b.state())
 
 # Display the time-Waveform.
 o.display()

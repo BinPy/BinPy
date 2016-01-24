@@ -52,14 +52,14 @@ o.unhold()
 
 # <codecell>
 
-print ("Toggle is 1")
+print("Toggle is 1")
 toggle.state = 1
 while True:
     if clk_conn.state == 0:
         # Falling edge will trigger the FF
         tff.trigger()
         break
-print (tff.state())
+print(tff.state())
 
 # Sending a positive edge to ff
 while True:
@@ -70,13 +70,13 @@ while True:
 
 # <codecell>
 
-print ("Toggle is 1")
+print("Toggle is 1")
 while True:
     if clk_conn.state == 0:
         # Falling edge will trigger the FF
         tff.trigger()
         break
-print (tff.state())
+print(tff.state())
 
 # Sending a positive edge to ff
 while True:
@@ -87,13 +87,13 @@ while True:
 
 # <codecell>
 
-print ("Toggle is 1")
+print("Toggle is 1")
 while True:
     if clk_conn.state == 0:
         # Falling edge will trigger the FF
         tff.trigger()
         break
-print (tff.state())
+print(tff.state())
 
 # Sending a positive edge to ff
 while True:
@@ -104,14 +104,14 @@ while True:
 
 # <codecell>
 
-print ("Toggle is 0")
+print("Toggle is 0")
 toggle.state = 0
 while True:
     if clk_conn.state == 0:
         # Falling edge will trigger the FF
         tff.trigger()
         break
-print (tff.state())
+print(tff.state())
 
 # Sending a positive edge to ff
 while True:
@@ -122,13 +122,13 @@ while True:
 
 # <codecell>
 
-print ("Toggle is 0")
+print("Toggle is 0")
 while True:
     if clk_conn.state == 0:
         # Falling edge will trigger the FF
         tff.trigger()
         break
-print (tff.state())
+print(tff.state())
 
 # Sending a positive edge to ff
 while True:

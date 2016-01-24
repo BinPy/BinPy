@@ -78,16 +78,16 @@ class StateMachineSolver:
 
         complexity, next_state_funcs, output_funcs = solution
 
-        print ('Complexity = %d' % complexity)
+        print('Complexity = %d' % complexity)
         for i in sorted(state_map.keys()):
-            print ('State %d = %d' % (i, state_map[i]))
+            print('State %d = %d' % (i, state_map[i]))
         for i in xrange(len(next_state_funcs)):
             f = self.next_state.get_function(next_state_funcs[i])
-            print ('S%d = %s' % (i, f))
+            print('S%d = %s' % (i, f))
         for i in xrange(len(output_funcs)):
             f = self.output.get_function(output_funcs[i])
-            print ('OUT%d = %s' % (i, f))
-        print ('-' * 80)
+            print('OUT%d = %s' % (i, f))
+        print('-' * 80)
 
     """ This class is used internally by the Moore state machine optimizer. """
 
@@ -249,7 +249,7 @@ class StateMachineOptimizer_AllPermutations(StateMachineOptimizer):
                 state_map[i] = permutation[i]
             solution = self.sms.solve(state_map)
             if self.print_all:
-                print ('%r' % ((state_map, solution),))
+                print('%r' % ((state_map, solution),))
             if solution[0] < min_complexity:
                 min_complexity = solution[0]
                 if self.print_best:
@@ -281,7 +281,7 @@ class StateMachineOptimizer_Random(StateMachineOptimizer):
                 state_map[i] = permutation[i]
             solution = self.sms.solve(state_map)
             if self.print_all:
-                print ('%r' % ((state_map, solution),))
+                print('%r' % ((state_map, solution),))
 
             if solution[0] < min_complexity:
                 min_complexity = solution[0]

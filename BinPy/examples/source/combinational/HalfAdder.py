@@ -19,7 +19,7 @@ ha = HalfAdder(0, 1)
 
 # Output of HalfAdder
 
-print (ha.output())
+print(ha.output())
 
 
 # In[3]:
@@ -34,7 +34,7 @@ ha.set_input(1, 0)
 
 # New Output of the HalfAdder
 
-print (ha.output())
+print(ha.output())
 
 
 # In[4]:
@@ -52,7 +52,7 @@ ha.set_inputs(1, 1)
 
 # New output of HalfAdder
 
-print (ha.output())
+print(ha.output())
 
 
 # In[6]:
@@ -73,4 +73,4 @@ gate1 = AND(conn, 0)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())

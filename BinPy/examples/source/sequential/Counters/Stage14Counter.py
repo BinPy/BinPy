@@ -63,7 +63,7 @@ o.unhold()
 
 # Initial State
 
-print (b.state())
+print(b.state())
 
 
 # In[7]:
@@ -72,7 +72,7 @@ print (b.state())
 
 for i in range(1, 2 ** 4 + 2):
     b.trigger()
-    print (b.state())
+    print(b.state())
 
 o.display()
 

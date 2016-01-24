@@ -19,7 +19,7 @@ encoder = Encoder(0, 1)
 
 # Output of encoder
 
-print (encoder.output())
+print(encoder.output())
 
 
 # In[3]:
@@ -34,14 +34,14 @@ encoder.set_inputs(0, 0, 0, 1)
 
 # To get the input states
 
-print (encoder.get_input_states())
+print(encoder.get_input_states())
 
 
 # In[4]:
 
 # New output of encoder
 
-print (encoder.output())
+print(encoder.output())
 
 
 # In[5]:
@@ -61,11 +61,11 @@ gate1 = AND(conn, 1)
 
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())
 
 
 # In[6]:
 
 # Information about encoder instance can be found by
 
-print (encoder)
+print(encoder)

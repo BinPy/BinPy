@@ -1,8 +1,9 @@
 """
 This module has all the classes of ICs belonging to 7400 series.
 
-Please note that the length of list self.pins is 1 more than the number of actual pins. This is so because pin0
-is not used as a general term referring to the first pin of the IC. Zeroth index of the self.pins is not being used.
+Please note that the length of list self.pins is 1 more than the number of actual pins.
+This is so because pin0 is not used as a general term referring to the first pin of
+the IC. Zeroth index of the self.pins is not being used.
 """
 from __future__ import print_function
 

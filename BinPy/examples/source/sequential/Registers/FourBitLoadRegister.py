@@ -27,7 +27,7 @@ fr = FourBitLoadRegister(1, 0, 1, 1, c, 1, 1)
 # <codecell>
 
 # Output of the register
-print (fr.output())
+print(fr.output())
 
 # <codecell>
 
@@ -36,7 +36,7 @@ print (fr.output())
 fr.setInput(1, 0)
 
 # New Output of the register
-print (fr.output())
+print(fr.output())
 
 # <codecell>
 
@@ -51,19 +51,19 @@ fr.setLoad(0)
 
 # New Output of the register
 
-print (fr.output())
+print(fr.output())
 
 # <codecell>
 
 # To get the input states
 
-print (fr.getInputStates())
+print(fr.getInputStates())
 
 # <codecell>
 
 # New output of the register
 
-print (fr.output())
+print(fr.output())
 
 # <codecell>
 
@@ -82,4 +82,4 @@ fr.setOutput(2, conn)
 gate1 = AND(conn, 0)
 # Output of the gate1
 
-print (gate1.output())
+print(gate1.output())

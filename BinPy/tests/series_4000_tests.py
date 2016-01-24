@@ -531,7 +531,7 @@ def test_IC_4027():
     clk.kill()
 
 
-def test_IC_2028():
+def test_IC_4028():
     test_IC = IC_4028()
     p = {
         1: 0,
@@ -734,3 +734,24 @@ def test_IC_4029():
     assert test_IC.run() == {2: 0, 11: 0, 14: 0, 6: 0, 7: 0}
 
     clk.kill()
+
+
+def test_IC_4043():
+    test_IC = IC_4043()
+    p = {
+        3: 0, 
+        4: 0, 
+        5: 1, 
+        6: 0, 
+        7: 1, 
+        8: 0, 
+        11: 0, 
+        12: 1, 
+        13: 0, 
+        14: 0, 
+        15: 0, 
+        16: 1}
+    test_IC.set_IC(p)
+    q = {2: 0, 9: 0, 10: 1, 1: 0}
+    if q != test_IC.run():
+        assert False

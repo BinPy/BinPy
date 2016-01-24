@@ -36,7 +36,7 @@ b = JohnsonCounter(8, clock)
 
 # Initial State
 
-print (b.state())
+print(b.state())
 
 
 # In[4]:
@@ -45,7 +45,7 @@ print (b.state())
 
 for i in range(24):
     b.trigger()
-    print (b.state())
+    print(b.state())
 
 # Calling the instance will trigger
 
