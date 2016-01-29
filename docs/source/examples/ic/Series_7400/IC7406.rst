@@ -1,5 +1,5 @@
 
-Usage of IC 4011
+Usage of IC 7406
 ----------------
 
 .. code:: python
@@ -8,20 +8,16 @@ Usage of IC 4011
     from BinPy import *
 .. code:: python
 
-    # Usage of IC 4011:
+    # Usage of IC 7401:
     
-    ic = IC_4011()
+    ic = IC_7406()
     
     print(ic.__doc__)
 
 .. parsed-literal::
 
     
-        Quad 2 input NAND gate
-        Pin_3 = NAND(Pin_1, Pin_2)
-        Pin_4 = NAND(Pin_5, Pin_6)
-        Pin_10 = NAND(Pin_8, Pin_9)
-        Pin_11 = NAND(Pin_12, Pin_13)
+        This is a Quad 2-input open-collector NAND gate IC
         
 
 
@@ -29,11 +25,11 @@ Usage of IC 4011
 
     # The Pin configuration is:
     
-    inp = {1: 0, 2: 0, 5: 0, 6: 1, 7: 0, 8: 1, 9: 0, 12: 1, 13: 1, 14: 1}
+    inp = {2: 0, 3: 0, 5: 0, 6: 1, 7: 0, 8: 1, 9: 1, 11: 1, 12: 1, 14: 1}
     
     # Pin initinalization
     
-    # Powering up the IC - using -- ic.set_IC({14: 1, 7: 0})
+    # Powering up the IC - using -- ic.setIC({14: 1, 7: 0})
     
     ic.set_IC({14: 1, 7: 0})
     
@@ -51,25 +47,25 @@ Usage of IC 4011
     
                   ┌─────────◡─────────┐
                   │                   │
-     A1: [0]    ──┤  1            14  ├──    [1] VCC
+         [Z]    ──┤  1            14  ├──    [1]    
                   │                   │
                   │                   │
-     B1: [0]    ──┤  2      4     13  ├──    [1] A4:
+         [0]    ──┤  2      7     13  ├──    [Z]    
                   │                   │
                   │                   │
-     Q1: [0]    ──┤  3      0     12  ├──    [1] B4:
+         [0]    ──┤  3      4     12  ├──    [1]    
                   │                   │
                   │                   │
-     Q2: [0]    ──┤  4      1     11  ├──    [0] Q4:
+         [Z]    ──┤  4      0     11  ├──    [1]    
                   │                   │
                   │                   │
-     B2: [0]    ──┤  5      1     10  ├──    [0] Q3:
+         [0]    ──┤  5      1     10  ├──    [Z]    
                   │                   │
                   │                   │
-     A2: [1]    ──┤  6             9  ├──    [0] B3:
+         [1]    ──┤  6             9  ├──    [1]    
                   │                   │
                   │                   │
-     GND [0]    ──┤  7             8  ├──    [1] A3:
+         [0]    ──┤  7             8  ├──    [1]    
                   │                   │
                   └───────────────────┘  
 
@@ -84,12 +80,12 @@ Usage of IC 4011
 
 .. parsed-literal::
 
-    {11: 0, 10: 1, 3: 1, 4: 1}
+    {1: 1, 10: 0, 4: 1, 13: 0}
 
 
 .. code:: python
 
-    # Seting the outputs to the current IC configuration using -- ic.set_IC(ic.run()) --\n
+    # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --\n
     
     ic.set_IC(ic.run())
     
@@ -103,32 +99,32 @@ Usage of IC 4011
     
                   ┌─────────◡─────────┐
                   │                   │
-     A1: [0]    ──┤  1            14  ├──    [1] VCC
+         [1]    ──┤  1            14  ├──    [1]    
                   │                   │
                   │                   │
-     B1: [0]    ──┤  2      4     13  ├──    [1] A4:
+         [0]    ──┤  2      7     13  ├──    [0]    
                   │                   │
                   │                   │
-     Q1: [1]    ──┤  3      0     12  ├──    [1] B4:
+         [0]    ──┤  3      4     12  ├──    [1]    
                   │                   │
                   │                   │
-     Q2: [1]    ──┤  4      1     11  ├──    [0] Q4:
+         [1]    ──┤  4      0     11  ├──    [1]    
                   │                   │
                   │                   │
-     B2: [0]    ──┤  5      1     10  ├──    [1] Q3:
+         [0]    ──┤  5      6     10  ├──    [0]    
                   │                   │
                   │                   │
-     A2: [1]    ──┤  6             9  ├──    [0] B3:
+         [1]    ──┤  6             9  ├──    [1]    
                   │                   │
                   │                   │
-     GND [0]    ──┤  7             8  ├──    [1] A3:
+         [0]    ──┤  7             8  ├──    [1]    
                   │                   │
                   └───────────────────┘  
 
 
 .. code:: python
 
-    # Seting the outputs to the current IC configuration using -- ic.set_IC(ic.run()) --
+    # Seting the outputs to the current IC configuration using -- ic.setIC(ic.run()) --
     
     ic.set_IC(ic.run())
     
@@ -146,28 +142,28 @@ Usage of IC 4011
     
                   ┌─────────◡─────────┐
                   │                   │
-     A1: [0]    ──┤  1            14  ├──    [1] VCC
+         [1]    ──┤  1            14  ├──    [1]    
                   │                   │
                   │                   │
-     B1: [0]    ──┤  2      4     13  ├──    [1] A4:
+         [0]    ──┤  2      7     13  ├──    [0]    
                   │                   │
                   │                   │
-     Q1: [1]    ──┤  3      0     12  ├──    [1] B4:
+         [0]    ──┤  3      4     12  ├──    [1]    
                   │                   │
                   │                   │
-     Q2: [1]    ──┤  4      1     11  ├──    [0] Q4:
+         [1]    ──┤  4      0     11  ├──    [1]    
                   │                   │
                   │                   │
-     B2: [0]    ──┤  5      1     10  ├──    [1] Q3:
+         [0]    ──┤  5      6     10  ├──    [0]    
                   │                   │
                   │                   │
-     A2: [1]    ──┤  6             9  ├──    [0] B3:
+         [1]    ──┤  6             9  ├──    [1]    
                   │                   │
                   │                   │
-     GND [0]    ──┤  7             8  ├──    [1] A3:
+         [0]    ──┤  7             8  ├──    [1]    
                   │                   │
                   └───────────────────┘  
-    {11: 0, 10: 1, 3: 1, 4: 1}
+    {1: 1, 10: 0, 4: 1, 13: 0}
 
 
 .. code:: python
@@ -176,11 +172,11 @@ Usage of IC 4011
     c = Connector()
     
     # Set the output connector to a particular pin of the ic
-    ic.set_output(11, c)
+    ic.set_Output(1, c)
     
     print(c)
 
 .. parsed-literal::
 
-    Connector; State: 0
+    Connector; State: 1
 
