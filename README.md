@@ -160,59 +160,59 @@ Installation
 
 ## Linux
 
-###Install with pip
+### Install with pip
 
-#####Python2
+##### Python2
 
-######PIP and setuptools
+###### PIP and setuptools
 
 ```sh
 sudo apt-get install python-pip
 sudo pip install --upgrade setuptools
 ```
 
-######BinPy
+###### BinPy
 
 ```sh
 sudo pip install https://github.com/BinPy/BinPy/zipball/master
 ```
 
-######IPython Notebook
+###### IPython Notebook
 
 ```sh
 sudo pip install --upgrade ipython[all]
 ```
 
-#####Python3
+##### Python3
 
-######PIP and setuptools
+###### PIP and setuptools
 
 ```sh
 sudo apt-get install python3-pip
 sudo pip3 install --upgrade setuptools
 ```
 
-######BinPy
+###### BinPy
 
 ```sh
 sudo pip3 install https://github.com/BinPy/BinPy/zipball/master
 ```
 
-######IPython Notebook
+###### IPython Notebook
 
 ```sh
 sudo pip3 install --upgrade ipython[all]
 ```
 
-#####Install `autopep8` Tool to ensure your contributions pass the `pep8` test.
+##### Install `autopep8` Tool to ensure your contributions pass the `pep8` test.
 
 ```sh
 sudo pip install --upgrade autopep8
 ```
 
-###Install BinPy using git
+### Install BinPy using git
 
-#####Python2
+##### Python2
 
 ```sh
 sudo apt-get install git setuptools
@@ -221,7 +221,7 @@ cd BinPy/
 sudo python setup.py install
 ```
 
-#####Python3
+##### Python3
 
 ```sh
 sudo apt-get install git python3-pip
