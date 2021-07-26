@@ -24,7 +24,7 @@ print(ic.__doc__)
 
 inp = {2: 0, 3: 0, 4: 0, 5: 0, 7: 0, 9: 0, 10: 0, 11: 0, 12: 0, 14: 1}
 
-# Pin initinalization
+# Pin initialization
 
 # Powering up the IC - using -- ic.setIC({14: 1, 7: 0}) -- \n
 

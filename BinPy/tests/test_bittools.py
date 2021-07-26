@@ -37,7 +37,7 @@ def test_bittools():
 
     try:
         bit_array_signed = BinPyBits(binary_string, 5, signed=False)
-        # This should hovever work
+        # This should however work
         assert True
     except:
         assert False

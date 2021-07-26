@@ -377,7 +377,7 @@ class Bus(object):
     def set_logic_all(self, *values):
         """
         Sets the passed word to the connectors in 4 ways
-        1. word as an int representation of the bits of bus ( trucated to digital voltage levels ) : 4 ( 0100 )
+        1. word as an int representation of the bits of bus ( truncated to digital voltage levels ) : 4 ( 0100 )
         2. word as a binary literal : '0b0001' or '1111'
         3. A packed or unpacked list of  connector objects or
            a packed or unpacked list of integer binary values. : [ a, b, c, d ] or *[ 1, 0, None, 1]

@@ -28,7 +28,7 @@ sig1.kill()
 
 # <codecell>
 
-# AM Signal generation using 2 intances of Signal Generator modules.
+# AM Signal generation using 2 instances of Signal Generator modules.
 
 import numpy as np
 %matplotlib inline

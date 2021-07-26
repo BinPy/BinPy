@@ -9,7 +9,7 @@ class AutoUpdater(threading.Thread):
 
     """
     AutoUpdater class provides a collection of static methods for linking BinPy connections primitives Bus and Connector.
-    Note that since Bus is a collecion of Connectors, AutoUpdater essentially binds together a network of linked Connectors.
+    Note that since Bus is a collection of Connectors, AutoUpdater essentially binds together a network of linked Connectors.
 
     Use this class to provide automatic state propagation between modules ( with Bus input / output )
 
@@ -326,7 +326,7 @@ connections_updater_thread.start()
 class BinPyIndexer(object):
 
     """
-    The BnPy Indexer is a indexing and inventory listing servic to bind a unique index and store them as key:value
+    The BnPy Indexer is a indexing and inventory listing service to bind a unique index and store them as key:value
 
     This makes it easier to debug connections.
 

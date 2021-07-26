@@ -1,5 +1,5 @@
 
-An example to demostrate functionality of ExpressionConvert.py
+An example to demonstrate functionality of ExpressionConvert.py
 --------------------------------------------------------------
 
 .. code:: python

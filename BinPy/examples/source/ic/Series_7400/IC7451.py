@@ -36,7 +36,7 @@ inp = {
     13: 1,
     14: 1}
 
-# Pin initinalization
+# Pin initialization
 
 # Powering up the IC - using -- ic.setIC({14: 1, 7: 0})
 
