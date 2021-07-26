@@ -15,7 +15,7 @@ What is BinPy?
 ---------------
 BinPy is a digital electronics simulation library with a bunch of digital devices ( and a few experimental analog devices ) and tools / algorithms under its hood. BinPy is aimed towards students, helping them learn about digital logic in an interactive way. Being an open source project makes it easier for one to get an indepth understanding of the the underlying concepts by glossing at the source.
 
-BinPy focusses on the fundamentals. Everything has been written from scratch such as gates, logical operations, etc. 
+BinPy focuses on the fundamentals. Everything has been written from scratch such as gates, logical operations, etc. 
 
 Our future goals include a GUI tool to help easily build simple digital circuts and the implementation of the core using SPICE or equivalent tools for precise simulations.
 
@@ -88,7 +88,7 @@ from BinPy import *
 operator = Operations()
 operator.ADD(1011,11)
 operator.SUB(1011,11)
-operator.COMP('0011',1) #Second argument chooses betweem 1's or 2's Compliment
+operator.COMP('0011',1) #Second argument chooses between 1's or 2's Compliment
 
 
 # Combinational Logic

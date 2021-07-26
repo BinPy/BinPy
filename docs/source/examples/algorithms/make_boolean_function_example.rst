@@ -1,5 +1,5 @@
 
-An example to demostrate the usage of make boolean function.
+An example to demonstrate the usage of make boolean function.
 ------------------------------------------------------------
 
 .. code:: python

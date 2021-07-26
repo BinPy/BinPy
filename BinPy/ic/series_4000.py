@@ -1358,7 +1358,7 @@ class IC_4019(Base_16pin):
 class IC_4020(Base_16pin):
 
     """
-    CMOS 14 BIT asynchornous binary counter with reset
+    CMOS 14 BIT asynchronous binary counter with reset
     """
 
     def __init__(self):

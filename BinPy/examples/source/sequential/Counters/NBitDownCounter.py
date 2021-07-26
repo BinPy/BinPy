@@ -15,7 +15,7 @@ from BinPy.tools.oscilloscope import Oscilloscope
 
 # In[2]:
 
-# Initialize a toggle connectr for inpput in TFlipFlop
+# Initialize a toggle connectr for input in TFlipFlop
 
 toggle = Connector(1)
 

@@ -331,7 +331,7 @@ class SignalGenerator(threading.Thread):
         """
         Set the frequency range of the output. Use ranges within
         SignalGenerator.FREQ_MAX and SignalGenerator.FREQ_MIN.
-        Specify input as a tuple containg the LOW followed by the
+        Specify input as a tuple containing the LOW followed by the
         HIGH frequency limits. Preferably use the predefined constant
         dictionary SignalGenerator.FREQ_RANGE
 
@@ -391,7 +391,7 @@ class SignalGenerator(threading.Thread):
 
     def set_frequency_exact(self, frequency):
         """
-        Set the given frequency as the freqency of the output. The current range will be varied based on the value.
+        Set the given frequency as the frequency of the output. The current range will be varied based on the value.
         """
         if (type(frequency) not in [int, float]):
             raise TypeError(

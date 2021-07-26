@@ -94,9 +94,9 @@ Create an empty output dictionary
 ```
 Define the output equations for the output pins using overloaded operators of logic instance
 
-Note that the pin instance ( say `self.pins[i]` ) retuns a logic instance initiated with its value:
+Note that the pin instance ( say `self.pins[i]` ) returns a logic instance initiated with its value:
 
-i.e `self.pins[1]()` retuns a logic instance equivalent to `logic(self.pins[1].value)`
+i.e `self.pins[1]()` returns a logic instance equivalent to `logic(self.pins[1].value)`
 
 i.e if `self.pins[1]` has a `value` of `1`, it returns `logic(1)`
 

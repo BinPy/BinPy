@@ -24,7 +24,7 @@ print (conn.state)
 
 # In[3]:
 
-# Calling the connector intance returns its state
+# Calling the connector instance returns its state
 
 print (conn())
 

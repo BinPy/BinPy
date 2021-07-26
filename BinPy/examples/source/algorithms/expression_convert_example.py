@@ -3,7 +3,7 @@
 
 # <headingcell level=2>
 
-# An example to demostrate functionality of ExpressionConvert.py
+# An example to demonstrate functionality of ExpressionConvert.py
 
 # <codecell>
 
@@ -36,7 +36,7 @@ print(converted)
 
 # <codecell>
 
-# Obtained Expression with two input gate contraint
+# Obtained Expression with two input gate constraint
 converted2 = convertExpression(expr, two_input=1)
 
 print(converted2)
@@ -55,7 +55,7 @@ print(converted)
 
 # <codecell>
 
-# Obtained Expression with two input gate contraint
+# Obtained Expression with two input gate constraint
 converted2 = convertExpression(expr, two_input=1)
 
 print(converted2)

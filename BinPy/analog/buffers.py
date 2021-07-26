@@ -149,7 +149,7 @@ class AnalogBuffer(object):
 
     def set_inouts(self, inputs, outputs):
         """
-        Set the inputs and ouputs to be linked with the inputs and the outputs of the buffer bank module
+        Set the inputs and outputs to be linked with the inputs and the outputs of the buffer bank module
         """
         with AutoUpdater._lock:
             if (inputs.width != outputs.width):
